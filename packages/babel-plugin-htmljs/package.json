@@ -1,0 +1,34 @@
+{
+  "name": "babel-plugin-htmljs",
+  "private": true,
+  "description": "Babel plugin to parse the htmljs syntax.",
+  "version": "1.0.0",
+  "author": "Dylan Piercey <dpiercey@ebay.com>",
+  "bugs": "https://github.com/marko-js/utils/issues/new?template=Bug_report.md",
+  "dependencies": {
+    "@babel/code-frame": "^7.0.0-beta.47",
+    "@babel/runtime": "^7.0.0-beta.47",
+    "@babel/traverse": "7.0.0-beta.47",
+    "@babel/types": "7.0.0-beta.47",
+    "babylon": "7.0.0-beta.47",
+    "htmljs-parser": "^2.3.2"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/marko-js/utils/blob/master/packages/babel-plugin-htmljs/README.md",
+  "keywords": [
+    "htmljs",
+    "parser",
+    "babel",
+    "plugin",
+    "parse",
+    "marko"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marko-js/utils/tree/master/packages/babel-plugin-htmljs"
+  }
+}
