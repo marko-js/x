@@ -1,9 +1,7 @@
 import {
   assertNodeType,
   assertValueType,
-  chain,
-  assertNodeOrValueType,
-  assertEach
+  arrayOfType
 } from "@babel/types/lib/definitions/utils";
 
 import { functionCommon } from "@babel/types/lib/definitions/core";
@@ -72,18 +70,6 @@ export default {
     }
   },
 
-  HTMLSpreadAttribute: {
-    builder: ["value"],
-    visitor: ["value"],
-    aliases: ["Marko", "HTMLAttribute"],
-    fields: {
-      value: {
-        validate: assertNodeType("Expression"),
-        optional: true
-      }
-    }
-  },
-
   HTMLAttribute: {
     builder: ["name", "value", "modifier"],
     visitor: ["value"],
@@ -103,6 +89,18 @@ export default {
     }
   },
 
+  HTMLSpreadAttribute: {
+    builder: ["value"],
+    visitor: ["value"],
+    aliases: ["Marko", "HTMLAttribute"],
+    fields: {
+      value: {
+        validate: assertNodeType("Expression"),
+        optional: true
+      }
+    }
+  },
+
   HTMLStartTag: {
     builder: ["name", "params", "attributes"],
     aliases: ["Marko", "Expression"],
@@ -115,11 +113,7 @@ export default {
         default: []
       },
       attributes: {
-        validate: chain(
-          assertValueType("array"),
-          assertNodeOrValueType("HTMLAttribute")
-        ),
-        optional: true,
+        validate: arrayOfType(["HTMLAttribute", "HTMLSpreadAttribute"]),
         default: []
       }
     }
@@ -147,12 +141,7 @@ export default {
         optional: true
       },
       children: {
-        validate: chain(
-          assertValueType("array"),
-          assertEach(
-            assertNodeType("HTMLElement", "HTMLText", "HTMLPlaceholder")
-          )
-        ),
+        validate: arrayOfType(["HTMLElement", "HTMLText", "HTMLPlaceholder"]),
         default: []
       },
       properties: {

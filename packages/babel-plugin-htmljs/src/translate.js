@@ -3,7 +3,9 @@ import traverse from "@babel/traverse";
 
 export function translate(ast) {
   traverse(ast, {
-    HTMLElement() {}
+    HTMLElement() {
+      console.log("found an element");
+    }
   });
   return ast;
 }

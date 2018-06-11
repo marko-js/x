@@ -1,7 +1,5 @@
-const { parse } = require("../dist/html-parser");
-const { translate } = require("../dist/translate");
-
-console.log(require("@babel/types").TYPES.filter(x => x.includes("HTML")));
+const { parse } = require("../src/html-parser");
+const { translate } = require("../src/translate");
 
 const source = `
 import helper from './helpers';
