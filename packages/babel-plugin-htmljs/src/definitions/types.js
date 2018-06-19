@@ -130,6 +130,7 @@ export default {
   },
 
   HTMLElement: {
+    visitor: ["startTag", "endTag", "children"],
     builder: ["startTag", "endTag", "children", "properties"],
     aliases: ["Marko", "Expression"],
     fields: {

@@ -1,7 +1,7 @@
 import * as t from "./definitions";
 import { createParser } from "htmljs-parser";
 import { getLoc, getLocRange } from "./util/get-loc";
-import { parseExpression as defaultParser } from "babylon";
+import { parseExpression as defaultParser } from "@babel/parser";
 import codeFrameError from "./util/code-frame-error";
 import createFile from "./util/create-file";
 import shiftAST from "./util/shift-ast";
@@ -76,7 +76,8 @@ export function parse(
           const valueStart = attr.endPos - attr.value.length;
           value = parseExpression(attr.value, valueStart);
         } else {
-          value = parseExpression("true", attr.endPos);
+          attr.endPos = attr.pos + attr.name.length;
+          value = t.booleanLiteral(true);
         }
 
         return createNode(
@@ -108,6 +109,9 @@ export function parse(
       if (!startTag || startTag.name !== tagName) {
         throw createError(`Invalid closing tag ${tagName}.`, pos, endPos);
       }
+
+      if (!pos) pos = startTag.end;
+      if (!endPos) endPos = pos;
 
       const endTag = createNode(t.htmlEndTag, pos, endPos, tagName);
 

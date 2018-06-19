@@ -1,3 +1,5 @@
+const fs = require("fs");
+const path = require("path");
 const { parse } = require("../src/html-parser");
 const { translate } = require("../src/translate");
 
@@ -10,16 +12,16 @@ import helper from './helpers';
 `.trim();
 
 const markoAST = parse(source, "./test.js");
-const jsAST = translate(markoAST);
+const separator = text => `\n\n*** ${text} ***\n\n`;
+const log = (name, content) =>
+  console.log(separator(`START ${name}`), content, separator(`END ${name}`));
 
-console.log(
-  "\n\n*** START MARKO ***\n\n",
-  JSON.stringify(markoAST, null, 2),
-  "\n\n*** END MARKO ***\n\n"
-);
+log("MARKO", JSON.stringify(markoAST, null, 2));
 
-console.log(
-  "\n\n*** START JS ***\n\n",
-  JSON.stringify(jsAST, null, 2),
-  "\n\n*** END JS ***\n\n"
-);
+const { ast: jsAST, code: jsCode, map } = translate(markoAST, source);
+
+log("JS", JSON.stringify(jsAST, null, 2));
+log("CODE", jsCode);
+log("MAP", map);
+
+fs.writeFileSync(path.join(__dirname, "output.js"), jsCode);

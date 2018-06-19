@@ -12,13 +12,14 @@ import types from "./types";
 Object.keys(types).forEach(typeName => defineType(typeName, types[typeName]));
 
 // Update TYPES
-TYPES.length = 0;
-TYPES.push.apply(
-  TYPES,
-  Object.keys(VISITOR_KEYS)
-    .concat(Object.keys(FLIPPED_ALIAS_KEYS))
-    .concat(Object.keys(DEPRECATED_KEYS))
-);
+const allTypes = [
+  ...Object.keys(VISITOR_KEYS),
+  ...Object.keys(FLIPPED_ALIAS_KEYS),
+  ...Object.keys(DEPRECATED_KEYS)
+];
+for (let type of allTypes) {
+  if (TYPES.indexOf(type) < 0) TYPES.push(type);
+}
 
 // export babel stuff
 export * from "@babel/types";

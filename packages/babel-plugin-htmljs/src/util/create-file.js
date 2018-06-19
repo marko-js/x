@@ -14,7 +14,8 @@ export default (filename, code) => {
       type: "Program",
       sourceType: "module",
       ...loc,
-      body: []
+      body: [],
+      directives: []
     }
   };
 };
