@@ -6,22 +6,10 @@ import codeFrameError from "./util/code-frame-error";
 import createFile from "./util/create-file";
 import shiftAST from "./util/shift-ast";
 
-export function parse(
-  code,
-  filename,
-  { htmlParserOpts, babelParserOpts, babelOpts } = {}
-) {
+export function parse({ code, filename, htmlParserOpts, parseExpression }) {
   const createNode = (type, start, end, ...args) =>
     Object.assign(type(...args), getLocRange(code, start, end));
   const createError = (...args) => codeFrameError(filename, code, ...args);
-  const parserOptions = { plugins: ["objectRestSpread"] };
-  const babelParser =
-    (babelParserOpts && babelParserOpts.parser) || defaultParser;
-  const parseExpression = (code, start) =>
-    shiftAST(babelParser(code, parserOptions), {
-      start,
-      ...getLoc(code, start)
-    });
   const file = createFile(filename, code);
   const { program } = file;
   const { body } = program;

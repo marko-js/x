@@ -11,7 +11,6 @@ module.exports = {
     ]
   ],
   plugins: [
-    "babel-plugin-macros",
     "@babel/transform-runtime",
     "@babel/plugin-proposal-object-rest-spread"
   ],

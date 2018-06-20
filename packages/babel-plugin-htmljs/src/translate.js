@@ -1,43 +1,33 @@
 import * as t from "./definitions";
-import { transformFromAstSync } from "@babel/core";
 
-export function translate(ast, src) {
-  let writer = null;
-  return transformFromAstSync(ast, src, {
-    ast: true,
-    babelrc: false,
-    configFile: false,
-    sourceMaps: "inline",
-    sourceFileName: __filename,
-    plugins: [
-      babel => ({
-        visitor: {
-          HTMLElement: {
-            exit(path) {
-              // let start = write`<${path.node.startTag.name}${
-              //   path.node.startTag.attributes.map(attr => {
-              //     return `${attr.name}=`
-              //   })
-              // }>`;
-              // let end = write`</${path.node.endTag.name}>`;
-              // path.replaceWithMultiple([
-              //   withPreviousLocation(start, path.node.startTag),
-              //   ...path.node.children,
-              //   withPreviousLocation(end, path.node.endTag),
-              // ]);
-            }
-          },
-          HTMLText(path) {
-            //path.replaceWith(withPreviousLocation(write`${t.stringLiteral(path.node.value)}`, path.node));
-          },
-          HTMLPlaceholder(path) {
-            //path.replaceWith(write`${path.node.value}`);
-          }
-        }
-      })
-    ]
-  });
-}
+export const visitor = {
+  HTMLElement: {
+    exit(path) {
+      // let start = write`<${path.node.startTag.name}${
+      //   path.node.startTag.attributes.map(attr => {
+      //     return `${attr.name}=`
+      //   })
+      // }>`;
+      // let end = write`</${path.node.endTag.name}>`;
+      // path.replaceWithMultiple([
+      //   withPreviousLocation(start, path.node.startTag),
+      //   ...path.node.children,
+      //   withPreviousLocation(end, path.node.endTag),
+      // ]);
+    }
+  },
+  HTMLText(path) {
+    path.replaceWith(
+      withPreviousLocation(
+        write`${t.stringLiteral(path.node.value)}`,
+        path.node
+      )
+    );
+  },
+  HTMLPlaceholder(path) {
+    path.replaceWith(write`${path.node.value}`);
+  }
+};
 
 function write(strings, ...expressions) {
   let quasis = [].concat(strings.raw);
