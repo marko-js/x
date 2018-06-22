@@ -15,7 +15,7 @@ import helper from './helpers';
 
 const { ast, code, map } = transform(source, {
   ast: true,
-  code: false,
+  code: true,
   babelrc: false,
   configFile: false,
   sourceMaps: "inline",

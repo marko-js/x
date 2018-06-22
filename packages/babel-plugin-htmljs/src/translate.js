@@ -1,19 +1,18 @@
 import * as t from "./definitions";
+import { translateAttributes } from "./translators/attributes";
 
 export const visitor = {
   HTMLElement: {
     exit(path) {
-      // let start = write`<${path.node.startTag.name}${
-      //   path.node.startTag.attributes.map(attr => {
-      //     return `${attr.name}=`
-      //   })
-      // }>`;
-      // let end = write`</${path.node.endTag.name}>`;
-      // path.replaceWithMultiple([
-      //   withPreviousLocation(start, path.node.startTag),
-      //   ...path.node.children,
-      //   withPreviousLocation(end, path.node.endTag),
-      // ]);
+      let start = write`<${path.node.startTag.name}${translateAttributes(
+        path.get("startTag").get("attributes")
+      )}>`;
+      let end = write`</${path.node.endTag.name}>`;
+      path.replaceWithMultiple([
+        withPreviousLocation(start, path.node.startTag),
+        ...path.node.children,
+        withPreviousLocation(end, path.node.endTag)
+      ]);
     }
   },
   HTMLText(path) {
@@ -39,12 +38,17 @@ function write(strings, ...expressions) {
     quasis.every(s => s === "")
   ) {
     argument = expressions[0];
+  } else if (!expressions.length) {
+    argument = t.stringLiteral(quasis.join(""));
   } else {
     argument = t.templateLiteral(
-      quasis.map(s => t.templateElement({ raw: s, cooked: s })),
+      quasis.map((s, i) =>
+        t.templateElement({ raw: s, cooked: s }, i === quasis.length)
+      ),
       expressions
     );
   }
+
   return t.callExpression(
     t.memberExpression(t.identifier("out"), t.identifier("w")),
     [argument]
@@ -52,8 +56,14 @@ function write(strings, ...expressions) {
 }
 
 function normalizeQuasiExpressions(quasis, expressions) {
+  expressions.forEach((val, i) => expressions.splice(i, 1, ...[].concat(val)));
+
   for (let i = 0; i < expressions.length; i++) {
     let value = expressions[i];
+    if (t.isStringLiteral(value)) {
+      value = value.value;
+    }
+
     if (typeof value === "string") {
       expressions.splice(i, 1);
       quasis.splice(i, 2, quasis[i] + value + quasis[i + 1]);
