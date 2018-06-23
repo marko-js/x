@@ -1,4 +1,4 @@
-import * as t from "../definitions";
+import normalizeQuasi from "../util/normalize-quasi";
 
 export function translateAttributes(attrs) {
   const quasis = [];
@@ -8,11 +8,12 @@ export function translateAttributes(attrs) {
   for (let i = 0; i < attrs.length; i++) {
     const attr = attrs[i];
     const name = attr.node.name;
-    const { confident, value } = attr.get("value").evaluate();
 
     if (!name) {
       continue; // TODO spread.
     }
+
+    const { confident, value = attr.node.value } = attr.get("value").evaluate();
 
     if (confident) {
       if (value == null || value === false) {
@@ -35,18 +36,7 @@ export function translateAttributes(attrs) {
     }
   }
 
-  if (curString !== "") {
-    quasis.push(curString);
-  }
+  quasis.push(curString);
 
-  if (!expressions.length) {
-    return t.stringLiteral(quasis.join(""));
-  }
-
-  return t.templateLiteral(
-    quasis.map((str, i) =>
-      t.templateElement({ raw: str, cooked: str }, i === quasis.length)
-    ),
-    expressions
-  );
+  return normalizeQuasi(quasis, expressions);
 }

@@ -8,7 +8,7 @@ const log = (name, content) =>
 const source = `
 import helper from './helpers';
 
-<div ...x a=123..toFixed(2)>
+<div ...x a=123..someFn()>
     Hello \${name}
 </div>
 `.trim();

@@ -50,6 +50,7 @@ export function parse({ code, filename, htmlParserOpts, parseExpression }) {
       attributes = attributes.map(attr => {
         if (attr.name.slice(0, 3) === "...") {
           const value = parseExpression(attr.name.slice(3), attr.pos + 3);
+          // TODO: Inline merge object literals.
           return createNode(
             t.htmlSpreadAttribute,
             attr.pos,
