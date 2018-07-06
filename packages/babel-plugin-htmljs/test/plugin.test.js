@@ -6,10 +6,10 @@ const log = (name, content) =>
   console.log(separator(`START ${name}`), content, separator(`END ${name}`));
 
 const source = `
-import helper from './helpers';
+import { a, b } from './helpers';
 
 <div ...x a=123..someFn()>
-    Hello \${name}
+  Hello \${name}
 </div>
 `.trim();
 

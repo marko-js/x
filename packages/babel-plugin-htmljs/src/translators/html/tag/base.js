@@ -1,8 +1,11 @@
-import withPreviousLocation from "../util/with-previous-location";
-import write from "../util/html-out-write";
-import { translateAttributes } from "./attributes";
+import withPreviousLocation from "../../../util/with-previous-location";
+import write from "../../../util/html-out-write";
+import translateAttributes from "../attributes";
 
-export function translateElement(path) {
+/**
+ * Translates the html streaming version of a standard html element.
+ */
+export default function(path) {
   const {
     node: { startTag, children, endTag }
   } = path;

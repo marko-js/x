@@ -1,6 +1,6 @@
-import normalizeQuasi from "../util/normalize-quasi";
+import normalizeQuasi from "../../util/normalize-quasi";
 
-export function translateAttributes(attrs) {
+export default function(attrs) {
   const quasis = [];
   const expressions = [];
   let curString = "";

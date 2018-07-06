@@ -1,10 +1,10 @@
 import * as t from "./definitions";
 import { createParser } from "htmljs-parser";
-import { getLoc, getLocRange } from "./util/get-loc";
-import { parseExpression as defaultParser } from "@babel/parser";
+import { getLocRange } from "./util/get-loc";
 import codeFrameError from "./util/code-frame-error";
 import createFile from "./util/create-file";
-import shiftAST from "./util/shift-ast";
+import * as translators from "./translators";
+const tagTranslators = translators.html.tag;
 
 export function parse({ code, filename, htmlParserOpts, parseExpression }) {
   const createNode = (type, start, end, ...args) =>
@@ -46,7 +46,14 @@ export function parse({ code, filename, htmlParserOpts, parseExpression }) {
       context.push(createNode(t.htmlPlaceholder, pos, endPos, value, escape));
     },
 
-    onOpenTag({ tagName, argument: params, attributes, pos, endPos }) {
+    onOpenTag(event) {
+      let { tagName, argument: params, attributes, pos, endPos } = event;
+      const { parseOptions } = tagTranslators[tagName] || tagTranslators.base;
+
+      if (parseOptions) {
+        event.setParseOptions(parseOptions);
+      }
+
       attributes = attributes.map(attr => {
         if (attr.name.slice(0, 3) === "...") {
           const value = parseExpression(attr.name.slice(3), attr.pos + 3);

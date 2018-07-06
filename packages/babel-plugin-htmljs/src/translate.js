@@ -1,12 +1,15 @@
 import * as t from "./definitions";
 import write from "./util/html-out-write";
 import withPreviousLocation from "./util/with-previous-location";
-import { translateElement } from "./translators/html-element";
+import * as translators from "./translators";
 
 export const visitor = {
   HTMLElement: {
     exit(path) {
-      translateElement(path);
+      const name = path.node.startTag.name;
+      const tagTranslators = translators.html.tag;
+      const translate = tagTranslators[name] || tagTranslators.base;
+      translate(path);
     }
   },
   HTMLText(path) {
