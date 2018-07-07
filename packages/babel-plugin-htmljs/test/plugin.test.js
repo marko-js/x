@@ -6,7 +6,16 @@ const log = (name, content) =>
   console.log(separator(`START ${name}`), content, separator(`END ${name}`));
 
 const source = `
-import { a, b } from './helpers';
+import a, { b, c } from './helpers';
+
+static {
+  var x = 1;
+  console.log(x);
+}
+
+static function add(a, b) {
+  return a + b;
+}
 
 <div ...x a=123..someFn()>
   Hello \${name}

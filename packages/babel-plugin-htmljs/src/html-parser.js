@@ -6,7 +6,13 @@ import createFile from "./util/create-file";
 import * as translators from "./translators";
 const tagTranslators = translators.html.tag;
 
-export function parse({ code, filename, htmlParserOpts, parseExpression }) {
+export function parse({
+  code,
+  filename,
+  htmlParserOpts,
+  parse,
+  parseExpression
+}) {
   const createNode = (type, start, end, ...args) =>
     Object.assign(type(...args), getLocRange(code, start, end));
   const createError = (...args) => codeFrameError(filename, code, ...args);
@@ -15,6 +21,8 @@ export function parse({ code, filename, htmlParserOpts, parseExpression }) {
   const { body } = program;
   const stack = [{ context: body }];
   let context = body;
+  file.parse = parse;
+  file.parseExpression = parseExpression;
 
   const htmlParser = createParser({
     ...htmlParserOpts,
@@ -46,44 +54,56 @@ export function parse({ code, filename, htmlParserOpts, parseExpression }) {
       context.push(createNode(t.htmlPlaceholder, pos, endPos, value, escape));
     },
 
-    onOpenTag(event) {
+    onOpenTagName(event) {
+      const { options = {} } =
+        tagTranslators[event.tagName] || tagTranslators.base;
+      if (options.html) event.setParseOptions(options.html);
+    },
+
+    onOpenTag(event, parser) {
       let { tagName, argument: params, attributes, pos, endPos } = event;
-      const { parseOptions } = tagTranslators[tagName] || tagTranslators.base;
+      const { options = {} } =
+        tagTranslators[event.tagName] || tagTranslators.base;
+      let rawValue;
 
-      if (parseOptions) {
-        event.setParseOptions(parseOptions);
-      }
+      if (options.rawOpenTag) {
+        rawValue = parser
+          .substring(pos, endPos)
+          .replace(/^<|\/>$|>$/g, "")
+          .trim();
+        attributes = [];
+      } else {
+        attributes = attributes.map(attr => {
+          if (attr.name.slice(0, 3) === "...") {
+            const value = parseExpression(attr.name.slice(3), attr.pos + 3);
+            // TODO: Inline merge object literals.
+            return createNode(
+              t.htmlSpreadAttribute,
+              attr.pos,
+              attr.endPos,
+              value
+            );
+          }
 
-      attributes = attributes.map(attr => {
-        if (attr.name.slice(0, 3) === "...") {
-          const value = parseExpression(attr.name.slice(3), attr.pos + 3);
-          // TODO: Inline merge object literals.
+          let value;
+
+          if (attr.value) {
+            const valueStart = attr.endPos - attr.value.length;
+            value = parseExpression(attr.value, valueStart);
+          } else {
+            attr.endPos = attr.pos + attr.name.length;
+            value = t.booleanLiteral(true);
+          }
+
           return createNode(
-            t.htmlSpreadAttribute,
+            t.htmlAttribute,
             attr.pos,
             attr.endPos,
+            attr.name,
             value
           );
-        }
-
-        let value;
-
-        if (attr.value) {
-          const valueStart = attr.endPos - attr.value.length;
-          value = parseExpression(attr.value, valueStart);
-        } else {
-          attr.endPos = attr.pos + attr.name.length;
-          value = t.booleanLiteral(true);
-        }
-
-        return createNode(
-          t.htmlAttribute,
-          attr.pos,
-          attr.endPos,
-          attr.name,
-          value
-        );
-      });
+        });
+      }
 
       stack.push({
         startTag: createNode(
@@ -92,7 +112,8 @@ export function parse({ code, filename, htmlParserOpts, parseExpression }) {
           endPos,
           tagName,
           params,
-          attributes
+          attributes,
+          rawValue
         ),
         context: (context = [])
       });

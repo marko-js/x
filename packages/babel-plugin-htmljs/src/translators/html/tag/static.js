@@ -3,7 +3,7 @@ import withPreviousLocation from "../../../util/with-previous-location";
 
 export default translate;
 translate.options = {
-  html: { relaxRequireCommas: true },
+  html: { ignoreAttributes: true },
   rawOpenTag: true
 };
 
@@ -12,7 +12,7 @@ function translate(path) {
   const program = path.parent;
   if (!t.isProgram(program)) {
     throw path.buildCodeFrameError(
-      "Import's must be at the root of your Marko template."
+      "static must be at the root of your Marko template."
     );
   }
 
@@ -26,10 +26,14 @@ function translate(path) {
   } = path;
   const { startTag } = node;
   const { rawValue } = startTag;
+  let code = rawValue.replace(/^static\s*/, "").trim();
+
+  if (code[0] === "{") {
+    code = code.slice(1, -1);
+  }
 
   try {
-    const [importNode] = parse(rawValue, 0).body;
-    path.replaceWith(withPreviousLocation(importNode, node));
+    path.replaceWithMultiple(withPreviousLocation(parse(code, 0), node).body);
   } catch (err) {
     // TODO: move parsing error handling somewhere else.
     // Also could be improved with better location info.

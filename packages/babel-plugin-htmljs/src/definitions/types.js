@@ -102,7 +102,7 @@ export default {
   },
 
   HTMLStartTag: {
-    builder: ["name", "params", "attributes"],
+    builder: ["name", "params", "attributes", "rawValue"],
     aliases: ["Marko", "Expression"],
     fields: {
       name: {
@@ -115,6 +115,10 @@ export default {
       attributes: {
         validate: arrayOfType(["HTMLAttribute", "HTMLSpreadAttribute"]),
         default: []
+      },
+      rawValue: {
+        validate: assertValueType("string"),
+        optional: true
       }
     }
   },
@@ -132,7 +136,7 @@ export default {
   HTMLElement: {
     visitor: ["startTag", "endTag", "children"],
     builder: ["startTag", "endTag", "children", "properties"],
-    aliases: ["Marko", "Expression"],
+    aliases: ["Marko", "Statement"],
     fields: {
       startTag: {
         validate: assertNodeType("HTMLStartTag")
