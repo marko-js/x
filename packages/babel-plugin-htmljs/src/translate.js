@@ -4,6 +4,23 @@ import withPreviousLocation from "./util/with-previous-location";
 import * as translators from "./translators";
 
 export const visitor = {
+  Program: {
+    enter(path) {
+      path.node.renderBody = [];
+    },
+    exit(path) {
+      const renderBody = t.blockStatement([]);
+      renderBody.body = path.node.renderBody;
+      // Create the render function which html nodes will move to.
+      path.node.body.push(
+        t.functionDeclaration(
+          t.identifier("render"),
+          [t.identifier("out")],
+          renderBody
+        )
+      );
+    }
+  },
   HTMLElement: {
     exit(path) {
       const name = path.node.startTag.name;
@@ -13,14 +30,28 @@ export const visitor = {
     }
   },
   HTMLText(path) {
-    path.replaceWith(
-      withPreviousLocation(
-        write`${t.stringLiteral(path.node.value)}`,
-        path.node
-      )
+    const replacement = withPreviousLocation(
+      write`${t.stringLiteral(path.node.value)}`,
+      path.node
     );
+
+    if (t.isProgram(path.parent)) {
+      if (path.node.value.trim()) path.parent.renderBody.push(replacement);
+      path.remove();
+    } else {
+      path.replaceWith(replacement);
+    }
   },
   HTMLPlaceholder(path) {
-    path.replaceWith(write`${path.node.value}`);
+    const replacement = withPreviousLocation(
+      write`${path.node.value}`,
+      path.node
+    );
+    if (t.isProgram(path.parent)) {
+      path.remove();
+      path.parent.renderBody.push(replacement);
+    } else {
+      path.replaceWith(replacement);
+    }
   }
 };

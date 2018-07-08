@@ -26,17 +26,12 @@ function translate(path) {
   } = path;
   const { startTag } = node;
   const { rawValue } = startTag;
-  let code = rawValue.replace(/^static\s*/, "").trim();
-
-  if (code[0] === "{") {
-    code = code.slice(1, -1);
+  const code = rawValue.replace(/^static\s*/, "").trim();
+  const start = startTag.start + (rawValue.length - code.length);
+  let body = parse(code, start).body;
+  if ((body.length === 1) & t.isBlockStatement(body[0])) {
+    body = body[0].body;
   }
 
-  try {
-    path.replaceWithMultiple(withPreviousLocation(parse(code, 0), node).body);
-  } catch (err) {
-    // TODO: move parsing error handling somewhere else.
-    // Also could be improved with better location info.
-    throw path.buildCodeFrameError(err.message);
-  }
+  path.replaceWithMultiple(body);
 }

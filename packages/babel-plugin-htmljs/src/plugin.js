@@ -1,27 +1,57 @@
+import { parse, parseExpression } from "@babel/parser";
 import { parse as htmlParse } from "./html-parser";
+import codeFrameError from "./util/code-frame-error";
 import shiftAST from "./util/shift-ast";
 import { getLoc } from "./util/get-loc";
 import { visitor } from "./translate";
-import { parse, parseExpression } from "@babel/parser";
 
 export default () => {
   return {
     visitor,
     parserOverride(code, parserOpts) {
+      const { sourceFileName: filename } = parserOpts;
       return htmlParse({
         code,
-        filename: parserOpts.sourceFileName,
+        filename,
         parse(str, start) {
-          return shiftAST(parse(str, parserOpts), {
-            start,
-            ...getLoc(code, start)
-          }).program;
+          try {
+            return shiftAST(parse(str, parserOpts), {
+              start,
+              ...getLoc(code, start)
+            }).program;
+          } catch (err) {
+            const { pos, message } = err;
+            if (pos) {
+              throw codeFrameError(
+                filename,
+                code,
+                message.replace(/ *\(\d+:\d+\) *$/, ""),
+                pos + start
+              );
+            } else {
+              throw err;
+            }
+          }
         },
         parseExpression(str, start) {
-          return shiftAST(parseExpression(str, parserOpts), {
-            start,
-            ...getLoc(code, start)
-          });
+          try {
+            return shiftAST(parseExpression(str, parserOpts), {
+              start,
+              ...getLoc(code, start)
+            });
+          } catch (err) {
+            const { pos, message } = err;
+            if (pos) {
+              throw codeFrameError(
+                filename,
+                code,
+                message.replace(/ *\(\d+:\d+\) *$/, ""),
+                pos + start
+              );
+            } else {
+              throw err;
+            }
+          }
         }
       });
     }
