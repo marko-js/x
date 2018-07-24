@@ -1,4 +1,4 @@
-import normalizeQuasi from "../../util/normalize-quasi";
+import normalizeTemplateString from "../../util/normalize-template-string";
 
 export default function(attrs) {
   const quasis = [];
@@ -38,5 +38,5 @@ export default function(attrs) {
 
   quasis.push(curString);
 
-  return normalizeQuasi(quasis, expressions);
+  return normalizeTemplateString(quasis, expressions);
 }

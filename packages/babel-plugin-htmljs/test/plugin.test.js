@@ -6,20 +6,11 @@ const log = (name, content) =>
   console.log(separator(`START ${name}`), content, separator(`END ${name}`));
 
 const source = `
-import a, { b, c } from './helpers';
-
-static {
-  var x = 1;
-  console.log(x);
-}
-
-static function add(a, b) {
-  return a + b;
-}
-
-<div ...x a=123..someFn()>
-  Hello \${name}
+<div a=1>
+  <div c=1/>
+  <div d=1/>
 </div>
+<div b=1/>
 `.trim();
 
 const { ast, code, map } = transform(source, {
@@ -32,6 +23,14 @@ const { ast, code, map } = transform(source, {
   plugins: [plugin]
 });
 
-log("JS", JSON.stringify(ast, null, 2));
+// log("JS", JSON.stringify(ast, (k, v) => {
+//   if (v && typeof v === "object") {
+//     delete v.start;
+//     delete v.end;
+//     delete v.loc;
+//   }
+
+//   return v;
+// }, 2));
 log("CODE", code);
 log("MAP", map);

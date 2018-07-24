@@ -17,7 +17,8 @@ export default () => {
           try {
             return shiftAST(parse(str, parserOpts), {
               start,
-              ...getLoc(code, start)
+              end: start + str.length,
+              ...getLoc(code, start, str.length)
             }).program;
           } catch (err) {
             const { pos, message } = err;
@@ -37,7 +38,8 @@ export default () => {
           try {
             return shiftAST(parseExpression(str, parserOpts), {
               start,
-              ...getLoc(code, start)
+              end: start + str.length,
+              ...getLoc(code, start, str.length)
             });
           } catch (err) {
             const { pos, message } = err;

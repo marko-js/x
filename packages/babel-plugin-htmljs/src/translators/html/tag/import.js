@@ -27,5 +27,5 @@ function translate(path) {
   const { startTag } = node;
   const { rawValue } = startTag;
   const [importNode] = parse(rawValue, startTag.start).body;
-  path.replaceWith(withPreviousLocation(importNode, node));
+  path.replaceWith(importNode);
 }

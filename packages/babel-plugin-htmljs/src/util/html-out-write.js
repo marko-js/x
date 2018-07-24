@@ -1,8 +1,8 @@
 import * as t from "../definitions";
-import normalizeTemplateString from "./normalize-quasi";
+import normalizeTemplateString from "./normalize-template-string";
 
 export default function write(strings, ...expressions) {
-  const template = normalizeTemplateString([].concat(strings.raw), expressions);
+  const template = normalizeTemplateString(strings.slice(), expressions);
 
   if (template) {
     return t.callExpression(
