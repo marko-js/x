@@ -1,7 +1,6 @@
 import { parse, parseExpression } from "@babel/parser";
 import { parse as htmlParse } from "./html-parser";
 import codeFrameError from "./util/code-frame-error";
-import shiftAST from "./util/shift-ast";
 import { getLoc } from "./util/get-loc";
 import { visitor } from "./translate";
 
@@ -15,20 +14,13 @@ export default () => {
         filename,
         parse(str, start) {
           try {
-            return shiftAST(parse(str, parserOpts), {
-              start,
-              end: start + str.length,
-              ...getLoc(code, start, str.length)
-            }).program;
+            const { line, column } = getLoc(code, start);
+            str = str.padStart(str.length + column - 1, " ");
+            return parse(str, { ...parserOpts, startLine: line }).program;
           } catch (err) {
             const { pos, message } = err;
             if (pos) {
-              throw codeFrameError(
-                filename,
-                code,
-                message.replace(/ *\(\d+:\d+\) *$/, ""),
-                pos + start
-              );
+              throw codeFrameError(filename, code, message, pos + start);
             } else {
               throw err;
             }
@@ -36,20 +28,13 @@ export default () => {
         },
         parseExpression(str, start) {
           try {
-            return shiftAST(parseExpression(str, parserOpts), {
-              start,
-              end: start + str.length,
-              ...getLoc(code, start, str.length)
-            });
+            const { line, column } = getLoc(code, start);
+            str = str.padStart(str.length + column - 1, " ");
+            return parseExpression(str, { ...parserOpts, startLine: line });
           } catch (err) {
             const { pos, message } = err;
             if (pos) {
-              throw codeFrameError(
-                filename,
-                code,
-                message.replace(/ *\(\d+:\d+\) *$/, ""),
-                pos + start
-              );
+              throw codeFrameError(filename, code, message, pos + start);
             } else {
               throw err;
             }

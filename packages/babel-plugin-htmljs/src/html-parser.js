@@ -67,10 +67,7 @@ export function parse({
       let rawValue;
 
       if (options.rawOpenTag) {
-        rawValue = parser
-          .substring(pos, endPos)
-          .replace(/^<|\/>$|>$/g, "")
-          .trim();
+        rawValue = parser.substring(pos, endPos).replace(/^<|\/>$|>$/g, "");
         attributes = [];
       } else {
         attributes = attributes.map(attr => {
@@ -88,8 +85,10 @@ export function parse({
           let value;
 
           if (attr.value) {
-            const valueStart = attr.endPos - attr.value.length;
+            const valueStart = attr.endPos - attr.value.length + 1; // Add 1 for the '='.
             value = parseExpression(attr.value, valueStart);
+            value;
+            code;
           } else {
             attr.endPos = attr.pos + attr.name.length;
             value = t.booleanLiteral(true);
@@ -119,7 +118,7 @@ export function parse({
       });
     },
 
-    onCloseTag({ tagName, pos, endPos }) {
+    onCloseTag({ tagName, pos, endPos }, parser) {
       const { startTag, context: children } = stack.pop();
       context = stack[stack.length - 1].context;
 
@@ -127,7 +126,7 @@ export function parse({
         throw createError(`Invalid closing tag ${tagName}.`, pos, endPos);
       }
 
-      if (!pos) pos = startTag.end;
+      if (!pos) pos = parser.pos;
       if (!endPos) endPos = pos;
 
       const endTag = createNode(t.htmlEndTag, pos, endPos, tagName);

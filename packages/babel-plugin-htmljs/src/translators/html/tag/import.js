@@ -1,5 +1,4 @@
 import * as t from "../../../definitions";
-import withPreviousLocation from "../../../util/with-previous-location";
 
 export default translate;
 translate.options = {
@@ -7,7 +6,6 @@ translate.options = {
   rawOpenTag: true
 };
 
-// WIP
 function translate(path) {
   const program = path.parent;
   if (!t.isProgram(program)) {
@@ -25,7 +23,7 @@ function translate(path) {
     }
   } = path;
   const { startTag } = node;
-  const { rawValue } = startTag;
-  const [importNode] = parse(rawValue, startTag.start).body;
+  const { rawValue, start } = startTag;
+  const [importNode] = parse(rawValue, start).body;
   path.replaceWith(importNode);
 }

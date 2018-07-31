@@ -1,7 +1,6 @@
 import * as t from "../definitions";
 
 export default function normalizeTemplateLiteral(quasis, expressions) {
-  debugger;
   for (let i = expressions.length; i--; ) {
     let v = expressions[i];
     if (!(i in quasis)) continue;
