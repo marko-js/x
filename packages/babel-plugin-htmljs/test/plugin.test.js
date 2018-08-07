@@ -16,6 +16,11 @@ static {
 <div a={a: 1}>
   <div c=1/>
   <div d=1/>
+  <if(x === 1)>a</if>
+  <else-if(x === 2)>
+    b
+  </else-if>
+  <else>c</else>
 </div>
 <div b=1/>`;
 

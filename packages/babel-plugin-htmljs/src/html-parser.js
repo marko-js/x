@@ -1,4 +1,5 @@
 import * as t from "./definitions";
+import toCamel from "camelcase";
 import { createParser } from "htmljs-parser";
 import { getLocRange } from "./util/get-loc";
 import codeFrameError from "./util/code-frame-error";
@@ -56,20 +57,26 @@ export function parse({
 
     onOpenTagName(event) {
       const { options = {} } =
-        tagTranslators[event.tagName] || tagTranslators.base;
+        tagTranslators[toCamel(event.tagName)] || tagTranslators.base;
       if (options.html) event.setParseOptions(options.html);
     },
 
     onOpenTag(event, parser) {
-      let { tagName, argument: params, attributes, pos, endPos } = event;
+      let { tagName, argument, attributes, pos, endPos } = event;
       const { options = {} } =
-        tagTranslators[event.tagName] || tagTranslators.base;
+        tagTranslators[toCamel(event.tagName)] || tagTranslators.base;
       let rawValue;
+      let params;
 
       if (options.rawOpenTag) {
         rawValue = parser.substring(pos, endPos).replace(/^<|\/>$|>$/g, "");
         attributes = [];
       } else {
+        if (argument) {
+          params = parseExpression(`(${argument.value})=>{}`, argument.pos)
+            .params;
+        }
+
         attributes = attributes.map(attr => {
           if (attr.name.slice(0, 3) === "...") {
             const value = parseExpression(attr.name.slice(3), attr.pos + 3);

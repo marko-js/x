@@ -1,3 +1,4 @@
+import toCamel from "camelcase";
 import * as t from "./definitions";
 import write from "./util/html-out-write";
 import withPreviousLocation from "./util/with-previous-location";
@@ -23,7 +24,7 @@ export const visitor = {
   },
   HTMLElement: {
     exit(path) {
-      const name = path.node.startTag.name;
+      const name = toCamel(path.node.startTag.name);
       const tagTranslators = translators.html.tag;
       const translate = tagTranslators[name] || tagTranslators.base;
       translate(path);
