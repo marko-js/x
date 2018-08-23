@@ -1,4 +1,4 @@
-import { parseIfStatement } from "./util";
+import { parseIfStatement } from "./_util";
 
 export default translate;
 

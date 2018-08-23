@@ -16,13 +16,29 @@ static {
 <div a={a: 1}>
   <div c=1/>
   <div d=1/>
-  <if(x === 1)>a</if>
+  <if(x === a)>a</if>
   <else-if(x === 2)>
     b
   </else-if>
   <else>c</else>
 </div>
-<div b=1/>`;
+<div b=1/>
+
+<while(a > b)>
+  <div c=1/>
+</while>
+
+<for(let i = 0; i < 2; i++)>
+  <div c=1/>
+</for>
+
+<for(let key in obj)>
+  <div c=1/>
+</for>
+
+<for(const x of y)>
+  <div c=1/>
+</for>`;
 
 const { ast, code } = transform(source, {
   ast: true,

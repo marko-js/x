@@ -1,5 +1,5 @@
 import * as t from "../../../../definitions";
-import { parseIfStatement } from "./util";
+import { parseIfStatement } from "./_util";
 
 export default translate;
 

@@ -1,4 +1,6 @@
 import * as t from "../../../../definitions";
+import { toStatement } from "../_util";
+export { toStatement };
 
 export function parseIfStatement(path) {
   const {
@@ -46,12 +48,4 @@ export function parseIfStatement(path) {
   }
 
   return ifStatement;
-}
-
-export function toStatement(node) {
-  if (t.isExpression(node)) {
-    return t.expressionStatement(node);
-  }
-
-  return node;
 }
