@@ -1,4 +1,4 @@
-import { parseIfStatement, getPreviousIfStatement } from "./util";
+import { parseIfStatement } from "./util";
 
 export default translate;
 
@@ -7,7 +7,7 @@ translate.options = {
 };
 
 function translate(path) {
-  const ifStatement = getPreviousIfStatement(path);
+  const { ifStatement } = path.node;
 
   if (!ifStatement) {
     throw path.buildCodeFrameError(

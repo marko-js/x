@@ -1,5 +1,5 @@
 import * as t from "../../../../definitions";
-import { toStatement, getPreviousIfStatement } from "./util";
+import { toStatement } from "./util";
 
 export default translate;
 
@@ -9,7 +9,7 @@ translate.options = {
 
 function translate(path) {
   const { children } = path.node;
-  const ifStatement = getPreviousIfStatement(path);
+  const { ifStatement } = path.node;
 
   if (!ifStatement) {
     throw path.buildCodeFrameError(

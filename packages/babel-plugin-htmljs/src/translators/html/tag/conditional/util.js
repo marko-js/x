@@ -14,9 +14,38 @@ export function parseIfStatement(path) {
   const expressionString = rawValue.replace(/^(?:else-)?if\s*/, "");
   const startPos = startTag.start + (rawValue.length - expressionString.length);
   const expression = parseExpression(expressionString, startPos);
+  const ifStatement = t.ifStatement(
+    expression,
+    t.blockStatement(children.map(toStatement))
+  );
 
-  // todo validate attributes.
-  return t.ifStatement(expression, t.blockStatement(children.map(toStatement)));
+  let nextPath = path.getNextSibling();
+
+  // Provide the if statement to the next part of the if chain.
+  if (nextPath) {
+    let removePath;
+
+    // Remove empty whitespace between blocks.
+    if (t.isHTMLText(nextPath.node) && /^\s*$/.test(nextPath.node.value)) {
+      removePath = nextPath;
+      nextPath = nextPath.getNextSibling();
+    }
+
+    if (t.isHTMLElement(nextPath.node)) {
+      const { node } = nextPath;
+      const { name } = node.startTag;
+
+      if (name === "else" || name === "else-if") {
+        node.ifStatement = ifStatement;
+
+        if (removePath) {
+          removePath.remove();
+        }
+      }
+    }
+  }
+
+  return ifStatement;
 }
 
 export function toStatement(node) {
@@ -25,39 +54,4 @@ export function toStatement(node) {
   }
 
   return node;
-}
-
-export function getPreviousIfStatement(path) {
-  const prev = path.getPrevSibling();
-
-  if (prev) {
-    if (isWrittenWhitespace(prev.node)) {
-      prev.remove();
-      return getPreviousIfStatement(path);
-    }
-
-    if (t.isIfStatement(prev.node)) {
-      return getDeepestAlternate(prev.node);
-    }
-  }
-}
-
-function getDeepestAlternate(node) {
-  while (node.alternate) {
-    node = node.alternate;
-  }
-
-  return node;
-}
-
-function isWrittenWhitespace(node) {
-  return (
-    t.isCallExpression(node) &&
-    t.isMemberExpression(node.callee) &&
-    node.callee.object.name === "out" &&
-    node.callee.property.name === "w" &&
-    node.arguments.length === 1 &&
-    t.isStringLiteral(node.arguments[0]) &&
-    /^\s*$/.test(node.arguments[0].value)
-  );
 }
