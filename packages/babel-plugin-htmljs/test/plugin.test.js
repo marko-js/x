@@ -6,6 +6,8 @@ const log = (name, content) =>
   console.log(separator(`START ${name}`) + content + separator(`END ${name}`));
 
 const source = `import a from "b";
+export { something };
+
 static {
   doThings();
   andStuff();
@@ -13,6 +15,7 @@ static {
     abc();
   }
 }
+
 
 <div a={a: 1}>
   <div c=1/>
