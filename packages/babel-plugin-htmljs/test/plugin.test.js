@@ -13,30 +13,30 @@ static {
     abc();
   }
 }
+
 <div a={a: 1}>
   <div c=1/>
   <div d=1/>
-  <if(x === a)>a</if>
-  <else-if(x === 2)>
+  <if=(x === a)>a</>
+  <else if=(x === 2)>
     b
-  </else-if>
+  </else>
   <else>c</else>
 </div>
 <div b=1/>
 
-<while(a > b)>
-  <div c=1/>
-</while>
+<if=cond>
+</>
 
-<for(let i = 0; i < 2; i++)>
-  <div c=1/>
-</for>
-
-<for(let key in obj)>
+<for(i) from=0 to=10 step=2 and=1>
   <div c=1/>
 </for>
 
-<for(const x of y)>
+<for(key, val) in=obj>
+  <div c=1/>
+</for>
+
+<for(val, i) of=arr>
   <div c=1/>
 </for>`;
 

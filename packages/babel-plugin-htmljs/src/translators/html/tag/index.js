@@ -9,5 +9,4 @@ import {
 } from "./conditional";
 export { conditionalIf as if, conditionalElse as else, elseIf };
 
-export { default as while } from "./while";
 export { default as for } from "./for";

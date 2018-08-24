@@ -12,12 +12,9 @@ export function parseIfStatement(path) {
     }
   } = path;
   const { startTag, children } = node;
-  const { rawValue } = startTag;
-  const expressionString = rawValue.replace(/^(?:else-)?if\s*/, "");
-  const startPos = startTag.start + (rawValue.length - expressionString.length);
-  const expression = parseExpression(expressionString, startPos);
+  const ifAttr = startTag.attributes.find(attr => attr.name === "if");
   const ifStatement = t.ifStatement(
-    expression,
+    ifAttr.value,
     t.blockStatement(children.map(toStatement))
   );
 
@@ -37,7 +34,7 @@ export function parseIfStatement(path) {
       const { node } = nextPath;
       const { name } = node.startTag;
 
-      if (name === "else" || name === "else-if") {
+      if (name === "else") {
         node.ifStatement = ifStatement;
 
         if (removePath) {

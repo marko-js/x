@@ -63,6 +63,11 @@ export function parse({
 
     onOpenTag(event, parser) {
       let { tagName, argument, attributes, pos, endPos } = event;
+
+      if (tagName === "") {
+        tagName = attributes[0].name;
+      }
+
       const { options = {} } =
         tagTranslators[toCamel(event.tagName)] || tagTranslators.base;
       let rawValue;
@@ -129,7 +134,7 @@ export function parse({
       const { startTag, context: children } = stack.pop();
       context = stack[stack.length - 1].context;
 
-      if (!startTag || startTag.name !== tagName) {
+      if (!startTag || (tagName && startTag.name !== tagName)) {
         throw createError(`Invalid closing tag ${tagName}.`, pos, endPos);
       }
 

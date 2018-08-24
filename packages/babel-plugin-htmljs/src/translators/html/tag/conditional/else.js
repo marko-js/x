@@ -1,22 +1,21 @@
 import * as t from "../../../../definitions";
-import { toStatement } from "./_util";
+import { parseIfStatement, toStatement } from "./_util";
 
 export default translate;
 
-translate.options = {
-  rawOpenTag: true
-};
-
 function translate(path) {
-  const { children } = path.node;
   const { ifStatement } = path.node;
 
   if (!ifStatement) {
     throw path.buildCodeFrameError(
-      "Invalid else tag, expected preceding 'if' or 'else-if' tag."
+      "Invalid 'else' tag, expected preceding 'if' or 'else if' tag."
     );
   }
 
-  ifStatement.alternate = t.blockStatement(children.map(toStatement));
+  const { startTag, children } = path.node;
+  const ifAttr = startTag.attributes.find(attr => attr.name === "if");
+  ifStatement.alternate = ifAttr
+    ? parseIfStatement(path)
+    : t.blockStatement(children.map(toStatement));
   path.remove();
 }
