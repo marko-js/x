@@ -1,9 +1,11 @@
 import * as t from "../../../../definitions";
-import { parseIfStatement, toStatement } from "./_util";
+import { parseIfStatement, toStatement, strictAttributes } from "./_util";
 
 export default translate;
 
 function translate(path) {
+  strictAttributes(path, ["if"]);
+
   const { ifStatement } = path.node;
 
   if (!ifStatement) {

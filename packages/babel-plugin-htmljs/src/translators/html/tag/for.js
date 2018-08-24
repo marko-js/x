@@ -1,5 +1,5 @@
 import * as t from "../../../definitions";
-import { toStatement } from "./_util";
+import { toStatement, strictAttributes } from "./_util";
 
 export default translate;
 
@@ -14,6 +14,12 @@ function translate(path) {
   const block = t.blockStatement(children.map(toStatement));
   let forNode;
   let allowedAttributes = ["by"];
+
+  if (!startTag.params.length) {
+    throw path.buildCodeFrameError(
+      "Invalid 'for' tag, missing leading params."
+    );
+  }
 
   if (inAttr) {
     allowedAttributes.push("in");
@@ -87,13 +93,7 @@ function translate(path) {
     );
   }
 
-  attributes.forEach((attr, i) => {
-    if (!allowedAttributes.includes(attr.name)) {
-      throw path
-        .get(`startTag.attributes.${i}`)
-        .buildCodeFrameError(`Invalid 'for' tag attribute: "${attr.name}".`);
-    }
-  });
+  strictAttributes(path, allowedAttributes);
 
   if (t.isProgram(path.parent)) {
     path.remove();

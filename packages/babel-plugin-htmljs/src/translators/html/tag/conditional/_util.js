@@ -1,6 +1,6 @@
 import * as t from "../../../../definitions";
-import { toStatement } from "../_util";
-export { toStatement };
+import { toStatement, strictAttributes } from "../_util";
+export { toStatement, strictAttributes };
 
 export function parseIfStatement(path) {
   const {

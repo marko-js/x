@@ -28,7 +28,7 @@ static {
 <if=cond>
 </>
 
-<for(i) from=0 to=10 step=2 and=1>
+<for(i) from=0 to=10 step=2>
   <div c=1/>
 </for>
 
