@@ -56,4 +56,18 @@ function render(out) {
     out.w("<div c=1>");
     out.w("</div>");
   }
+
+  out.w("<div>")
+  out.w("\n\n  Hi\n\n")
+  out.w("</div>")
+
+  if (false) {
+    out.w("<div>");
+  }
+
+  out.w("Hi")
+
+  if (false) {
+    out.w("</div>");
+  }
 }

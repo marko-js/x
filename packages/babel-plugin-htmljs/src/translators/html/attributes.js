@@ -5,6 +5,10 @@ export default function(attrs) {
   const expressions = [];
   let curString = "";
 
+  if (!attrs.length) {
+    return "";
+  }
+
   for (let i = 0; i < attrs.length; i++) {
     const attr = attrs[i];
     const { name, value } = attr.node;

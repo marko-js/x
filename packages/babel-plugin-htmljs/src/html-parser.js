@@ -6,6 +6,7 @@ import codeFrameError from "./util/code-frame-error";
 import createFile from "./util/create-file";
 import * as translators from "./translators";
 const tagTranslators = translators.html.tag;
+const directiveTranslators = translators.html.directive;
 
 export function parse({
   code,
@@ -23,6 +24,7 @@ export function parse({
   const { program } = file;
   const { body } = program;
   const stack = [{ context: body }];
+  let preservingWhitespace = preserveWhitespace;
   let context = body;
   file.parse = parse;
   file.parseExpression = parseExpression;
@@ -48,7 +50,7 @@ export function parse({
       onText({ value }, { pos }) {
         const endPos = pos + value.length;
 
-        if (!preserveWhitespace) {
+        if (!preservingWhitespace) {
           value = value.trim();
           if (value === "") {
             return;
@@ -71,6 +73,8 @@ export function parse({
         const { options = {} } =
           tagTranslators[toCamel(event.tagName)] || tagTranslators.base;
         if (options.html) event.setParseOptions(options.html);
+        if (options.preserveWhitespace)
+          preservingWhitespace = options.preserveWhitespace;
       },
 
       onOpenTag(event, parser) {
@@ -91,6 +95,15 @@ export function parse({
           }
 
           attributes = attributes.map(attr => {
+            const directive = directiveTranslators[toCamel(attr.name)];
+
+            if (directive) {
+              const { options = {} } = directive;
+              if (options.html) event.setParseOptions(options.html);
+              if (options.preserveWhitespace)
+                preservingWhitespace = options.preserveWhitespace;
+            }
+
             if (attr.name.slice(0, 3) === "...") {
               const value = parseExpression(attr.name.slice(3), attr.pos + 3);
               // TODO: Inline merge object literals.
@@ -139,6 +152,8 @@ export function parse({
       },
 
       onCloseTag({ tagName, pos, endPos }, parser) {
+        preservingWhitespace = preserveWhitespace;
+
         const { startTag, context: children } = stack.pop();
         context = stack[stack.length - 1].context;
 
