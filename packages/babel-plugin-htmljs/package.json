@@ -13,7 +13,7 @@
     "@babel/types": "^7.0.0-beta.54",
     "@babel/parser": "^7.0.0-beta.54",
     "camelcase": "^3.0.0",
-    "htmljs-parser": "^2.3.2"
+    "htmljs-parser": "^2.4.0"
   },
   "files": [
     "dist"
