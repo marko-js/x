@@ -16,6 +16,11 @@ static {
   }
 }
 
+class {
+  onCreate() {
+    this.stuff();
+  }
+}
 
 <div a={a: 1}>
   <div c=1/>

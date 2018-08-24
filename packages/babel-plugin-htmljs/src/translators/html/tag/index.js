@@ -2,6 +2,7 @@ export { default as base } from "./base";
 export { default as import } from "./import";
 export { default as export } from "./export";
 export { default as static } from "./static";
+export { default as class } from "./class";
 
 import {
   if as conditionalIf,
