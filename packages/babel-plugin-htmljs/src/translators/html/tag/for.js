@@ -1,5 +1,5 @@
 import * as t from "../../../definitions";
-import { toStatement, strictAttributes } from "./_util";
+import { toStatement, strictAttributes, replaceInRenderBody } from "./_util";
 
 export default translate;
 
@@ -94,13 +94,7 @@ function translate(path) {
   }
 
   strictAttributes(path, allowedAttributes);
-
-  if (t.isProgram(path.parent)) {
-    path.remove();
-    path.parent.renderBody.push(forNode);
-  } else {
-    path.replaceWith(forNode);
-  }
+  replaceInRenderBody(path, forNode);
 }
 
 function findName(arr, value) {

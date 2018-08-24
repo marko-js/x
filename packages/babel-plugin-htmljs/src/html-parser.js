@@ -17,6 +17,8 @@ export function parse({
   const createNode = (type, start, end, ...args) =>
     Object.assign(type(...args), getLocRange(code, start, end));
   const createError = (...args) => codeFrameError(filename, code, ...args);
+  const preserveWhitespace =
+    htmlParserOpts && htmlParserOpts.preserveWhitespace;
   const file = createFile(filename, code);
   const { program } = file;
   const { body } = program;
@@ -46,6 +48,14 @@ export function parse({
 
     onText({ value }, { pos }) {
       const endPos = pos + value.length;
+
+      if (!preserveWhitespace) {
+        value = value.trim();
+        if (value === "") {
+          return;
+        }
+      }
+
       context.push(createNode(t.htmlText, pos, endPos, value));
     },
 

@@ -22,3 +22,14 @@ export function strictAttributes(path, allowed) {
     }
   });
 }
+
+export function replaceInRenderBody(path, nodes) {
+  nodes = [].concat(nodes);
+
+  if (t.isProgram(path.parent)) {
+    path.remove();
+    path.parent.renderBody.push(...nodes);
+  } else {
+    path.replaceWithMultiple(nodes);
+  }
+}

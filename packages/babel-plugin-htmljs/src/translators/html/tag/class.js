@@ -25,7 +25,7 @@ function translate(path) {
   const { startTag } = node;
   const { rawValue: code, start } = startTag;
 
-  path.replaceWithMultiple(
+  path.replaceWith(
     t.exportNamedDeclaration(
       t.variableDeclaration("const", [
         t.variableDeclarator(
