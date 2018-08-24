@@ -146,7 +146,12 @@ export default {
         optional: true
       },
       children: {
-        validate: arrayOfType(["HTMLElement", "HTMLText", "HTMLPlaceholder"]),
+        validate: arrayOfType([
+          "HTMLElement",
+          "HTMLText",
+          "HTMLPlaceholder",
+          "HTMLComment"
+        ]),
         default: []
       },
       properties: {

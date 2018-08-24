@@ -23,6 +23,8 @@ class {
 }
 
 <div a={a: 1}>
+  <!--123-->
+  <html-comment>abc</html-comment>
   <div c=1/>
   <div d=1/>
   <if=(x === a)>a</>

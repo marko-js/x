@@ -3,6 +3,7 @@ export { default as import } from "./import";
 export { default as export } from "./export";
 export { default as static } from "./static";
 export { default as class } from "./class";
+export { default as htmlComment } from "./html-comment";
 
 import {
   if as conditionalIf,

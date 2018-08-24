@@ -54,5 +54,8 @@ export const visitor = {
     } else {
       path.replaceWith(replacement);
     }
+  },
+  HTMLComment(path) {
+    path.remove();
   }
 };
