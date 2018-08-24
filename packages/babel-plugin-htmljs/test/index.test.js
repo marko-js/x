@@ -19,7 +19,7 @@ fs.readdirSync(fixtureDirectory).forEach(sourceFileName => {
         code: true,
         babelrc: false,
         configFile: false,
-        sourceMaps: "inline",
+        sourceMaps: false,
         sourceFileName: sourceFile,
         plugins: [plugin]
       });
