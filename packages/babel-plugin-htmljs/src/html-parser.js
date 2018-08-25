@@ -20,14 +20,12 @@ export function parse({
   const createError = (...args) => codeFrameError(filename, code, ...args);
   const preserveWhitespace =
     htmlParserOpts && htmlParserOpts.preserveWhitespace;
-  const file = createFile(filename, code);
+  const file = { parse, parseExpression, ...createFile(filename, code) };
   const { program } = file;
   const { body } = program;
   const stack = [{ context: body }];
   let preservingWhitespace = preserveWhitespace;
   let context = body;
-  file.parse = parse;
-  file.parseExpression = parseExpression;
 
   const htmlParser = createParser(
     {
@@ -48,25 +46,29 @@ export function parse({
       },
 
       onText({ value }, { pos }) {
-        const endPos = pos + value.length;
-
         if (!preservingWhitespace) {
           value = value.trim();
           if (value === "") {
             return;
+          } else {
+            pos = value.indexOf(value);
           }
         }
 
+        const endPos = pos + value.length;
         context.push(createNode(t.htmlText, pos, endPos, value));
       },
 
       onPlaceholder({ escape, value, withinBody, pos, endPos }) {
-        if (!withinBody) return;
-        value = parseExpression(
-          value,
-          pos + (escape ? 2 /* ${ */ : 3) /* $!{ */
-        );
-        context.push(createNode(t.htmlPlaceholder, pos, endPos, value, escape));
+        if (withinBody) {
+          value = parseExpression(
+            value,
+            pos + (escape ? 2 /* ${ */ : 3) /* $!{ */
+          );
+          context.push(
+            createNode(t.htmlPlaceholder, pos, endPos, value, escape)
+          );
+        }
       },
 
       onOpenTagName(event) {
@@ -78,8 +80,14 @@ export function parse({
       },
 
       onOpenTag(event, parser) {
-        let { tagName, argument, attributes, pos, endPos } = event;
-
+        let {
+          tagName,
+          argument,
+          attributes,
+          pos,
+          endPos,
+          tagNameEndPos
+        } = event;
         const { options = {} } =
           tagTranslators[toCamel(event.tagName)] || tagTranslators.base;
         let rawValue;
@@ -94,8 +102,11 @@ export function parse({
               .params;
           }
 
+          let attrEndPos = tagNameEndPos;
           attributes = attributes.map(attr => {
+            const attrStartPos = code.indexOf(attr.name, attrEndPos);
             const directive = directiveTranslators[toCamel(attr.name)];
+            attrEndPos = attr.endPos;
 
             if (directive) {
               const { options = {} } = directive;
@@ -105,12 +116,15 @@ export function parse({
             }
 
             if (attr.name.slice(0, 3) === "...") {
-              const value = parseExpression(attr.name.slice(3), attr.pos + 3);
+              const value = parseExpression(
+                attr.name.slice(3),
+                attrStartPos + 3
+              );
               // TODO: Inline merge object literals.
               return createNode(
                 t.htmlSpreadAttribute,
-                attr.pos,
-                attr.endPos,
+                attrStartPos,
+                attrEndPos,
                 value
               );
             }
@@ -118,19 +132,17 @@ export function parse({
             let value;
 
             if (attr.value) {
-              const valueStart = attr.endPos - attr.value.length + 1; // Add 1 for the '='.
-              value = parseExpression(attr.value, valueStart);
-              value;
-              code;
+              const valueStart = attr.pos + 1; // Add one to account for "=".
+              const rawValue = code.slice(valueStart, attrEndPos);
+              value = parseExpression(rawValue, valueStart);
             } else {
-              attr.endPos = attr.pos + attr.name.length;
               value = t.booleanLiteral(true);
             }
 
             return createNode(
               t.htmlAttribute,
-              attr.pos,
-              attr.endPos,
+              attrStartPos,
+              attrEndPos,
               attr.name,
               value
             );

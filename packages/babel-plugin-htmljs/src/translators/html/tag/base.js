@@ -17,7 +17,14 @@ export default function(path) {
   const attributes = [];
 
   for (const attr of path.get("startTag").get("attributes")) {
-    const directive = translateDirective[toCamel(attr.node.name)];
+    const { name } = attr.node;
+    if (!name) {
+      // TODO: handle spread.
+      attr.remove();
+      continue;
+    }
+
+    const directive = translateDirective[toCamel(name)];
     if (directive) {
       directive(path, attr);
       attr.remove();

@@ -17,7 +17,8 @@ export const component = class {
 function render(out) {
   out.w(`<div${` a=${{
     a: 1
-  }}`}>`)
+  }} c=${d}`}>`)
+  out.w(a)
   out.w("<!--")
   out.w("abc")
   out.w("-->")
@@ -28,6 +29,7 @@ function render(out) {
 
   if (x === a) {
     out.w("a");
+    out.w(b);
   } else if (x === 2) {
     out.w("b");
   } else {
@@ -37,8 +39,13 @@ function render(out) {
   out.w("</div>")
   out.w("<div b=1>")
   out.w("</div>")
+  out.w("<span>")
+  out.w("</span>")
 
-  if (cond) {}
+  if (cond) {
+    out.w("Hello");
+    out.w(planet);
+  }
 
   for (let i = 0; i <= 10; i += 2) {
     out.w("<div c=1>");

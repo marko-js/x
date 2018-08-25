@@ -15,12 +15,13 @@ class {
   }
 }
 
-<div.b a={a: 1}>
+<div.b a={a: 1} c  =  "${d}">
+  ${a}
   <!--123-->
   <html-comment>abc</html-comment>
   <div c=1/>
   <div d=1/>
-  <if=(x === a)>a</>
+  <if=(x === a)>a ${b}</>
   <else if=(x === 2)>
     b
   </else>
@@ -28,7 +29,10 @@ class {
 </div>
 <div b=1/>
 
+<span ...abc/>
+
 <if=cond>
+  Hello ${planet}
 </if>
 
 <for(i) from=0 to=10 step=2>
@@ -39,7 +43,7 @@ class {
   <div c=1/>
 </for>
 
-<for(val, i) of=arr>
+<for(val, i) of=arr by="name">
   <div c=1/>
 </for>
 
