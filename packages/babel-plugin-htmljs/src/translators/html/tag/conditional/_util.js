@@ -2,15 +2,8 @@ import * as t from "../../../../definitions";
 import { toStatement, strictAttributes, replaceInRenderBody } from "../_util";
 export { toStatement, strictAttributes, replaceInRenderBody };
 
-export function parseIfStatement(path) {
-  const {
-    node,
-    hub: {
-      file: {
-        ast: { parseExpression }
-      }
-    }
-  } = path;
+export function buildIfStatement(path) {
+  const { node } = path;
   const { startTag, children } = node;
   const ifAttr = startTag.attributes.find(attr => attr.name === "if");
   const ifStatement = t.ifStatement(

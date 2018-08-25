@@ -14,14 +14,7 @@ function translate(path) {
     );
   }
 
-  const {
-    node,
-    hub: {
-      file: {
-        ast: { parseExpression }
-      }
-    }
-  } = path;
+  const { node, hub } = path;
   const { startTag } = node;
   const { rawValue: code, start } = startTag;
 
@@ -30,7 +23,7 @@ function translate(path) {
       t.variableDeclaration("const", [
         t.variableDeclarator(
           t.identifier("component"),
-          parseExpression(code, start)
+          hub.parseExpression(code, start)
         )
       ]),
       []

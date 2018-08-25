@@ -14,16 +14,9 @@ function translate(path) {
     );
   }
 
-  const {
-    node,
-    hub: {
-      file: {
-        ast: { parse }
-      }
-    }
-  } = path;
+  const { node, hub } = path;
   const { startTag } = node;
   const { rawValue, start } = startTag;
-  const [exportNode] = parse(rawValue, start).body;
+  const [exportNode] = hub.parse(rawValue, start).body;
   path.replaceWith(exportNode);
 }

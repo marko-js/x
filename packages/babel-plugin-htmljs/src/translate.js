@@ -7,13 +7,21 @@ import * as translators from "./translators";
 export const visitor = {
   Program: {
     enter(path) {
-      path.node.renderBody = [];
+      const { node, hub } = path;
+      const {
+        file: {
+          ast: { parse, parseExpression }
+        }
+      } = hub;
+      Object.assign(hub, { parse, parseExpression });
+      node.renderBody = [];
     },
     exit(path) {
+      const { node } = path;
       const renderBody = t.blockStatement([]);
-      renderBody.body = path.node.renderBody;
+      renderBody.body = node.renderBody;
       // Create the render function which html nodes will move to.
-      path.node.body.push(
+      node.body.push(
         t.functionDeclaration(
           t.identifier("render"),
           [t.identifier("out")],

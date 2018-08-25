@@ -1,6 +1,5 @@
-import * as t from "../../../../definitions";
 import {
-  parseIfStatement,
+  buildIfStatement,
   strictAttributes,
   replaceInRenderBody
 } from "./_util";
@@ -9,5 +8,5 @@ export default translate;
 
 function translate(path) {
   strictAttributes(path, ["if"]);
-  replaceInRenderBody(path, parseIfStatement(path));
+  replaceInRenderBody(path, buildIfStatement(path));
 }

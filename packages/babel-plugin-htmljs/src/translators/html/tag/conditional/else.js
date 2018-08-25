@@ -1,5 +1,5 @@
 import * as t from "../../../../definitions";
-import { parseIfStatement, toStatement, strictAttributes } from "./_util";
+import { buildIfStatement, toStatement, strictAttributes } from "./_util";
 
 export default translate;
 
@@ -17,7 +17,7 @@ function translate(path) {
   const { startTag, children } = path.node;
   const ifAttr = startTag.attributes.find(attr => attr.name === "if");
   ifStatement.alternate = ifAttr
-    ? parseIfStatement(path)
+    ? buildIfStatement(path)
     : t.blockStatement(children.map(toStatement));
   path.remove();
 }
