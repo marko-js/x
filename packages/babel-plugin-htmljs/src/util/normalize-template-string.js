@@ -3,6 +3,14 @@ import * as t from "../definitions";
 export default function normalizeTemplateLiteral(quasis, expressions) {
   for (let i = expressions.length; i--; ) {
     let v = expressions[i];
+    if (t.isTemplateLiteral(v)) {
+      quasis[i] = quasis[i] + v.quasis[0].value.raw;
+      quasis[i + 1] = v.quasis[v.quasis.length - 1].value.raw + quasis[i + 1];
+      quasis.splice(i, 0, ...v.quasis.slice(1, -1));
+      expressions.splice(i, 1, ...v.expressions);
+      i += v.expressions.length;
+      continue;
+    }
     if (!(i in quasis)) continue;
     if (t.isStringLiteral(v)) v = v.value;
     if (typeof v !== "string") continue;
@@ -42,10 +50,6 @@ function toNode(s) {
   }
 
   return s;
-}
-
-function fromTemplateElement(v) {
-  return v.value.raw;
 }
 
 function isEmptyString(s) {

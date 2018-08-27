@@ -86,8 +86,11 @@ export function parse({
           attributes,
           pos,
           endPos,
-          tagNameEndPos
+          tagNameEndPos,
+          shorthandId,
+          shorthandClassNames
         } = event;
+        debugger;
         const { options = {} } =
           tagTranslators[toCamel(event.tagName)] || tagTranslators.base;
         let rawValue;
@@ -147,6 +150,58 @@ export function parse({
               value
             );
           });
+        }
+
+        if (shorthandClassNames) {
+          let classAttr = attributes.find(({ name }) => name === "class");
+          const classes = shorthandClassNames
+            .map(({ value }) => value.slice(1, -1))
+            .join(" ");
+
+          if (!classAttr) {
+            attributes.unshift(
+              createNode(
+                t.htmlAttribute,
+                pos,
+                tagNameEndPos,
+                "class",
+                t.stringLiteral(classes)
+              )
+            );
+          } else {
+            if (t.isStringLiteral(classAttr.value)) {
+              classAttr.value = t.stringLiteral(
+                classAttr.value.value
+                  ? `${classes} ${classAttr.value.value}`
+                  : classes
+              );
+            } else {
+              classAttr.value = t.arrayExpression([
+                t.stringLiteral(classes),
+                classAttr.value
+              ]);
+            }
+          }
+        }
+
+        if (shorthandId) {
+          if (attributes.some(({ name }) => name === "id")) {
+            throw createError(
+              "Cannot have shorthand id and id attribute.",
+              pos,
+              tagNameEndPos
+            );
+          }
+
+          attributes.unshift(
+            createNode(
+              t.htmlAttribute,
+              pos,
+              tagNameEndPos,
+              "id",
+              t.stringLiteral(shorthandId.value.slice(1, -1))
+            )
+          );
         }
 
         stack.push({

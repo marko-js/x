@@ -30,11 +30,11 @@ export default function(attrs) {
         continue;
       }
 
-      curString += `=${computed}`;
+      curString += `="${computed}"`;
     } else {
-      quasis.push(curString + "=");
+      quasis.push(curString + '="');
       expressions.push(value);
-      curString = "";
+      curString = '"';
     }
   }
 
