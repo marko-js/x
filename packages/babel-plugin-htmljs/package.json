@@ -6,13 +6,13 @@
   "author": "Dylan Piercey <dpiercey@ebay.com>",
   "bugs": "https://github.com/marko-js/utils/issues/new?template=Bug_report.md",
   "dependencies": {
-    "@babel/core": "^7.0.0-beta.54",
-    "@babel/code-frame": "^7.0.0-beta.54",
-    "@babel/runtime": "^7.0.0-beta.54",
-    "@babel/traverse": "^7.0.0-beta.54",
-    "@babel/types": "^7.0.0-beta.54",
-    "@babel/parser": "^7.0.0-beta.54",
-    "camelcase": "^3.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/code-frame": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
+    "@babel/traverse": "^7.0.0",
+    "@babel/types": "^7.0.0",
+    "@babel/parser": "^7.0.0",
+    "camelcase": "^5.0.0",
     "htmljs-parser": "^2.4.0"
   },
   "files": [
