@@ -90,7 +90,6 @@ export function parse({
           shorthandId,
           shorthandClassNames
         } = event;
-        debugger;
         const { options = {} } =
           tagTranslators[toCamel(event.tagName)] || tagTranslators.base;
         let rawValue;

@@ -12,35 +12,39 @@ export default () => {
       return htmlParse({
         code,
         filename,
-        parse(str, start) {
-          try {
-            const { line, column } = getLoc(code, start);
-            str = str.padStart(str.length + column - 1, " ");
-            return parse(str, { ...parserOpts, startLine: line }).program;
-          } catch (err) {
-            const { pos, message } = err;
-            if (pos) {
-              throw codeFrameError(filename, code, message, pos + start);
-            } else {
-              throw err;
-            }
-          }
-        },
-        parseExpression(str, start) {
-          try {
-            const { line, column } = getLoc(code, start);
-            str = str.padStart(str.length + column - 1, " ");
-            return parseExpression(str, { ...parserOpts, startLine: line });
-          } catch (err) {
-            const { pos, message } = err;
-            if (pos) {
-              throw codeFrameError(filename, code, message, pos + start);
-            } else {
-              throw err;
-            }
-          }
-        }
+        parse: tryParse(false),
+        parseExpression: tryParse(true)
       });
+
+      function tryParse(isExpression) {
+        return (str, start) => {
+          const { line, column } = getLoc(code, start);
+          const opts = { ...parserOpts, startLine: line };
+          const length = str.length - 1 + column;
+          const padding = length - str.length - 1;
+          str = str.padStart(length, " ");
+
+          try {
+            return isExpression
+              ? parseExpression(str, opts)
+              : parse(str, opts).program;
+          } catch (err) {
+            let { pos, message } = err;
+            if (pos) {
+              pos -= padding;
+              pos += start;
+              throw codeFrameError(
+                filename,
+                code,
+                message.replace(/ *\(\d+:\d+\)$/, ""),
+                pos
+              );
+            } else {
+              throw err;
+            }
+          }
+        };
+      }
     }
   };
 };
