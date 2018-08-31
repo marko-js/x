@@ -9,8 +9,7 @@ export default function write(strings, ...expressions) {
       t.callExpression(
         t.memberExpression(t.identifier("out"), t.identifier("w")),
         [template]
-      ),
-      { htmlWriter: true }
+      )
     );
   }
 }

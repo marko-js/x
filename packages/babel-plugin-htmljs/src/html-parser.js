@@ -47,6 +47,7 @@ export function parse({
 
       onText({ value }, { pos }) {
         if (!preservingWhitespace) {
+          // TODO: don't trim between adjacent text nodes.
           value = value.trim();
           if (value === "") {
             return;

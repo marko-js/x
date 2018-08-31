@@ -3,6 +3,7 @@ import * as t from "./definitions";
 import write from "./util/html-out-write";
 import withPreviousLocation from "./util/with-previous-location";
 import * as translators from "./translators";
+import { visitor as optimizingVisitor } from "./optimize";
 
 export const visitor = {
   Program: {
@@ -28,6 +29,8 @@ export const visitor = {
           Object.assign(t.blockStatement([]), { body: hub.renderBody })
         )
       );
+
+      path.traverse(optimizingVisitor);
     }
   },
   HTMLElement: {
