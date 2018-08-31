@@ -7,25 +7,25 @@ import * as translators from "./translators";
 export const visitor = {
   Program: {
     enter(path) {
-      const { node, hub } = path;
+      const { hub } = path;
       const {
         file: {
           ast: { parse, parseExpression }
         }
       } = hub;
-      Object.assign(hub, { parse, parseExpression });
-      node.renderBody = [];
+      Object.assign(hub, {
+        parse,
+        parseExpression,
+        renderBody: []
+      });
     },
     exit(path) {
-      const { node } = path;
-      const renderBody = t.blockStatement([]);
-      renderBody.body = node.renderBody;
-      // Create the render function which html nodes will move to.
+      const { node, hub } = path;
       node.body.push(
         t.functionDeclaration(
           t.identifier("render"),
           [t.identifier("out")],
-          renderBody
+          Object.assign(t.blockStatement([]), { body: hub.renderBody })
         )
       );
     }
@@ -39,36 +39,38 @@ export const visitor = {
     }
   },
   HTMLText(path) {
+    const { node, hub } = path;
     const replacement = withPreviousLocation(
-      write`${t.stringLiteral(path.node.value)}`,
-      path.node
+      write`${t.stringLiteral(node.value)}`,
+      node
     );
 
     if (t.isProgram(path.parent)) {
-      if (path.node.value.trim()) path.parent.renderBody.push(replacement);
+      if (node.value.trim()) hub.renderBody.push(replacement);
       path.remove();
     } else {
       path.replaceWith(replacement);
     }
   },
   HTMLPlaceholder(path) {
-    const replacement = withPreviousLocation(
-      write`${path.node.value}`,
-      path.node
-    );
+    const { node, hub } = path;
+    const replacement = withPreviousLocation(write`${node.value}`, node);
     if (t.isProgram(path.parent)) {
       path.remove();
-      path.parent.renderBody.push(replacement);
+      hub.renderBody.push(replacement);
     } else {
       path.replaceWith(replacement);
     }
   },
   HTMLScriptlet(path) {
-    const { body } = path.node;
+    const {
+      node: { body },
+      hub
+    } = path;
 
     if (t.isProgram(path.parent)) {
       path.remove();
-      path.parent.renderBody.push(...body);
+      hub.renderBody.push(...body);
     } else {
       path.replaceWithMultiple(body);
     }

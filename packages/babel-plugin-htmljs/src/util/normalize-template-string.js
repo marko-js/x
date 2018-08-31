@@ -4,7 +4,7 @@ export default function normalizeTemplateLiteral(quasis, expressions) {
   for (let i = expressions.length; i--; ) {
     let v = expressions[i];
     if (t.isTemplateLiteral(v)) {
-      quasis[i] = quasis[i] + v.quasis[0].value.raw;
+      quasis[i] += v.quasis[0].value.raw;
       quasis[i + 1] = v.quasis[v.quasis.length - 1].value.raw + quasis[i + 1];
       quasis.splice(i, 0, ...v.quasis.slice(1, -1));
       expressions.splice(i, 1, ...v.expressions);
