@@ -15,20 +15,20 @@ function translate(path) {
   let forNode;
   let allowedAttributes = ["by"];
 
-  if (!startTag.params.length) {
-    throw path.buildCodeFrameError(
-      "Invalid 'for' tag, missing leading params."
-    );
-  }
-
   if (inAttr) {
     allowedAttributes.push("in");
 
     const [keyParam, valParam] = startTag.params;
 
+    if (!keyParam) {
+      throw path.buildCodeFrameError(
+        "Invalid 'for in' tag, missing (key, value) params."
+      );
+    }
+
     if (valParam) {
       block.body.unshift(
-        t.variableDeclaration("let", [
+        t.variableDeclaration("const", [
           t.variableDeclarator(
             valParam,
             t.memberExpression(inAttr.value, keyParam, true)
@@ -38,53 +38,70 @@ function translate(path) {
     }
 
     forNode = t.forInStatement(
-      t.variableDeclaration("let", [t.variableDeclarator(keyParam)]),
+      t.variableDeclaration("const", [t.variableDeclarator(keyParam)]),
       inAttr.value,
       block
     );
   } else if (ofAttr) {
     allowedAttributes.push("of");
 
-    const [
-      valParam,
-      keyParam = path.scope.generateUidIdentifier("key")
-    ] = startTag.params;
+    const [valParam, keyParam] = startTag.params;
 
-    block.body.unshift(
-      t.variableDeclaration("let", [
-        t.variableDeclarator(
-          valParam,
-          t.memberExpression(ofAttr.value, keyParam, true)
-        )
-      ])
-    );
+    if (!keyParam) {
+      throw path.buildCodeFrameError(
+        "Invalid 'for of' tag, missing (value, key) params."
+      );
+    }
 
-    forNode = t.forStatement(
-      t.variableDeclaration("let", [
-        t.variableDeclarator(keyParam, t.numericLiteral(0))
-      ]),
-      t.binaryExpression(
-        "<",
-        keyParam,
-        t.memberExpression(ofAttr.value, t.identifier("length"))
-      ),
-      t.updateExpression("++", keyParam),
-      block
+    forNode = [];
+
+    if (keyParam) {
+      const indexName = path.scope.generateUidIdentifier(keyParam.name);
+      forNode.push(
+        t.variableDeclaration("let", [
+          t.variableDeclarator(indexName, t.numericLiteral(-1))
+        ])
+      );
+
+      block.body.unshift(
+        t.variableDeclaration("let", [
+          t.variableDeclarator(keyParam, t.updateExpression("++", indexName))
+        ])
+      );
+    }
+
+    forNode.push(
+      t.forOfStatement(
+        t.variableDeclaration("const", [t.variableDeclarator(valParam)]),
+        ofAttr.value,
+        block
+      )
     );
   } else if (fromAttr && toAttr) {
     allowedAttributes.push("from", "to", "step");
 
     const stepAttr = findName(attributes, "step");
     const [keyParam] = startTag.params;
+    const indexName = path.scope.generateUidIdentifier(
+      keyParam ? keyParam.name : "i"
+    );
+
+    if (keyParam) {
+      block.body.unshift(
+        t.variableDeclaration("const", [
+          t.variableDeclarator(keyParam, indexName)
+        ])
+      );
+    }
 
     forNode = t.forStatement(
       t.variableDeclaration("let", [
-        t.variableDeclarator(keyParam, fromAttr.value)
+        t.variableDeclarator(indexName, fromAttr.value)
       ]),
-      t.binaryExpression("<=", keyParam, toAttr.value),
+      t.binaryExpression("<=", indexName, toAttr.value),
       stepAttr
-        ? t.assignmentExpression("+=", keyParam, stepAttr.value)
-        : t.updateExpression("++", keyParam),
+        ? t.assignmentExpression("+=", indexName, stepAttr.value)
+        : t.updateExpression("++", indexName),
       block
     );
   } else {

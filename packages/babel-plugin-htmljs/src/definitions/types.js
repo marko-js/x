@@ -70,6 +70,17 @@ export default {
     }
   },
 
+  HTMLScriptlet: {
+    visitor: ["body"],
+    builder: ["body"],
+    aliases: ["Marko", "BlockStatement"],
+    fields: {
+      body: {
+        validate: arrayOfType(["Statement"])
+      }
+    }
+  },
+
   HTMLAttribute: {
     builder: ["name", "value", "modifier"],
     visitor: ["value"],
@@ -150,6 +161,7 @@ export default {
           "HTMLElement",
           "HTMLText",
           "HTMLPlaceholder",
+          "HTMLScriptlet",
           "HTMLComment"
         ]),
         default: []

@@ -61,14 +61,26 @@ export function parse({
 
       onPlaceholder({ escape, value, withinBody, pos, endPos }) {
         if (withinBody) {
-          value = parseExpression(
-            value,
-            pos + (escape ? 2 /* ${ */ : 3) /* $!{ */
-          );
           context.push(
-            createNode(t.htmlPlaceholder, pos, endPos, value, escape)
+            createNode(
+              t.htmlPlaceholder,
+              pos,
+              endPos,
+              parseExpression(value, pos + (escape ? 2 /* ${ */ : 3) /* $!{ */),
+              escape
+            )
           );
         }
+      },
+
+      onScriptlet({ value, line, block, pos, endPos }) {
+        if (!line && !block) {
+          throw createError("Scriptlets are no longer supported.", pos, endPos);
+        }
+
+        context.push(
+          createNode(t.HTMLScriptlet, pos, endPos, parse(value, pos).body)
+        );
       },
 
       onOpenTagName(event) {

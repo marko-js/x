@@ -63,6 +63,16 @@ export const visitor = {
       path.replaceWith(replacement);
     }
   },
+  HTMLScriptlet(path) {
+    const { body } = path.node;
+
+    if (t.isProgram(path.parent)) {
+      path.remove();
+      path.parent.renderBody.push(...body);
+    } else {
+      path.replaceWithMultiple(body);
+    }
+  },
   HTMLComment(path) {
     path.remove();
   }
