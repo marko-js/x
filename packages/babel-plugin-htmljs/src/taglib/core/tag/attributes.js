@@ -1,4 +1,4 @@
-import normalizeTemplateString from "../../util/normalize-template-string";
+import normalizeTemplateString from "../../../util/normalize-template-string";
 
 export default function(attrs) {
   const quasis = [];

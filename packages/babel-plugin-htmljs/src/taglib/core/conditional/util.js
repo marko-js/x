@@ -1,6 +1,5 @@
-import * as t from "../../../../definitions";
-import { toStatement, strictAttributes, replaceInRenderBody } from "../_util";
-export { toStatement, strictAttributes, replaceInRenderBody };
+import * as t from "../../../definitions";
+import { toStatement } from "../util";
 
 export function buildIfStatement(path) {
   const { node } = path;

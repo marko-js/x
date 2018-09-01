@@ -2,9 +2,12 @@ import toCamel from "camelcase";
 import * as t from "../../../definitions";
 import withPreviousLocation from "../../../util/with-previous-location";
 import write from "../../../util/html-out-write";
-import * as translateDirective from "../directive";
-import translateAttributes from "../attributes";
-import { replaceInRenderBody, toStatement } from "./_util";
+import * as translateDirective from "../../../translators/html/directive";
+import translateAttributes from "../../../translators/html/attributes";
+import {
+  replaceInRenderBody,
+  toStatement
+} from "../../../translators/html/tag/_util";
 
 /**
  * Translates the html streaming version of a standard html element.

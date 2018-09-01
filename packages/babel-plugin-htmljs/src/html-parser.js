@@ -1,12 +1,10 @@
-import * as t from "./definitions";
-import toCamel from "camelcase";
+import path from "path";
 import { createParser } from "htmljs-parser";
+import { buildLookup } from "./taglib";
+import * as t from "./definitions";
+import createFile from "./util/create-file";
 import { getLocRange } from "./util/get-loc";
 import codeFrameError from "./util/code-frame-error";
-import createFile from "./util/create-file";
-import * as translators from "./translators";
-const tagTranslators = translators.html.tag;
-const directiveTranslators = translators.html.directive;
 
 export function parse({
   code,
@@ -15,12 +13,18 @@ export function parse({
   parse,
   parseExpression
 }) {
+  const lookup = buildLookup(path.dirname(filename));
   const createNode = (type, start, end, ...args) =>
     Object.assign(type(...args), getLocRange(code, start, end));
   const createError = (...args) => codeFrameError(filename, code, ...args);
   const preserveWhitespace =
     htmlParserOpts && htmlParserOpts.preserveWhitespace;
-  const file = { parse, parseExpression, ...createFile(filename, code) };
+  const file = {
+    lookup,
+    parse,
+    parseExpression,
+    ...createFile(filename, code)
+  };
   const { program } = file;
   const { body } = program;
   const stack = [{ context: body }];
@@ -85,11 +89,17 @@ export function parse({
       },
 
       onOpenTagName(event) {
-        const { options = {} } =
-          tagTranslators[toCamel(event.tagName)] || tagTranslators.base;
-        if (options.html) event.setParseOptions(options.html);
-        if (options.preserveWhitespace)
-          preservingWhitespace = options.preserveWhitespace;
+        const tagDef = lookup.getTag(event.tagName);
+        if (!tagDef) return;
+
+        const { parseOptions } = tagDef;
+        if (!parseOptions) return;
+
+        event.setParseOptions(parseOptions);
+
+        if ("preserveWhitespace" in parseOptions) {
+          preservingWhitespace = parseOptions.preserveWhitespace;
+        }
       },
 
       onOpenTag(event, parser) {
@@ -103,12 +113,11 @@ export function parse({
           shorthandId,
           shorthandClassNames
         } = event;
-        const { options = {} } =
-          tagTranslators[toCamel(event.tagName)] || tagTranslators.base;
+        const tagDef = lookup.getTag(tagName);
         let rawValue;
         let params;
 
-        if (options.rawOpenTag) {
+        if (tagDef && tagDef.parseOptions && tagDef.parseOptions.rawOpenTag) {
           rawValue = parser.substring(pos, endPos).replace(/^<|\/>$|>$/g, "");
           attributes = [];
         } else {
@@ -120,15 +129,7 @@ export function parse({
           let attrEndPos = tagNameEndPos;
           attributes = attributes.map(attr => {
             const attrStartPos = code.indexOf(attr.name, attrEndPos);
-            const directive = directiveTranslators[toCamel(attr.name)];
             attrEndPos = attr.endPos;
-
-            if (directive) {
-              const { options = {} } = directive;
-              if (options.html) event.setParseOptions(options.html);
-              if (options.preserveWhitespace)
-                preservingWhitespace = options.preserveWhitespace;
-            }
 
             if (attr.name.slice(0, 3) === "...") {
               const value = parseExpression(
@@ -142,6 +143,16 @@ export function parse({
                 attrEndPos,
                 value
               );
+            } else {
+              const attrDef = tagDef && tagDef.getAttribute(attr.name);
+              if (attrDef) {
+                // Todo allow parse options in attr defs.
+                // Also transforms.
+                const { parseOptions = {} } = attrDef;
+                if (parseOptions.html) event.setParseOptions(parseOptions.html);
+                if (parseOptions.preserveWhitespace)
+                  preservingWhitespace = parseOptions.preserveWhitespace;
+              }
             }
 
             let value;

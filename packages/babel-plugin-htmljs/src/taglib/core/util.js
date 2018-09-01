@@ -1,4 +1,4 @@
-import * as t from "../../../definitions";
+import * as t from "../../definitions";
 
 export function toStatement(node) {
   if (t.isExpression(node)) {
@@ -8,7 +8,17 @@ export function toStatement(node) {
   return node;
 }
 
-export function strictAttributes(path, allowed) {
+export function assertIsRoot(path) {
+  if (!t.isProgram(path.parent)) {
+    throw path.buildCodeFrameError(
+      `"${
+        path.node.startTag.name
+      }" tags must be at the root of your Marko template.`
+    );
+  }
+}
+
+export function assertAllowedAttributes(path, allowed) {
   const {
     node: { startTag }
   } = path;
@@ -21,6 +31,18 @@ export function strictAttributes(path, allowed) {
         );
     }
   });
+}
+
+export function assertNoParams(path) {
+  const {
+    node: { startTag }
+  } = path;
+  const { params } = startTag;
+  if (params.length) {
+    throw path.buildCodeFrameError(
+      `"${startTag.name}" tag does not support parameters.`
+    );
+  }
 }
 
 export function replaceInRenderBody(path, nodes) {

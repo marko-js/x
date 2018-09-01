@@ -1,8 +1,7 @@
-import toCamel from "camelcase";
+import taglib from "./taglib";
 import * as t from "./definitions";
 import write from "./util/html-out-write";
 import withPreviousLocation from "./util/with-previous-location";
-import * as translators from "./translators";
 import { visitor as optimizingVisitor } from "./optimize";
 
 export const visitor = {
@@ -11,10 +10,12 @@ export const visitor = {
       const { hub } = path;
       const {
         file: {
-          ast: { parse, parseExpression }
+          ast: { lookup, parse, parseExpression }
         }
       } = hub;
+
       Object.assign(hub, {
+        lookup,
         parse,
         parseExpression,
         renderBody: []
@@ -35,10 +36,20 @@ export const visitor = {
   },
   HTMLElement: {
     exit(path) {
-      const name = toCamel(path.node.startTag.name);
-      const tagTranslators = translators.html.tag;
-      const translate = tagTranslators[name] || tagTranslators.base;
-      translate(path);
+      const { hub } = path;
+      const { lookup } = hub;
+      const tagDef =
+        lookup.getTag(path.node.startTag.name) || lookup.getTag("*");
+      const { taglibId } = tagDef;
+      Object.values(tagDef.transformers).forEach(transformer => {
+        const module = require(transformer.path);
+        const { default: fn = module } = module;
+        fn(path);
+      });
+
+      if (taglibId !== "marko-core") {
+        // TODO: add custom tag here.
+      }
     }
   },
   HTMLText(path) {
