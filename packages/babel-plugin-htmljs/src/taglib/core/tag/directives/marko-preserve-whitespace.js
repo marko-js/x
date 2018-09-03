@@ -6,4 +6,6 @@ translate.options = {
   preserveWhitespace: true
 };
 
-function translate(path, attr) {}
+function translate(path, attr) {
+  attr.remove();
+}

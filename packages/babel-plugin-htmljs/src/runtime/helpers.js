@@ -1,6 +1,8 @@
 import escape from "escape-html";
 import { SELF_CLOSING } from "../constants";
 
+export { escape };
+
 export function classList(input) {
   if (input) {
     const type = typeof input;
@@ -56,7 +58,7 @@ export function stringifyAttrs(attrs) {
 
 export function stringifyAttr(key, value) {
   if (value != null && value !== false) {
-    return " " + key + '="' + escape(value) + '"';
+    return ` ${key}="${escape(value)}"`;
   }
 
   return "";

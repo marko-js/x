@@ -57,13 +57,13 @@ export default {
 
   HTMLPlaceholder: {
     visitor: ["value"],
-    builder: ["value", "escaped"],
+    builder: ["value", "escape"],
     aliases: ["Marko", "Expression"],
     fields: {
       value: {
         validate: assertNodeType("Expression")
       },
-      escaped: {
+      escape: {
         validate: assertValueType("boolean"),
         default: true
       }

@@ -3,4 +3,6 @@
  */
 export default translate;
 
-function translate(path, attr) {}
+function translate(path, attr) {
+  attr.remove();
+}

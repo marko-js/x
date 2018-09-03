@@ -116,7 +116,16 @@ export const visitor = {
   HTMLPlaceholder(path) {
     // TODO Safe/Unsafe helper
     const { node, hub } = path;
-    const replacement = withPreviousLocation(write`${node.value}`, node);
+    let { escape, value } = node;
+
+    if (escape) {
+      value = t.callExpression(
+        moduleImports.addNamed(path, "escape", "@marko/runtime/helpers"),
+        [value]
+      );
+    }
+
+    const replacement = withPreviousLocation(write`${value}`, node);
     if (t.isProgram(path.parent)) {
       path.remove();
       hub.renderBody.push(replacement);

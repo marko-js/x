@@ -24,7 +24,6 @@ export default function(path) {
   //   const directive = translateDirectives[toCamel(name)];
   //   if (name && directive) {
   //     directive(path, attr);
-  //     attr.remove();
   //   } else {
   //     attributes.push(attr);
   //   }
