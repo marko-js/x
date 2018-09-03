@@ -1,9 +1,10 @@
-import toCamel from "camelcase";
+import { relative } from "path";
+import * as moduleImports from "@babel/helper-module-imports";
 import * as t from "./definitions";
 import write from "./util/html-out-write";
 import withPreviousLocation from "./util/with-previous-location";
-import * as translators from "./translators";
 import { visitor as optimizingVisitor } from "./optimize";
+import { replaceInRenderBody } from "./taglib/core/util";
 
 export const visitor = {
   Program: {
@@ -11,10 +12,12 @@ export const visitor = {
       const { hub } = path;
       const {
         file: {
-          ast: { parse, parseExpression }
+          ast: { lookup, parse, parseExpression }
         }
       } = hub;
+
       Object.assign(hub, {
+        lookup,
         parse,
         parseExpression,
         renderBody: []
@@ -35,10 +38,65 @@ export const visitor = {
   },
   HTMLElement: {
     exit(path) {
-      const name = toCamel(path.node.startTag.name);
-      const tagTranslators = translators.html.tag;
-      const translate = tagTranslators[name] || tagTranslators.base;
-      translate(path);
+      const { hub, node } = path;
+      const { startTag } = node;
+      const { name } = startTag;
+      const {
+        lookup,
+        file: {
+          opts: { filename }
+        }
+      } = hub;
+      let tagDef;
+      let transformers;
+
+      if (t.isStringLiteral(name)) {
+        tagDef = lookup.getTag(name.value);
+      } else {
+        replaceInRenderBody(
+          path,
+          t.callExpression(
+            moduleImports.addNamed(
+              path,
+              "dynamicTag",
+              "@marko/runtime/helpers"
+            ),
+            [
+              name,
+              attrsToObject(path.get("startTag").get("attributes")),
+              t.identifier("out")
+            ]
+          )
+        );
+        return;
+      }
+
+      if (tagDef) {
+        transformers = tagDef.transformers;
+      } else {
+        transformers = lookup.getTag("*").transformers;
+      }
+
+      Object.values(transformers).forEach(transformer => {
+        const module = require(transformer.path);
+        const { default: fn = module } = module;
+        fn(path);
+      });
+
+      if (tagDef && tagDef.taglibId !== "marko-core") {
+        const relativePath = relative(filename, tagDef.template);
+        const identifier = moduleImports.addDefault(path, relativePath, {
+          nameHint: tagDef.name
+        });
+
+        replaceInRenderBody(
+          path,
+          t.callExpression(identifier, [
+            attrsToObject(path.get("startTag").get("attributes")),
+            t.identifier("out")
+          ])
+        );
+      }
     }
   },
   HTMLText(path) {
@@ -56,6 +114,7 @@ export const visitor = {
     }
   },
   HTMLPlaceholder(path) {
+    // TODO Safe/Unsafe helper
     const { node, hub } = path;
     const replacement = withPreviousLocation(write`${node.value}`, node);
     if (t.isProgram(path.parent)) {
@@ -82,3 +141,21 @@ export const visitor = {
     path.remove();
   }
 };
+
+function attrsToObject(attrs) {
+  if (!attrs.length) {
+    return t.nullLiteral();
+  }
+
+  const len = attrs.length;
+  const properties = new Array(len);
+
+  for (let i = 0; i < len; i++) {
+    const { name, value } = attrs[i].node;
+    properties[i] = name
+      ? t.objectProperty(t.stringLiteral(name), value)
+      : t.spreadElement(value);
+  }
+
+  return t.objectExpression(properties);
+}

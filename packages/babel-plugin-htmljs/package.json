@@ -13,7 +13,9 @@
     "@babel/types": "^7.0.0",
     "@babel/parser": "^7.0.0",
     "camelcase": "^5.0.0",
-    "htmljs-parser": "^2.4.0"
+    "escape-html": "^1.0.3",
+    "htmljs-parser": "^2.4.0",
+    "marko": "^4.13.4-1"
   },
   "files": [
     "dist"

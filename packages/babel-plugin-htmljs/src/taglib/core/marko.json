@@ -1,0 +1,54 @@
+{
+  "taglib-id": "marko-core",
+  "<html-comment>": {
+    "transformer": "./transform-html-comment.js"
+  },
+  "<if>": {
+    "transformer": "./conditional/transform-if.js",
+    "@if": "expression"
+  },
+  "<else>": {
+    "transformer": "./conditional/transform-else.js",
+    "@if": "expression"
+  },
+  "<for>": {
+    "transformer": "./transform-for.js",
+    "@of": "array",
+    "@in": "object",
+    "@from": "number",
+    "@to": "number",
+    "@step": "number",
+    "@by": "string"
+  },
+  "<class>": {
+    "transformer": "./transform-class.js",
+    "parse-options": {
+      "relaxRequireCommas": true,
+      "rawOpenTag": true
+    }
+  },
+  "<export>": {
+    "transformer": "./transform-export.js",
+    "parse-options": {
+      "relaxRequireCommas": true,
+      "rawOpenTag": true
+    }
+  },
+  "<import>": {
+    "transformer": "./transform-import.js",
+    "parse-options": {
+      "relaxRequireCommas": true,
+      "rawOpenTag": true
+    }
+  },
+  "<static>": {
+    "transformer": "./transform-static.js",
+    "parse-options": {
+      "relaxRequireCommas": true,
+      "rawOpenTag": true
+    }
+  },
+  "<*>": {
+    "transformer": "./tag/transform-html.js"
+  }
+}

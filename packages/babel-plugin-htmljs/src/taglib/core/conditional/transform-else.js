@@ -1,10 +1,9 @@
-import * as t from "../../../../definitions";
-import { buildIfStatement, toStatement, strictAttributes } from "./_util";
+import * as t from "../../../definitions";
+import { buildIfStatement } from "./util";
+import { assertAllowedAttributes, toStatement } from "../util";
 
-export default translate;
-
-function translate(path) {
-  strictAttributes(path, ["if"]);
+export default function translate(path) {
+  assertAllowedAttributes(path, ["if"]);
 
   const { ifStatement } = path.node;
 

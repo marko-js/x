@@ -1,9 +1,11 @@
-import * as t from "../../../definitions";
-import { toStatement, strictAttributes, replaceInRenderBody } from "./_util";
+import * as t from "../../definitions";
+import {
+  toStatement,
+  assertAllowedAttributes,
+  replaceInRenderBody
+} from "./util";
 
-export default translate;
-
-function translate(path) {
+export default function(path) {
   const { node } = path;
   const { startTag, children } = node;
   const { attributes } = startTag;
@@ -110,7 +112,7 @@ function translate(path) {
     );
   }
 
-  strictAttributes(path, allowedAttributes);
+  assertAllowedAttributes(path, allowedAttributes);
   replaceInRenderBody(path, forNode);
 }
 

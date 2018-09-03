@@ -1,19 +1,8 @@
-import * as t from "../../../definitions";
+import * as t from "../../definitions";
+import { assertIsRoot } from "./util";
 
-export default translate;
-translate.options = {
-  html: { ignoreAttributes: true },
-  rawOpenTag: true
-};
-
-// WIP
-function translate(path) {
-  const program = path.parent;
-  if (!t.isProgram(program)) {
-    throw path.buildCodeFrameError(
-      "static must be at the root of your Marko template."
-    );
-  }
+export default function(path) {
+  assertIsRoot(path);
 
   const { node, hub } = path;
   const { startTag } = node;

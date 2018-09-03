@@ -1,0 +1,23 @@
+{
+  "<*>": {
+    "@no-update": {
+      "type": "boolean",
+      "transformer": "./no-update.js"
+    },
+    "@no-update-if": {
+      "type": "expression",
+      "transformer": "./no-update-if.js"
+    },
+    "@body-only-if": {
+      "type": "expression",
+      "transformer": "./body-only-if.js"
+    },
+    "@marko-preserve-whitespace": {
+      "type": "boolean",
+      "transformer": "./marko-preserve-whitespace.js",
+      "parse-options": {
+        "preserveWhitespace": true
+      }
+    }
+  }
+}
