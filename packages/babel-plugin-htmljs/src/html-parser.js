@@ -29,6 +29,7 @@ export function parse({
   const { body } = program;
   const stack = [{ context: body }];
   let preservingWhitespace = preserveWhitespace;
+  let wasSelfClosing = false;
   let context = body;
 
   const htmlParser = createParser(
@@ -105,17 +106,26 @@ export function parse({
       onOpenTag(event, parser) {
         let {
           tagName,
+          tagNameExpression,
           argument,
           attributes,
           pos,
           endPos,
           tagNameEndPos,
+          selfClosed,
           shorthandId,
           shorthandClassNames
         } = event;
-        const tagDef = lookup.getTag(tagName);
+        const tagDef = !tagNameExpression && lookup.getTag(tagName);
         let rawValue;
         let params;
+        wasSelfClosing = selfClosed;
+
+        if (tagNameExpression) {
+          tagName = parseExpression(tagNameExpression, pos + 2 /* ${ */);
+        } else {
+          tagName = createNode(t.stringLiteral, pos, tagNameEndPos, tagName);
+        }
 
         if (tagDef && tagDef.parseOptions && tagDef.parseOptions.rawOpenTag) {
           rawValue = parser.substring(pos, endPos).replace(/^<|\/>$|>$/g, "");
@@ -247,14 +257,32 @@ export function parse({
         const { startTag, context: children } = stack.pop();
         context = stack[stack.length - 1].context;
 
-        if (!startTag || (tagName && startTag.name !== tagName)) {
-          throw createError(`Invalid closing tag ${tagName}.`, pos, endPos);
-        }
-
         if (!pos) pos = parser.pos;
         if (!endPos) endPos = pos;
 
-        const endTag = createNode(t.htmlEndTag, pos, endPos, tagName);
+        if (!startTag) {
+          throw createError(
+            `Missing closing tag around ${tagName}.`,
+            pos,
+            endPos
+          );
+        }
+
+        if (tagName) {
+          if (t.isStringLiteral(startTag.name)) {
+            if (startTag.name.value !== tagName) {
+              throw createError(`Invalid closing tag ${tagName}.`, pos, endPos);
+            }
+          } else if (!wasSelfClosing) {
+            throw createError(
+              `Invalid ending for dynamic tag ${tagName}.`,
+              pos,
+              endPos
+            );
+          }
+        }
+
+        const endTag = createNode(t.htmlEndTag, pos, endPos, startTag.name);
 
         context.push(
           createNode(

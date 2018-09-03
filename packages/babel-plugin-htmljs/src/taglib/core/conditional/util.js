@@ -26,7 +26,7 @@ export function buildIfStatement(path) {
       const { node } = nextPath;
       const { name } = node.startTag;
 
-      if (name === "else") {
+      if (name.value === "else") {
         node.ifStatement = ifStatement;
 
         if (removePath) {

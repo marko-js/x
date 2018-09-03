@@ -13,6 +13,7 @@ export default function(path) {
     node: { startTag, children, endTag }
   } = path;
 
+  const tagName = startTag.name.value;
   const attributes = [];
 
   for (const attr of path.get("startTag").get("attributes")) {
@@ -33,12 +34,13 @@ export default function(path) {
     // }
   }
 
+  // TODO self closing tags.
   let writeStartNode = withPreviousLocation(
-    write`<${startTag.name}${translateAttributes(attributes)}>`,
+    write`<${tagName}${translateAttributes(attributes)}>`,
     startTag
   );
 
-  let writeEndNode = withPreviousLocation(write`</${endTag.name}>`, endTag);
+  let writeEndNode = withPreviousLocation(write`</${tagName}>`, endTag);
 
   const { bodyOnlyIf } = path.node;
   if (bodyOnlyIf) {

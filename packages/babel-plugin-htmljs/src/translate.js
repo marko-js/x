@@ -47,8 +47,15 @@ export const visitor = {
           opts: { filename }
         }
       } = hub;
-      const tagDef = lookup.getTag(name);
+      let tagDef;
       let transformers;
+
+      if (t.isStringLiteral(name)) {
+        tagDef = lookup.getTag(name.value);
+      } else {
+        // TODO: dynamic tag.
+        return path.remove();
+      }
 
       if (tagDef) {
         transformers = tagDef.transformers;
@@ -93,6 +100,7 @@ export const visitor = {
     }
   },
   HTMLPlaceholder(path) {
+    // TODO Safe/Unsafe helper
     const { node, hub } = path;
     const replacement = withPreviousLocation(write`${node.value}`, node);
     if (t.isProgram(path.parent)) {

@@ -117,7 +117,7 @@ export default {
     aliases: ["Marko", "Expression"],
     fields: {
       name: {
-        validate: assertValueType("string")
+        validate: assertNodeType("Expression")
       },
       params: {
         ...functionCommon.params,
@@ -139,7 +139,7 @@ export default {
     aliases: ["Marko", "Expression"],
     fields: {
       name: {
-        validate: assertValueType("string")
+        validate: assertNodeType("Expression")
       }
     }
   },

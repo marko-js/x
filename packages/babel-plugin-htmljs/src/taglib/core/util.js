@@ -12,7 +12,7 @@ export function assertIsRoot(path) {
   if (!t.isProgram(path.parent)) {
     throw path.buildCodeFrameError(
       `"${
-        path.node.startTag.name
+        path.node.startTag.name.value
       }" tags must be at the root of your Marko template.`
     );
   }
@@ -27,7 +27,7 @@ export function assertAllowedAttributes(path, allowed) {
       throw path
         .get(`startTag.attributes.${i}`)
         .buildCodeFrameError(
-          `Invalid "${startTag.name}" tag attribute: "${attr.name}".`
+          `Invalid "${startTag.name.value}" tag attribute: "${attr.name}".`
         );
     }
   });
@@ -40,7 +40,7 @@ export function assertNoParams(path) {
   const { params } = startTag;
   if (params.length) {
     throw path.buildCodeFrameError(
-      `"${startTag.name}" tag does not support parameters.`
+      `"${startTag.name.value}" tag does not support parameters.`
     );
   }
 }
