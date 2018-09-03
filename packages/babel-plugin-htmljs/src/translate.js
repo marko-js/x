@@ -1,8 +1,10 @@
-import taglib from "./taglib";
+import { relative } from "path";
+import * as moduleImports from "@babel/helper-module-imports";
 import * as t from "./definitions";
 import write from "./util/html-out-write";
 import withPreviousLocation from "./util/with-previous-location";
 import { visitor as optimizingVisitor } from "./optimize";
+import { replaceInRenderBody } from "./taglib/core/util";
 
 export const visitor = {
   Program: {
@@ -36,19 +38,43 @@ export const visitor = {
   },
   HTMLElement: {
     exit(path) {
-      const { hub } = path;
-      const { lookup } = hub;
-      const tagDef =
-        lookup.getTag(path.node.startTag.name) || lookup.getTag("*");
-      const { taglibId } = tagDef;
-      Object.values(tagDef.transformers).forEach(transformer => {
+      const { hub, node } = path;
+      const { startTag } = node;
+      const { name } = startTag;
+      const {
+        lookup,
+        file: {
+          opts: { filename }
+        }
+      } = hub;
+      const tagDef = lookup.getTag(name);
+      let transformers;
+
+      if (tagDef) {
+        transformers = tagDef.transformers;
+      } else {
+        transformers = lookup.getTag("*").transformers;
+      }
+
+      Object.values(transformers).forEach(transformer => {
         const module = require(transformer.path);
         const { default: fn = module } = module;
         fn(path);
       });
 
-      if (taglibId !== "marko-core") {
-        // TODO: add custom tag here.
+      if (tagDef && tagDef.taglibId !== "marko-core") {
+        const relativePath = relative(filename, tagDef.template);
+        const identifier = moduleImports.addDefault(path, relativePath, {
+          nameHint: tagDef.name
+        });
+
+        replaceInRenderBody(
+          path,
+          t.callExpression(identifier, [
+            attrsToObject(path.get("startTag").get("attributes")),
+            t.identifier("out")
+          ])
+        );
       }
     }
   },
@@ -93,3 +119,21 @@ export const visitor = {
     path.remove();
   }
 };
+
+function attrsToObject(attrs) {
+  if (!attrs.length) {
+    return t.nullLiteral();
+  }
+
+  const len = attrs.length;
+  const properties = new Array(len);
+
+  for (let i = 0; i < len; i++) {
+    const { name, value } = attrs[i].node;
+    properties[i] = name
+      ? t.objectProperty(t.stringLiteral(name), value)
+      : t.spreadElement(value);
+  }
+
+  return t.objectExpression(properties);
+}
