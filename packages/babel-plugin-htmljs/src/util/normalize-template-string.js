@@ -6,7 +6,7 @@ export default function normalizeTemplateLiteral(quasis, expressions) {
     if (t.isTemplateLiteral(v)) {
       quasis[i] += v.quasis[0].value.raw;
       quasis[i + 1] = v.quasis[v.quasis.length - 1].value.raw + quasis[i + 1];
-      quasis.splice(i, 0, ...v.quasis.slice(1, -1));
+      quasis.splice(i, 0, ...v.quasis.slice(1, -1).map(fromTemplateElement));
       expressions.splice(i, 1, ...v.expressions);
       i += v.expressions.length;
       continue;
@@ -42,6 +42,10 @@ export default function normalizeTemplateLiteral(quasis, expressions) {
 
 function toTemplateElement(s) {
   return t.templateElement({ cooked: s, raw: s });
+}
+
+function fromTemplateElement(node) {
+  return node.value.raw;
 }
 
 function toNode(s) {

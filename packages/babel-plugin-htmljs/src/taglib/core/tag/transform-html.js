@@ -1,5 +1,6 @@
 import * as t from "../../../definitions";
 import write from "../../../util/html-out-write";
+import { SELF_CLOSING } from "../../../constants";
 import withPreviousLocation from "../../../util/with-previous-location";
 import translateAttributes from "./attributes";
 import { replaceInRenderBody, toStatement } from "../util";
@@ -14,31 +15,30 @@ export default function(path) {
   } = path;
 
   const tagName = startTag.name.value;
-  const attributes = [];
+  const attributes = path.get("startTag").get("attributes");
 
-  for (const attr of path.get("startTag").get("attributes")) {
-    const { name } = attr.node;
-    if (!name) {
-      // TODO: handle spread.
-      attr.remove();
-      continue;
-    }
+  // TODO: re-add directives.
+  // for (const attr of path.get("startTag").get("attributes")) {
+  //   const { name } = attr.node;
 
-    // TODO: re-add directives.
-    // const directive = translateDirectives[toCamel(name)];
-    // if (directive) {
-    //   directive(path, attr);
-    //   attr.remove();
-    // } else {
-    //   attributes.push(attr);
-    // }
-  }
+  //   const directive = translateDirectives[toCamel(name)];
+  //   if (name && directive) {
+  //     directive(path, attr);
+  //     attr.remove();
+  //   } else {
+  //     attributes.push(attr);
+  //   }
+  // }
 
-  // TODO self closing tags.
   let writeStartNode = withPreviousLocation(
     write`<${tagName}${translateAttributes(attributes)}>`,
     startTag
   );
+
+  if (SELF_CLOSING.indexOf(tagName) !== -1) {
+    replaceInRenderBody(path, writeStartNode);
+    return;
+  }
 
   let writeEndNode = withPreviousLocation(write`</${tagName}>`, endTag);
 

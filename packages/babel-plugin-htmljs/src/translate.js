@@ -53,8 +53,22 @@ export const visitor = {
       if (t.isStringLiteral(name)) {
         tagDef = lookup.getTag(name.value);
       } else {
-        // TODO: dynamic tag.
-        return path.remove();
+        replaceInRenderBody(
+          path,
+          t.callExpression(
+            moduleImports.addNamed(
+              path,
+              "dynamicTag",
+              "@marko/runtime/helpers"
+            ),
+            [
+              name,
+              attrsToObject(path.get("startTag").get("attributes")),
+              t.identifier("out")
+            ]
+          )
+        );
+        return;
       }
 
       if (tagDef) {
