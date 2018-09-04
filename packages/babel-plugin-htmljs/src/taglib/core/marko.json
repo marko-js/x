@@ -47,8 +47,5 @@
       "relaxRequireCommas": true,
       "rawOpenTag": true
     }
-  },
-  "<*>": {
-    "transformer": "./tag/transform-html.js"
   }
 }

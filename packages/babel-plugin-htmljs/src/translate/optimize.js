@@ -1,7 +1,7 @@
-import * as t from "./definitions";
-import normalizeTemplateLiteral from "./util/normalize-template-string";
+import * as t from "../definitions";
+import normalizeTemplateLiteral from "../util/normalize-template-string";
 
-export const visitor = {
+export default {
   CallExpression(path) {
     let curPath = path;
     const quasis = [""];
