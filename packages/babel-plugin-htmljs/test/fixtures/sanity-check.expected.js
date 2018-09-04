@@ -1,3 +1,10 @@
+import { escape as _escape3 } from "@marko/runtime/helpers";
+import { stringifyAttrs as _stringifyAttrs2 } from "@marko/runtime/helpers";
+import { stringifyAttrs as _stringifyAttrs } from "@marko/runtime/helpers";
+import { escape as _escape2 } from "@marko/runtime/helpers";
+import { escape as _escape } from "@marko/runtime/helpers";
+import _other from "../components/other.marko";
+import { dynamicTag as _dynamicTag } from "@marko/runtime/helpers";
 import a from "b";
 export { something };
 doThings();
@@ -15,22 +22,36 @@ export const component = class {
 };
 
 function render(out) {
-  out.w(`<div id="a" class="b c" a="${{
-    a: 1
-  }}" c="${d}">${a}<!--abc--><div c="1"></div><div d="1"></div>`)
+  out.w("<input type=\"text\">")
+
+  _dynamicTag(a, null, out)
+
+  _other({
+    "x": 1,
+    ...thing,
+    "b": {
+      a: 1
+    },
+    ...c,
+    "renderBody": out => {
+      out.w("<div></div>");
+    }
+  }, out)
+
+  out.w(`<div id="a" class="b c" a="[object Object]" c="${d}"${_stringifyAttrs(e)}>${_escape(a)}<!--abc--><div c="1"></div><div d="1"></div>`)
 
   if (x === a) {
-    out.w(`a${b}`);
+    out.w(`a${_escape2(b)}`);
   } else if (x === 2) {
     out.w("b");
   } else {
     out.w("c");
   }
 
-  out.w("</div><div b=\"1\"></div><span></span>")
+  out.w(`</div><div b="1"></div><span${_stringifyAttrs2(abc)}></span>`)
 
   if (cond) {
-    out.w(`Hello${planet}`);
+    out.w(`Hello${_escape3(planet)}`);
   }
 
   for (let _i = 0; _i <= 10; _i += 2) {
@@ -51,16 +72,6 @@ function render(out) {
     out.w("<div c=\"1\"></div>");
   }
 
-  out.w("<div>\n\n  Hi\n\n</div>")
-
-  if (false) {
-    out.w("<div>");
-  }
-
-  out.w("Hi")
-
-  if (false) {
-    out.w("</div>");
-  }
+  out.w("<div marko-preserve-whitespace>Hi</div><div body-only-if>Hi</div>")
 }
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9kcGllcmNleS9EZXZlbG9wbWVudC9naXRodWIveC9wYWNrYWdlcy9iYWJlbC1wbHVnaW4taHRtbGpzL3Rlc3QvZml4dHVyZXMvc2FuaXR5LWNoZWNrLm1hcmtvIl0sIm5hbWVzIjpbImEiLCJzb21ldGhpbmciLCJkb1RoaW5ncyIsImFuZFN0dWZmIiwibW9yZSIsImFiYyIsIm9uQ3JlYXRlIiwic3R1ZmYiLCJ4IiwiYiIsImNvbmQiLCJwbGFuZXQiLCJpIiwia2V5Iiwib2JqIiwidmFsIiwiYXJyIl0sIm1hcHBpbmdzIjoiQUFBQSxPQUFPQSxDQUFQLE1BQWMsR0FBZDtBQUNBLFNBQVNDLFNBQVQ7QUFHRUMsUUFBUTtBQUNSQyxRQUFROztBQUNSLFNBQVNDLElBQVQsR0FBZ0I7QUFDZEMsRUFBQUEsR0FBRztBQUNKOzt5QkFHSCxNQUFNO0FBQ0pDLEVBQUFBLFFBQVEsR0FBRztBQUNULFNBQUtDLEtBQUw7QUFDRDs7QUFIRyxDOzs7QUFNTixzQ0FBb0I7QUFBQ1AsSUFBQUEsQ0FBQyxFQUFFO0FBQUosR0FBcEIsY0FDR0EsQ0FESDs7TUFNTVEsQ0FBQyxLQUFLUixDO0FBdkJaLGNBdUJtQlMsQ0F2Qm5CLEc7YUF3QldELENBQUMsS0FBSyxDO0FBeEJqQixjOztBQUFBLGM7OztBQTRCQTs7TUFLR0UsSTtBQWpDSCxrQkFrQ1NDLE1BbENULEc7OztnQkFxQ1ksQyxRQUFLLEUsUUFBUSxDO1VBQXRCQyxDO0FBQ0QsZ0M7OzthQUdDQyxHLElBQWNDLEc7VUFBVEMsRyxHQUFTRCxHLENBQWRELEc7QUFDRCxnQzs7Ozs7YUFHQ0UsRyxJQUFZQyxHO1FBQVBKLEM7QUFDTkEsSUFBQUEsQ0FBQztBQUNELGdDOzs7QUFHRjs7O0FBTUEsa0I7OztBQXhEQTs7O0FBMERBLG1CIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IGEgZnJvbSBcImJcIjtcbmV4cG9ydCB7IHNvbWV0aGluZyB9O1xuXG5zdGF0aWMge1xuICBkb1RoaW5ncygpO1xuICBhbmRTdHVmZigpO1xuICBmdW5jdGlvbiBtb3JlKCkge1xuICAgIGFiYygpO1xuICB9XG59XG5cbmNsYXNzIHtcbiAgb25DcmVhdGUoKSB7XG4gICAgdGhpcy5zdHVmZigpO1xuICB9XG59XG5cbjxkaXYjYS5iIGNsYXNzPVwiY1wiIGE9e2E6IDF9IGMgID0gIFwiJHtkfVwiPlxuICAke2F9XG4gIDwhLS0xMjMtLT5cbiAgPGh0bWwtY29tbWVudD5hYmM8L2h0bWwtY29tbWVudD5cbiAgPGRpdiBjPTEvPlxuICA8ZGl2IGQ9MS8+XG4gIDxpZj0oeCA9PT0gYSk+YSAke2J9PC8+XG4gIDxlbHNlIGlmPSh4ID09PSAyKT5cbiAgICBiXG4gIDwvZWxzZT5cbiAgPGVsc2U+YzwvZWxzZT5cbjwvZGl2PlxuPGRpdiBiPTEvPlxuXG48c3BhbiAuLi5hYmMvPlxuXG48aWY9Y29uZD5cbiAgSGVsbG8gJHtwbGFuZXR9XG48L2lmPlxuXG48Zm9yKGkpIGZyb209MCB0bz0xMCBzdGVwPTI+XG4gIDxkaXYgYz0xLz5cbjwvZm9yPlxuXG48Zm9yKGtleSwgdmFsKSBpbj1vYmo+XG4gIDxkaXYgYz0xLz5cbjwvZm9yPlxuXG48Zm9yKHZhbCwgaSkgb2Y9YXJyIGJ5PVwibmFtZVwiPlxuICAkIGlcbiAgPGRpdiBjPTEvPlxuPC9mb3I+XG5cbjxkaXYgbWFya28tcHJlc2VydmUtd2hpdGVzcGFjZT5cblxuICBIaVxuXG48L2Rpdj5cblxuPGRpdiBib2R5LW9ubHktaWY9dHJ1ZT5cbiAgSGlcbjwvZGl2PiJdfQ==
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9kcGllcmNleS9EZXZlbG9wbWVudC9naXRodWIveC9wYWNrYWdlcy9iYWJlbC1wbHVnaW4taHRtbGpzL3Rlc3QvZml4dHVyZXMvc2FuaXR5LWNoZWNrLm1hcmtvIl0sIm5hbWVzIjpbImEiLCJzb21ldGhpbmciLCJkb1RoaW5ncyIsImFuZFN0dWZmIiwibW9yZSIsImFiYyIsIm9uQ3JlYXRlIiwic3R1ZmYiLCJ0aGluZyIsImMiLCJlIiwieCIsImIiLCJjb25kIiwicGxhbmV0IiwiaSIsImtleSIsIm9iaiIsInZhbCIsImFyciJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBLE9BQU9BLENBQVAsTUFBYyxHQUFkO0FBQ0EsU0FBU0MsU0FBVDtBQUdFQyxRQUFRO0FBQ1JDLFFBQVE7O0FBQ1IsU0FBU0MsSUFBVCxHQUFnQjtBQUNkQyxFQUFBQSxHQUFHO0FBQ0o7O3lCQUdILE1BQU07QUFDSkMsRUFBQUEsUUFBUSxHQUFHO0FBQ1QsU0FBS0MsS0FBTDtBQUNEOztBQUhHLEM7OztBQU1OOztjQUVFUCxDOzs7U0FFTSxDO09BQUtRLEs7U0FBUTtBQUFFUixNQUFBQSxDQUFDLEVBQUU7QUFBTCxLO09BQVlTLEM7O0FBQy9CLDBCOzs7O0FBR0YsK0VBQTJDQyxDQUEzQyxhQUNHVixDQURIOztNQU1NVyxDQUFDLEtBQUtYLEM7QUEvQlosdUJBK0JtQlksQ0EvQm5CLEk7YUFnQ1dELENBQUMsS0FBSyxDO0FBaENqQixjOztBQUFBLGM7OztBQW9DQSx3REFHUU4sR0FIUjs7TUFLR1EsSTtBQXpDSCwyQkEwQ1NDLE1BMUNULEk7OztnQkE2Q1ksQyxRQUFLLEUsUUFBUSxDO1VBQXRCQyxDO0FBQ0QsZ0M7OzthQUdDQyxHLElBQWNDLEc7VUFBVEMsRyxHQUFTRCxHLENBQWRELEc7QUFDRCxnQzs7Ozs7YUFHQ0UsRyxJQUFZQyxHO1FBQVBKLEM7QUFDTkEsSUFBQUEsQ0FBQztBQUNELGdDOzs7QUFHRiIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBhIGZyb20gXCJiXCI7XG5leHBvcnQgeyBzb21ldGhpbmcgfTtcblxuc3RhdGljIHtcbiAgZG9UaGluZ3MoKTtcbiAgYW5kU3R1ZmYoKTtcbiAgZnVuY3Rpb24gbW9yZSgpIHtcbiAgICBhYmMoKTtcbiAgfVxufVxuXG5jbGFzcyB7XG4gIG9uQ3JlYXRlKCkge1xuICAgIHRoaXMuc3R1ZmYoKTtcbiAgfVxufVxuXG48aW5wdXQgdHlwZT1cInRleHRcIj5cblxuPCR7YX0vPlxuXG48b3RoZXIgeD0xIC4uLnRoaW5nIGI9eyBhOiAxIH0gLi4uYz5cbiAgPGRpdi8+XG48L290aGVyPlxuXG48ZGl2I2EuYiBjbGFzcz1cImNcIiBhPXthOiAxfSBjICA9ICBcIiR7ZH1cIiAuLi5lPlxuICAke2F9XG4gIDwhLS0xMjMtLT5cbiAgPGh0bWwtY29tbWVudD5hYmM8L2h0bWwtY29tbWVudD5cbiAgPGRpdiBjPTEvPlxuICA8ZGl2IGQ9MS8+XG4gIDxpZj0oeCA9PT0gYSk+YSAke2J9PC8+XG4gIDxlbHNlIGlmPSh4ID09PSAyKT5cbiAgICBiXG4gIDwvZWxzZT5cbiAgPGVsc2U+YzwvZWxzZT5cbjwvZGl2PlxuPGRpdiBiPTEvPlxuXG48c3BhbiAuLi5hYmMvPlxuXG48aWY9Y29uZD5cbiAgSGVsbG8gJHtwbGFuZXR9XG48L2lmPlxuXG48Zm9yKGkpIGZyb209MCB0bz0xMCBzdGVwPTI+XG4gIDxkaXYgYz0xLz5cbjwvZm9yPlxuXG48Zm9yKGtleSwgdmFsKSBpbj1vYmo+XG4gIDxkaXYgYz0xLz5cbjwvZm9yPlxuXG48Zm9yKHZhbCwgaSkgb2Y9YXJyIGJ5PVwibmFtZVwiPlxuICAkIGlcbiAgPGRpdiBjPTEvPlxuPC9mb3I+XG5cbjxkaXYgbWFya28tcHJlc2VydmUtd2hpdGVzcGFjZT5cblxuICBIaVxuXG48L2Rpdj5cblxuPGRpdiBib2R5LW9ubHktaWY9dHJ1ZT5cbiAgSGlcbjwvZGl2PiJdfQ==

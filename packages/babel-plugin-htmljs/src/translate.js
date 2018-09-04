@@ -4,7 +4,7 @@ import * as t from "./definitions";
 import write from "./util/html-out-write";
 import withPreviousLocation from "./util/with-previous-location";
 import { visitor as optimizingVisitor } from "./optimize";
-import { replaceInRenderBody } from "./taglib/core/util";
+import { replaceInRenderBody, toStatement } from "./taglib/core/util";
 
 export const visitor = {
   Program: {
@@ -39,7 +39,7 @@ export const visitor = {
   HTMLElement: {
     exit(path) {
       const { hub, node } = path;
-      const { startTag } = node;
+      const { startTag, children } = node;
       const { name } = startTag;
       const {
         lookup,
@@ -61,11 +61,7 @@ export const visitor = {
               "dynamicTag",
               "@marko/runtime/helpers"
             ),
-            [
-              name,
-              attrsToObject(path.get("startTag").get("attributes")),
-              t.identifier("out")
-            ]
+            [name, getAttrs(path), t.identifier("out")]
           )
         );
         return;
@@ -91,10 +87,7 @@ export const visitor = {
 
         replaceInRenderBody(
           path,
-          t.callExpression(identifier, [
-            attrsToObject(path.get("startTag").get("attributes")),
-            t.identifier("out")
-          ])
+          t.callExpression(identifier, [getAttrs(path), t.identifier("out")])
         );
       }
     }
@@ -151,19 +144,35 @@ export const visitor = {
   }
 };
 
-function attrsToObject(attrs) {
-  if (!attrs.length) {
+function getAttrs(path) {
+  const attrs = path.get("startTag").get("attributes");
+  const children = path.get("children");
+  const attrsLen = attrs.length;
+  const childLen = children.length;
+
+  if (!attrsLen && !childLen) {
     return t.nullLiteral();
   }
 
-  const len = attrs.length;
-  const properties = new Array(len);
+  const properties = new Array(attrsLen);
 
-  for (let i = 0; i < len; i++) {
+  for (let i = 0; i < attrsLen; i++) {
     const { name, value } = attrs[i].node;
     properties[i] = name
       ? t.objectProperty(t.stringLiteral(name), value)
       : t.spreadElement(value);
+  }
+
+  if (childLen) {
+    properties.push(
+      t.objectProperty(
+        t.stringLiteral("renderBody"),
+        t.arrowFunctionExpression(
+          [t.identifier("out")],
+          t.blockStatement(children.map(({ node }) => toStatement(node)))
+        )
+      )
+    );
   }
 
   return t.objectExpression(properties);
