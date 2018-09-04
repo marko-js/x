@@ -3,16 +3,18 @@ import { SELF_CLOSING } from "../constants";
 
 export { escape };
 
-export function classList(input) {
-  if (input) {
-    const type = typeof input;
-    if (type === "string") return input;
+export function classAttr(input) {
+  const type = typeof input;
+  let result;
 
-    let result = "";
+  if (type === "string") {
+    result = input;
+  } else {
+    result = "";
 
     if (Array.isArray(input)) {
       for (const val of input) {
-        const names = classList(val);
+        const names = classAttr(val);
         if (names) result += ` ${names}`;
       }
     } else if (type === "object") {
@@ -23,8 +25,46 @@ export function classList(input) {
       }
     }
 
-    return result.slice(1);
+    result = result.slice(1);
   }
+
+  return stringifyAttr("class", result || null);
+}
+
+const DASHED_NAMES = Object.create(null);
+export function styleAttr(input) {
+  const type = typeof input;
+  let result;
+
+  if (type === "string") {
+    result = input;
+  } else {
+    result = "";
+
+    if (Array.isArray(input)) {
+      for (const val of input) {
+        const styles = styleAttr(val);
+        if (styles) result += `;${styles}`;
+      }
+    } else if (type === "object") {
+      for (const name in input) {
+        let val = input[name];
+        if (val == null) continue;
+        if (typeof val === "number" && val !== 0) {
+          val = `${val}px`;
+        }
+
+        result += `;${DASHED_NAMES[name] ||
+          (DASHED_NAMES[name] = name
+            .replace(/([A-Z])/g, "-$1")
+            .toLowerCase())}:${val}`;
+      }
+    }
+
+    result = result.slice(1);
+  }
+
+  return stringifyAttr("style", result || null);
 }
 
 export function dynamicTag(tagName, attrs, out) {

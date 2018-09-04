@@ -49,12 +49,10 @@ function getNestedAttrs(node, tagDef) {
         );
       }
 
-      const [tagNode] = tagNodes;
-
       attrs.properties.push(
         t.objectProperty(
           t.stringLiteral(name),
-          getNestedAttrs(tagNode, nestedTagDef, tagNode.attributeTags)
+          getNestedAttrs(tagNodes[0], nestedTagDef)
         )
       );
     }
