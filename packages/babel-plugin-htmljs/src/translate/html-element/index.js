@@ -33,11 +33,18 @@ export default {
       throw path.buildCodeFrameError(`Could not find custom tag "${tagName}".`);
     }
 
-    Object.values(tagDef.transformers).forEach(transformer => {
+    const transformers = [
+      ...Object.values(tagDef.transformers),
+      ...Object.values(lookup.getTag("*").transformers)
+    ];
+
+    for (const transformer of transformers) {
       const module = require(transformer.path);
       const { default: fn = module } = module;
+      const node = path.node;
       fn(path);
-    });
+      if (node !== path.node) break;
+    }
 
     if (tagDef.taglibId === "marko-core") {
       if (!["if", "else", "for"].includes(tagName)) {

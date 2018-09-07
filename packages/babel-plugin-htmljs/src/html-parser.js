@@ -52,8 +52,7 @@ export function parse({
 
       onText({ value }, { pos }) {
         if (!preservingWhitespace) {
-          // TODO: don't trim between adjacent text nodes.
-          value = value.trim();
+          value = value.trim().replace(/\s+/g, " ");
           if (value === "") {
             return;
           } else {
@@ -97,7 +96,6 @@ export function parse({
         if (!parseOptions) return;
 
         event.setParseOptions(parseOptions);
-
         if ("preserveWhitespace" in parseOptions) {
           preservingWhitespace = parseOptions.preserveWhitespace;
         }
@@ -153,16 +151,6 @@ export function parse({
                 attrEndPos,
                 value
               );
-            } else {
-              const attrDef = tagDef && tagDef.getAttribute(attr.name);
-              if (attrDef) {
-                // Todo allow parse options in attr defs.
-                // Also transforms.
-                const { parseOptions = {} } = attrDef;
-                if (parseOptions.html) event.setParseOptions(parseOptions.html);
-                if (parseOptions.preserveWhitespace)
-                  preservingWhitespace = parseOptions.preserveWhitespace;
-              }
             }
 
             let value;

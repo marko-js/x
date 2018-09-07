@@ -47,5 +47,14 @@
       "relaxRequireCommas": true,
       "rawOpenTag": true
     }
+  },
+  "<marko-preserve-whitespace>": {
+    "transformer": "./transform-marko-preserve-whitespace.js",
+    "parse-options": {
+      "preserveWhitespace": true
+    }
+  },
+  "<*>": {
+    "transformer": "./directives/transform-directives.js"
   }
 }
