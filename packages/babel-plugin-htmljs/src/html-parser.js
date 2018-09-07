@@ -28,7 +28,7 @@ export function parse({
   const { program } = file;
   const { body } = program;
   const stack = [{ context: body }];
-  let preservingWhitespace = preserveWhitespace;
+  let preservingWhitespaceUntil = preserveWhitespace;
   let wasSelfClosing = false;
   let context = body;
 
@@ -51,7 +51,7 @@ export function parse({
       },
 
       onText({ value }, { pos }) {
-        if (!preservingWhitespace) {
+        if (!preservingWhitespaceUntil) {
           value = value.trim().replace(/\s+/g, " ");
           if (value === "") {
             return;
@@ -89,16 +89,14 @@ export function parse({
       },
 
       onOpenTagName(event) {
-        const tagDef = lookup.getTag(event.tagName);
+        const { tagName } = event;
+        const tagDef = lookup.getTag(tagName);
         if (!tagDef) return;
 
         const { parseOptions } = tagDef;
         if (!parseOptions) return;
 
         event.setParseOptions(parseOptions);
-        if ("preserveWhitespace" in parseOptions) {
-          preservingWhitespace = parseOptions.preserveWhitespace;
-        }
       },
 
       onOpenTag(event, parser) {
@@ -115,6 +113,7 @@ export function parse({
           shorthandClassNames
         } = event;
         const tagDef = !tagNameExpression && lookup.getTag(tagName);
+        const parseOptions = tagDef && tagDef.parseOptions;
         let rawValue;
         let params;
         wasSelfClosing = selfClosed;
@@ -225,25 +224,34 @@ export function parse({
           );
         }
 
-        stack.push({
-          startTag: createNode(
-            t.htmlStartTag,
-            pos,
-            endPos,
-            tagName,
-            params,
-            attributes,
-            rawValue
-          ),
-          context: (context = [])
-        });
+        const startTag = createNode(
+          t.htmlStartTag,
+          pos,
+          endPos,
+          tagName,
+          params,
+          attributes,
+          rawValue
+        );
+        context = [];
+        stack.push({ startTag, context });
+
+        if (
+          !preservingWhitespaceUntil &&
+          parseOptions &&
+          parseOptions.preserveWhitespace
+        ) {
+          preservingWhitespaceUntil = startTag;
+        }
       },
 
       onCloseTag({ tagName, pos, endPos }, parser) {
-        preservingWhitespace = preserveWhitespace;
-
         const { startTag, context: children } = stack.pop();
         context = stack[stack.length - 1].context;
+
+        if (preservingWhitespaceUntil === startTag) {
+          preservingWhitespaceUntil = preserveWhitespace;
+        }
 
         if (!pos) pos = parser.pos;
         if (!endPos) endPos = pos;
