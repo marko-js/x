@@ -1,4 +1,4 @@
-import * as t from "../../definitions";
+import * as t from "../../../../definitions";
 import htmlDynamicTag from "./html-dynamic-tag";
 import htmlAttributeTag from "./html-attribute-tag";
 import htmlNativeTag from "./html-native-tag";
@@ -7,8 +7,8 @@ import htmlCustomTag from "./html-custom-tag";
 export default {
   exit(path) {
     const {
-      hub: { lookup },
       node: {
+        tagDef,
         startTag: { name },
         attributeTags
       }
@@ -27,32 +27,13 @@ export default {
       return;
     }
 
-    const tagDef = lookup.getTag(tagName);
-
-    if (!tagDef) {
-      throw path.buildCodeFrameError(`Could not find custom tag "${tagName}".`);
-    }
-
-    const transformers = [
-      ...Object.values(tagDef.transformers),
-      ...Object.values(lookup.getTag("*").transformers)
-    ];
-
-    for (const transformer of transformers) {
-      const module = require(transformer.path);
+    if (tagDef.codeGeneratorModulePath) {
+      const module = require(tagDef.codeGeneratorModulePath);
       const { default: fn = module } = module;
-      const node = path.node;
       fn(path);
-      if (node !== path.node) break;
-    }
-
-    if (tagDef.taglibId === "marko-core") {
-      if (!["if", "else", "for"].includes(tagName)) {
-        assertNoAttributeTags();
-      }
     } else if (tagDef.html) {
       assertNoAttributeTags();
-      htmlNativeTag(path, tagDef);
+      htmlNativeTag(path);
     } else {
       htmlCustomTag(path, tagDef);
     }

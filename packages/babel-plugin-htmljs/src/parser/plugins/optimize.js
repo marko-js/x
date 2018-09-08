@@ -1,7 +1,19 @@
-import * as t from "../definitions";
-import normalizeTemplateLiteral from "../util/normalize-template-string";
+import * as t from "../../definitions";
+import normalizeTemplateLiteral from "../../util/normalize-template-string";
 
-export default {
+export const visitor = {
+  // Creates the final render function.
+  Program(path) {
+    const { node, hub } = path;
+    node.body.push(
+      t.functionDeclaration(
+        t.identifier("render"),
+        [t.identifier("out")],
+        Object.assign(t.blockStatement([]), { body: hub.renderBody })
+      )
+    );
+  },
+  // Merges out.write calls
   CallExpression(path) {
     let curPath = path;
     const quasis = [""];

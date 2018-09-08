@@ -1,5 +1,5 @@
-import * as t from "../../definitions";
-import { toStatement } from "../../taglib/core/util";
+import * as t from "../../../../definitions";
+import { toStatement } from "../../../../taglib/core/util";
 
 export function getAttrs(node) {
   const { startTag, children } = node;

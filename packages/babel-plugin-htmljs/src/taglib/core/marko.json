@@ -35,15 +35,15 @@
     }
   },
   "<if>": {
-    "transformer": "./conditional/transform-if.js",
+    "code-generator": "./conditional/translate-if.js",
     "@if": "expression"
   },
   "<else>": {
-    "transformer": "./conditional/transform-else.js",
+    "code-generator": "./conditional/translate-else.js",
     "@if": "expression"
   },
   "<for>": {
-    "transformer": "./transform-for.js",
+    "code-generator": "./translate-for.js",
     "@of": "array",
     "@in": "object",
     "@from": "number",
@@ -52,10 +52,10 @@
     "@by": "string"
   },
   "<html-comment>": {
-    "transformer": "./transform-html-comment.js"
+    "code-generator": "./translate-html-comment.js"
   },
   "<marko-preserve-whitespace>": {
-    "transformer": "./transform-marko-preserve-whitespace.js",
+    "code-generator": "./translate-marko-preserve-whitespace.js",
     "parse-options": {
       "preserveWhitespace": true
     }

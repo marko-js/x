@@ -1,7 +1,7 @@
 import { join, basename } from "path";
 import fs from "fs";
 
-const DIR = join(__dirname, "transforms");
+const DIR = join(__dirname, "attributes");
 const directives = fs
   .readdirSync(DIR)
   .map(entry => join(DIR, entry))

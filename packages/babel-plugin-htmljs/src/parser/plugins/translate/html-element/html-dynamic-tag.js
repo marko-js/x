@@ -1,6 +1,6 @@
 import { addNamed } from "@babel/helper-module-imports";
-import * as t from "../../definitions";
-import { replaceInRenderBody } from "../../taglib/core/util";
+import * as t from "../../../../definitions";
+import { replaceInRenderBody } from "../../../../taglib/core/util";
 import { getAttrs } from "./util";
 
 export default function(path) {

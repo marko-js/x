@@ -13,7 +13,7 @@ export function buildIfStatement(path) {
   let nextPath = path.getNextSibling();
 
   // Provide the if statement to the next part of the if chain.
-  if (nextPath) {
+  if (nextPath.node) {
     let removePath;
 
     // Remove empty whitespace between blocks.

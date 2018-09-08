@@ -14,7 +14,7 @@ export class Hub {
     this.filename = filename;
     this.file = createFile(filename, code);
     this.lookup = buildLookup(path.dirname(filename));
-    this.file.hub = this;
+    this.renderBody = [];
   }
 
   getCode() {
@@ -25,8 +25,8 @@ export class Hub {
     return codeFrameError(this.filename, this.code, msg, node.start, node.end);
   }
 
-  createNodePath(node) {
-    const nodePath = new NodePath(this, this.file.program);
+  createNodePath(node = this.file) {
+    const nodePath = new NodePath(this, this.file);
     nodePath.node = node;
     return nodePath;
   }
