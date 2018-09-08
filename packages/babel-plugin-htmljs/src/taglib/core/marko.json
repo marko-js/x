@@ -1,7 +1,38 @@
 {
   "taglib-id": "marko-core",
-  "<html-comment>": {
-    "transformer": "./transform-html-comment.js"
+  "<import>": {
+    "node-factory": "./parse-import.js",
+    "parse-options": {
+      "rootOnly": true,
+      "relaxRequireCommas": true,
+      "ignoreAttributes": true,
+      "rawOpenTag": true
+    }
+  },
+  "<export>": {
+    "node-factory": "./parse-export.js",
+    "parse-options": {
+      "rootOnly": true,
+      "relaxRequireCommas": true,
+      "ignoreAttributes": true,
+      "rawOpenTag": true
+    }
+  },
+  "<class>": {
+    "node-factory": "./parse-class.js",
+    "parse-options": {
+      "rootOnly": true,
+      "ignoreAttributes": true,
+      "rawOpenTag": true
+    }
+  },
+  "<static>": {
+    "node-factory": "./parse-static.js",
+    "parse-options": {
+      "rootOnly": true,
+      "ignoreAttributes": true,
+      "rawOpenTag": true
+    }
   },
   "<if>": {
     "transformer": "./conditional/transform-if.js",
@@ -20,33 +51,8 @@
     "@step": "number",
     "@by": "string"
   },
-  "<class>": {
-    "transformer": "./transform-class.js",
-    "parse-options": {
-      "relaxRequireCommas": true,
-      "rawOpenTag": true
-    }
-  },
-  "<export>": {
-    "transformer": "./transform-export.js",
-    "parse-options": {
-      "relaxRequireCommas": true,
-      "rawOpenTag": true
-    }
-  },
-  "<import>": {
-    "transformer": "./transform-import.js",
-    "parse-options": {
-      "relaxRequireCommas": true,
-      "rawOpenTag": true
-    }
-  },
-  "<static>": {
-    "transformer": "./transform-static.js",
-    "parse-options": {
-      "relaxRequireCommas": true,
-      "rawOpenTag": true
-    }
+  "<html-comment>": {
+    "transformer": "./transform-html-comment.js"
   },
   "<marko-preserve-whitespace>": {
     "transformer": "./transform-marko-preserve-whitespace.js",

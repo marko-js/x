@@ -7,14 +7,14 @@ export default {
     const { hub } = path;
     const {
       file: {
-        ast: { lookup, parse, parseExpression }
+        ast: {
+          hub: { lookup }
+        } // TODO: Remove special stuff from hub.
       }
     } = hub;
 
     Object.assign(hub, {
       lookup,
-      parse,
-      parseExpression,
       renderBody: []
     });
   },

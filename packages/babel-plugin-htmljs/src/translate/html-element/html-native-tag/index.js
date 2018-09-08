@@ -16,18 +16,6 @@ export default function(path) {
   const tagName = startTag.name.value;
   const attributes = path.get("startTag").get("attributes");
 
-  // TODO: re-add directives.
-  // for (const attr of path.get("startTag").get("attributes")) {
-  //   const { name } = attr.node;
-
-  //   const directive = translateDirectives[toCamel(name)];
-  //   if (name && directive) {
-  //     directive(path, attr);
-  //   } else {
-  //     attributes.push(attr);
-  //   }
-  // }
-
   let writeStartNode = withPreviousLocation(
     write`<${tagName}${translateAttributes(attributes)}>`,
     startTag

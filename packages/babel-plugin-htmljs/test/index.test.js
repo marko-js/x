@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import plugin from "../src/plugin";
+import plugin from "../src/parser/plugin";
 import { expect } from "chai";
 import { transform } from "@babel/core";
 
@@ -22,7 +22,7 @@ fs.readdirSync(fixtureDirectory).forEach(sourceFileName => {
         sourceMaps: "inline",
         filename: sourceFile,
         sourceFileName: sourceFile,
-        plugins: [plugin]
+        plugins: [[plugin, { configured: true }]]
       });
 
       fs.writeFileSync(actualFile, actual, "utf-8");

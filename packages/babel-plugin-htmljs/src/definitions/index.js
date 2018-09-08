@@ -8,7 +8,7 @@ import {
 import builder from "@babel/types/lib/builders/builder";
 import defineType from "@babel/types/lib/definitions/utils";
 import types from "./types";
-import toCamelCase from "../util/to-camel-case";
+import toCamelCase from "./util/to-camel-case";
 
 Object.keys(types).forEach(typeName => defineType(typeName, types[typeName]));
 
