@@ -4,7 +4,7 @@
   "description": "Babel plugin to parse Marko templates.",
   "version": "1.0.0",
   "author": "Dylan Piercey <dpiercey@ebay.com>",
-  "bugs": "https://github.com/marko-js/utils/issues/new?template=Bug_report.md",
+  "bugs": "https://github.com/marko-js/x/issues/new?template=Bug_report.md",
   "dependencies": {
     "@babel/core": "^7.0.0",
     "@babel/code-frame": "^7.0.0",
@@ -18,7 +18,7 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://github.com/marko-js/utils/blob/master/packages/babel-plugin-htmljs/README.md",
+  "homepage": "https://github.com/marko-js/x/blob/master/packages/babel-preset-marko/README.md",
   "keywords": [
     "htmljs",
     "parser",
@@ -31,6 +31,6 @@
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/marko-js/utils/tree/master/packages/babel-plugin-htmljs"
+    "url": "https://github.com/marko-js/x/tree/master/packages/babel-preset-marko"
   }
 }

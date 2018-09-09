@@ -1,0 +1,25 @@
+{
+  "name": "@marko/runtime",
+  "private": true,
+  "description": "The runtime for the Marko framework.",
+  "version": "5.0.0",
+  "author": "Dylan Piercey <dpiercey@ebay.com>",
+  "bugs": "https://github.com/marko-js/x/issues/new?template=Bug_report.md",
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/marko-js/x/blob/master/packages/runtime/README.md",
+  "keywords": [
+    "marko",
+    "runtime",
+    "vdom",
+    "html",
+    "framework"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marko-js/x/tree/master/packages/runtime"
+  }
+}
