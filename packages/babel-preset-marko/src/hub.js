@@ -1,4 +1,5 @@
 import path from "path";
+import { getClientPath } from "lasso-modules-client/transport";
 import * as t from "./definitions";
 import { NodePath } from "@babel/traverse";
 import { parse, parseExpression } from "@babel/parser";
@@ -32,6 +33,10 @@ export class Hub {
     return nodePath;
   }
 
+  getClientPath(file) {
+    return getClientPath(file);
+  }
+
   importDefault(path, file, nameHint) {
     const { _imports } = this;
     let importDeclaration = _imports[file];
@@ -61,7 +66,7 @@ export class Hub {
     return specifier.local;
   }
 
-  importNamed(path, file, name) {
+  importNamed(path, file, name, nameHint = name) {
     const { _imports } = this;
     let importDeclaration = _imports[file];
     let specifiers;
@@ -83,7 +88,7 @@ export class Hub {
     );
 
     if (!specifier) {
-      const identifier = path.scope.generateUidIdentifier(name);
+      const identifier = path.scope.generateUidIdentifier(nameHint);
       specifiers.push(t.importSpecifier(identifier, t.identifier(name)));
       return identifier;
     }

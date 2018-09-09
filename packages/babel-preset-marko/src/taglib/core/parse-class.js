@@ -5,6 +5,9 @@ export default function(path) {
   const { startTag } = node;
   const { rawValue: code, start } = startTag;
 
+  // TODO: ensure only one. (add hub helper)
+  // TODO: convert to object expression.
+
   return t.exportNamedDeclaration(
     t.variableDeclaration("const", [
       t.variableDeclarator(

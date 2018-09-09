@@ -1,10 +1,6 @@
-import { escape as _escape3 } from "@marko/runtime/helpers";
-import { stringifyAttrs as _stringifyAttrs2 } from "@marko/runtime/helpers";
-import { stringifyAttrs as _stringifyAttrs } from "@marko/runtime/helpers";
-import { escape as _escape2 } from "@marko/runtime/helpers";
-import { escape as _escape } from "@marko/runtime/helpers";
+import { t as _template } from "marko/src/html";
 import _other from "../components/other/index.marko";
-import { dynamicTag as _dynamicTag } from "@marko/runtime/helpers";
+import { dynamicTag as _dynamicTag, escape as _escape, stringifyAttrs as _stringifyAttrs } from "@marko/runtime/helpers";
 import a from "b";
 export { something };
 doThings();
@@ -20,6 +16,8 @@ export const component = class {
   }
 
 };
+
+_template(__filename)
 
 function render(out) {
   out.w("<input type=\"text\">")
@@ -53,17 +51,17 @@ function render(out) {
   out.w(`<div id="a" class="b c" a="[object Object]" c="${d}"${_stringifyAttrs(e)}>${_escape(a)}<!--abc--><div c="1"></div><div d="1"></div>`)
 
   if (x === a) {
-    out.w(`a${_escape2(b)}`);
+    out.w(`a${_escape(b)}`);
   } else if (x === 2) {
     out.w("b");
   } else {
     out.w("c");
   }
 
-  out.w(`</div><div b="1"></div><div>123 abc 123</div><span${_stringifyAttrs2(abc)}></span>`)
+  out.w(`</div><div b="1"></div><div>123 abc 123</div><span${_stringifyAttrs(abc)}></span>`)
 
   if (cond) {
-    out.w(`Hello${_escape3(planet)}`);
+    out.w(`Hello${_escape(planet)}`);
   }
 
   for (let _i = 0; _i <= 10; _i += 2) {

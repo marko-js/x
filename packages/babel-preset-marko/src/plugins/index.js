@@ -13,7 +13,6 @@ export default (_, options) => {
       const ast = parse(hub);
       const nodePath = hub.createNodePath();
       nodePath.traverse(transform);
-      // TODO: consider translate on enter and optimize on exit of first pass.
       nodePath.traverse(translate);
       nodePath.traverse(optimize);
       return ast;
