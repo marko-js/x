@@ -16,6 +16,9 @@
     "html",
     "framework"
   ],
+  "dependencies": {
+    "self-closing-tags": "^1.0.1"
+  },
   "license": "MIT",
   "main": "dist/index.js",
   "repository": {

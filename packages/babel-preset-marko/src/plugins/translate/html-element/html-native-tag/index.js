@@ -1,6 +1,6 @@
+import SELF_CLOSING from "self-closing-tags";
 import * as t from "../../../../definitions";
 import write from "../../../../util/html-out-write";
-import { SELF_CLOSING } from "../../../../constants";
 import withPreviousLocation from "../../../../util/with-previous-location";
 import translateAttributes from "./attributes";
 import { replaceInRenderBody, toStatement } from "../../../../taglib/core/util";

@@ -1,14 +1,16 @@
-import {
+import * as babelTypes from "@babel/types";
+import builder from "@babel/types/lib/builders/builder";
+import defineType from "@babel/types/lib/definitions/utils";
+import types from "./types";
+import toCamelCase from "./util/to-camel-case";
+
+const {
   TYPES,
   VISITOR_KEYS,
   FLIPPED_ALIAS_KEYS,
   DEPRECATED_KEYS,
   isType
-} from "@babel/types";
-import builder from "@babel/types/lib/builders/builder";
-import defineType from "@babel/types/lib/definitions/utils";
-import types from "./types";
-import toCamelCase from "./util/to-camel-case";
+} = babelTypes;
 
 Object.keys(types).forEach(typeName => defineType(typeName, types[typeName]));
 
@@ -21,12 +23,13 @@ for (const type of [
   if (!TYPES.includes(type)) TYPES.push(type);
 }
 
-// export babel stuff
-export * from "@babel/types";
-
-// export marko validators & builders
+// add marko validators & builders
 Object.keys(types).forEach(typeName => {
-  exports[`is${typeName}`] = node => isType(typeName, node.type);
-  exports[typeName] = exports[toCamelCase(typeName)] = (...args) =>
+  babelTypes[`is${typeName}`] = node => isType(typeName, node.type);
+  babelTypes[typeName] = babelTypes[toCamelCase(typeName)] = (...args) =>
     builder(typeName, ...args);
 });
+
+// export babel stuff
+Object.assign(exports, babelTypes);
+export * from "@babel/types";
