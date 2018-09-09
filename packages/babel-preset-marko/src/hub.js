@@ -1,8 +1,8 @@
 import path from "path";
-import * as t from "../definitions";
+import * as t from "./definitions";
 import { NodePath } from "@babel/traverse";
 import { parse, parseExpression } from "@babel/parser";
-import { buildLookup } from "../taglib";
+import { buildLookup } from "./taglib";
 import createFile from "./util/create-file";
 import codeFrameError from "./util/code-frame-error";
 import { getLoc, getLocRange } from "./util/get-loc";

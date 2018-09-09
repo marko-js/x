@@ -1,7 +1,7 @@
 {
-  "name": "babel-plugin-htmljs",
+  "name": "babel-preset-marko",
   "private": true,
-  "description": "Babel plugin to parse the htmljs syntax.",
+  "description": "Babel plugin to parse Marko templates.",
   "version": "1.0.0",
   "author": "Dylan Piercey <dpiercey@ebay.com>",
   "bugs": "https://github.com/marko-js/utils/issues/new?template=Bug_report.md",
@@ -12,8 +12,6 @@
     "@babel/traverse": "^7.0.0",
     "@babel/types": "^7.0.0",
     "@babel/parser": "^7.0.0",
-    "camelcase": "^5.0.0",
-    "escape-html": "^1.0.3",
     "htmljs-parser": "^2.4.0",
     "marko": "^4.13.4-1"
   },

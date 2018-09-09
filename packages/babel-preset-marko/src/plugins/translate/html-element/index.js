@@ -1,4 +1,4 @@
-import * as t from "../../../../definitions";
+import * as t from "../../../definitions";
 import htmlDynamicTag from "./html-dynamic-tag";
 import htmlAttributeTag from "./html-attribute-tag";
 import htmlNativeTag from "./html-native-tag";

@@ -1,7 +1,7 @@
 import { relative } from "path";
 import { addDefault } from "@babel/helper-module-imports";
-import * as t from "../../../../definitions";
-import { replaceInRenderBody } from "../../../../taglib/core/util";
+import * as t from "../../../definitions";
+import { replaceInRenderBody } from "../../../taglib/core/util";
 import { getAttrs } from "./util";
 
 export default function(path, tagDef) {

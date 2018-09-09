@@ -1,8 +1,8 @@
-import { Hub } from "./hub";
-import { parse } from "./index";
-import { visitor as transform } from "./plugins/transform";
-import { visitor as translate } from "./plugins/translate";
-import { visitor as optimize } from "./plugins/optimize";
+import { Hub } from "./plugin/hub";
+import { parse } from ".";
+import { visitor as transform } from "./plugin/plugins/transform";
+import { visitor as translate } from "./plugin/plugins/translate";
+import { visitor as optimize } from "./plugin/plugins/optimize";
 
 export default (_, options) => {
   return {

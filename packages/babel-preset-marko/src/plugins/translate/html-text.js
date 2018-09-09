@@ -1,6 +1,6 @@
-import * as t from "../../../definitions";
-import withPreviousLocation from "../../../util/with-previous-location";
-import write from "../../../util/html-out-write";
+import * as t from "../../definitions";
+import withPreviousLocation from "../../util/with-previous-location";
+import write from "../../util/html-out-write";
 
 export default function(path) {
   const { node, hub } = path;

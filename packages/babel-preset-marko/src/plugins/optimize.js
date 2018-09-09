@@ -1,5 +1,5 @@
-import * as t from "../../definitions";
-import normalizeTemplateLiteral from "../../util/normalize-template-string";
+import * as t from "../definitions";
+import normalizeTemplateLiteral from "../util/normalize-template-string";
 
 export const visitor = {
   // Creates the final render function.

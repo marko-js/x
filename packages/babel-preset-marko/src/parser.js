@@ -1,5 +1,5 @@
 import { createParser } from "htmljs-parser";
-import * as t from "../definitions";
+import * as t from "./definitions";
 const EMPTY_OBJECT = {};
 
 export function parse(hub) {

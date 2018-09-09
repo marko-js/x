@@ -1,4 +1,4 @@
-import * as t from "../../definitions";
+import * as t from "../definitions";
 
 /**
  * Applies custom transformers on tags.

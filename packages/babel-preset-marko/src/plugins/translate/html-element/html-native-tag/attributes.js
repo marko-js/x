@@ -1,5 +1,5 @@
-import * as t from "../../../../../definitions";
-import normalizeTemplateString from "../../../../../util/normalize-template-string";
+import * as t from "../../../../definitions";
+import normalizeTemplateString from "../../../../util/normalize-template-string";
 import { addNamed } from "@babel/helper-module-imports";
 
 export default function(attrs) {

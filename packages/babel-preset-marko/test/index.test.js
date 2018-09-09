@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import plugin from "../src/parser/plugin";
+import plugin from "../src";
 import { expect } from "chai";
 import { transform } from "@babel/core";
 
@@ -19,7 +19,7 @@ fs.readdirSync(fixtureDirectory).forEach(sourceFileName => {
         code: true,
         babelrc: false,
         configFile: false,
-        sourceMaps: "inline",
+        sourceMaps: false,
         filename: sourceFile,
         sourceFileName: sourceFile,
         plugins: [[plugin, { configured: true }]]
