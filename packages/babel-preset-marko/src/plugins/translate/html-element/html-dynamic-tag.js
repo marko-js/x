@@ -8,8 +8,18 @@ export default function(path) {
   replaceInRenderBody(
     path,
     t.callExpression(
-      hub.importNamed(path, "@marko/runtime/helpers", "dynamicTag"),
-      [expression, getAttrs(node), t.identifier("out")]
+      hub.importNamed(
+        path,
+        "marko/src/runtime/helpers",
+        "d",
+        "marko_dynamicTag"
+      ),
+      [
+        expression,
+        getAttrs(node),
+        t.identifier("out"),
+        t.identifier("__component")
+      ]
     )
   );
 }

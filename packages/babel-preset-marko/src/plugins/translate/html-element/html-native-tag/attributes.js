@@ -22,7 +22,12 @@ export default function(attrs) {
       curString = "";
       expressions.push(
         t.callExpression(
-          hub.importNamed(attr, "@marko/runtime/helpers", "stringifyAttrs"),
+          hub.importNamed(
+            attr,
+            "marko/src/runtime/helpers",
+            "as",
+            "marko_attrs"
+          ),
           [value]
         )
       );
@@ -50,7 +55,7 @@ export default function(attrs) {
       curString = "";
       expressions.push(
         t.callExpression(
-          hub.importNamed(attr, "@marko/runtime/helpers", "stringifyAttr"),
+          hub.importNamed(attr, "marko/src/runtime/helpers", "a", "marko_attr"),
           [t.stringLiteral(name), value]
         )
       );

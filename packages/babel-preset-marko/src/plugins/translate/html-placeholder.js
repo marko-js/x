@@ -9,7 +9,12 @@ export default function(path) {
 
   if (escape) {
     value = t.callExpression(
-      hub.importNamed(path, "@marko/runtime/helpers", "escape"),
+      hub.importNamed(
+        path,
+        "marko/src/runtime/helpers",
+        "x",
+        "marko_escapeXml"
+      ),
       [value]
     );
   }
