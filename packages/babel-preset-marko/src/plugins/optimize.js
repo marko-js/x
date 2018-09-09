@@ -9,7 +9,7 @@ export const visitor = {
       t.functionDeclaration(
         t.identifier("render"),
         [t.identifier("out")],
-        Object.assign(t.blockStatement([]), { body: hub.renderBody })
+        Object.assign(t.blockStatement([]), { body: hub._renderBody })
       )
     );
   },

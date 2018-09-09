@@ -1,7 +1,7 @@
-import { addNamed } from "@babel/helper-module-imports";
 import * as t from "../../definitions";
 import write from "../../util/html-out-write";
 import withPreviousLocation from "../../util/with-previous-location";
+import { replaceInRenderBody } from "../../taglib/core/util";
 
 export default function(path) {
   const { node, hub } = path;
@@ -9,16 +9,10 @@ export default function(path) {
 
   if (escape) {
     value = t.callExpression(
-      addNamed(path, "escape", "@marko/runtime/helpers"),
+      hub.importNamed(path, "@marko/runtime/helpers", "escape"),
       [value]
     );
   }
 
-  const replacement = withPreviousLocation(write`${value}`, node);
-  if (t.isProgram(path.parent)) {
-    path.remove();
-    hub.renderBody.push(replacement);
-  } else {
-    path.replaceWith(replacement);
-  }
+  replaceInRenderBody(path, withPreviousLocation(write`${value}`, node));
 }

@@ -14,7 +14,8 @@ export class Hub {
     this.filename = filename;
     this.file = createFile(filename, code);
     this.lookup = buildLookup(path.dirname(filename));
-    this.renderBody = [];
+    this._imports = Object.create(null);
+    this._renderBody = [];
   }
 
   getCode() {
@@ -29,6 +30,65 @@ export class Hub {
     const nodePath = new NodePath(this, this.file);
     nodePath.node = node;
     return nodePath;
+  }
+
+  importDefault(path, file, nameHint) {
+    const { _imports } = this;
+    let importDeclaration = _imports[file];
+    let specifiers;
+
+    if (!importDeclaration) {
+      importDeclaration = _imports[file] = t.importDeclaration(
+        [],
+        t.stringLiteral(file)
+      );
+      specifiers = importDeclaration.specifiers;
+      this.file.program.body.unshift(importDeclaration);
+    } else {
+      specifiers = _imports[file].specifiers;
+    }
+
+    const specifier = specifiers.find(specifier =>
+      t.isImportDefaultSpecifier(specifier)
+    );
+
+    if (!specifier) {
+      const identifier = path.scope.generateUidIdentifier(nameHint);
+      specifiers.push(t.importDefaultSpecifier(identifier));
+      return identifier;
+    }
+
+    return specifier.local;
+  }
+
+  importNamed(path, file, name) {
+    const { _imports } = this;
+    let importDeclaration = _imports[file];
+    let specifiers;
+
+    if (!importDeclaration) {
+      importDeclaration = _imports[file] = t.importDeclaration(
+        [],
+        t.stringLiteral(file)
+      );
+      specifiers = importDeclaration.specifiers;
+      this.file.program.body.unshift(importDeclaration);
+    } else {
+      specifiers = _imports[file].specifiers;
+    }
+
+    const specifier = specifiers.find(
+      specifier =>
+        t.isImportSpecifier(specifier) && specifier.imported.name === name
+    );
+
+    if (!specifier) {
+      const identifier = path.scope.generateUidIdentifier(name);
+      specifiers.push(t.importSpecifier(identifier, t.identifier(name)));
+      return identifier;
+    }
+
+    return specifier.local;
   }
 
   createNode(type, start, end, ...args) {

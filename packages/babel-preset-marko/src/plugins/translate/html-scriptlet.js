@@ -1,15 +1,8 @@
-import * as t from "../../definitions";
+import { replaceInRenderBody } from "../../taglib/core/util";
 
 export default function(path) {
   const {
-    node: { body },
-    hub
+    node: { body }
   } = path;
-
-  if (t.isProgram(path.parent)) {
-    path.remove();
-    hub.renderBody.push(...body);
-  } else {
-    path.replaceWithMultiple(body);
-  }
+  replaceInRenderBody(path, body);
 }

@@ -1,5 +1,4 @@
 import { relative } from "path";
-import { addDefault } from "@babel/helper-module-imports";
 import * as t from "../../../definitions";
 import { replaceInRenderBody } from "../../../taglib/core/util";
 import { getAttrs } from "./util";
@@ -14,9 +13,7 @@ export default function(path, tagDef) {
   const { attributeTags } = node;
   const { template, name } = tagDef;
   const relativePath = relative(filename, template);
-  const tagIdentifier = addDefault(path, relativePath, {
-    nameHint: name
-  });
+  const tagIdentifier = hub.importDefault(path, relativePath, name);
 
   replaceInRenderBody(
     path,

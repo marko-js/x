@@ -1,17 +1,15 @@
-import { addNamed } from "@babel/helper-module-imports";
 import * as t from "../../../definitions";
 import { replaceInRenderBody } from "../../../taglib/core/util";
 import { getAttrs } from "./util";
 
 export default function(path) {
-  const { node } = path;
+  const { node, hub } = path;
   const { name: expression } = node.startTag;
   replaceInRenderBody(
     path,
-    t.callExpression(addNamed(path, "dynamicTag", "@marko/runtime/helpers"), [
-      expression,
-      getAttrs(node),
-      t.identifier("out")
-    ])
+    t.callExpression(
+      hub.importNamed(path, "@marko/runtime/helpers", "dynamicTag"),
+      [expression, getAttrs(node), t.identifier("out")]
+    )
   );
 }

@@ -1,6 +1,5 @@
 import * as t from "../../../../definitions";
 import normalizeTemplateString from "../../../../util/normalize-template-string";
-import { addNamed } from "@babel/helper-module-imports";
 
 export default function(attrs) {
   if (!attrs.length) {
@@ -13,14 +12,17 @@ export default function(attrs) {
 
   for (let i = 0; i < attrs.length; i++) {
     const attr = attrs[i];
-    const { name, value } = attr.node;
+    const {
+      hub,
+      node: { name, value }
+    } = attr;
 
     if (!name) {
       quasis.push(curString);
       curString = "";
       expressions.push(
         t.callExpression(
-          addNamed(attr, "stringifyAttrs", "@marko/runtime/helpers"),
+          hub.importNamed(attr, "@marko/runtime/helpers", "stringifyAttrs"),
           [value]
         )
       );
@@ -48,7 +50,7 @@ export default function(attrs) {
       curString = "";
       expressions.push(
         t.callExpression(
-          addNamed(attr, "stringifyAttr", "@marko/runtime/helpers"),
+          hub.importNamed(attr, "@marko/runtime/helpers", "stringifyAttr"),
           [t.stringLiteral(name), value]
         )
       );
