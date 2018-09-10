@@ -1,7 +1,8 @@
 import { t as _t } from "marko/src/html";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import _other from "../components/other/index.marko";
-import { d as _marko_dynamicTag, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/helpers";
+import { cl as _marko_style_merge, a as _marko_attr, d as _marko_dynamicTag, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/helpers";
+import _marko_class_merge from "marko/src/runtime/vdom/helper-styleAttr";
 import a from "b";
 export { something };
 doThings();
@@ -26,7 +27,11 @@ _marko_template.Component = _marko_defineComponent({
 export default _marko_template;
 
 function _marko_render(input, out, __component, component, state) {
-  out.w("<input type=\"text\">")
+  out.w(`${_marko_attr("class", _marko_class_merge(["a", {
+    b: c
+  }]))}<div${_marko_attr("style", _marko_style_merge({
+    a: "b"
+  }))}></div><input type="text">`)
 
   _marko_dynamicTag(a, null, out, __component)
 
