@@ -1,6 +1,7 @@
-import { t as _template } from "marko/src/html";
+import { t as _t } from "marko/src/html";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import _other from "../components/other/index.marko";
-import { dynamicTag as _dynamicTag, escape as _escape, stringifyAttrs as _stringifyAttrs } from "@marko/runtime/helpers";
+import { d as _marko_dynamicTag, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/helpers";
 import a from "b";
 export { something };
 doThings();
@@ -17,12 +18,19 @@ export const component = class {
 
 };
 
-_template(__filename)
+const _marko_template = _t(__filename),
+      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures/sanity-check.marko";
 
-function render(out) {
+_marko_template._ = _marko_renderer(_marko_render, {
+  ___type: _marko_componentType
+})
+_marko_template.Component = _marko_defineComponent({}, _marko_template._)
+export default _marko_template;
+
+function _marko_render(input, out, __component, component, state) {
   out.w("<input type=\"text\">")
 
-  _dynamicTag(a, null, out)
+  _marko_dynamicTag(a, null, out, __component)
 
   _other({
     "x": 1,
@@ -48,20 +56,20 @@ function render(out) {
     }
   }, out)
 
-  out.w(`<div id="a" class="b c" a="[object Object]" c="${d}"${_stringifyAttrs(e)}>${_escape(a)}<!--abc--><div c="1"></div><div d="1"></div>`)
+  out.w(`<div id="a" class="b c" a="[object Object]" c="${d}"${_marko_attrs(e)}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`)
 
   if (x === a) {
-    out.w(`a${_escape(b)}`);
+    out.w(`a${_marko_escapeXml(b)}`);
   } else if (x === 2) {
     out.w("b");
   } else {
     out.w("c");
   }
 
-  out.w(`</div><div b="1"></div><div>123 abc 123</div><span${_stringifyAttrs(abc)}></span>`)
+  out.w(`</div><div b="1"></div><div>123 abc 123</div><span${_marko_attrs(abc)}></span>`)
 
   if (cond) {
-    out.w(`Hello${_escape(planet)}`);
+    out.w(`Hello${_marko_escapeXml(planet)}`);
   }
 
   for (let _i = 0; _i <= 10; _i += 2) {
