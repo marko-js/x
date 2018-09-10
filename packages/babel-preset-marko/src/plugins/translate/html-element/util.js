@@ -25,7 +25,7 @@ export function getAttrs(node) {
       t.objectProperty(
         t.stringLiteral("renderBody"),
         t.arrowFunctionExpression(
-          [t.identifier("out")],
+          [t.identifier("out"), ...startTag.params],
           t.blockStatement(children.map(toStatement))
         )
       )

@@ -21,7 +21,11 @@ class {
 
 <${a}/>
 
-<other x=1 ...thing b={ a: 1 } ...c>
+<other(a)>
+  <div/>
+</other>
+
+<other(b) x=1 ...thing b={ a: 1 } ...c>
   <div/>
   <@c c=1>
     <div/>

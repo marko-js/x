@@ -36,13 +36,19 @@ function _marko_render(input, out, __component, component, state) {
   _marko_dynamicTag(a, null, out, __component)
 
   _other({
+    "renderBody": (out, a) => {
+      out.w("<div></div>");
+    }
+  }, out)
+
+  _other({
     "x": 1,
     ...thing,
     "b": {
       a: 1
     },
     ...c,
-    "renderBody": out => {
+    "renderBody": (out, b) => {
       out.w("<div></div>");
     },
     "c": {
