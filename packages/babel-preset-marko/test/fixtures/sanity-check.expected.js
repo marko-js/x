@@ -11,20 +11,18 @@ function more() {
   abc();
 }
 
-export const component = class {
-  onCreate() {
-    this.stuff();
-  }
-
-};
-
 const _marko_template = _t(__filename),
       _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures/sanity-check.marko";
 
 _marko_template._ = _marko_renderer(_marko_render, {
   ___type: _marko_componentType
 })
-_marko_template.Component = _marko_defineComponent({}, _marko_template._)
+_marko_template.Component = _marko_defineComponent({
+  onCreate() {
+    this.stuff();
+  }
+
+}, _marko_template._)
 export default _marko_template;
 
 function _marko_render(input, out, __component, component, state) {

@@ -60,7 +60,7 @@ export const visitor = {
         "=",
         t.memberExpression(templateIdentifier, t.identifier("Component")),
         t.callExpression(defineComponentIdentifier, [
-          t.objectExpression([]),
+          hub._componentClass || t.nullLiteral(),
           templateRendererMember
         ])
       )
