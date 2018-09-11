@@ -4,5 +4,6 @@ export default function(path) {
   const {
     node: { body }
   } = path;
+
   replaceInRenderBody(path, body);
 }

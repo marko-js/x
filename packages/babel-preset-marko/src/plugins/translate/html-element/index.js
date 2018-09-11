@@ -3,6 +3,7 @@ import htmlDynamicTag from "./html-dynamic-tag";
 import htmlAttributeTag from "./html-attribute-tag";
 import htmlNativeTag from "./html-native-tag";
 import htmlCustomTag from "./html-custom-tag";
+import { toStatement } from "../../../taglib/core/util";
 
 export default {
   exit(path) {
