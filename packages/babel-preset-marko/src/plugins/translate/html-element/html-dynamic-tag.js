@@ -10,7 +10,7 @@ export default function(path) {
     t.callExpression(
       hub.importNamed(
         path,
-        "marko/src/runtime/helpers",
+        "marko/src/runtime/html/helpers",
         "d",
         "marko_dynamicTag"
       ),

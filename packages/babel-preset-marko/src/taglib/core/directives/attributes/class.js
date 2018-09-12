@@ -9,9 +9,10 @@ export default function(path, attr) {
     .get("value")
     .replaceWith(
       t.callExpression(
-        hub.importDefault(
+        hub.importNamed(
           path,
-          "marko/src/runtime/vdom/helper-styleAttr",
+          "marko/src/runtime/html/helpers",
+          "cl",
           "marko_class_merge"
         ),
         [value]

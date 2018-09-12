@@ -24,7 +24,7 @@ export default function(attrs) {
         t.callExpression(
           hub.importNamed(
             attr,
-            "marko/src/runtime/helpers",
+            "marko/src/runtime/html/helpers",
             "as",
             "marko_attrs"
           ),
@@ -55,7 +55,12 @@ export default function(attrs) {
       curString = "";
       expressions.push(
         t.callExpression(
-          hub.importNamed(attr, "marko/src/runtime/helpers", "a", "marko_attr"),
+          hub.importNamed(
+            attr,
+            "marko/src/runtime/html/helpers",
+            "a",
+            "marko_attr"
+          ),
           [t.stringLiteral(name), value]
         )
       );

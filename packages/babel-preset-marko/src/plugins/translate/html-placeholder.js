@@ -11,7 +11,7 @@ export default function(path) {
     value = t.callExpression(
       hub.importNamed(
         path,
-        "marko/src/runtime/helpers",
+        "marko/src/runtime/html/helpers",
         "x",
         "marko_escapeXml"
       ),
