@@ -61,6 +61,6 @@
     }
   },
   "<*>": {
-    "transformer": "./directives/transform-directives.js"
+    "transformer": "./attributes/transform.js"
   }
 }
