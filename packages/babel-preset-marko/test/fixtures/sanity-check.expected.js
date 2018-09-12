@@ -27,7 +27,15 @@ _marko_template.Component = _marko_defineComponent({
 export default _marko_template;
 
 function _marko_render(input, out, __component, component, state) {
-  out.w(`${_marko_attr("class", _marko_class_merge(["a", {
+  var b = thing;
+  let c = thing;
+  out.w(`<div${_marko_attr("b", b)}${_marko_attr("c", c)}>`)
+  {
+    var d = thing;
+    let e = thing;
+    out.w(`${_marko_attr("d", d)}<div${_marko_attr("e", e)}></div>`);
+  }
+  out.w(`</div>${_marko_attr("class", _marko_class_merge(["a", {
     b: c
   }]))}<div${_marko_attr("style", _marko_style_merge({
     a: "b"
