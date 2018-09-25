@@ -36,11 +36,7 @@ export default function(attrs) {
 
     const { confident, value: computed } = attr.get("value").evaluate();
 
-    if (confident && (computed == null || computed === false)) {
-      continue;
-    }
-
-    if (confident) {
+    if (confident && name !== "data-marko") {
       if (computed == null || computed === false) {
         continue;
       }

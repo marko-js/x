@@ -1,11 +1,12 @@
 import {
   assertNodeType,
   assertValueType,
-  arrayOfType
+  arrayOfType,
+  chain,
+  assertEach
 } from "@babel/types/lib/definitions/utils";
 
 import { functionCommon } from "@babel/types/lib/definitions/core";
-
 const valueFieldCommon = {
   value: {
     validate: assertValueType("string")
@@ -82,7 +83,7 @@ export default {
   },
 
   HTMLAttribute: {
-    builder: ["name", "value", "modifier"],
+    builder: ["name", "value", "modifier", "arguments"],
     visitor: ["value"],
     aliases: ["Marko"],
     fields: {
@@ -95,6 +96,13 @@ export default {
       },
       modifier: {
         validate: assertValueType("string"),
+        optional: true
+      },
+      arguments: {
+        validate: chain(
+          assertValueType("array"),
+          assertEach(assertNodeType("Expression", "SpreadElement"))
+        ),
         optional: true
       }
     }
@@ -129,6 +137,10 @@ export default {
       },
       rawValue: {
         validate: assertValueType("string"),
+        optional: true
+      },
+      handlers: {
+        validate: assertEach(assertNodeType("Expression")),
         optional: true
       }
     }

@@ -130,7 +130,7 @@ export class Hub {
         pos += start;
         throw codeFrameError(
           this.filename,
-          str,
+          this.code,
           message.replace(/ *\(\d+:\d+\)$/, ""),
           pos
         );

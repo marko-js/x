@@ -33,15 +33,22 @@ function _marko_render(input, out, __component, component, state) {
   {
     var d = thing;
     let e = thing;
-    out.w(`${_marko_attr("d", d)}<div${_marko_attr("e", e)}></div>`);
+    out.w(`<div${_marko_attr("d", d)}${_marko_attr("e", e)}></div>`);
   }
-  out.w(`</div>${_marko_attr("class", _marko_class_merge(["a", {
-    b: c
-  }]))}<div${_marko_attr("style", _marko_style_merge({
+  out.w(`</div><div${_marko_attr("data-marko", {
+    onclick: __component.d("click", "handleClick", [a, b, ...d], false)
+  })}></div><div${_marko_attr("id", __component.elId("1"))}></div><div${_marko_attr("class", _marko_class_merge(["a", {
+    b: c,
+    d
+  }]))}${_marko_attr("style", _marko_style_merge({
     a: "b"
   }))}></div><input type="text">`)
 
-  _marko_dynamicTag(a, null, out, __component)
+  _marko_dynamicTag(a, {
+    "renderBody": out => {
+      out.w("<div></div>");
+    }
+  }, out, __component)
 
   _other({
     "renderBody": (out, a) => {

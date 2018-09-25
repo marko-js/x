@@ -80,6 +80,7 @@ export function parse(hub) {
       onOpenTagName(event) {
         const { tagName, tagNameExpression, pos, endPos } = event;
         const tagDef = !tagNameExpression && hub.lookup.getTag(tagName);
+
         if (tagDef) {
           const { parseOptions } = tagDef;
           if (parseOptions) {
@@ -159,6 +160,32 @@ export function parse(hub) {
             }
 
             let value;
+            let [, modifier] = /:(.*)$/.exec(attr.name) || EMPTY_OBJECT;
+
+            if (modifier) {
+              attr.name = attr.name.slice(
+                0,
+                attr.name.length - modifier.length - 1
+              );
+            }
+
+            if (attr.argument) {
+              if (attr.value) {
+                throw hub.buildError(
+                  { start: attr.pos },
+                  "Cannot have both attribute arguments and a value."
+                );
+              }
+
+              if (attr.argument.value === "") {
+                attr.argument = undefined;
+              } else {
+                attr.argument = hub.parseExpression(
+                  `_(${attr.argument.value})`,
+                  attr.argument.pos
+                ).arguments;
+              }
+            }
 
             if (attr.value) {
               const valueStart = attr.pos + 1; // Add one to account for "=".
@@ -173,7 +200,9 @@ export function parse(hub) {
               attrStartPos,
               attrEndPos,
               attr.name,
-              value
+              value,
+              modifier,
+              attr.argument
             );
           });
         }

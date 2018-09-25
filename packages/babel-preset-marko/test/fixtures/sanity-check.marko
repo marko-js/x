@@ -23,13 +23,17 @@ $ let c = thing;
   <div d=d e=e/>
 </div>
 
+<div on-click("handleClick", a, b, ...d)/>
+
 <div id:scoped="1"/>
 
-<div class=["a", { b: c }] style={ a: "b" }/>
+<div class=["a", { b: c, d }] style={ a: "b" }/>
 
 <input type="text">
 
-<${a}/>
+<${a}>
+  <div/>
+</>
 
 <other(a)>
   <div/>

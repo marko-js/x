@@ -13,8 +13,52 @@ export default function(path) {
     node: { parent, startTag, children, endTag }
   } = path;
 
-  const tagName = startTag.name.value;
+  const {
+    handlers,
+    name: { value: tagName }
+  } = startTag;
   const attributes = path.get("startTag").get("attributes");
+
+  if (handlers) {
+    // TODO: prevent escaping this with the attr helper.
+    startTag.attributes.push(
+      t.htmlAttribute(
+        "data-marko",
+        t.objectExpression(
+          Object.entries(handlers).reduce(
+            (props, [eventName, { arguments: args, once }]) => {
+              const delegateArgs = [t.stringLiteral(eventName), args[0]];
+              if (args.length > 1) {
+                delegateArgs.push(t.arrayExpression(args.slice(1)));
+              }
+
+              // TODO: look into only sending this if once is true.
+              delegateArgs.push(t.booleanLiteral(once));
+
+              // TODO: why do we output eventName twice.
+              props.push(
+                t.objectProperty(
+                  t.identifier(`on${eventName}`),
+                  t.callExpression(
+                    t.memberExpression(
+                      t.identifier("__component"),
+                      t.identifier("d")
+                    ),
+                    delegateArgs
+                  )
+                )
+              );
+              return props;
+            },
+            []
+          )
+        )
+      )
+    );
+
+    // TODO: Hack to push to existing attributes path, should revisit,
+    attributes.push(path.get("startTag").get("attributes")[attributes.length]);
+  }
 
   let writeStartNode = withPreviousLocation(
     write`<${tagName}${translateAttributes(attributes)}>`,
