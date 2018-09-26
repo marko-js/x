@@ -23,9 +23,11 @@ export default function(path) {
     const [keyParam, valParam] = startTag.params;
 
     if (!keyParam) {
-      throw path.buildCodeFrameError(
-        "Invalid 'for in' tag, missing (key, value) params."
-      );
+      throw path
+        .get("startTag")
+        .buildCodeFrameError(
+          "Invalid 'for in' tag, missing (key, value) params."
+        );
     }
 
     if (valParam) {
@@ -49,10 +51,12 @@ export default function(path) {
 
     const [valParam, keyParam] = startTag.params;
 
-    if (!keyParam) {
-      throw path.buildCodeFrameError(
-        "Invalid 'for of' tag, missing (value, key) params."
-      );
+    if (!valParam) {
+      throw path
+        .get("startTag")
+        .buildCodeFrameError(
+          "Invalid 'for of' tag, missing (value, key) params."
+        );
     }
 
     forNode = [];
@@ -107,9 +111,11 @@ export default function(path) {
       block
     );
   } else {
-    throw path.buildCodeFrameError(
-      "Invalid 'for' tag, missing an 'of', 'in' or 'to' attribute."
-    );
+    throw path
+      .get("startTag")
+      .buildCodeFrameError(
+        "Invalid 'for' tag, missing an 'of', 'in' or 'to' attribute."
+      );
   }
 
   assertAllowedAttributes(path, allowedAttributes);

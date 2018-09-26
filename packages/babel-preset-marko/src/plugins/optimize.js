@@ -72,7 +72,7 @@ export const visitor = {
         [
           t.identifier("input"),
           t.identifier("out"),
-          t.identifier("__component"),
+          t.identifier("__component"), // TODO: convert to generated var and store reference.
           t.identifier("component"),
           t.identifier("state")
         ],
@@ -98,13 +98,7 @@ export const visitor = {
     } while ((curPath = curPath.getNextSibling()));
 
     if (expressions.length > 1) {
-      const last = expressions[expressions.length - 1];
       path.node.arguments[0] = normalizeTemplateLiteral(quasis, expressions);
-      if (last.end != null) {
-        // TODO: figure out why loc is lost.
-        path.node.end = last.end;
-        path.node.loc.end = last.loc.end;
-      }
     }
   }
 };
