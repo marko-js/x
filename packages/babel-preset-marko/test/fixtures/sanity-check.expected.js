@@ -54,7 +54,7 @@ function _marko_render(input, out, __component, component, state) {
     "renderBody": (out, a) => {
       out.w("<div></div>");
     }
-  }, out)
+  }, out, ["click", "handleClick", false, [a, b, ...d]])
 
   _other({
     "x": 1,

@@ -1,6 +1,6 @@
 import * as t from "../../../definitions";
 import { replaceInRenderBody } from "../../../taglib/core/util";
-import { getAttrs } from "./util";
+import { getAttrs, buildEventHandlerArray } from "./util";
 
 export default function(path) {
   const { node, hub } = path;
@@ -18,7 +18,9 @@ export default function(path) {
         expression,
         getAttrs(node),
         t.identifier("out"),
-        t.identifier("__component")
+        t.identifier("__component"),
+        // TODO key here.
+        ...buildEventHandlerArray(path)
       ]
     )
   );

@@ -34,3 +34,31 @@ export function getAttrs(node) {
 
   return t.objectExpression(properties);
 }
+
+export function buildEventHandlerArray(path) {
+  const { handlers } = path.node.startTag;
+  if (!handlers) {
+    return [];
+  }
+
+  return [
+    t.arrayExpression(
+      Object.entries(handlers).reduce(
+        (props, [eventName, { arguments: args, once }]) => {
+          props.push(
+            t.stringLiteral(eventName),
+            args[0],
+            t.booleanLiteral(once)
+          );
+
+          if (args.length > 1) {
+            props.push(t.arrayExpression(args.slice(1)));
+          }
+
+          return props;
+        },
+        []
+      )
+    )
+  ];
+}

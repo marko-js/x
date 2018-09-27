@@ -1,7 +1,7 @@
 import { relative } from "path";
 import * as t from "../../../definitions";
 import { replaceInRenderBody } from "../../../taglib/core/util";
-import { getAttrs } from "./util";
+import { getAttrs, buildEventHandlerArray } from "./util";
 
 export default function(path, tagDef) {
   const { hub, node } = path;
@@ -19,7 +19,9 @@ export default function(path, tagDef) {
     path,
     t.callExpression(tagIdentifier, [
       getNestedAttrs(node, tagDef, attributeTags),
-      t.identifier("out")
+      t.identifier("out"),
+      // TODO key here.
+      ...buildEventHandlerArray(path)
     ])
   );
 }
