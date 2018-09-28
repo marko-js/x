@@ -2,12 +2,12 @@ import * as t from "../../../definitions";
 import { toStatement } from "../../../taglib/core/util";
 
 export function getAttrs(node) {
-  const { startTag, children } = node;
+  const { startTag, attributeTags, children } = node;
   const { attributes } = startTag;
   const attrsLen = attributes.length;
   const childLen = children.length;
 
-  if (!attrsLen && !childLen) {
+  if (!attrsLen && !childLen && !attributeTags) {
     return t.nullLiteral();
   }
 
