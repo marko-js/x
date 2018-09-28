@@ -13,13 +13,9 @@ export const visitor = {
       startTag: { name }
     } = node;
     const tagName = name.value;
-
-    // Ignore dynamic tags and @tags when transforming.
-    if (!t.isStringLiteral(name) || tagName[0] === "@") {
-      return;
-    }
-
-    const tagDef = (node.tagDef = lookup.getTag(tagName));
+    const tagDef = (node.tagDef = lookup.getTag(
+      !t.isStringLiteral(name) || tagName[0] === "@" ? "*" : tagName
+    ));
 
     if (!tagDef) {
       throw path.buildCodeFrameError(`Could not find custom tag "${tagName}".`);

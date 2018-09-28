@@ -7,12 +7,11 @@ import htmlCustomTag from "./html-custom-tag";
 export default {
   exit(path) {
     const {
-      node: {
-        tagDef,
-        startTag: { name },
-        attributeTags
-      }
+      hub,
+      node: { tagDef, startTag, attributeTags }
     } = path;
+    const { name } = startTag;
+    startTag.key = hub.getKey(path);
 
     if (!t.isStringLiteral(name)) {
       assertNoAttributeTags();

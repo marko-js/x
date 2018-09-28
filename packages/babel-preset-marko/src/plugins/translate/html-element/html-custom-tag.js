@@ -10,7 +10,10 @@ export default function(path, tagDef) {
       opts: { filename }
     }
   } = hub;
-  const { attributeTags } = node;
+  const {
+    startTag: { key },
+    attributeTags
+  } = node;
   const { template, name } = tagDef;
   const relativePath = relative(filename, template);
   const tagIdentifier = hub.importDefault(path, relativePath, name);
@@ -20,7 +23,7 @@ export default function(path, tagDef) {
     t.callExpression(tagIdentifier, [
       getNestedAttrs(node, tagDef, attributeTags),
       t.identifier("out"),
-      // TODO key here.
+      key,
       ...buildEventHandlerArray(path)
     ])
   );

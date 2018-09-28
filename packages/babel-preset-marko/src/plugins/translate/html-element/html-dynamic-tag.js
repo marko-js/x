@@ -4,7 +4,7 @@ import { getAttrs, buildEventHandlerArray } from "./util";
 
 export default function(path) {
   const { node, hub } = path;
-  const { name: expression } = node.startTag;
+  const { key, name: expression } = node.startTag;
   replaceInRenderBody(
     path,
     t.callExpression(
@@ -19,7 +19,7 @@ export default function(path) {
         getAttrs(node),
         t.identifier("out"),
         t.identifier("__component"),
-        // TODO key here.
+        key,
         ...buildEventHandlerArray(path)
       ]
     )

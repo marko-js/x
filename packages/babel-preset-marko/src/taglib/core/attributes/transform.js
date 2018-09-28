@@ -10,6 +10,8 @@ export default function(path) {
   const startTag = path.get("startTag");
   const attributes = startTag.get("attributes");
 
+  debugger;
+
   for (const attr of attributes) {
     const { name, modifier, arguments: args } = attr.node;
     const node = path.node;

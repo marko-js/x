@@ -10,6 +10,7 @@ import { replaceInRenderBody, toStatement } from "../../../../taglib/core/util";
  */
 export default function(path) {
   const {
+    hub,
     node: { parent, startTag, children, endTag }
   } = path;
 

@@ -18,6 +18,7 @@ export class Hub {
     this._imports = Object.create(null);
     this._renderBody = [];
     this._componentClass = null;
+    this._nextKey = 0;
   }
 
   getCode() {
@@ -102,6 +103,11 @@ export class Hub {
       ...t[type](...args),
       ...getLocRange(this.code, start, end)
     };
+  }
+
+  getKey(path) {
+    return (path._nodeKey =
+      path._nodeKey || t.stringLiteral(String(this._nextKey++)));
   }
 
   parse(str, start) {
