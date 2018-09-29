@@ -1,6 +1,6 @@
 import { t as _t } from "marko/src/html";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
-import _hello from "../hello.marko";
+import _hello from "./hello.marko";
 
 const _marko_template = _t(__filename),
       _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures-html/custom-tag-template/template.marko";

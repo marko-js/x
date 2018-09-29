@@ -4,6 +4,8 @@ import assert from "assert";
 import plugin from "../src";
 import { transform } from "@babel/core";
 
+// TODO: error snapshots.
+
 const fixturesDir = path.join(__dirname, "fixtures-html");
 
 fs.readdirSync(fixturesDir).forEach(folder => {

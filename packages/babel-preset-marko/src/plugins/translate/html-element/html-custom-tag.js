@@ -1,7 +1,10 @@
-import { relative } from "path";
+import { relative, dirname } from "path";
 import * as t from "../../../definitions";
 import { replaceInRenderBody } from "../../../taglib/core/util";
 import { getAttrs, buildEventHandlerArray } from "./util";
+
+// TODO: support transform and other entries.
+const TAG_FILE_ENTRIES = ["template", "renderer"];
 
 export default function(path, tagDef) {
   const { hub, node } = path;
@@ -14,8 +17,15 @@ export default function(path, tagDef) {
     startTag: { key },
     attributeTags
   } = node;
-  const { template, name } = tagDef;
-  const relativePath = relative(filename, template);
+  const { name } = tagDef;
+  const relativePath = resolveRelativePath(filename, tagDef);
+
+  if (!relativePath) {
+    throw path.buildCodeFrameError(
+      `Unable to find entry point for "${name}" tag.`
+    );
+  }
+
   const tagIdentifier = hub.importDefault(path, relativePath, name);
 
   replaceInRenderBody(
@@ -61,4 +71,14 @@ function getNestedAttrs(node, tagDef) {
   }
 
   return attrs;
+}
+
+function resolveRelativePath(filename, tagDef) {
+  const dir = dirname(filename);
+  for (const entry of TAG_FILE_ENTRIES) {
+    if (!tagDef[entry]) continue;
+    let relativePath = relative(dir, tagDef[entry]);
+    if (/^[^./]/.test(relativePath)) relativePath = `./${relativePath}`;
+    return relativePath;
+  }
 }
