@@ -13,8 +13,8 @@ fs.readdirSync(fixturesDir).forEach(folder => {
 
   const fixtureDir = path.join(fixturesDir, folder);
   const sourceFile = path.join(fixtureDir, "template.marko");
-  const expectedFile = path.join(fixtureDir, "expected.js");
-  const actualFile = path.join(fixtureDir, "actual.js");
+  const expectedFile = path.join(fixtureDir, "snapshot.expected.js");
+  const actualFile = path.join(fixtureDir, "snapshot.actual.js");
   it(folder, () => {
     const source = fs.readFileSync(sourceFile);
     const { code: actual } = transform(source, {
