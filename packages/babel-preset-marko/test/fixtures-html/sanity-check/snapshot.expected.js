@@ -1,6 +1,6 @@
 import { t as _t } from "marko/src/html";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
-import _other from "../components/other/index.marko";
+import _other from "./components/other/index.marko";
 import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
 import { cl as _marko_class_merge, a as _marko_attr, d as _marko_dynamicTag, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/html/helpers";
 import a from "b";
@@ -13,7 +13,7 @@ function more() {
 }
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures/sanity-check.marko";
+      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures-html/sanity-check/template.marko";
 
 _marko_template._ = _marko_renderer(_marko_render, {
   ___type: _marko_componentType
