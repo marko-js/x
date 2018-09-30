@@ -22,7 +22,7 @@ export default function(path) {
   const nameAttrValue = nameAttr.get("value");
 
   if (!nameAttrValue.isStringLiteral()) {
-    nameAttrValue.buildCodeFrameError(
+    throw nameAttrValue.buildCodeFrameError(
       'The "name" attribute for "macro" tags must be a string literal.'
     );
   }
