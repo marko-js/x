@@ -15,6 +15,10 @@ class {
   }
 }
 
+<macro(stuff) name="thing">
+  <div x=stuff.x/>
+</macro>
+
 $ var b = thing;
 $ let c = thing;
 <div b=b c=c>
@@ -34,6 +38,8 @@ $ let c = thing;
 <${a} key="x">
   <div/>
 </>
+
+<thing x=1/>
 
 <other(a) on-click("handleClick", a, b, ...d)>
   <div/>

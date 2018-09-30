@@ -6,13 +6,18 @@ import * as t from "../definitions";
 export const visitor = {
   HTMLElement(path) {
     const {
-      hub: { lookup },
+      hub: { lookup, macros },
       node
     } = path;
     const {
       startTag: { name }
     } = node;
     const tagName = name.value;
+
+    if (macros[tagName]) {
+      return;
+    }
+
     const tagDef = (node.tagDef = lookup.getTag(
       !t.isStringLiteral(name) || tagName[0] === "@" ? "*" : tagName
     ));

@@ -34,6 +34,13 @@
       "rawOpenTag": true
     }
   },
+  "<macro>": {
+    "transformer": "./macro/transform.js",
+    "code-generator": "./macro/translate.js",
+    "parse-options": {
+      "rootOnly": true
+    }
+  },
   "<if>": {
     "code-generator": "./conditional/translate-if.js",
     "@if": "expression"

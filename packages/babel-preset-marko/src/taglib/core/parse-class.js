@@ -11,12 +11,6 @@ export default function(path) {
     );
   }
 
-  if (hub._componentClass) {
-    throw path.buildCodeFrameError(
-      "You can only have one top level class for a component."
-    );
-  }
-
   const classBody = hub.parseExpression(code, start).body.body;
   hub._componentClass = t.objectExpression(
     classBody.map(prop => {

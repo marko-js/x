@@ -12,6 +12,10 @@ function more() {
   abc();
 }
 
+function _thing(stuff, out) {
+  out.w(`<div${_marko_attr("x", stuff.x)}></div>`);
+}
+
 const _marko_template = _t(__filename),
       _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures-html/sanity-check/template.marko";
 
@@ -50,11 +54,15 @@ function _marko_render(input, out, __component, component, state) {
     }
   }, out, __component, "@x")
 
+  _thing({
+    "x": 1
+  }, out)
+
   _other({
     "renderBody": (out, a) => {
       out.w("<div></div>");
     }
-  }, out, "8", ["click", "handleClick", false, [a, b, ...d]])
+  }, out, "11", ["click", "handleClick", false, [a, b, ...d]])
 
   _other({
     "x": 1,
@@ -78,7 +86,7 @@ function _marko_render(input, out, __component, component, state) {
         }
       }
     }
-  }, out, "14")
+  }, out, "17")
 
   out.w(`<div id="a" class="b c" a="[object Object]" c="${d}"${_marko_attrs(e)}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`)
 

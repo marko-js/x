@@ -3,13 +3,17 @@ import htmlDynamicTag from "./html-dynamic-tag";
 import htmlAttributeTag from "./html-attribute-tag";
 import htmlNativeTag from "./html-native-tag";
 import htmlCustomTag from "./html-custom-tag";
+import htmlMacroTag from "./html-macro-tag";
+
+const EMPTY_OBJECT = {};
 
 export default {
   exit(path) {
     const {
       hub,
-      node: { tagDef, startTag, attributeTags }
+      node: { tagDef = EMPTY_OBJECT, startTag, attributeTags }
     } = path;
+    const { macros } = hub;
     const { name } = startTag;
     startTag.key = hub.getKey(path);
 
@@ -33,6 +37,9 @@ export default {
     } else if (tagDef.html) {
       assertNoAttributeTags();
       htmlNativeTag(path);
+    } else if (macros[tagName]) {
+      assertNoAttributeTags();
+      htmlMacroTag(path, macros[tagName]);
     } else {
       htmlCustomTag(path, tagDef);
     }
