@@ -60,6 +60,10 @@
       "preserveWhitespace": true
     }
   },
+  "<key>": {
+    "transformer": "./transform-key.js",
+    "@key": "string"
+  },
   "<*>": {
     "transformer": "./attributes/transform.js"
   }

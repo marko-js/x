@@ -50,6 +50,7 @@ export function replaceInRenderBody(path, nodes) {
 
   if (t.isProgram(path.parent)) {
     path.remove();
+    // TODO ensure child nodes visited.
     path.hub._renderBody.push(...nodes);
   } else {
     path.replaceWithMultiple(nodes);

@@ -7,6 +7,7 @@ import { buildLookup } from "./taglib";
 import createFile from "./util/create-file";
 import codeFrameError from "./util/code-frame-error";
 import { getLoc, getLocRange } from "./util/get-loc";
+import normalizeTemplateLiteral from "./util/normalize-template-string";
 
 export class Hub {
   constructor(filename, code, options = {}) {
@@ -106,8 +107,17 @@ export class Hub {
   }
 
   getKey(path) {
-    return (path._nodeKey =
-      path._nodeKey || t.stringLiteral(String(this._nextKey++)));
+    const key = (path.node._nodeKey =
+      path.node._nodeKey ||
+      Object.assign(t.stringLiteral(String(this._nextKey++)), {
+        _autoKey: true
+      }));
+
+    if (!key._autoKey) {
+      return normalizeTemplateLiteral(["@", ""], [key]);
+    }
+
+    return key;
   }
 
   parse(str, start) {

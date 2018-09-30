@@ -48,7 +48,7 @@ function _marko_render(input, out, __component, component, state) {
     "renderBody": out => {
       out.w("<div></div>");
     }
-  }, out, __component, "x")
+  }, out, __component, "@x")
 
   _other({
     "renderBody": (out, a) => {
@@ -112,6 +112,10 @@ function _marko_render(input, out, __component, component, state) {
     let i = _i2++;
     i;
     out.w("<div c=\"1\"></div>");
+
+    _other({
+      "d": 2
+    }, out, `@${val.name}`);
   }
 
   out.w("<div>Hi</div>\n\n  <div>\n\n    Hi\n\n  </div>\n\n")

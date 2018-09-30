@@ -87,9 +87,12 @@ $ let c = thing;
   <div c=1/>
 </for>
 
-<for(val, i) of=arr by="name">
+<for(val, i) of=arr>
   $ i
-  <div c=1/>
+  <key=val.name>
+    <div c=1/>
+    <other d=2/>
+  </key>
 </for>
 
 <div marko-preserve-whitespace>

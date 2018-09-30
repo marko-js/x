@@ -1,4 +1,4 @@
 export default function(path, attr) {
-  path._nodeKey = attr.get("value").node;
+  path.node._nodeKey = attr.get("value").node;
   attr.remove();
 }
