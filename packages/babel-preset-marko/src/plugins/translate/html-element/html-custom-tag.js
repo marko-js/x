@@ -8,17 +8,17 @@ const TAG_FILE_ENTRIES = ["template", "renderer"];
 
 export default function(path, tagDef) {
   const { hub, node } = path;
-  const {
-    file: {
-      opts: { filename }
-    }
-  } = hub;
+  const { filename, meta } = hub;
   const {
     startTag: { key },
     attributeTags
   } = node;
   const { name } = tagDef;
   const relativePath = resolveRelativePath(filename, tagDef);
+
+  if (!meta.tags.includes(relativePath)) {
+    meta.tags.push(relativePath);
+  }
 
   if (!relativePath) {
     throw path.buildCodeFrameError(

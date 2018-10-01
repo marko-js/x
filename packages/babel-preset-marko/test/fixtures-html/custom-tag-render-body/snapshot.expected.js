@@ -21,5 +21,6 @@ function _marko_render(input, out, __component, component, state) {
 }
 
 _marko_template.meta = {
-  id: "/babel-preset-marko$1.0.0/test/fixtures-html/custom-tag-render-body/template.marko"
+  id: "/babel-preset-marko$1.0.0/test/fixtures-html/custom-tag-render-body/template.marko",
+  tags: ["./tags/test-body-function/renderer.js"]
 }

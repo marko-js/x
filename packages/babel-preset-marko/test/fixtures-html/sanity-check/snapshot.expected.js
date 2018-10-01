@@ -146,5 +146,6 @@ _marko_template.meta = {
     "code": "{\n  div {\n    color: green;\n  }\n}",
     "path": "./template.marko",
     "virtualPath": "./template.marko.css"
-  }]
+  }],
+  tags: ["./components/other/index.marko"]
 }
