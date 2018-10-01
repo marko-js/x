@@ -140,5 +140,11 @@ function _marko_render(input, out, __component, component, state) {
 }
 
 _marko_template.meta = {
-  id: "/babel-preset-marko$1.0.0/test/fixtures-html/sanity-check/template.marko"
+  id: "/babel-preset-marko$1.0.0/test/fixtures-html/sanity-check/template.marko",
+  deps: [{
+    "type": "css",
+    "code": "{\n  div {\n    color: green;\n  }\n}",
+    "path": "./template.marko",
+    "virtualPath": "./template.marko.css"
+  }]
 }
