@@ -17,6 +17,11 @@ export class Hub {
     this.file = createFile(filename, code);
     this.lookup = buildLookup(path.dirname(filename));
     this.macros = Object.create(null);
+    this.meta = {
+      id: this.getClientPath(filename),
+      deps: [],
+      tags: []
+    };
     this._imports = Object.create(null);
     this._renderBody = [];
     this._componentClass = null;

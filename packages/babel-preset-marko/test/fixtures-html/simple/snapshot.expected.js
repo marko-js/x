@@ -26,3 +26,7 @@ function _marko_render(input, out, __component, component, state) {
     out.w("<div>No colors!</div>");
   }
 }
+
+_marko_template.meta = {
+  id: "/babel-preset-marko$1.0.0/test/fixtures-html/simple/template.marko"
+}

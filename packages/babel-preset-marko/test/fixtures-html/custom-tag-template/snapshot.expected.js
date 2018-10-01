@@ -16,3 +16,7 @@ function _marko_render(input, out, __component, component, state) {
     "name": "Frank"
   }, out, "0")
 }
+
+_marko_template.meta = {
+  id: "/babel-preset-marko$1.0.0/test/fixtures-html/custom-tag-template/template.marko"
+}

@@ -21,3 +21,7 @@ function _marko_render(input, out, __component, component, state) {
   console.log('foo');
   out.w(`Hello there${_marko_escapeXml(name)}</div>`)
 }
+
+_marko_template.meta = {
+  id: "/babel-preset-marko$1.0.0/test/fixtures-html/scriptlet-line-block/template.marko"
+}

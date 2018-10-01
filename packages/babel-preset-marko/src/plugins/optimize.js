@@ -5,6 +5,7 @@ export const visitor = {
   // Creates the final render function.
   Program(path) {
     const { node, hub } = path;
+    const { meta } = hub;
     const componentTypeIdentifier = path.scope.generateUidIdentifier(
       "marko_componentType"
     );
@@ -27,6 +28,10 @@ export const visitor = {
     const templateRendererMember = t.memberExpression(
       templateIdentifier,
       t.identifier("_")
+    );
+    const templateMetaMember = t.memberExpression(
+      templateIdentifier,
+      t.identifier("meta")
     );
     const componentId = hub.getClientPath(hub.filename);
     node.body.push(
@@ -79,6 +84,30 @@ export const visitor = {
         Object.assign(t.blockStatement([]), { body: hub._renderBody })
       )
     );
+
+    const metaObject = t.objectExpression([
+      t.objectProperty(t.identifier("id"), t.stringLiteral(meta.id))
+    ]);
+
+    if (meta.deps.length) {
+      metaObject.properties.push(
+        t.objectProperty(
+          t.identifier("deps"),
+          hub.parseExpression(JSON.stringify(meta.deps), hub.code.length)
+        )
+      );
+    }
+
+    if (meta.tags.length) {
+      metaObject.properties.push(
+        t.objectProperty(
+          t.identifier("tags"),
+          t.arrayExpression(meta.tags.map(tag => t.stringLiteral(tag)))
+        )
+      );
+    }
+
+    node.body.push(t.assignmentExpression("=", templateMetaMember, metaObject));
   },
   // Merges out.write calls
   CallExpression(path) {

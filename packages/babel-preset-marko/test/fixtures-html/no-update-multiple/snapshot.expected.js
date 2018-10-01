@@ -14,3 +14,7 @@ export default _marko_template;
 function _marko_render(input, out, __component, component, state) {
   out.w(`<div><input${_marko_attr("value", input.defaultValue)}><input${_marko_attr("value", input.defaultValue)}></div>`)
 }
+
+_marko_template.meta = {
+  id: "/babel-preset-marko$1.0.0/test/fixtures-html/no-update-multiple/template.marko"
+}

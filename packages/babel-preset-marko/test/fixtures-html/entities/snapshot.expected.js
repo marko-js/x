@@ -13,3 +13,7 @@ export default _marko_template;
 function _marko_render(input, out, __component, component, state) {
   out.w("Hello John &amp; Suzy Invalid Entity: &b ; Valid Numeric Entity: &#34; Valid Hexadecimal Entity: &#x00A2;")
 }
+
+_marko_template.meta = {
+  id: "/babel-preset-marko$1.0.0/test/fixtures-html/entities/template.marko"
+}

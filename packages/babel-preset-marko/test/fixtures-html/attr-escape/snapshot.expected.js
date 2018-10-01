@@ -14,3 +14,7 @@ export default _marko_template;
 function _marko_render(input, out, __component, component, state) {
   out.w(`<div${_marko_attr("class", _marko_class_merge(input.className))}${_marko_attr("foo", 'a' + input.foo + 'b')}${_marko_attr("bar", `a ${input.foo} b`)}></div>`)
 }
+
+_marko_template.meta = {
+  id: "/babel-preset-marko$1.0.0/test/fixtures-html/attr-escape/template.marko"
+}

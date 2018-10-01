@@ -20,3 +20,7 @@ function _marko_render(input, out, __component, component, state) {
     }
   }, out, "1")
 }
+
+_marko_template.meta = {
+  id: "/babel-preset-marko$1.0.0/test/fixtures-html/at-tags/template.marko"
+}

@@ -14,3 +14,7 @@ export default _marko_template;
 function _marko_render(input, out, __component, component, state) {
   out.w(`Hello${_marko_escapeXml(input.name)}! Hello${input.name}! Hello${input.missing}!`)
 }
+
+_marko_template.meta = {
+  id: "/babel-preset-marko$1.0.0/test/fixtures-html/hello-dynamic/template.marko"
+}

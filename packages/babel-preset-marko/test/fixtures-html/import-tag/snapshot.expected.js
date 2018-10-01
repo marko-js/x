@@ -13,3 +13,7 @@ _marko_template.Component = _marko_defineComponent(null, _marko_template._)
 export default _marko_template;
 
 function _marko_render(input, out, __component, component, state) {}
+
+_marko_template.meta = {
+  id: "/babel-preset-marko$1.0.0/test/fixtures-html/import-tag/template.marko"
+}

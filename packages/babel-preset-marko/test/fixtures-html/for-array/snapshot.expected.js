@@ -16,3 +16,7 @@ function _marko_render(input, out, __component, component, state) {
     out.w(_marko_escapeXml(color));
   }
 }
+
+_marko_template.meta = {
+  id: "/babel-preset-marko$1.0.0/test/fixtures-html/for-array/template.marko"
+}
