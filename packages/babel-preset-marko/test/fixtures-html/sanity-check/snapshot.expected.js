@@ -31,6 +31,7 @@ _marko_template.Component = _marko_defineComponent({
 export default _marko_template;
 
 function _marko_render(input, out, __component, component, state) {
+  out.w("<style>div { color: blue; }</style>")
   var b = thing;
   let c = thing;
   out.w(`<div${_marko_attr("b", b)}${_marko_attr("c", c)}>`)
@@ -62,7 +63,7 @@ function _marko_render(input, out, __component, component, state) {
     "renderBody": (out, a) => {
       out.w("<div></div>");
     }
-  }, out, "11", ["click", "handleClick", false, [a, b, ...d]])
+  }, out, "12", ["click", "handleClick", false, [a, b, ...d]])
 
   _other({
     "x": 1,
@@ -86,7 +87,7 @@ function _marko_render(input, out, __component, component, state) {
         }
       }
     }
-  }, out, "17")
+  }, out, "18")
 
   out.w(`<div id="a" class="b c" a="[object Object]" c="${d}"${_marko_attrs(e)}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`)
 
@@ -143,7 +144,7 @@ _marko_template.meta = {
   id: "/babel-preset-marko$1.0.0/test/fixtures-html/sanity-check/template.marko",
   deps: [{
     "type": "css",
-    "code": "{\n  div {\n    color: green;\n  }\n}",
+    "code": "div {\n    color: green;\n  }",
     "path": "./template.marko",
     "virtualPath": "./template.marko.css"
   }],

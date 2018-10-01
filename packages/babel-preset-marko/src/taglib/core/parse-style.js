@@ -1,22 +1,22 @@
 import { basename } from "path";
+const STYLE_REG = /^style(?:\.([^\s]+))?\s*\{([\s\S]*)}$/;
 
 export default function(path) {
   const { node, hub } = path;
   const { startTag } = node;
   const { rawValue } = startTag;
   const base = basename(hub.filename);
-  let type;
-  const code = rawValue
-    .replace(/^style(?:\.([^\s]+))?\s*/, (_, _type) => {
-      type = _type || "css";
-      return "";
-    })
-    .trim();
+  const matchedBlock = STYLE_REG.exec(rawValue);
+
+  if (!matchedBlock) {
+    return node;
+  }
+
+  const [, type = "css", code] = matchedBlock;
   hub.meta.deps.push({
     type,
-    code,
+    code: code.trim(),
     path: `./${base}`,
     virtualPath: `./${base}.${type}`
   });
-  return;
 }
