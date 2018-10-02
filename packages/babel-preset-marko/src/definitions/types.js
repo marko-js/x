@@ -171,6 +171,7 @@ export default {
       children: {
         validate: arrayOfType([
           "HTMLElement",
+          "HTMLCDATA",
           "HTMLText",
           "HTMLPlaceholder",
           "HTMLScriptlet",
