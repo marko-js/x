@@ -12,6 +12,12 @@ export default function(path) {
     return node;
   }
 
+  if (hub.componentFiles.styleFile) {
+    throw path.buildCodeFrameError(
+      'A Marko file can either have an inline style block, or an external "style.ext" file, but not both.'
+    );
+  }
+
   const [, type = "css", code] = matchedBlock;
   hub.meta.deps.push({
     type,

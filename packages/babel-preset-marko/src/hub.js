@@ -8,6 +8,7 @@ import createFile from "./util/create-file";
 import codeFrameError from "./util/code-frame-error";
 import { getLoc, getLocRange } from "./util/get-loc";
 import normalizeTemplateLiteral from "./util/normalize-template-string";
+import getComponentFiles from "./util/get-component-files";
 
 export class Hub {
   constructor(filename, code, options = {}) {
@@ -16,6 +17,7 @@ export class Hub {
     this.filename = filename;
     this.file = createFile(filename, code);
     this.lookup = buildLookup(path.dirname(filename));
+    this.componentFiles = getComponentFiles(filename);
     this.macros = Object.create(null);
     this.meta = {
       id: this.getClientPath(filename),
@@ -26,6 +28,27 @@ export class Hub {
     this._renderBody = [];
     this._componentClass = null;
     this._nextKey = 0;
+
+    const {
+      styleFile,
+      packageFile,
+      componentFile,
+      componentBrowserFile
+    } = this.componentFiles;
+
+    if (styleFile) {
+      this.meta.deps.push(styleFile);
+    }
+
+    if (packageFile) {
+      this.meta.deps.push(packageFile);
+    }
+
+    if (componentFile) {
+      this.meta.component = componentFile;
+    }
+
+    // TODO componentBrowserFile
   }
 
   getCode() {
@@ -44,6 +67,15 @@ export class Hub {
 
   getClientPath(file) {
     return getClientPath(file);
+  }
+
+  resolveRelativePath(filename) {
+    const dir = path.dirname(this.filename);
+    let relativePath = path.isAbsolute(filename)
+      ? path.relative(dir, filename)
+      : filename;
+    if (/^[^./]/.test(relativePath)) relativePath = `./${relativePath}`;
+    return relativePath;
   }
 
   importDefault(path, file, nameHint) {

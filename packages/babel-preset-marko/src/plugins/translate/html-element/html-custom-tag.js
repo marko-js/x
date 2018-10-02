@@ -8,13 +8,13 @@ const TAG_FILE_ENTRIES = ["template", "renderer"];
 
 export default function(path, tagDef) {
   const { hub, node } = path;
-  const { filename, meta } = hub;
+  const { meta } = hub;
   const {
     startTag: { key },
     attributeTags
   } = node;
   const { name } = tagDef;
-  const relativePath = resolveRelativePath(filename, tagDef);
+  const relativePath = resolveRelativePath(hub, tagDef);
 
   if (!meta.tags.includes(relativePath)) {
     meta.tags.push(relativePath);
@@ -73,12 +73,9 @@ function getNestedAttrs(node, tagDef) {
   return attrs;
 }
 
-function resolveRelativePath(filename, tagDef) {
-  const dir = dirname(filename);
+function resolveRelativePath(hub, tagDef) {
   for (const entry of TAG_FILE_ENTRIES) {
     if (!tagDef[entry]) continue;
-    let relativePath = relative(dir, tagDef[entry]);
-    if (/^[^./]/.test(relativePath)) relativePath = `./${relativePath}`;
-    return relativePath;
+    return hub.resolveRelativePath(tagDef[entry]);
   }
 }

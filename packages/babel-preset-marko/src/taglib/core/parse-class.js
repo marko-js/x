@@ -5,6 +5,12 @@ export default function(path) {
   const { startTag } = node;
   const { rawValue: code, start } = startTag;
 
+  if (hub.componentFiles.componentFile) {
+    throw path.buildCodeFrameError(
+      'A Marko file can either have an inline class, or an external "component.js", but not both.'
+    );
+  }
+
   if (hub._componentClass) {
     throw path.buildCodeFrameError(
       "A Marko component can only have one top level class."

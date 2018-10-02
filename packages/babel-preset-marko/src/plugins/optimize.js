@@ -89,11 +89,30 @@ export const visitor = {
       t.objectProperty(t.identifier("id"), t.stringLiteral(meta.id))
     ]);
 
+    if (meta.component) {
+      metaObject.properties.push(
+        t.objectProperty(
+          t.identifier("component"),
+          t.stringLiteral(hub.resolveRelativePath(meta.component))
+        )
+      );
+    }
+
     if (meta.deps.length) {
       metaObject.properties.push(
         t.objectProperty(
           t.identifier("deps"),
-          hub.parseExpression(JSON.stringify(meta.deps), hub.code.length)
+          hub.parseExpression(
+            JSON.stringify(
+              meta.deps.map(
+                file =>
+                  typeof file === "string"
+                    ? hub.resolveRelativePath(file)
+                    : file
+              )
+            ),
+            hub.code.length
+          )
         )
       );
     }
