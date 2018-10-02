@@ -2,7 +2,7 @@ import { t as _t } from "marko/src/html";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import _other from "./components/other/index.marko";
 import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
-import { cl as _marko_class_merge, a as _marko_attr, d as _marko_dynamicTag, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/html/helpers";
+import { cl as _marko_class_merge, xc as _marko_escapeStyle, xs as _marko_escapeScript, a as _marko_attr, d as _marko_dynamicTag, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/html/helpers";
 import a from "b";
 export { something };
 doThings();
@@ -31,7 +31,7 @@ _marko_template.Component = _marko_defineComponent({
 export default _marko_template;
 
 function _marko_render(input, out, __component, component, state) {
-  out.w("<style>div { color: blue; }</style>")
+  out.w(`<style>div { color:${_marko_escapeStyle(x)}; }</style><script>var y =${_marko_escapeScript(x)};</script>`)
   var b = thing;
   let c = thing;
   out.w(`<div${_marko_attr("b", b)}${_marko_attr("c", c)}>`)
@@ -63,7 +63,7 @@ function _marko_render(input, out, __component, component, state) {
     "renderBody": (out, a) => {
       out.w("<div></div>");
     }
-  }, out, "12", ["click", "handleClick", false, [a, b, ...d]])
+  }, out, "13", ["click", "handleClick", false, [a, b, ...d]])
 
   _other({
     "x": 1,
@@ -87,7 +87,7 @@ function _marko_render(input, out, __component, component, state) {
         }
       }
     }
-  }, out, "18")
+  }, out, "19")
 
   out.w(`<div id="a" class="b c" a="[object Object]" c="${d}"${_marko_attrs(e)}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`)
 
