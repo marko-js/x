@@ -5,16 +5,13 @@ import { cl as _marko_class_merge, a as _marko_attr } from "marko/src/runtime/ht
 const _marko_template = _t(__filename),
       _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures-html/attr-escape/template.marko";
 
-_marko_template._ = _marko_renderer(_marko_render, {
+_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+  out.w(`<div${_marko_attr("class", _marko_class_merge(input.className))}${_marko_attr("foo", 'a' + input.foo + 'b')}${_marko_attr("bar", `a ${input.foo} b`)}></div>`)
+}, {
   ___type: _marko_componentType
 })
 _marko_template.Component = _marko_defineComponent(null, _marko_template._)
-export default _marko_template;
-
-function _marko_render(input, out, __component, component, state) {
-  out.w(`<div${_marko_attr("class", _marko_class_merge(input.className))}${_marko_attr("foo", 'a' + input.foo + 'b')}${_marko_attr("bar", `a ${input.foo} b`)}></div>`)
-}
-
 _marko_template.meta = {
   id: "/babel-preset-marko$1.0.0/test/fixtures-html/attr-escape/template.marko"
 }
+export default _marko_template;

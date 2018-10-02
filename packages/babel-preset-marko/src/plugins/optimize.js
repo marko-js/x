@@ -6,13 +6,21 @@ export const visitor = {
   Program(path) {
     const { node, hub } = path;
     const { meta } = hub;
+    const componentNode =
+      hub._componentClass ||
+      (meta.component
+        ? hub.importDefault(
+            path,
+            hub.resolveRelativePath(meta.component),
+            "marko_component"
+          )
+        : t.nullLiteral());
     const componentTypeIdentifier = path.scope.generateUidIdentifier(
       "marko_componentType"
     );
     const templateIdentifier = path.scope.generateUidIdentifier(
       "marko_template"
     );
-    const renderIdentifier = path.scope.generateUidIdentifier("marko_render");
     const rendererIdentifier = hub.importNamed(
       path,
       "marko/src/components/helpers",
@@ -53,7 +61,17 @@ export const visitor = {
         "=",
         templateRendererMember,
         t.callExpression(rendererIdentifier, [
-          renderIdentifier,
+          t.functionExpression(
+            null,
+            [
+              t.identifier("input"),
+              t.identifier("out"),
+              t.identifier("__component"), // TODO: convert to generated var and store reference.
+              t.identifier("component"),
+              t.identifier("state")
+            ],
+            Object.assign(t.blockStatement([]), { body: hub._renderBody })
+          ),
           t.objectExpression([
             t.objectProperty(t.identifier("___type"), componentTypeIdentifier)
           ])
@@ -65,23 +83,9 @@ export const visitor = {
         "=",
         t.memberExpression(templateIdentifier, t.identifier("Component")),
         t.callExpression(defineComponentIdentifier, [
-          hub._componentClass || t.nullLiteral(),
+          componentNode,
           templateRendererMember
         ])
-      )
-    );
-    node.body.push(t.exportDefaultDeclaration(templateIdentifier));
-    node.body.push(
-      t.functionDeclaration(
-        renderIdentifier,
-        [
-          t.identifier("input"),
-          t.identifier("out"),
-          t.identifier("__component"), // TODO: convert to generated var and store reference.
-          t.identifier("component"),
-          t.identifier("state")
-        ],
-        Object.assign(t.blockStatement([]), { body: hub._renderBody })
       )
     );
 
@@ -127,6 +131,7 @@ export const visitor = {
     }
 
     node.body.push(t.assignmentExpression("=", templateMetaMember, metaObject));
+    node.body.push(t.exportDefaultDeclaration(templateIdentifier));
   },
   // Merges out.write calls
   CallExpression(path) {

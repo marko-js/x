@@ -5,22 +5,19 @@ import _testBodyFunction from "./tags/test-body-function/renderer.js";
 const _marko_template = _t(__filename),
       _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures-html/custom-tag-render-body/template.marko";
 
-_marko_template._ = _marko_renderer(_marko_render, {
-  ___type: _marko_componentType
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
-export default _marko_template;
-
-function _marko_render(input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   _testBodyFunction({
     "name": "World",
     "renderBody": out => {
       out.w("This is the body content");
     }
   }, out, "0")
-}
-
+}, {
+  ___type: _marko_componentType
+})
+_marko_template.Component = _marko_defineComponent(null, _marko_template._)
 _marko_template.meta = {
   id: "/babel-preset-marko$1.0.0/test/fixtures-html/custom-tag-render-body/template.marko",
   tags: ["./tags/test-body-function/renderer.js"]
 }
+export default _marko_template;

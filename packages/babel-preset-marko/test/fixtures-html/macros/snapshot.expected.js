@@ -24,17 +24,14 @@ function _renderTree(node, out) {
 const _marko_template = _t(__filename),
       _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures-html/macros/template.marko";
 
-_marko_template._ = _marko_renderer(_marko_render, {
+_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+  _renderTree({ ...input.node
+  }, out)
+}, {
   ___type: _marko_componentType
 })
 _marko_template.Component = _marko_defineComponent(null, _marko_template._)
-export default _marko_template;
-
-function _marko_render(input, out, __component, component, state) {
-  _renderTree({ ...input.node
-  }, out)
-}
-
 _marko_template.meta = {
   id: "/babel-preset-marko$1.0.0/test/fixtures-html/macros/template.marko"
 }
+export default _marko_template;

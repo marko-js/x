@@ -19,18 +19,7 @@ function _thing(stuff, out) {
 const _marko_template = _t(__filename),
       _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures-html/sanity-check/template.marko";
 
-_marko_template._ = _marko_renderer(_marko_render, {
-  ___type: _marko_componentType
-})
-_marko_template.Component = _marko_defineComponent({
-  onCreate() {
-    this.stuff();
-  }
-
-}, _marko_template._)
-export default _marko_template;
-
-function _marko_render(input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.w(`<style>div { color:${_marko_escapeStyle(x)}; }</style><script>var y =${_marko_escapeScript(x)};</script>`)
   var b = thing;
   let c = thing;
@@ -138,8 +127,15 @@ function _marko_render(input, out, __component, component, state) {
   if (false) {
     out.w("</div>");
   }
-}
+}, {
+  ___type: _marko_componentType
+})
+_marko_template.Component = _marko_defineComponent({
+  onCreate() {
+    this.stuff();
+  }
 
+}, _marko_template._)
 _marko_template.meta = {
   id: "/babel-preset-marko$1.0.0/test/fixtures-html/sanity-check/template.marko",
   deps: [{
@@ -150,3 +146,4 @@ _marko_template.meta = {
   }],
   tags: ["./components/other/index.marko"]
 }
+export default _marko_template;
