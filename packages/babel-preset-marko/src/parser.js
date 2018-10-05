@@ -331,6 +331,7 @@ export function parse(hub) {
       },
 
       onError({ message, pos, endPos }) {
+        if (message.includes("EOF")) endPos = pos;
         throw hub.buildError({ start: pos, end: endPos }, message);
       }
     },
