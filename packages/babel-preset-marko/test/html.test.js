@@ -34,7 +34,7 @@ fs.readdirSync(fixturesDir).forEach(folder => {
 
       snapshot(fixtureDir, "code.js", code);
     } catch (err) {
-      if (err.name.startsWith("AssertionError")) {
+      if (err.snapshot) {
         throw err;
       }
 
@@ -61,6 +61,7 @@ function snapshot(dir, file, data) {
     try {
       assert.equal(data, expected);
     } catch (err) {
+      err.snapshot = true;
       err.name = err.name.replace(" [ERR_ASSERTION]", "");
       err.message = `${path.relative(process.cwd(), actualFile)}\n\n${
         err.message
