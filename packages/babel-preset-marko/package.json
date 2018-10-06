@@ -15,7 +15,8 @@
     "htmljs-parser": "^2.4.0",
     "lasso-modules-client": "^2.0.5",
     "marko": "^4.13.4-1",
-    "self-closing-tags": "^1.0.1"
+    "self-closing-tags": "^1.0.1",
+    "strip-ansi": "^5.0.0"
   },
   "files": [
     "dist"

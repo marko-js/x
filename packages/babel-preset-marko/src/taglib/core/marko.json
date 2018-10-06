@@ -22,24 +22,26 @@
     "node-factory": "./parse-class.js",
     "parse-options": {
       "rootOnly": true,
-      "ignoreAttributes": true,
-      "rawOpenTag": true
+      "rawOpenTag": true,
+      "openTagOnly": true,
+      "ignoreAttributes": true
     }
   },
   "<static>": {
     "node-factory": "./parse-static.js",
     "parse-options": {
       "rootOnly": true,
-      "ignoreAttributes": true,
-      "rawOpenTag": true
+      "rawOpenTag": true,
+      "openTagOnly": true,
+      "ignoreAttributes": true
     }
   },
   "<style>": {
     "node-factory": "./parse-style.js",
     "parse-options": {
       "rootOnly": true,
-      "ignoreAttributes": true,
-      "rawOpenTag": true
+      "rawOpenTag": true,
+      "ignoreAttributes": true
     }
   },
   "<macro>": {

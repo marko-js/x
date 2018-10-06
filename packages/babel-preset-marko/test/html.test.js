@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import assert from "assert";
+import stripAnsi from "strip-ansi";
 import plugin from "../src";
 import { transform } from "@babel/core";
 
@@ -15,32 +16,56 @@ fs.readdirSync(fixturesDir).forEach(folder => {
 
   const fixtureDir = path.join(fixturesDir, folder);
   const sourceFile = path.join(fixtureDir, "template.marko");
-  const expectedFile = path.join(fixtureDir, "snapshot.expected.js");
-  const actualFile = path.join(fixtureDir, "snapshot.actual.js");
+
   it(folder, () => {
     const source = fs.readFileSync(sourceFile);
-    const { code: actual } = transform(source, {
-      ast: true,
-      code: true,
-      babelrc: false,
-      configFile: false,
-      sourceMaps: false,
-      filename: sourceFile,
-      sourceFileName: sourceFile,
-      plugins: [[plugin, { configured: true }]]
-    });
 
-    fs.writeFileSync(actualFile, actual, "utf-8");
+    try {
+      const { code } = transform(source, {
+        ast: true,
+        code: true,
+        babelrc: false,
+        configFile: false,
+        sourceMaps: false,
+        filename: sourceFile,
+        sourceFileName: sourceFile,
+        plugins: [[plugin, { configured: true }]]
+      });
 
-    if (process.env.UPDATE_EXPECTATIONS) {
-      fs.writeFileSync(expectedFile, actual, "utf-8");
-    } else {
-      if (fs.existsSync(expectedFile)) {
-        const expected = fs.readFileSync(expectedFile, "utf-8");
-        assert.equal(actual, expected);
-      } else {
-        assert.equal(actual, "");
+      snapshot(fixtureDir, "code.js", code);
+    } catch (err) {
+      if (err.name.startsWith("AssertionError")) {
+        throw err;
       }
+
+      snapshot(fixtureDir, "error.txt", stripAnsi(err.message));
     }
   });
 });
+
+function snapshot(dir, file, data) {
+  let { name, ext } = path.parse(file);
+  if (name) name += ".";
+  const expectedFile = path.join(dir, `${name}expected${ext}`);
+  const actualFile = path.join(dir, `${name}actual${ext}`);
+
+  fs.writeFileSync(actualFile, data, "utf-8");
+
+  if (process.env.UPDATE_EXPECTATIONS) {
+    fs.writeFileSync(expectedFile, data, "utf-8");
+  } else {
+    const expected = fs.existsSync(expectedFile)
+      ? fs.readFileSync(expectedFile, "utf-8")
+      : "";
+
+    try {
+      assert.equal(data, expected);
+    } catch (err) {
+      err.name = err.name.replace(" [ERR_ASSERTION]", "");
+      err.message = `${path.relative(process.cwd(), actualFile)}\n\n${
+        err.message
+      }`;
+      throw err;
+    }
+  }
+}
