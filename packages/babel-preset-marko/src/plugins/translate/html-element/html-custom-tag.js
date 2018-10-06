@@ -1,4 +1,3 @@
-import { relative, dirname } from "path";
 import * as t from "../../../definitions";
 import { replaceInRenderBody } from "../../../taglib/core/util";
 import { getAttrs, buildEventHandlerArray } from "./util";
@@ -20,18 +19,18 @@ export default function(path, tagDef) {
     meta.tags.push(relativePath);
   }
 
-  if (!relativePath) {
-    throw path.buildCodeFrameError(
-      `Unable to find entry point for "${name}" tag.`
-    );
-  }
+  // if (!relativePath) {
+  //   throw path.buildCodeFrameError(
+  //     `Unable to find entry point for "${name}" tag.`
+  //   );
+  // }
 
   const tagIdentifier = hub.importDefault(path, relativePath, name);
 
   replaceInRenderBody(
     path,
     t.callExpression(tagIdentifier, [
-      getNestedAttrs(node, tagDef, attributeTags),
+      getNestedAttrs(hub, node, tagDef),
       t.identifier("out"),
       key,
       ...buildEventHandlerArray(path)
@@ -39,7 +38,7 @@ export default function(path, tagDef) {
   );
 }
 
-function getNestedAttrs(node, tagDef) {
+function getNestedAttrs(hub, node, tagDef) {
   const nestedTags = tagDef && tagDef.nestedTags;
   const { attributeTags } = node;
   const attrs = getAttrs(node);
@@ -56,7 +55,8 @@ function getNestedAttrs(node, tagDef) {
       // TODO: repeated @tags
     } else {
       if (tagNodes.length > 1) {
-        throw path.buildCodeFrameError(
+        throw hub.buildError(
+          tagNodes[1],
           `Only one "@${name}" tag is allowed here.`
         );
       }
@@ -64,7 +64,7 @@ function getNestedAttrs(node, tagDef) {
       attrs.properties.push(
         t.objectProperty(
           t.stringLiteral(name),
-          getNestedAttrs(tagNodes[0], nestedTagDef)
+          getNestedAttrs(hub, tagNodes[0], nestedTagDef)
         )
       );
     }

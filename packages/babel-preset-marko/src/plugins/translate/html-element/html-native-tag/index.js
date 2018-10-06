@@ -3,14 +3,17 @@ import * as t from "../../../../definitions";
 import write from "../../../../util/html-out-write";
 import withPreviousLocation from "../../../../util/with-previous-location";
 import translateAttributes from "./attributes";
-import { replaceInRenderBody, toStatement } from "../../../../taglib/core/util";
+import {
+  replaceInRenderBody,
+  toStatement,
+  assertNoParams
+} from "../../../../taglib/core/util";
 
 /**
  * Translates the html streaming version of a standard html element.
  */
 export default function(path) {
   const {
-    hub,
     node: { parent, startTag, children, endTag }
   } = path;
 
@@ -19,6 +22,8 @@ export default function(path) {
     name: { value: tagName }
   } = startTag;
   const attributes = path.get("startTag").get("attributes");
+
+  assertNoParams(path);
 
   if (handlers) {
     // TODO: prevent escaping this with the attr helper.

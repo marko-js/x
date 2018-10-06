@@ -1,0 +1,4 @@
+packages/babel-preset-marko/test/fixtures-html/error-scriptlets-not-supported/template.marko(1,0): Scriptlets are no longer supported.
+> 1 | <% console.log(x) %>
+    | ^^^^^^^^^^^^^^^^^^^^
+  2 | <div/>

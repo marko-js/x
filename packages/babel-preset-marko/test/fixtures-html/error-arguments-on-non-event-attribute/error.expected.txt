@@ -1,0 +1,3 @@
+packages/babel-preset-marko/test/fixtures-html/error-arguments-on-non-event-attribute/template.marko(1,5): Unsupported arguments on attribute.
+> 1 | <div hello('a')/>
+    |     ^^^^

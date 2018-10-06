@@ -4,18 +4,20 @@
     "node-factory": "./parse-import.js",
     "parse-options": {
       "rootOnly": true,
-      "relaxRequireCommas": true,
+      "rawOpenTag": true,
+      "openTagOnly": true,
       "ignoreAttributes": true,
-      "rawOpenTag": true
+      "relaxRequireCommas": true
     }
   },
   "<export>": {
     "node-factory": "./parse-export.js",
     "parse-options": {
       "rootOnly": true,
-      "relaxRequireCommas": true,
+      "rawOpenTag": true,
+      "openTagOnly": true,
       "ignoreAttributes": true,
-      "rawOpenTag": true
+      "relaxRequireCommas": true
     }
   },
   "<class>": {
@@ -37,7 +39,7 @@
     }
   },
   "<style>": {
-    "node-factory": "./parse-style.js",
+    "transformer": "./transform-style.js",
     "parse-options": {
       "rootOnly": true,
       "rawOpenTag": true,

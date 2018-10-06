@@ -1,0 +1,8 @@
+packages/babel-preset-marko/test/fixtures-html/error-class-file-and-inline/template.marko(1,0): A Marko file can either have an inline class, or an external "component.js", but not both.
+> 1 | class {
+> 2 |   onCreate() {
+> 3 | 
+> 4 |   }
+> 5 | }
+> 6 | 
+> 7 | <div/>

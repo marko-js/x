@@ -1,1 +1,0 @@
-Cannot read property 'openTagOnly' of undefined

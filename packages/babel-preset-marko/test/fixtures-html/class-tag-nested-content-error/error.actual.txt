@@ -1,6 +1,0 @@
-packages/babel-preset-marko/test/fixtures-html/class-tag-nested-content-error/template.marko(2,1): The "class" tag does not allow nested body content
-  1 | class {}
-> 2 |  <div/>
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 3 | 
-    | ^

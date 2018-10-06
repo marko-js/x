@@ -3,7 +3,7 @@
 *.log
 *.DS_Store
 *.marko.js
-*.actual.js
+*.actual.*
 *.history/
 .cache/
 .nyc_output/

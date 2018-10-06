@@ -31,6 +31,7 @@ export default function(path) {
       } else if (t.isClassProperty(prop)) {
         prop.type = "ObjectProperty";
       } else {
+        // TODO support classProperties and move them into the onCreate method.
         throw hub.buildError(prop, "Unsupported class property on component.");
       }
 

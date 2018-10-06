@@ -1,0 +1,12 @@
+packages/babel-preset-marko/test/fixtures-html/error-at-tags-missing-parent/template.marko(3,4): @tags must be within a custom element.
+  1 | <div>
+  2 | 
+> 3 |     <@header class="my-header">
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 4 |         Header content
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 5 |     </@header>
+    | ^^^^^^^^^^^^^^
+  6 | 
+  7 |     Body content
+  8 | 
