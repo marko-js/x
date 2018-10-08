@@ -2,7 +2,10 @@
     "all": true,
     "cache": true,
     "include": [
-        "packages/*/src/**/*.js"
+      "packages/*/src/**/*.js"
+    ],
+    "exclude": [
+      "packages/runtime"
     ],
     "instrument": false,
     "reporter": [

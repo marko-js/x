@@ -4,7 +4,7 @@ import _other from "./components/other/index.marko";
 import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
 import { cl as _marko_class_merge, xc as _marko_escapeStyle, xs as _marko_escapeScript, a as _marko_attr, d as _marko_dynamicTag, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/html/helpers";
 import a from "b";
-export { something };
+export { a };
 doThings();
 andStuff();
 
