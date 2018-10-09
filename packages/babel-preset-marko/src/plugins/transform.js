@@ -12,23 +12,30 @@ export const visitor = {
     const {
       startTag: { name }
     } = node;
-    const tagName = name.value;
+    let tagName = name.value;
+    const isDynamicTag = !t.isStringLiteral(name);
+    const isAttributeTag = !isDynamicTag && tagName[0] === "@";
+    const isTagDefOptional = isDynamicTag || isAttributeTag;
+
+    if (isDynamicTag) {
+      tagName = undefined;
+    } else if (isAttributeTag) {
+      tagName = `${path.parent.startTag.name.value}:${tagName.slice(1)}`;
+    }
 
     if (macros[tagName]) {
       return;
     }
 
-    const tagDef = (node.tagDef = lookup.getTag(
-      !t.isStringLiteral(name) || tagName[0] === "@" ? "*" : tagName
-    ));
+    const tagDef = (node.tagDef = tagName && lookup.getTag(tagName));
 
-    if (!tagDef) {
+    if (!isTagDefOptional && !tagDef) {
       throw path.buildCodeFrameError(`Could not find custom tag "${tagName}".`);
     }
 
     const transformers = [
-      ...Object.values(tagDef.transformers),
-      ...Object.values(lookup.getTag("*").transformers)
+      ...(tagDef ? Object.values(tagDef.transformers) : []),
+      ...(!isAttributeTag ? Object.values(lookup.getTag("*").transformers) : [])
     ].sort(comparePriority);
 
     for (const transformer of transformers) {

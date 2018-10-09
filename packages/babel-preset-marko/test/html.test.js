@@ -31,19 +31,17 @@ fs.readdirSync(fixturesDir).forEach(folder => {
         sourceFileName: sourceFile,
         plugins: [[plugin, { configured: true }]]
       });
-
-      snapshot(fixtureDir, "code.js", code);
     } catch (err) {
       if (err.snapshot) {
         throw err;
       }
 
-      snapshot(fixtureDir, "error.txt", stripAnsi(err.message));
+      snapshot(fixtureDir, "error.txt", stripAnsi(err.message), err);
     }
   });
 });
 
-function snapshot(dir, file, data) {
+function snapshot(dir, file, data, originalError) {
   let { name, ext } = path.parse(file);
   if (name) name += ".";
   const expectedFile = path.join(dir, `${name}expected${ext}`);
@@ -66,7 +64,7 @@ function snapshot(dir, file, data) {
       err.message = `${path.relative(process.cwd(), actualFile)}\n\n${
         err.message
       }`;
-      throw err;
+      throw originalError || err;
     }
   }
 }
