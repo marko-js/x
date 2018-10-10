@@ -11,7 +11,7 @@ export default {
   exit(path) {
     const {
       hub,
-      node: { tagDef = EMPTY_OBJECT, startTag, attributeTags }
+      node: { tagDef = EMPTY_OBJECT, startTag, hasAttributeTag }
     } = path;
     const { macros } = hub;
     const { name } = startTag;
@@ -45,9 +45,9 @@ export default {
     }
 
     function assertNoAttributeTags() {
-      if (attributeTags) {
+      if (hasAttributeTag) {
         throw hub.buildError(
-          Object.values(attributeTags)[0][0],
+          hasAttributeTag,
           "@tags must be within a custom element."
         );
       }

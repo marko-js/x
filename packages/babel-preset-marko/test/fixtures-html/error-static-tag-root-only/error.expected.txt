@@ -1,7 +1,7 @@
-packages/babel-preset-marko/test/fixtures-html/error-static-tag-root-only/template.marko(2,2): "macro" tags must be at the root of your Marko template.
+packages/babel-preset-marko/test/fixtures-html/error-static-tag-root-only/template.marko(2,3): "macro" tags must be at the root of your Marko template.
   1 | <div>
 > 2 |   <macro(x) name="stuff">
-    |  ^^^^^^^^^
+    |   ^^^^^^^^^
   3 |     <div/>
   4 |   </macro>
   5 | </div>

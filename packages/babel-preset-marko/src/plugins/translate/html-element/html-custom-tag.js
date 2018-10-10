@@ -8,69 +8,27 @@ const TAG_FILE_ENTRIES = ["template", "renderer"];
 export default function(path, tagDef) {
   const { hub, node } = path;
   const { meta } = hub;
-  const {
-    startTag: { key },
-    attributeTags
-  } = node;
   const { name } = tagDef;
+  const {
+    startTag: { key }
+  } = node;
   const relativePath = resolveRelativePath(hub, tagDef);
 
   if (!meta.tags.includes(relativePath)) {
     meta.tags.push(relativePath);
   }
 
-  // if (!relativePath) {
-  //   throw path.buildCodeFrameError(
-  //     `Unable to find entry point for "${name}" tag.`
-  //   );
-  // }
-
   const tagIdentifier = hub.importDefault(path, relativePath, name);
 
   replaceInRenderBody(
     path,
     t.callExpression(tagIdentifier, [
-      getNestedAttrs(hub, node, tagDef),
+      getAttrs(path),
       t.identifier("out"),
       key,
       ...buildEventHandlerArray(path)
     ])
   );
-}
-
-function getNestedAttrs(hub, node, tagDef) {
-  const nestedTags = tagDef && tagDef.nestedTags;
-  const { attributeTags } = node;
-  const attrs = getAttrs(node);
-
-  if (!attributeTags) {
-    return attrs;
-  }
-
-  for (const [name, tagNodes] of Object.entries(attributeTags)) {
-    const nestedTagDef = nestedTags && nestedTags[name];
-
-    if (nestedTagDef && nestedTagDef.isRepeated) {
-      const { targetProperty } = nestedTagDef;
-      // TODO: repeated @tags
-    } else {
-      if (tagNodes.length > 1) {
-        throw hub.buildError(
-          tagNodes[1],
-          `Only one "@${name}" tag is allowed here.`
-        );
-      }
-
-      attrs.properties.push(
-        t.objectProperty(
-          t.stringLiteral(name),
-          getNestedAttrs(hub, tagNodes[0], nestedTagDef)
-        )
-      );
-    }
-  }
-
-  return attrs;
 }
 
 function resolveRelativePath(hub, tagDef) {

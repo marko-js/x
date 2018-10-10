@@ -3,8 +3,7 @@ import write from "../../util/html-out-write";
 import withPreviousLocation from "../../util/with-previous-location";
 import { replaceInRenderBody } from "../../taglib/core/util";
 
-// TODO: should support specially escaping cdata.
-
+const EMPTY_OBJECT = {};
 const ESCAPE_TYPES = {
   html: {
     name: "x",
@@ -47,11 +46,15 @@ function findParentTagName(path) {
       return;
     }
 
-    if (t.isHTMLElement(path.node) && path.node.tagDef.html) {
-      return path
-        .get("startTag")
-        .get("name")
-        .get("value").node;
+    if (t.isHTMLElement(path.node)) {
+      const { tagDef = EMPTY_OBJECT } = path.node;
+      return (
+        tagDef.html &&
+        path
+          .get("startTag")
+          .get("name")
+          .get("value").node
+      );
     }
   }
 }

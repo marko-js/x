@@ -1,3 +1,3 @@
-packages/babel-preset-marko/test/fixtures-html/error-event-handler-value/template.marko(1,17): Cannot have both attribute arguments and a value.
+packages/babel-preset-marko/test/fixtures-html/error-event-handler-value/template.marko(1,18): Cannot have both attribute arguments and a value.
 > 1 | <div onClick('a')=b/>
-    |                 ^
+    |                  ^

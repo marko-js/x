@@ -6,10 +6,19 @@ const _marko_template = _t(__filename),
       _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures-html/at-tag-inside-if-tag/template.marko";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+  let _thing = null;
+
+  if (x) {
+    _thing = {
+      "x": 1,
+      "renderBody": out => {
+        out.w("Hello");
+      }
+    };
+  }
+
   _customTag({
-    "renderBody": out => {
-      if (x) {}
-    }
+    "thing": _thing
   }, out, "2")
 }, {
   ___type: _marko_componentType

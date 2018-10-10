@@ -1,8 +1,12 @@
 import * as t from "../../../definitions";
-import { toStatement } from "../../../taglib/core/util";
+import {
+  toStatement,
+  insertBeforeInRenderBody
+} from "../../../taglib/core/util";
 
-export function getAttrs(node) {
-  const { startTag, attributeTags, children } = node;
+export function getAttrs(path) {
+  const { node } = path;
+  const { startTag, attributeTags, children, hasDynamicAttributeTags } = node;
   const { attributes } = startTag;
   const attrsLen = attributes.length;
   const childLen = children.length;
@@ -21,15 +25,20 @@ export function getAttrs(node) {
   }
 
   if (childLen) {
-    properties.push(
-      t.objectProperty(
-        t.stringLiteral("renderBody"),
-        t.arrowFunctionExpression(
-          [t.identifier("out"), ...startTag.params],
-          t.blockStatement(children.map(toStatement))
+    if (hasDynamicAttributeTags) {
+      // TODO: throw error if content mixed with @tags.
+      insertBeforeInRenderBody(path, children);
+    } else {
+      properties.push(
+        t.objectProperty(
+          t.stringLiteral("renderBody"),
+          t.arrowFunctionExpression(
+            [t.identifier("out"), ...startTag.params],
+            t.blockStatement(children.map(toStatement))
+          )
         )
-      )
-    );
+      );
+    }
   }
 
   return t.objectExpression(properties);

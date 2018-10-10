@@ -50,9 +50,19 @@ export function replaceInRenderBody(path, nodes) {
 
   if (t.isProgram(path.parent)) {
     path.remove();
-    // TODO ensure child nodes visited.
     path.hub._renderBody.push(...nodes);
   } else {
     path.replaceWithMultiple(nodes);
+  }
+}
+
+export function insertBeforeInRenderBody(path, nodes) {
+  nodes = [].concat(nodes);
+
+  if (t.isProgram(path.parent)) {
+    path.hub._renderBody.unshift(...nodes);
+  } else {
+    debugger;
+    path.insertBefore(nodes);
   }
 }

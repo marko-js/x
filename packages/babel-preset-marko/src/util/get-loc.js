@@ -12,7 +12,7 @@ export function getLoc(code, pos) {
 
   return {
     line,
-    column: pos - lastIndex
+    column: pos - lastIndex + 1
   };
 }
 

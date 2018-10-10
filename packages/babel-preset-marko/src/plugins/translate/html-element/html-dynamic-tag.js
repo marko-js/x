@@ -16,7 +16,7 @@ export default function(path) {
       ),
       [
         expression,
-        getAttrs(node),
+        getAttrs(path),
         t.identifier("out"),
         t.identifier("__component"),
         key,

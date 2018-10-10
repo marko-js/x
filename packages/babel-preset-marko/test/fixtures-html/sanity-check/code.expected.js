@@ -61,20 +61,20 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
       a: 1
     },
     ...c,
-    "renderBody": (out, b) => {
-      out.w("<div></div>");
-    },
     "c": {
       "c": 1,
-      "renderBody": out => {
-        out.w("<div></div>");
-      },
       "d": {
         "d": 1,
         "renderBody": out => {
           out.w("<div></div>");
         }
+      },
+      "renderBody": out => {
+        out.w("<div></div>");
       }
+    },
+    "renderBody": (out, b) => {
+      out.w("<div></div>");
     }
   }, out, "19")
 

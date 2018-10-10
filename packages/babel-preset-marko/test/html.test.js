@@ -31,6 +31,8 @@ fs.readdirSync(fixturesDir).forEach(folder => {
         sourceFileName: sourceFile,
         plugins: [[plugin, { configured: true }]]
       });
+
+      snapshot(fixtureDir, "code.js", code);
     } catch (err) {
       if (err.snapshot) {
         throw err;
@@ -64,6 +66,7 @@ function snapshot(dir, file, data, originalError) {
       err.message = `${path.relative(process.cwd(), actualFile)}\n\n${
         err.message
       }`;
+
       throw originalError || err;
     }
   }

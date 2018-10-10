@@ -1,4 +1,4 @@
-packages/babel-preset-marko/test/fixtures-html/error-wrong-closing-tag/template.marko(3,0): The closing "b" tag does not match the corresponding opening "a" tag
+packages/babel-preset-marko/test/fixtures-html/error-wrong-closing-tag/template.marko(3,1): The closing "b" tag does not match the corresponding opening "a" tag
   1 | <a>
   2 |   <div/>
 > 3 | </b>

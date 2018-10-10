@@ -1,3 +1,3 @@
-packages/babel-preset-marko/test/fixtures-html/error-missing-entry-marko-json/template.marko(1,0): Could not find custom tag "some-tag".
+packages/babel-preset-marko/test/fixtures-html/error-missing-entry-marko-json/template.marko(1,1): Could not find custom tag "some-tag".
 > 1 | <some-tag/>
     | ^^^^^^^^^

@@ -6,6 +6,6 @@ export default function(path, tagIdentifier) {
   // TODO: look into macro keying.
   replaceInRenderBody(
     path,
-    t.callExpression(tagIdentifier, [getAttrs(path.node), t.identifier("out")])
+    t.callExpression(tagIdentifier, [getAttrs(path), t.identifier("out")])
   );
 }
