@@ -62,7 +62,6 @@ export function insertBeforeInRenderBody(path, nodes) {
   if (t.isProgram(path.parent)) {
     path.hub._renderBody.unshift(...nodes);
   } else {
-    debugger;
     path.insertBefore(nodes);
   }
 }

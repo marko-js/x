@@ -317,7 +317,7 @@ export function parse(hub) {
           startTag,
           endTag,
           children,
-          {}
+          []
         );
 
         if (tagDef && tagDef.nodeFactoryPath) {

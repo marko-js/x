@@ -180,7 +180,7 @@ export default {
         default: []
       },
       properties: {
-        validate: assertValueType("object")
+        validate: arrayOfType(["ObjectProperty"])
       }
     }
   }

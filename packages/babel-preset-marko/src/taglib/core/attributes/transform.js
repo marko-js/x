@@ -7,12 +7,12 @@ const EMPTY_ARRAY = [];
 const EVENT_REG = /^(on(?:ce)?)-?(.*)$/;
 
 export default function(path) {
+  const node = path.node;
   const startTag = path.get("startTag");
   const attributes = startTag.get("attributes");
 
   for (const attr of attributes) {
     const { name, modifier, arguments: args } = attr.node;
-    const node = path.node;
 
     if (modifier) {
       const modifierTransform = modifiers[modifier];
@@ -32,7 +32,7 @@ export default function(path) {
       }
 
       // TODO: normalize eventName
-      const handlers = (startTag.node.handlers = startTag.node.handlers || {});
+      const handlers = (node.handlers = node.handlers || {});
       if (handlers[eventName]) {
         throw attr.buildCodeFrameError(
           "Duplicate event handlers are not supported."

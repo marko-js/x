@@ -45,7 +45,7 @@ export function getAttrs(path) {
 }
 
 export function buildEventHandlerArray(path) {
-  const { handlers } = path.node.startTag;
+  const { handlers } = path.node;
   if (!handlers) {
     return [];
   }
