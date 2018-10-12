@@ -14,6 +14,12 @@ export default function(path, tagDef) {
   } = node;
   const relativePath = resolveRelativePath(hub, tagDef);
 
+  if (!relativePath) {
+    throw path.buildCodeFrameError(
+      `Unable to find entry point for "${name}" tag.`
+    );
+  }
+
   if (!meta.tags.includes(relativePath)) {
     meta.tags.push(relativePath);
   }
