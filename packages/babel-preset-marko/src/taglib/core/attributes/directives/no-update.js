@@ -1,8 +1,9 @@
 import * as t from "../../../../definitions";
 import { insertBeforeInRenderBody } from "../../util";
 import normalizeTemplateLiteral from "../../../../util/normalize-template-string";
+const EMPTY_OBJECT = {};
 
-export default function(path, attr) {
+export default function(path, attr, opts = EMPTY_OBJECT) {
   attr.remove();
   const { hub, node } = path;
   const nextKeyMember = t.memberExpression(
@@ -14,8 +15,18 @@ export default function(path, attr) {
   ]);
   const keyIdentifier = path.scope.generateUidIdentifier("noUpdateKey");
   const name = t.stringLiteral("no-update");
+  const replacementAttrs = [t.htmlAttribute("cid", keyIdentifier)];
+
+  if (opts.if) {
+    replacementAttrs.push(t.htmlAttribute("if", opts.if));
+  }
+
+  if (opts.bodyOnly) {
+    replacementAttrs.push(t.htmlAttribute("bodyOnly", t.booleanLiteral(true)));
+  }
+
   const replacement = t.htmlElement(
-    t.htmlStartTag(name, [], [t.htmlAttribute("cid", keyIdentifier)]),
+    t.htmlStartTag(name, [], replacementAttrs),
     t.htmlEndTag(name),
     [node],
     []
