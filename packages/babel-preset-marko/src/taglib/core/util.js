@@ -50,7 +50,7 @@ export function replaceInRenderBody(path, nodes) {
 
   if (t.isProgram(path.parent)) {
     path.remove();
-    path.hub._renderBody.push(...nodes);
+    path.hub._renderBlock.body.push(...nodes);
   } else {
     path.replaceWithMultiple(nodes);
   }
@@ -60,7 +60,7 @@ export function insertBeforeInRenderBody(path, nodes) {
   nodes = [].concat(nodes);
 
   if (t.isProgram(path.parent)) {
-    path.hub._renderBody.unshift(...nodes);
+    path.hub._renderBlock.body.unshift(...nodes);
   } else {
     path.insertBefore(nodes);
   }

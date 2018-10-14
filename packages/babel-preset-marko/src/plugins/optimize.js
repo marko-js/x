@@ -6,6 +6,9 @@ export const visitor = {
   Program(path) {
     const { node, hub } = path;
     const { meta } = hub;
+    const renderBlock = hub._renderBlock;
+    node.body.splice(node.body.indexOf(renderBlock), 1);
+
     const componentNode =
       hub._componentClass ||
       (meta.component
@@ -70,7 +73,7 @@ export const visitor = {
               t.identifier("component"),
               t.identifier("state")
             ],
-            Object.assign(t.blockStatement([]), { body: hub._renderBody })
+            renderBlock
           ),
           t.objectExpression([
             t.objectProperty(t.identifier("___type"), componentTypeIdentifier)

@@ -5,13 +5,10 @@ import * as t from "../definitions";
  */
 export const visitor = {
   HTMLElement(path) {
-    const {
-      hub: { lookup, macros },
-      node
-    } = path;
-    const {
-      startTag: { name }
-    } = node;
+    const { hub, node } = path;
+    const { lookup, macros } = hub;
+    const { startTag } = node;
+    const { name } = startTag;
     let tagName = name.value;
     const isDynamicTag = !t.isStringLiteral(name);
     const isAttributeTag = !isDynamicTag && tagName[0] === "@";

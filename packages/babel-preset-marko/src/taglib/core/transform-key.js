@@ -1,5 +1,6 @@
 import * as t from "../../definitions";
 import { replaceInRenderBody } from "./util";
+import normalizeTemplateLiteral from "../../util/normalize-template-string";
 
 export default function(path) {
   const startTag = path.get("startTag");
@@ -23,10 +24,13 @@ export default function(path) {
     throw startTag.buildCodeFrameError('"key" tag must have children.');
   }
 
-  const key = keyAttr.get("value").node;
+  const keyValue = normalizeTemplateLiteral(
+    ["@", ""],
+    [keyAttr.get("value").node]
+  );
   children
     .filter(child => t.isHTMLElement(child))
-    .forEach(child => (child._nodeKey = key));
+    .forEach(child => (child.key = keyValue));
 
   replaceInRenderBody(path, children);
 }

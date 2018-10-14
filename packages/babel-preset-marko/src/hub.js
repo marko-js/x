@@ -25,9 +25,11 @@ export class Hub {
       tags: []
     };
     this._imports = Object.create(null);
-    this._renderBody = [];
+    this._renderBlock = t.blockStatement([]);
     this._componentClass = null;
     this._nextKey = 0;
+
+    this.file.program.body.push(this._renderBlock);
 
     const {
       styleFile,
@@ -144,18 +146,10 @@ export class Hub {
     };
   }
 
-  getKey(path) {
-    const key = (path.node._nodeKey =
-      path.node._nodeKey ||
-      Object.assign(t.stringLiteral(String(this._nextKey++)), {
-        _autoKey: true
-      }));
-
-    if (!key._autoKey) {
-      return normalizeTemplateLiteral(["@", ""], [key]);
-    }
-
-    return key;
+  nextKey() {
+    return Object.assign(t.stringLiteral(String(this._nextKey++)), {
+      _autoKey: true
+    });
   }
 
   parse(str, start) {

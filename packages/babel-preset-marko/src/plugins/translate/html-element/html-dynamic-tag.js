@@ -4,7 +4,9 @@ import { getAttrs, buildEventHandlerArray } from "./util";
 
 export default function(path) {
   const { node, hub } = path;
-  const { key, name: expression } = node.startTag;
+  const { key, startTag } = node;
+  const { name: expression } = startTag;
+
   replaceInRenderBody(
     path,
     t.callExpression(

@@ -52,7 +52,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "renderBody": (out, a) => {
       out.w("<div></div>");
     }
-  }, out, "13", ["click", "handleClick", false, [a, b, ...d]])
+  }, out, "11", ["click", "handleClick", false, [a, b, ...d]])
 
   _other({
     "x": 1,
@@ -76,7 +76,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "renderBody": (out, b) => {
       out.w("<div></div>");
     }
-  }, out, "19")
+  }, out, "13")
 
   out.w(`<div id="a" class="b c" a="[object Object]" c="${d}"${_marko_attrs(e)}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`)
 

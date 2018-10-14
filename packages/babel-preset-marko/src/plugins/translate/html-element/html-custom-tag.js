@@ -9,9 +9,7 @@ export default function(path, tagDef) {
   const { hub, node } = path;
   const { meta } = hub;
   const { name } = tagDef;
-  const {
-    startTag: { key }
-  } = node;
+  const { key } = node;
   const relativePath = resolveRelativePath(hub, tagDef);
 
   if (!relativePath) {

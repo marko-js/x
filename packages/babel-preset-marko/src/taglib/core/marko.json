@@ -83,6 +83,12 @@
     "transformer": "./transform-key.js",
     "@key": "string"
   },
+  "<no-update>": {
+    "@key": "string",
+    "@if": "boolean",
+    "@body-only": "boolean",
+    "autocomplete": []
+  },
   "<*>": {
     "transformer": "./attributes/transform.js"
   }

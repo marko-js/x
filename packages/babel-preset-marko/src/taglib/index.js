@@ -11,5 +11,10 @@ import lookup from "marko/src/compiler/taglib-lookup";
 });
 
 export function buildLookup(dirname) {
-  return lookup.buildLookup(dirname);
+  // create lookup and load specific tags from old compiler.
+  const lookupInstance = lookup.buildLookup(dirname);
+  lookupInstance.getTag("no-update").renderer = require.resolve(
+    "marko/src/components/taglib/preserve-tag.js"
+  );
+  return lookupInstance;
 }

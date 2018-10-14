@@ -1,4 +1,6 @@
+import normalizeTemplateLiteral from "../../../../util/normalize-template-string";
+
 export default function(path, attr) {
-  path.node._nodeKey = attr.get("value").node;
+  path.node.key = normalizeTemplateLiteral(["@", ""], [attr.get("value").node]);
   attr.remove();
 }

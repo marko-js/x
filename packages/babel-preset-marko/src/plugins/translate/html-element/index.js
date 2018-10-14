@@ -9,13 +9,10 @@ const EMPTY_OBJECT = {};
 
 export default {
   exit(path) {
-    const {
-      hub,
-      node: { tagDef = EMPTY_OBJECT, startTag, hasAttributeTag }
-    } = path;
+    const { hub, node } = path;
     const { macros } = hub;
+    const { startTag, hasAttributeTag, tagDef = EMPTY_OBJECT } = node;
     const { name } = startTag;
-    startTag.key = hub.getKey(path);
 
     if (!t.isStringLiteral(name)) {
       assertNoAttributeTags();

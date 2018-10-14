@@ -7,7 +7,7 @@ const EMPTY_ARRAY = [];
 const EVENT_REG = /^(on(?:ce)?)-?(.*)$/;
 
 export default function(path) {
-  const node = path.node;
+  const { hub, node } = path;
   const startTag = path.get("startTag");
   const attributes = startTag.get("attributes");
 
@@ -54,6 +54,10 @@ export default function(path) {
       directiveTransform(path, attr);
       if (node !== path.node) break;
     }
+  }
+
+  if (!node.key) {
+    node.key = hub.nextKey();
   }
 }
 

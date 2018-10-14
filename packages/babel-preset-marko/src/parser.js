@@ -324,7 +324,6 @@ export function parse(hub) {
           const module = require(tagDef.nodeFactoryPath);
           const { default: fn = module } = module;
           context.push(...[].concat(fn(hub.createNodePath(htmlElement))));
-          return;
         } else {
           context.push(htmlElement);
         }
