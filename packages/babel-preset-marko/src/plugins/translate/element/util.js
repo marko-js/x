@@ -4,14 +4,15 @@ import {
   insertBeforeInRenderBody
 } from "../../../taglib/core/util";
 
-export function getAttrs(path) {
+export function getAttrs(path, skipRenderBody) {
   const { node } = path;
   const { startTag, attributeTags, children, hasDynamicAttributeTags } = node;
   const { attributes } = startTag;
   const attrsLen = attributes.length;
   const childLen = children.length;
+  const hasRenderBody = !skipRenderBody && childLen;
 
-  if (!attrsLen && !childLen && !attributeTags) {
+  if (!attrsLen && !hasRenderBody && !attributeTags) {
     return t.nullLiteral();
   }
 
@@ -24,7 +25,7 @@ export function getAttrs(path) {
       : t.spreadElement(value);
   }
 
-  if (childLen) {
+  if (!skipRenderBody && childLen) {
     if (hasDynamicAttributeTags) {
       // TODO: throw error if content mixed with @tags.
       insertBeforeInRenderBody(path, children);

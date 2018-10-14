@@ -12,6 +12,8 @@ import getComponentFiles from "./util/get-component-files";
 
 export class Hub {
   constructor(filename, code, options = {}) {
+    options.output = options.output || "html";
+
     this.code = code;
     this.options = options;
     this.filename = filename;

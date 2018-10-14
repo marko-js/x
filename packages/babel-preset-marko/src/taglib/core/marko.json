@@ -71,7 +71,8 @@
     "@by": "string"
   },
   "<html-comment>": {
-    "code-generator": "./translate-html-comment.js"
+    "code-generator": "./translate-html-comment/index.js",
+    "attribute-groups": ["html-attributes"]
   },
   "<marko-preserve-whitespace>": {
     "code-generator": "./translate-marko-preserve-whitespace.js",

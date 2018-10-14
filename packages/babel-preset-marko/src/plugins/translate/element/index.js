@@ -1,29 +1,30 @@
 import * as t from "../../../definitions";
-import htmlDynamicTag from "./html-dynamic-tag";
-import htmlAttributeTag from "./html-attribute-tag";
-import htmlNativeTag from "./html-native-tag";
-import htmlCustomTag from "./html-custom-tag";
-import htmlMacroTag from "./html-macro-tag";
+import dynamicTag from "./dynamic-tag";
+import attributeTag from "./attribute-tag";
+import nativeTagHTML from "./native-tag[html]";
+import nativeTagVDOM from "./native-tag[vdom]";
+import customTag from "./custom-tag";
+import macroTag from "./macro-tag";
 
 const EMPTY_OBJECT = {};
 
 export default {
   exit(path) {
     const { hub, node } = path;
-    const { macros } = hub;
+    const { options, macros } = hub;
     const { startTag, hasAttributeTag, tagDef = EMPTY_OBJECT } = node;
     const { name } = startTag;
 
     if (!t.isStringLiteral(name)) {
       assertNoAttributeTags();
-      htmlDynamicTag(path);
+      dynamicTag(path);
       return;
     }
 
     const tagName = name.value;
 
     if (tagName[0] === "@") {
-      htmlAttributeTag(path);
+      attributeTag(path);
       return;
     }
 
@@ -33,12 +34,16 @@ export default {
       fn(path);
     } else if (tagDef.html) {
       assertNoAttributeTags();
-      htmlNativeTag(path);
+      if (options.output === "html") {
+        nativeTagHTML(path);
+      } else {
+        nativeTagVDOM(path);
+      }
     } else if (macros[tagName]) {
       assertNoAttributeTags();
-      htmlMacroTag(path, macros[tagName]);
+      macroTag(path, macros[tagName]);
     } else {
-      htmlCustomTag(path, tagDef);
+      customTag(path, tagDef);
     }
 
     function assertNoAttributeTags() {

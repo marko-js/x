@@ -29,7 +29,7 @@ fs.readdirSync(fixturesDir).forEach(folder => {
         sourceMaps: false,
         filename: sourceFile,
         sourceFileName: sourceFile,
-        plugins: [[plugin, { configured: true }]]
+        plugins: [[plugin, { output: "html" }]]
       });
 
       snapshot(fixtureDir, "code.js", code);

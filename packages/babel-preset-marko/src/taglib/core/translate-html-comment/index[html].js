@@ -1,10 +1,10 @@
-import write from "../../util/html-out-write";
-import withPreviousLocation from "../../util/with-previous-location";
+import write from "../../../util/html-out-write";
+import withPreviousLocation from "../../../util/with-previous-location";
 import {
   replaceInRenderBody,
   assertAllowedAttributes,
   assertNoParams
-} from "./util";
+} from "../util";
 
 /**
  * Translates the html streaming version of a standard html element.

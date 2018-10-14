@@ -13,8 +13,13 @@ import lookup from "marko/src/compiler/taglib-lookup";
 export function buildLookup(dirname) {
   // create lookup and load specific tags from old compiler.
   const lookupInstance = lookup.buildLookup(dirname);
+
   lookupInstance.getTag("no-update").renderer = require.resolve(
     "marko/src/components/taglib/preserve-tag.js"
+  );
+
+  lookupInstance.getTag("html-comment").renderer = require.resolve(
+    "marko/src/taglibs/html/html-comment-tag.js"
   );
   return lookupInstance;
 }

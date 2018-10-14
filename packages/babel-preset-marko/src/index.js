@@ -2,7 +2,7 @@ import { Hub } from "./hub";
 import { parse } from "./parser";
 import { visitor as transform } from "./plugins/transform";
 import { visitor as translate } from "./plugins/translate";
-import { visitor as optimize } from "./plugins/optimize";
+import { visitor as finalize } from "./plugins/finalize";
 
 export default (_, options) => {
   return {
@@ -14,7 +14,7 @@ export default (_, options) => {
       const nodePath = hub.createNodePath();
       nodePath.traverse(transform);
       nodePath.traverse(translate);
-      nodePath.traverse(optimize);
+      nodePath.traverse(finalize);
       return ast;
     }
   };

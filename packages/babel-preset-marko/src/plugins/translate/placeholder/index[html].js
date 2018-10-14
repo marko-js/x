@@ -1,7 +1,7 @@
-import * as t from "../../definitions";
-import write from "../../util/html-out-write";
-import withPreviousLocation from "../../util/with-previous-location";
-import { replaceInRenderBody } from "../../taglib/core/util";
+import * as t from "../../../definitions";
+import write from "../../../util/html-out-write";
+import withPreviousLocation from "../../../util/with-previous-location";
+import { replaceInRenderBody } from "../../../taglib/core/util";
 
 const EMPTY_OBJECT = {};
 const ESCAPE_TYPES = {
