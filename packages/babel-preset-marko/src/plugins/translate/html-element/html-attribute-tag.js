@@ -7,6 +7,7 @@ const transparentTags = new Set([
   "for",
   "if",
   "else",
+  "no-update",
   "marko-preserve-whitespace"
 ]);
 
@@ -25,6 +26,12 @@ export default function(path) {
   if (!parent || !t.isHTMLElement(parent)) {
     throw path.buildCodeFrameError(
       `@tags must be nested within another element.`
+    );
+  }
+
+  if (node.bodyOnlyIf) {
+    throw path.buildCodeFrameError(
+      `@tags do not support the "body-only-if" attribute.`
     );
   }
 
