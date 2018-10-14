@@ -77,7 +77,7 @@ export class Hub {
       ? path.relative(dir, filename)
       : filename;
     if (/^[^./]/.test(relativePath)) relativePath = `./${relativePath}`;
-    return relativePath;
+    return relativePath.replace(/^(?:\.{1,2}\/)+node_modules\//, "");
   }
 
   importDefault(path, file, nameHint) {
