@@ -114,6 +114,10 @@ export class Hub {
       specifiers = _imports[file].specifiers;
     }
 
+    if (!nameHint) {
+      return;
+    }
+
     const specifier = specifiers.find(specifier =>
       t.isImportDefaultSpecifier(specifier)
     );
