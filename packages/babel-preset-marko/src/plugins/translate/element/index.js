@@ -32,7 +32,12 @@ export default {
       const module = require(tagDef.codeGeneratorModulePath);
       const { default: fn = module } = module;
       fn(path);
-    } else if (tagDef.html) {
+      if (path.node !== node) {
+        return;
+      }
+    }
+
+    if (tagDef.html) {
       assertNoAttributeTags();
       if (options.output === "html") {
         nativeTagHTML(path);
