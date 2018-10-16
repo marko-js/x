@@ -3,7 +3,7 @@ import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/com
 import _marko_component from "./template.component.js";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures/custom-tag-separate-assets/template.marko";
+      _marko_componentType = "3OSegxql";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.be("div", null, "0", component, 0, 0)

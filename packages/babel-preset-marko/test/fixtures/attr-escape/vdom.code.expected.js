@@ -3,7 +3,7 @@ import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/com
 import { cl as _marko_class_merge } from "marko/src/runtime/html/helpers";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures/attr-escape/template.marko";
+      _marko_componentType = "MjOC9dh4";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.be("div", {
@@ -13,7 +13,8 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   }, "0", component, 0, 0)
   out.ee()
 }, {
-  ___type: _marko_componentType
+  ___type: _marko_componentType,
+  ___implicit: true
 })
 _marko_template.Component = _marko_defineComponent(null, _marko_template._)
 _marko_template.meta = {

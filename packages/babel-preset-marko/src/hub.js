@@ -1,13 +1,12 @@
 import path from "path";
 import { getClientPath } from "lasso-modules-client/transport";
 import * as t from "./definitions";
-import { NodePath } from "@babel/traverse";
+import { NodePath, Scope } from "@babel/traverse";
 import { parse, parseExpression } from "@babel/parser";
 import { buildLookup } from "./taglib";
 import createFile from "./util/create-file";
 import codeFrameError from "./util/code-frame-error";
 import { getLoc, getLocRange } from "./util/get-loc";
-import normalizeTemplateLiteral from "./util/normalize-template-string";
 import getComponentFiles from "./util/get-component-files";
 
 export class Hub {
@@ -47,11 +46,23 @@ export class Hub {
       this.meta.deps.push(packageFile);
     }
 
+    this.isImplicit = true;
+
     if (componentFile) {
+      this.isImplicit = false;
       this.meta.component = componentFile;
+      this._componentClass = this.importDefault(
+        this.createNodePath(this.file.program, true),
+        this.resolveRelativePath(componentFile),
+        "marko_component"
+      );
     }
 
-    // TODO componentBrowserFile
+    if (componentBrowserFile) {
+      this.isImplicit = false;
+      this.isSplit = true;
+      this.meta.component = componentBrowserFile;
+    }
   }
 
   getCode() {
@@ -62,9 +73,15 @@ export class Hub {
     return codeFrameError(this.filename, this.code, msg, node.start, node.end);
   }
 
-  createNodePath(node = this.file) {
+  createNodePath(node = this.file, withScope) {
     const nodePath = new NodePath(this, this.file);
     nodePath.node = node;
+
+    if (withScope) {
+      nodePath.scope = new Scope(nodePath);
+      nodePath.scope.init();
+    }
+
     return nodePath;
   }
 

@@ -4,7 +4,7 @@ import _noUpdate from "marko/src/components/taglib/preserve-tag.js";
 import _hello from "./components/hello/index.marko";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures/no-update-directives/template.marko";
+      _marko_componentType = "BYkk-0PY";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   const _noUpdateKey4 = __component.___nextKey("12");
@@ -75,7 +75,8 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     }
   }, out, `#${_noUpdateKey4}`)
 }, {
-  ___type: _marko_componentType
+  ___type: _marko_componentType,
+  ___implicit: true
 })
 _marko_template.Component = _marko_defineComponent(null, _marko_template._)
 _marko_template.meta = {

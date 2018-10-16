@@ -1,22 +1,15 @@
 import * as t from "../definitions";
+import checksum from "../util/checksum";
 
 export const visitor = {
   // Creates the final render function.
   Program(path) {
     const { node, hub } = path;
-    const { meta } = hub;
+    const { meta, isImplicit, isSplit } = hub;
     const renderBlock = hub._renderBlock;
+    const componentClass = hub._componentClass;
     node.body.splice(node.body.indexOf(renderBlock), 1);
 
-    const componentNode =
-      hub._componentClass ||
-      (meta.component
-        ? hub.importDefault(
-            path,
-            hub.resolveRelativePath(meta.component),
-            "marko_component"
-          )
-        : t.nullLiteral());
     const componentTypeIdentifier = path.scope.generateUidIdentifier(
       "marko_componentType"
     );
@@ -43,7 +36,7 @@ export const visitor = {
       templateIdentifier,
       t.identifier("meta")
     );
-    const componentId = hub.getClientPath(hub.filename);
+    const componentId = checksum(hub.getClientPath(hub.filename));
     node.body.push(
       t.variableDeclaration("const", [
         t.variableDeclarator(
@@ -58,6 +51,23 @@ export const visitor = {
         )
       ])
     );
+
+    const templateRenderOptionsProps = [
+      t.objectProperty(t.identifier("___type"), componentTypeIdentifier)
+    ];
+
+    if (isImplicit) {
+      templateRenderOptionsProps.push(
+        t.objectProperty(t.identifier("___implicit"), t.booleanLiteral(true))
+      );
+    }
+
+    if (isSplit) {
+      templateRenderOptionsProps.push(
+        t.objectProperty(t.identifier("___split"), t.booleanLiteral(true))
+      );
+    }
+
     node.body.push(
       t.assignmentExpression(
         "=",
@@ -74,9 +84,7 @@ export const visitor = {
             ],
             renderBlock
           ),
-          t.objectExpression([
-            t.objectProperty(t.identifier("___type"), componentTypeIdentifier)
-          ])
+          t.objectExpression(templateRenderOptionsProps)
         ])
       )
     );
@@ -85,7 +93,7 @@ export const visitor = {
         "=",
         t.memberExpression(templateIdentifier, t.identifier("Component")),
         t.callExpression(defineComponentIdentifier, [
-          componentNode,
+          componentClass || t.nullLiteral(),
           templateRendererMember
         ])
       )

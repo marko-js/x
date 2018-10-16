@@ -17,7 +17,7 @@ function _thing(stuff, out) {
 }
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures/sanity-check/template.marko";
+      _marko_componentType = "HpNuaWlK";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.w(`<style>div { color:${_marko_escapeStyle(x)}; }</style><script>var y =${_marko_escapeScript(x)};</script>`)
@@ -128,7 +128,8 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     out.w("</div>");
   }
 }, {
-  ___type: _marko_componentType
+  ___type: _marko_componentType,
+  ___implicit: true
 })
 _marko_template.Component = _marko_defineComponent({
   onCreate() {
