@@ -3,7 +3,7 @@ import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/com
 import _hello from "./components/hello/index.marko";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures-html/at-tags-dynamic/template.marko";
+      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures/at-tags-dynamic/template.marko";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   const _cols = [];
@@ -74,7 +74,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
 })
 _marko_template.Component = _marko_defineComponent(null, _marko_template._)
 _marko_template.meta = {
-  id: "/babel-preset-marko$1.0.0/test/fixtures-html/at-tags-dynamic/template.marko",
+  id: _marko_componentType,
   tags: ["./components/hello/index.marko"]
 }
 export default _marko_template;

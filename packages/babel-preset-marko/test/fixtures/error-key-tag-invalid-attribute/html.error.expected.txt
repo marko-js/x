@@ -1,4 +1,4 @@
-packages/babel-preset-marko/test/fixtures-html/error-key-tag-invalid-attribute/template.marko(1,1): "key" tag must have a "key" or default attribute.
+packages/babel-preset-marko/test/fixtures/error-key-tag-invalid-attribute/template.marko(1,1): "key" tag must have a "key" or default attribute.
 > 1 | <key x=1>
     | ^^^^^^^^^
   2 |   <div/>

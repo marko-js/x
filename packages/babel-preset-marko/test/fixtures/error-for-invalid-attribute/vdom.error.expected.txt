@@ -1,4 +1,4 @@
-packages/babel-preset-marko/test/fixtures-html/error-for-invalid-attribute/template.marko(1,25): Invalid "for" tag attribute: "x".
+packages/babel-preset-marko/test/fixtures/error-for-invalid-attribute/template.marko(1,25): Invalid "for" tag attribute: "x".
 > 1 | <for(key, value) in=obj x=1>
     |                         ^^^
   2 |   <div/>

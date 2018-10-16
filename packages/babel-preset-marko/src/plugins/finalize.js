@@ -92,7 +92,7 @@ export const visitor = {
     );
 
     const metaObject = t.objectExpression([
-      t.objectProperty(t.identifier("id"), t.stringLiteral(meta.id))
+      t.objectProperty(t.identifier("id"), componentTypeIdentifier)
     ]);
 
     if (meta.component) {

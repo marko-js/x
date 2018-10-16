@@ -5,7 +5,7 @@ import stripAnsi from "strip-ansi";
 import plugin from "../src";
 import { transform } from "@babel/core";
 
-const fixturesDir = path.join(__dirname, "fixtures-html");
+const fixturesDir = path.join(__dirname, "fixtures");
 const OUTPUT_TYPES = ["html", "vdom"];
 
 fs.readdirSync(fixturesDir).forEach(folder => {

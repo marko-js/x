@@ -1,4 +1,4 @@
-packages/babel-preset-marko/test/fixtures-html/error-at-tags-missing-parent/template.marko(9,5): @tags must be within a custom element.
+packages/babel-preset-marko/test/fixtures/error-at-tags-missing-parent/template.marko(9,5): @tags must be within a custom element.
    7 |     Body content
    8 | 
 >  9 |     <@footer class="my-footer">

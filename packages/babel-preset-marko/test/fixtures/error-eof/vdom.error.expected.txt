@@ -1,4 +1,4 @@
-packages/babel-preset-marko/test/fixtures-html/error-eof/template.marko(1,6): EOF reached while parsing attribute name for the "style" tag
+packages/babel-preset-marko/test/fixtures/error-eof/template.marko(1,6): EOF reached while parsing attribute name for the "style" tag
 > 1 | style {
     |      ^
   2 |   div {

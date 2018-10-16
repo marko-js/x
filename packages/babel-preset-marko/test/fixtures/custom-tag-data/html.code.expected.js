@@ -3,7 +3,7 @@ import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/com
 import _customTagData from "./custom-tag-data-tag.js";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures-html/custom-tag-data/template.marko";
+      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures/custom-tag-data/template.marko";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   _customTagData({
@@ -15,7 +15,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
 })
 _marko_template.Component = _marko_defineComponent(null, _marko_template._)
 _marko_template.meta = {
-  id: "/babel-preset-marko$1.0.0/test/fixtures-html/custom-tag-data/template.marko",
+  id: _marko_componentType,
   tags: ["./custom-tag-data-tag.js"]
 }
 export default _marko_template;

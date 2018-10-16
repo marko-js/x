@@ -1,4 +1,4 @@
-packages/babel-preset-marko/test/fixtures-html/error-for-in-missing-params/template.marko(1,1): Invalid 'for in' tag, missing (key, value) params.
+packages/babel-preset-marko/test/fixtures/error-for-in-missing-params/template.marko(1,1): Invalid 'for in' tag, missing (key, value) params.
 > 1 | <for() in=x>
     | ^^^^^^^^^^^^
   2 |   <div/>

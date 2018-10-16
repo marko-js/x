@@ -17,7 +17,7 @@ function _thing(stuff, out) {
 }
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures-html/sanity-check/template.marko";
+      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures/sanity-check/template.marko";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.w(`<style>div { color:${_marko_escapeStyle(x)}; }</style><script>var y =${_marko_escapeScript(x)};</script>`)
@@ -137,7 +137,7 @@ _marko_template.Component = _marko_defineComponent({
 
 }, _marko_template._)
 _marko_template.meta = {
-  id: "/babel-preset-marko$1.0.0/test/fixtures-html/sanity-check/template.marko",
+  id: _marko_componentType,
   deps: [{
     "type": "css",
     "code": "div {\n    color: green;\n  }",

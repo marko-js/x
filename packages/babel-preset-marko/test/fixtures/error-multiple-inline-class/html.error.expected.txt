@@ -1,4 +1,4 @@
-packages/babel-preset-marko/test/fixtures-html/error-multiple-inline-class/template.marko(7,1): A Marko component can only have one top level class.
+packages/babel-preset-marko/test/fixtures/error-multiple-inline-class/template.marko(7,1): A Marko component can only have one top level class.
    5 | }
    6 | 
 >  7 | class {

@@ -22,7 +22,6 @@ export class Hub {
     this.componentFiles = getComponentFiles(filename);
     this.macros = Object.create(null);
     this.meta = {
-      id: this.getClientPath(filename),
       deps: [],
       tags: []
     };

@@ -3,7 +3,7 @@ import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/com
 import _customTag from "./components/custom-tag/index.marko";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures-html/at-tag-inside-if-tag/template.marko";
+      _marko_componentType = "/babel-preset-marko$1.0.0/test/fixtures/at-tag-inside-if-tag/template.marko";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   let _thing = null;
@@ -25,7 +25,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
 })
 _marko_template.Component = _marko_defineComponent(null, _marko_template._)
 _marko_template.meta = {
-  id: "/babel-preset-marko$1.0.0/test/fixtures-html/at-tag-inside-if-tag/template.marko",
+  id: _marko_componentType,
   tags: ["./components/custom-tag/index.marko"]
 }
 export default _marko_template;

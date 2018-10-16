@@ -1,4 +1,4 @@
-packages/babel-preset-marko/test/fixtures-html/error-key-tag-extra-attributes/template.marko(1,1): "key" tag can only have a "key" or default attribute.
+packages/babel-preset-marko/test/fixtures/error-key-tag-extra-attributes/template.marko(1,1): "key" tag can only have a "key" or default attribute.
 > 1 | <key=1 x=2>
     | ^^^^^^^^^^^
   2 |   <div/>
