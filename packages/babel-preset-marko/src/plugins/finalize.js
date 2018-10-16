@@ -5,7 +5,7 @@ export const visitor = {
   // Creates the final render function.
   Program(path) {
     const { node, hub } = path;
-    const { meta, isImplicit, isSplit } = hub;
+    const { options, meta, isImplicit, isSplit } = hub;
     const renderBlock = hub._renderBlock;
     const componentClass = hub._componentClass;
     node.body.splice(node.body.indexOf(renderBlock), 1);
@@ -41,9 +41,10 @@ export const visitor = {
       t.variableDeclaration("const", [
         t.variableDeclarator(
           templateIdentifier,
-          t.callExpression(hub.importNamed(path, "marko/src/html", "t"), [
-            t.identifier("__filename")
-          ])
+          t.callExpression(
+            hub.importNamed(path, `marko/src/${options.output}`, "t"),
+            [t.identifier("__filename")]
+          )
         ),
         t.variableDeclarator(
           componentTypeIdentifier,

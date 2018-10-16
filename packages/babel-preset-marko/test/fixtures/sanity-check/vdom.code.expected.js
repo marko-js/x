@@ -1,9 +1,10 @@
-import { t as _t } from "marko/src/html";
+import { t as _t } from "marko/src/vdom";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import _htmlComment from "marko/src/taglibs/html/html-comment-tag.js";
 import _other from "./components/other/index.marko";
+import { d as _marko_dynamicTag } from "marko/src/runtime/undefined/helpers";
 import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
-import { cl as _marko_class_merge, d as _marko_dynamicTag } from "marko/src/runtime/html/helpers";
+import { cl as _marko_class_merge } from "marko/src/runtime/html/helpers";
 import a from "b";
 export { a };
 doThings();

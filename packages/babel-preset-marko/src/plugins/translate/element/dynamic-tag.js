@@ -4,6 +4,7 @@ import { getAttrs, buildEventHandlerArray } from "./util";
 
 export default function(path) {
   const { node, hub } = path;
+  const { options } = hub;
   const { key, startTag } = node;
   const { name: expression } = startTag;
 
@@ -12,7 +13,7 @@ export default function(path) {
     t.callExpression(
       hub.importNamed(
         path,
-        "marko/src/runtime/html/helpers",
+        `marko/src/runtime/${options.type}/helpers`,
         "d",
         "marko_dynamicTag"
       ),

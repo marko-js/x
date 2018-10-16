@@ -1,4 +1,4 @@
-import { t as _t } from "marko/src/html";
+import { t as _t } from "marko/src/vdom";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import bar, { f as foo } from "./bar";
 import "./foo";
