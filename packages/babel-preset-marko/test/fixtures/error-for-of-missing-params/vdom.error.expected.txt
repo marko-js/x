@@ -1,0 +1,5 @@
+packages/babel-preset-marko/test/fixtures-html/error-for-of-missing-params/template.marko(1,1): Invalid 'for of' tag, missing (value, key) params.
+> 1 | <for() of=x>
+    | ^^^^^^^^^^^^
+  2 |   <div/>
+  3 | </for>
