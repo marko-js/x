@@ -21,5 +21,13 @@ export function buildLookup(dirname) {
   lookupInstance.getTag("html-comment").renderer = require.resolve(
     "marko/src/taglibs/html/html-comment-tag.js"
   );
+
+  lookupInstance.getTag("init-components").renderer = require.resolve(
+    "marko/src/components/taglib/init-components-tag.js"
+  );
+
+  lookupInstance.getTag("component-globals").renderer = require.resolve(
+    "marko/src/components/taglib/component-globals-tag.js"
+  );
   return lookupInstance;
 }

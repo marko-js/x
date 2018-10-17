@@ -90,6 +90,15 @@
     "@body-only": "boolean",
     "autocomplete": []
   },
+  "<component-globals>": {
+    "autocomplete": []
+  },
+  "<init-components>": {
+    "@immediate": "boolean"
+  },
+  "<body>": {
+    "transformer": "./transform-body.js"
+  },
   "<*>": {
     "transformer": "./attributes/transform.js"
   }
