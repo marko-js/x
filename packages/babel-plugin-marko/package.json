@@ -1,5 +1,5 @@
 {
-  "name": "babel-preset-marko",
+  "name": "babel-plugin-marko",
   "private": true,
   "description": "Babel plugin to parse Marko templates.",
   "version": "1.0.0",
@@ -21,7 +21,7 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://github.com/marko-js/x/blob/master/packages/babel-preset-marko/README.md",
+  "homepage": "https://github.com/marko-js/x/blob/master/packages/babel-plugin-marko/README.md",
   "keywords": [
     "htmljs",
     "parser",
@@ -34,6 +34,6 @@
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/marko-js/x/tree/master/packages/babel-preset-marko"
+    "url": "https://github.com/marko-js/x/tree/master/packages/babel-plugin-marko"
   }
 }

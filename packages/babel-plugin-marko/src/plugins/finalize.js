@@ -42,7 +42,7 @@ export const visitor = {
         t.variableDeclarator(
           templateIdentifier,
           t.callExpression(
-            hub.importNamed(path, `marko/src/${options.output}`, "t"),
+            hub.importNamed(path, `marko/src/runtime/${options.output}`, "t"),
             [t.identifier("__filename")]
           )
         ),

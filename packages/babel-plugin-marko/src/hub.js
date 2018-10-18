@@ -99,6 +99,7 @@ export class Hub {
   }
 
   importDefault(path, file, nameHint) {
+    file = remapProductionMarkoBuild(path, file);
     const { _imports } = this;
     let importDeclaration = _imports[file];
     let specifiers;
@@ -132,6 +133,7 @@ export class Hub {
   }
 
   importNamed(path, file, name, nameHint = name) {
+    file = remapProductionMarkoBuild(path, file);
     const { _imports } = this;
     let importDeclaration = _imports[file];
     let specifiers;
@@ -209,4 +211,14 @@ export class Hub {
       }
     }
   }
+}
+
+function remapProductionMarkoBuild(path, file) {
+  const {
+    hub: {
+      options: { isProduction }
+    }
+  } = path;
+  if (!isProduction) return file;
+  return file.replace(/^marko\/src\//, "marko/dist/");
 }

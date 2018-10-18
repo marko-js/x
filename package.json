@@ -39,8 +39,8 @@
     ]
   },
   "scripts": {
-    "build": "lerna exec --parallel -- babel ./src --out-dir ./dist --delete-dir-on-start --config-file ../../babel.config.js",
-    "build:watch": "lerna exec --parallel -- babel ./src --watch --out-dir ./dist --delete-dir-on-start",
+    "build": "lerna exec --parallel -- babel ./src --out-dir ./dist --delete-dir-on-start --copy-files --config-file ../../babel.config.js",
+    "build:watch": "lerna exec --parallel -- babel ./src --watch --out-dir ./dist --delete-dir-on-start --copy-files",
     "clean": "lerna clean && rm -rf ./packages/*/dist",
     "commitmsg": "echo $GIT_PARAMS && commitlint -e $GIT_PARAMS",
     "format": "prettier \"**/*.{json,md,js}\" --write",
