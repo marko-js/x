@@ -1,4 +1,4 @@
-packages/babel-preset-marko/test/fixtures/error-native-tag-params/template.marko(1,1): "div" tag does not support parameters.
+packages/babel-plugin-marko/test/fixtures/error-native-tag-params/template.marko(1,1): "div" tag does not support parameters.
 > 1 | <div(x)>
     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 > 2 |   <div/>

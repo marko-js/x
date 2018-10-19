@@ -1,12 +1,15 @@
-import { t as _t } from "marko/src/html";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t } from "marko/src/runtime/html";
+
+const _testBodyFunction2 = _t(_testBodyFunction);
+
 import _testBodyFunction from "./tags/test-body-function/renderer.js";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "zQB4MGMt";
+      _marko_componentType = "2EFrUtzo";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  _testBodyFunction({
+  _testBodyFunction2({
     "name": "World",
     "renderBody": out => {
       out.w("This is the body content");

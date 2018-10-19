@@ -1,4 +1,4 @@
-packages/babel-preset-marko/test/fixtures/error-export-tag-root-only/template.marko(2,3): "export" tags must be at the root of your Marko template.
+packages/babel-plugin-marko/test/fixtures/error-export-tag-root-only/template.marko(2,3): "export" tags must be at the root of your Marko template.
   1 | <div>
 > 2 |   <export x from "y"/>
     |   ^^^^^^^

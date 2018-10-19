@@ -1,4 +1,4 @@
-packages/babel-preset-marko/test/fixtures/error-macro-invalid-attributes/template.marko(1,1): The "macro" tag can only have a "name" attribute.
+packages/babel-plugin-marko/test/fixtures/error-macro-invalid-attributes/template.marko(1,1): The "macro" tag can only have a "name" attribute.
 > 1 | <macro(stuff) name="thing" x=1>
     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   2 |   <div/>

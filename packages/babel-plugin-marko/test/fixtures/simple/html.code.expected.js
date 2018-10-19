@@ -1,9 +1,9 @@
-import { t as _t } from "marko/src/html";
+import { t as _t } from "marko/src/runtime/html";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "-vTDxsab";
+      _marko_componentType = "hXm4QTQF";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.w(`Hello${_marko_escapeXml(input.name)}!`)

@@ -1,8 +1,8 @@
-import { t as _t } from "marko/src/vdom";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import _htmlComment from "marko/src/taglibs/html/html-comment-tag.js";
+import { t as _t } from "marko/src/runtime/vdom";
 import _other from "./components/other/index.marko";
-import { d as _marko_dynamicTag } from "marko/src/runtime/undefined/helpers";
+import { d as _marko_dynamicTag } from "marko/src/runtime/vdom/helpers";
 import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
 import { cl as _marko_class_merge } from "marko/src/runtime/html/helpers";
 import a from "b";
@@ -14,6 +14,8 @@ function more() {
   abc();
 }
 
+const _other2 = _t(_other);
+
 function _thing(stuff, out) {
   out.be("div", {
     "x": stuff.x
@@ -21,8 +23,10 @@ function _thing(stuff, out) {
   out.ee();
 }
 
+const _other3 = _t(_other);
+
 const _marko_template = _t(__filename),
-      _marko_componentType = "HpNuaWlK";
+      _marko_componentType = "8f1lFGb_";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.be("style", null, "0", component, 0, 0)
@@ -84,14 +88,14 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "x": 1
   }, out)
 
-  _other({
+  _other2({
     "renderBody": (out, a) => {
       out.be("div", null, "12", component, 0, 0);
       out.ee();
     }
   }, out, "11", ["click", "handleClick", false, [a, b, ...d]])
 
-  _other({
+  _other3({
     "x": 1,
     ...thing,
     "b": {
@@ -127,32 +131,35 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "c": "${d}",
     ...e
   }, "17", component, 0, 0)
-  out.t(a)
+  {
+    out.t(a);
 
-  _htmlComment({
-    "renderBody": out => {
-      out.t("abc");
+    const _htmlComment2 = _t(_htmlComment);
+
+    _htmlComment2({
+      "renderBody": out => {
+        out.t("abc");
+      }
+    }, out, "18");
+
+    out.be("div", {
+      "c": 1
+    }, "19", component, 0, 0);
+    out.ee();
+    out.be("div", {
+      "d": 1
+    }, "20", component, 0, 0);
+    out.ee();
+
+    if (x === a) {
+      out.t("a");
+      out.t(b);
+    } else if (x === 2) {
+      out.t("b");
+    } else {
+      out.t("c");
     }
-  }, out, "18")
-
-  out.be("div", {
-    "c": 1
-  }, "19", component, 0, 0)
-  out.ee()
-  out.be("div", {
-    "d": 1
-  }, "20", component, 0, 0)
-  out.ee()
-
-  if (x === a) {
-    out.t("a");
-    out.t(b);
-  } else if (x === 2) {
-    out.t("b");
-  } else {
-    out.t("c");
   }
-
   out.ee()
   out.be("div", {
     "b": 1
@@ -196,7 +203,9 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     }, `@${val.name}`, component, 0, 0);
     out.ee();
 
-    _other({
+    const _other4 = _t(_other);
+
+    _other4({
       "d": 2
     }, out, `@${val.name}`);
   }

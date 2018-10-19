@@ -1,12 +1,15 @@
-import { t as _t } from "marko/src/html";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t } from "marko/src/runtime/html";
+
+const _testHello2 = _t(_testHello);
+
 import _testHello from "./tags/test-hello/renderer.js";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "6DyhDpsS";
+      _marko_componentType = "J6ObXtms";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  _testHello({
+  _testHello2({
     "name": "World"
   }, out, "0")
 }, {

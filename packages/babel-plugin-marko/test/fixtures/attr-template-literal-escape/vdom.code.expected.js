@@ -1,8 +1,8 @@
-import { t as _t } from "marko/src/vdom";
+import { t as _t } from "marko/src/runtime/vdom";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "5lgNNFOh";
+      _marko_componentType = "mMDF7Duo";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.be("div", {

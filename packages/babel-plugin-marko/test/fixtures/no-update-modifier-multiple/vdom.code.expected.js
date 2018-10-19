@@ -1,9 +1,9 @@
-import { t as _t } from "marko/src/vdom";
+import { t as _t } from "marko/src/runtime/vdom";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import "marko/src/runtime/vdom/preserve-attrs";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "v6sm3nBF";
+      _marko_componentType = "i58_DLy_";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.be("div", null, "0", component, 0, 0)

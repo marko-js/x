@@ -1,9 +1,8 @@
-import { t as _t } from "marko/src/html";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t } from "marko/src/runtime/html";
 import _other from "./components/other/index.marko";
-import { d as _marko_dynamicTag } from "marko/src/runtime/undefined/helpers";
 import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
-import { cl as _marko_class_merge, xc as _marko_escapeStyle, xs as _marko_escapeScript, a as _marko_attr, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/html/helpers";
+import { cl as _marko_class_merge, xc as _marko_escapeStyle, xs as _marko_escapeScript, a as _marko_attr, d as _marko_dynamicTag, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/html/helpers";
 import a from "b";
 export { a };
 doThings();
@@ -13,12 +12,16 @@ function more() {
   abc();
 }
 
+const _other2 = _t(_other);
+
 function _thing(stuff, out) {
   out.w(`<div${_marko_attr("x", stuff.x)}></div>`);
 }
 
+const _other3 = _t(_other);
+
 const _marko_template = _t(__filename),
-      _marko_componentType = "HpNuaWlK";
+      _marko_componentType = "8f1lFGb_";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.w(`<style>div { color:${_marko_escapeStyle(x)}; }</style><script>var y =${_marko_escapeScript(x)};</script>`)
@@ -49,13 +52,13 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "x": 1
   }, out)
 
-  _other({
+  _other2({
     "renderBody": (out, a) => {
       out.w("<div></div>");
     }
   }, out, "11", ["click", "handleClick", false, [a, b, ...d]])
 
-  _other({
+  _other3({
     "x": 1,
     ...thing,
     "b": {
@@ -112,7 +115,9 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     i;
     out.w("<div c=\"1\"></div>");
 
-    _other({
+    const _other4 = _t(_other);
+
+    _other4({
       "d": 2
     }, out, `@${val.name}`);
   }

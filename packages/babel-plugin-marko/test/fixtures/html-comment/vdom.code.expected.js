@@ -1,12 +1,15 @@
-import { t as _t } from "marko/src/vdom";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t } from "marko/src/runtime/vdom";
+
+const _htmlComment2 = _t(_htmlComment);
+
 import _htmlComment from "marko/src/taglibs/html/html-comment-tag.js";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "Lx4dIEHb";
+      _marko_componentType = "Vfg6Efpl";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  _htmlComment({
+  _htmlComment2({
     "renderBody": out => {
       out.t("test");
     }

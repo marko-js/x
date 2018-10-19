@@ -1,9 +1,9 @@
-import { t as _t } from "marko/src/html";
+import { t as _t } from "marko/src/runtime/html";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { a as _marko_attr } from "marko/src/runtime/html/helpers";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "JtF1SNRx";
+      _marko_componentType = "AwMFg6kF";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.w(`<input${_marko_attr("value", input.defaultValue)}${_marko_attr("data-marko", {

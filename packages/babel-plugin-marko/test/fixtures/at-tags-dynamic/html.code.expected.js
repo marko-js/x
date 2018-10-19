@@ -1,10 +1,13 @@
-import { t as _t } from "marko/src/html";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t } from "marko/src/runtime/html";
+
+const _hello2 = _t(_hello);
+
 import _hello from "./components/hello/index.marko";
 import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "AfIohXbl";
+      _marko_componentType = "jk52ETtv";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   const _cols = [];
@@ -64,7 +67,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "rows": _rows2
   });
 
-  _hello({
+  _hello2({
     "list": {
       "items": _items
     },

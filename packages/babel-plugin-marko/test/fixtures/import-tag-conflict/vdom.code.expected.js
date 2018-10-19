@@ -1,10 +1,10 @@
-import { t as _t } from "marko/src/vdom";
+import { t as _t } from "marko/src/runtime/vdom";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { asset as test } from "./test1/asset";
 import { asset } from "./test2/asset";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "bSGCZKbH";
+      _marko_componentType = "0kf6vBvn";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {}, {
   ___type: _marko_componentType,
