@@ -13,7 +13,7 @@ export function getAttrs(path, skipRenderBody) {
   const hasRenderBody = !skipRenderBody && childLen;
 
   if (!attrsLen && !hasRenderBody && !attributeTags) {
-    return t.nullLiteral();
+    return t.objectExpression([]);
   }
 
   const properties = new Array(attrsLen);

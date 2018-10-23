@@ -1,11 +1,12 @@
+import { t as _t2 } from "marko/src/runtime/vdom";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
-import { t as _t } from "marko/src/runtime/vdom";
+import { t as _t } from "marko/src/runtime/vdom/helpers";
 
 const _hello_tag = _t(_hello);
 
 import _hello from "./components/hello/index.marko";
 
-const _marko_template = _t(__filename),
+const _marko_template = _t2(__filename),
       _marko_componentType = "jk52ETtv";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {

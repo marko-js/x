@@ -1,29 +1,30 @@
+import { t as _t2 } from "marko/src/runtime/vdom";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import _initComponents from "marko/src/components/taglib/init-components-tag.js";
-import { t as _t } from "marko/src/runtime/vdom";
+import { t as _t } from "marko/src/runtime/vdom/helpers";
 import _componentGlobals from "marko/src/components/taglib/component-globals-tag.js";
 
-const _marko_template = _t(__filename),
+const _marko_template = _t2(__filename),
       _marko_componentType = "Fr76d7a7";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  out.be("html", null, "0", component, 0, 0)
-  out.be("head", null, "1", component, 0, 0)
-  out.be("title", null, "2", component, 0, 0)
+  out.be("html", {}, "0", component, 0, 0)
+  out.be("head", {}, "1", component, 0, 0)
+  out.be("title", {}, "2", component, 0, 0)
   out.t("Title of the document")
   out.ee()
   out.ee()
-  out.be("body", null, "3", component, 0, 0)
+  out.be("body", {}, "3", component, 0, 0)
   {
     const _componentGlobals_tag = _t(_componentGlobals);
 
-    _componentGlobals_tag(null, out, "4");
+    _componentGlobals_tag({}, out, "4");
 
     out.t("The content of the document......");
 
     const _initComponents_tag = _t(_initComponents);
 
-    _initComponents_tag(null, out, "5");
+    _initComponents_tag({}, out, "5");
   }
   out.ee()
   out.ee()

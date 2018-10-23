@@ -1,12 +1,13 @@
+import { t as _t2 } from "marko/src/runtime/vdom";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import _noUpdate from "marko/src/components/taglib/preserve-tag.js";
 
 const _noUpdate_tag = _t(_noUpdate);
 
-import { t as _t } from "marko/src/runtime/vdom";
+import { t as _t } from "marko/src/runtime/vdom/helpers";
 import _hello from "./components/hello/index.marko";
 
-const _marko_template = _t(__filename),
+const _marko_template = _t2(__filename),
       _marko_componentType = "FaQWPoit";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
@@ -25,9 +26,9 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
         "renderBody": out => {
           const _hello_tag = _t(_hello);
 
-          _hello_tag(null, out, "2");
+          _hello_tag({}, out, "2");
 
-          out.be("div", null, "3", component, 0, 0);
+          out.be("div", {}, "3", component, 0, 0);
           out.ee();
         }
       }, out, "1");
@@ -40,9 +41,9 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag(null, out, "6");
+          _hello_tag({}, out, "6");
 
-          out.be("div", null, "7", component, 0, 0);
+          out.be("div", {}, "7", component, 0, 0);
           out.ee();
         }
       }, out, "5");
@@ -55,9 +56,9 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag(null, out, "10");
+          _hello_tag({}, out, "10");
 
-          out.be("div", null, "11", component, 0, 0);
+          out.be("div", {}, "11", component, 0, 0);
           out.ee();
         }
       }, out, "9");
@@ -71,9 +72,9 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag(null, out, "14");
+          _hello_tag({}, out, "14");
 
-          out.be("div", null, "15", component, 0, 0);
+          out.be("div", {}, "15", component, 0, 0);
           out.ee();
         }
       }, out, "13");

@@ -36,7 +36,11 @@ export default function(path, tagDef) {
         t.variableDeclarator(
           tagIdentifier,
           t.callExpression(
-            hub.importNamed(path, `marko/src/runtime/${options.output}`, "t"),
+            hub.importNamed(
+              path,
+              `marko/src/runtime/${options.output}/helpers`,
+              "t"
+            ),
             [tagImportIdentifier]
           )
         )

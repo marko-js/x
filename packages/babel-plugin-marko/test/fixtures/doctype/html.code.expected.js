@@ -1,9 +1,10 @@
+import { t as _t2 } from "marko/src/runtime/html";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import _initComponents from "marko/src/components/taglib/init-components-tag.js";
-import { t as _t } from "marko/src/runtime/html";
+import { t as _t } from "marko/src/runtime/html/helpers";
 import _componentGlobals from "marko/src/components/taglib/component-globals-tag.js";
 
-const _marko_template = _t(__filename),
+const _marko_template = _t2(__filename),
       _marko_componentType = "Fr76d7a7";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
@@ -11,13 +12,13 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   {
     const _componentGlobals_tag = _t(_componentGlobals);
 
-    _componentGlobals_tag(null, out, "4");
+    _componentGlobals_tag({}, out, "4");
 
     out.w("The content of the document......");
 
     const _initComponents_tag = _t(_initComponents);
 
-    _initComponents_tag(null, out, "5");
+    _initComponents_tag({}, out, "5");
   }
   out.w("</body></html>")
 }, {
