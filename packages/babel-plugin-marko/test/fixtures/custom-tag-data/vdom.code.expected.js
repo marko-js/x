@@ -1,7 +1,7 @@
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { t as _t } from "marko/src/runtime/vdom";
 
-const _customTagData2 = _t(_customTagData);
+const _customTagData_tag = _t(_customTagData);
 
 import _customTagData from "./custom-tag-data-tag.js";
 
@@ -9,7 +9,7 @@ const _marko_template = _t(__filename),
       _marko_componentType = "9G-EElad";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  _customTagData2({
+  _customTagData_tag({
     "name": "Frank".toUpperCase(),
     "age": 32
   }, out, "0")

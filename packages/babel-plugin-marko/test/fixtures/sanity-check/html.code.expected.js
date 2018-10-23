@@ -12,13 +12,11 @@ function more() {
   abc();
 }
 
-const _other2 = _t(_other);
+const _other_tag = _t(_other);
 
 function _thing(stuff, out) {
   out.w(`<div${_marko_attr("x", stuff.x)}></div>`);
 }
-
-const _other3 = _t(_other);
 
 const _marko_template = _t(__filename),
       _marko_componentType = "8f1lFGb_";
@@ -52,13 +50,13 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "x": 1
   }, out)
 
-  _other2({
+  _other_tag({
     "renderBody": (out, a) => {
       out.w("<div></div>");
     }
   }, out, "11", ["click", "handleClick", false, [a, b, ...d]])
 
-  _other3({
+  _other_tag({
     "x": 1,
     ...thing,
     "b": {
@@ -115,9 +113,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     i;
     out.w("<div c=\"1\"></div>");
 
-    const _other4 = _t(_other);
-
-    _other4({
+    _other_tag({
       "d": 2
     }, out, `@${val.name}`);
   }

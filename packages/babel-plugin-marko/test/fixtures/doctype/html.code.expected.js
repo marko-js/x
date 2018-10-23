@@ -9,15 +9,15 @@ const _marko_template = _t(__filename),
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.w("<!DOCTYPE html><html><head><title>Title of the document</title></head><body>")
   {
-    const _componentGlobals2 = _t(_componentGlobals);
+    const _componentGlobals_tag = _t(_componentGlobals);
 
-    _componentGlobals2(null, out, "4");
+    _componentGlobals_tag(null, out, "4");
 
     out.w("The content of the document......");
 
-    const _initComponents2 = _t(_initComponents);
+    const _initComponents_tag = _t(_initComponents);
 
-    _initComponents2(null, out, "5");
+    _initComponents_tag(null, out, "5");
   }
   out.w("</body></html>")
 }, {

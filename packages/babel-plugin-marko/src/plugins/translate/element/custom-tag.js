@@ -1,12 +1,10 @@
 import * as t from "../../../definitions";
-import {
-  replaceInRenderBody,
-  insertBeforeInRenderBody
-} from "../../../taglib/core/util";
+import { replaceInRenderBody } from "../../../taglib/core/util";
 import { getAttrs, buildEventHandlerArray } from "./util";
 
 // TODO: support transform and other entries.
 const TAG_FILE_ENTRIES = ["template", "renderer"];
+const TAG_IDENTIFIER_LOOKUPS = new WeakMap();
 
 export default function(path, tagDef) {
   const { hub, node } = path;
@@ -21,24 +19,31 @@ export default function(path, tagDef) {
     );
   }
 
-  if (!meta.tags.includes(relativePath)) {
-    meta.tags.push(relativePath);
+  let tagIdentifierLookup = TAG_IDENTIFIER_LOOKUPS.get(hub);
+  if (!tagIdentifierLookup) {
+    TAG_IDENTIFIER_LOOKUPS.set(hub, (tagIdentifierLookup = {}));
   }
 
   const tagImportIdentifier = hub.importDefault(path, relativePath, name);
-  const tagIdentifier = path.scope.generateUidIdentifier(name);
+  const tagIdentifier =
+    tagIdentifierLookup[name] ||
+    path.scope.generateUidIdentifier(`${name}_tag`);
 
-  path.insertBefore(
-    t.variableDeclaration("const", [
-      t.variableDeclarator(
-        tagIdentifier,
-        t.callExpression(
-          hub.importNamed(path, `marko/src/runtime/${options.output}`, "t"),
-          [tagImportIdentifier]
+  if (!meta.tags.includes(relativePath)) {
+    tagIdentifierLookup[name] = tagIdentifier;
+    path.insertBefore(
+      t.variableDeclaration("const", [
+        t.variableDeclarator(
+          tagIdentifier,
+          t.callExpression(
+            hub.importNamed(path, `marko/src/runtime/${options.output}`, "t"),
+            [tagImportIdentifier]
+          )
         )
-      )
-    ])
-  );
+      ])
+    );
+    meta.tags.push(relativePath);
+  }
 
   replaceInRenderBody(
     path,

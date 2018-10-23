@@ -1,7 +1,7 @@
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { t as _t } from "marko/src/runtime/vdom";
 
-const _testBodyFunction2 = _t(_testBodyFunction);
+const _testBodyFunction_tag = _t(_testBodyFunction);
 
 import _testBodyFunction from "./tags/test-body-function/renderer.js";
 
@@ -9,7 +9,7 @@ const _marko_template = _t(__filename),
       _marko_componentType = "2EFrUtzo";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  _testBodyFunction2({
+  _testBodyFunction_tag({
     "name": "World",
     "renderBody": out => {
       out.t("This is the body content");

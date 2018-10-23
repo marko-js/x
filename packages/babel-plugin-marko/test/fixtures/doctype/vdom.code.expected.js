@@ -15,15 +15,15 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   out.ee()
   out.be("body", null, "3", component, 0, 0)
   {
-    const _componentGlobals2 = _t(_componentGlobals);
+    const _componentGlobals_tag = _t(_componentGlobals);
 
-    _componentGlobals2(null, out, "4");
+    _componentGlobals_tag(null, out, "4");
 
     out.t("The content of the document......");
 
-    const _initComponents2 = _t(_initComponents);
+    const _initComponents_tag = _t(_initComponents);
 
-    _initComponents2(null, out, "5");
+    _initComponents_tag(null, out, "5");
   }
   out.ee()
   out.ee()

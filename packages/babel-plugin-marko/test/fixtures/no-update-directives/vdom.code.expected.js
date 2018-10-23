@@ -1,16 +1,10 @@
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import _noUpdate from "marko/src/components/taglib/preserve-tag.js";
 
-const _noUpdate2 = _t(_noUpdate);
+const _noUpdate_tag = _t(_noUpdate);
 
 import { t as _t } from "marko/src/runtime/vdom";
 import _hello from "./components/hello/index.marko";
-
-const _noUpdate3 = _t(_noUpdate);
-
-const _noUpdate4 = _t(_noUpdate);
-
-const _noUpdate5 = _t(_noUpdate);
 
 const _marko_template = _t(__filename),
       _marko_componentType = "FaQWPoit";
@@ -24,16 +18,14 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
 
   const _noUpdateKey = __component.___nextKey("0");
 
-  _noUpdate2({
+  _noUpdate_tag({
     "cid": _noUpdateKey,
     "renderBody": out => {
-      const _hello3 = _t(_hello);
-
-      _hello3({
+      _hello_tag({
         "renderBody": out => {
-          const _hello2 = _t(_hello);
+          const _hello_tag = _t(_hello);
 
-          _hello2(null, out, "2");
+          _hello_tag(null, out, "2");
 
           out.be("div", null, "3", component, 0, 0);
           out.ee();
@@ -42,17 +34,13 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     }
   }, out, `#${_noUpdateKey}`)
 
-  _noUpdate3({
+  _noUpdate_tag({
     "cid": _noUpdateKey2,
     "if": x,
     "renderBody": out => {
-      const _hello5 = _t(_hello);
-
-      _hello5({
+      _hello_tag({
         "renderBody": out => {
-          const _hello4 = _t(_hello);
-
-          _hello4(null, out, "6");
+          _hello_tag(null, out, "6");
 
           out.be("div", null, "7", component, 0, 0);
           out.ee();
@@ -61,17 +49,13 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     }
   }, out, `#${_noUpdateKey2}`)
 
-  _noUpdate4({
+  _noUpdate_tag({
     "cid": _noUpdateKey3,
     "bodyOnly": true,
     "renderBody": out => {
-      const _hello7 = _t(_hello);
-
-      _hello7({
+      _hello_tag({
         "renderBody": out => {
-          const _hello6 = _t(_hello);
-
-          _hello6(null, out, "10");
+          _hello_tag(null, out, "10");
 
           out.be("div", null, "11", component, 0, 0);
           out.ee();
@@ -80,18 +64,14 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     }
   }, out, `#${_noUpdateKey3}`)
 
-  _noUpdate5({
+  _noUpdate_tag({
     "cid": _noUpdateKey4,
     "if": x,
     "bodyOnly": true,
     "renderBody": out => {
-      const _hello9 = _t(_hello);
-
-      _hello9({
+      _hello_tag({
         "renderBody": out => {
-          const _hello8 = _t(_hello);
-
-          _hello8(null, out, "14");
+          _hello_tag(null, out, "14");
 
           out.be("div", null, "15", component, 0, 0);
           out.ee();

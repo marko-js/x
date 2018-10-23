@@ -1,7 +1,7 @@
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { t as _t } from "marko/src/runtime/html";
 
-const _customTag2 = _t(_customTag);
+const _customTag_tag = _t(_customTag);
 
 import _customTag from "./components/custom-tag/index.marko";
 
@@ -20,7 +20,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     };
   }
 
-  _customTag2({
+  _customTag_tag({
     "thing": _thing
   }, out, "0")
 }, {
