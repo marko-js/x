@@ -51,7 +51,8 @@
     "code-generator": "./macro/translate.js",
     "parse-options": {
       "rootOnly": true
-    }
+    },
+    "@name": "string"
   },
   "<if>": {
     "code-generator": "./conditional/translate-if.js",
