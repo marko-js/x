@@ -110,7 +110,7 @@ export class Hub {
         t.stringLiteral(file)
       );
       specifiers = importDeclaration.specifiers;
-      this.file.program.body.unshift(importDeclaration);
+      this.file.program.body.push(importDeclaration);
     } else {
       specifiers = _imports[file].specifiers;
     }
@@ -144,7 +144,7 @@ export class Hub {
         t.stringLiteral(file)
       );
       specifiers = importDeclaration.specifiers;
-      this.file.program.body.unshift(importDeclaration);
+      this.file.program.body.push(importDeclaration);
     } else {
       specifiers = _imports[file].specifiers;
     }
@@ -161,6 +161,10 @@ export class Hub {
     }
 
     return specifier.local;
+  }
+
+  addStaticNode(node) {
+    this.file.program.body.push(node);
   }
 
   createNode(type, start, end, ...args) {

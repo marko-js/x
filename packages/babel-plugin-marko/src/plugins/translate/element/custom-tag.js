@@ -31,7 +31,7 @@ export default function(path, tagDef) {
 
   if (!meta.tags.includes(relativePath)) {
     tagIdentifierLookup[name] = tagIdentifier;
-    path.insertBefore(
+    hub.addStaticNode(
       t.variableDeclaration("const", [
         t.variableDeclarator(
           tagIdentifier,
