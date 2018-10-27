@@ -1,6 +1,3 @@
-import { t as _t } from "marko/src/runtime/vdom";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
-
 function _renderTree(node, out) {
   out.t("Name:");
   out.t(node.name);
@@ -21,6 +18,9 @@ function _renderTree(node, out) {
     out.ee();
   }
 }
+
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t } from "marko/src/runtime/vdom";
 
 const _marko_template = _t(__filename),
       _marko_componentType = "9QKeN8cm";

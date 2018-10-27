@@ -1,10 +1,10 @@
-import { t as _t2 } from "marko/src/runtime/html";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import _customTag from "./components/custom-tag/index.marko";
 import { t as _t } from "marko/src/runtime/html/helpers";
 
 const _customTag_tag = _t(_customTag);
 
-import _customTag from "./components/custom-tag/index.marko";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t2 } from "marko/src/runtime/html";
 
 const _marko_template = _t2(__filename),
       _marko_componentType = "pVNVWkgr";

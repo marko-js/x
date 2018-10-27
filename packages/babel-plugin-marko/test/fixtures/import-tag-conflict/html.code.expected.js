@@ -1,7 +1,7 @@
-import { t as _t } from "marko/src/runtime/html";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { asset as test } from "./test1/asset";
 import { asset } from "./test2/asset";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t } from "marko/src/runtime/html";
 
 const _marko_template = _t(__filename),
       _marko_componentType = "0kf6vBvn";

@@ -1,11 +1,14 @@
-import { t as _t2 } from "marko/src/runtime/vdom";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import _hello from "./components/hello/index.marko";
+import { t as _t } from "marko/src/runtime/vdom/helpers";
+
+const _hello_tag = _t(_hello);
+
 import _noUpdate from "marko/src/components/taglib/preserve-tag.js";
 
 const _noUpdate_tag = _t(_noUpdate);
 
-import { t as _t } from "marko/src/runtime/vdom/helpers";
-import _hello from "./components/hello/index.marko";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t2 } from "marko/src/runtime/vdom";
 
 const _marko_template = _t2(__filename),
       _marko_componentType = "FaQWPoit";
@@ -24,8 +27,6 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          const _hello_tag = _t(_hello);
-
           _hello_tag({}, out, "2");
 
           out.be("div", {}, "3", component, 0, 0);

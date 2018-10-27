@@ -1,10 +1,10 @@
-import { t as _t } from "marko/src/runtime/html";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 var foo = 123;
 
 function bar() {}
 
 var baz = 456;
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t } from "marko/src/runtime/html";
 
 const _marko_template = _t(__filename),
       _marko_componentType = "POLyS7AN";

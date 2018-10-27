@@ -7,8 +7,7 @@ const transparentTags = new Set([
   "for",
   "if",
   "else",
-  "no-update",
-  "marko-preserve-whitespace"
+  "no-update"
 ]);
 
 // TODO: test not root

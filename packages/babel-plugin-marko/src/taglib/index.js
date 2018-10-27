@@ -15,24 +15,26 @@ export function buildLookup(dirname) {
   // create lookup and load specific tags from old compiler.
   const lookupInstance = lookup.buildLookup(dirname);
 
+  debugger;
+
   lookupInstance.getTag("no-update").renderer = resolveFrom(
-    "marko/src/components/taglib/preserve-tag.js",
-    dirname
+    dirname,
+    "marko/src/components/taglib/preserve-tag.js"
   );
 
   lookupInstance.getTag("html-comment").renderer = resolveFrom(
-    "marko/src/taglibs/html/html-comment-tag.js",
-    dirname
+    dirname,
+    "marko/src/taglibs/html/html-comment-tag.js"
   );
 
   lookupInstance.getTag("init-components").renderer = resolveFrom(
-    "marko/src/components/taglib/init-components-tag.js",
-    dirname
+    dirname,
+    "marko/src/components/taglib/init-components-tag.js"
   );
 
   lookupInstance.getTag("component-globals").renderer = resolveFrom(
-    "marko/src/components/taglib/component-globals-tag.js",
-    dirname
+    dirname,
+    "marko/src/components/taglib/component-globals-tag.js"
   );
   return lookupInstance;
 }

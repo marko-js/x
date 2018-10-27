@@ -1,6 +1,6 @@
-import { t as _t } from "marko/src/runtime/html";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import _marko_component from "./template.component.js";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t } from "marko/src/runtime/html";
 
 const _marko_template = _t(__filename),
       _marko_componentType = "VBJ9cK7S";

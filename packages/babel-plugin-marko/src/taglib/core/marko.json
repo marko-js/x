@@ -75,12 +75,6 @@
     "code-generator": "./translate-html-comment/index.js",
     "attribute-groups": ["html-attributes"]
   },
-  "<marko-preserve-whitespace>": {
-    "code-generator": "./translate-marko-preserve-whitespace.js",
-    "parse-options": {
-      "preserveWhitespace": true
-    }
-  },
   "<key>": {
     "transformer": "./transform-key.js",
     "@key": "string"

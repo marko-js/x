@@ -1,8 +1,3 @@
-import { t as _t2 } from "marko/src/runtime/html";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
-import _other from "./components/other/index.marko";
-import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
-import { cl as _marko_class_merge, xc as _marko_escapeStyle, xs as _marko_escapeScript, a as _marko_attr, d as _marko_dynamicTag, t as _t, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/html/helpers";
 import a from "b";
 export { a };
 doThings();
@@ -12,11 +7,18 @@ function more() {
   abc();
 }
 
-const _other_tag = _t(_other);
-
 function _thing(stuff, out) {
   out.w(`<div${_marko_attr("x", stuff.x)}></div>`);
 }
+
+import { cl as _marko_class_merge, xc as _marko_escapeStyle, xs as _marko_escapeScript, a as _marko_attr, d as _marko_dynamicTag, t as _t, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/html/helpers";
+import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
+import _other from "./components/other/index.marko";
+
+const _other_tag = _t(_other);
+
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t2 } from "marko/src/runtime/html";
 
 const _marko_template = _t2(__filename),
       _marko_componentType = "8f1lFGb_";
@@ -117,8 +119,6 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
       "d": 2
     }, out, `@${val.name}`);
   }
-
-  out.w("<div>Hi</div>\n\n  <div>\n\n    Hi\n\n  </div>\n\n")
 
   if (false) {
     out.w("<div>");

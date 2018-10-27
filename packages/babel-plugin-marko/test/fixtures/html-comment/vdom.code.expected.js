@@ -1,10 +1,10 @@
-import { t as _t2 } from "marko/src/runtime/vdom";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import _htmlComment from "marko/src/taglibs/html/html-comment-tag.js";
 import { t as _t } from "marko/src/runtime/vdom/helpers";
 
 const _htmlComment_tag = _t(_htmlComment);
 
-import _htmlComment from "marko/src/taglibs/html/html-comment-tag.js";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t2 } from "marko/src/runtime/vdom";
 
 const _marko_template = _t2(__filename),
       _marko_componentType = "Vfg6Efpl";
