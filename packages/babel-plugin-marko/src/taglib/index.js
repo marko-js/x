@@ -15,8 +15,6 @@ export function buildLookup(dirname) {
   // create lookup and load specific tags from old compiler.
   const lookupInstance = lookup.buildLookup(dirname);
 
-  debugger;
-
   lookupInstance.getTag("no-update").renderer = resolveFrom(
     dirname,
     "marko/src/components/taglib/preserve-tag.js"

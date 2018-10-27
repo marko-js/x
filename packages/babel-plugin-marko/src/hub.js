@@ -1,5 +1,6 @@
 import path from "path";
 import { getClientPath } from "lasso-modules-client/transport";
+import "./generators";
 import * as t from "./definitions";
 import { NodePath, Scope } from "@babel/traverse";
 import { parse, parseExpression } from "@babel/parser";

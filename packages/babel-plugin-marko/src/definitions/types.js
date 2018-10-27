@@ -14,17 +14,6 @@ const valueFieldCommon = {
 };
 
 export default {
-  MarkoFile: {
-    builder: ["program", "comments", "tokens"],
-    visitor: ["program"],
-    aliases: ["Marko", "File"],
-    fields: {
-      program: {
-        validate: assertNodeType("Program")
-      }
-    }
-  },
-
   HTMLDocumentType: {
     builder: ["value"],
     aliases: ["Marko", "Expression", "Literal"],
