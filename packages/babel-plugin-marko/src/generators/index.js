@@ -33,7 +33,16 @@ Object.assign(Printer.prototype, {
   },
   HTMLScriptlet(node) {
     this.token("$ ");
-    this.printJoin(node.body, node, { separator: spaceSeparator });
+    if (node.body.length === 1) {
+      this.print(node.body[0], node);
+    } else {
+      this.token("{");
+      this.newline();
+      this.indent();
+      this.printSequence(node.body, node);
+      this.dedent();
+      this.token("}");
+    }
     this.newline();
   },
   HTMLAttribute(node) {
@@ -46,7 +55,7 @@ Object.assign(Printer.prototype, {
 
     if (node.arguments) {
       this.token("(");
-      this.printJoin(node.arguments, node, { separator: spaceSeparator });
+      this.printList(node.arguments, node);
       this.token(")");
     }
 
@@ -65,27 +74,22 @@ Object.assign(Printer.prototype, {
     this.token(node.value);
   },
   HTMLElement(node) {
-    this.newline();
-
     const start = node.startTag;
     this.print(start, node);
     if (start.selfClosing) return; // TODO: expose this
   
-    this.indent();
-    for (const child of node.children) {
-      this.print(child, node);
-    }
-    this.dedent();
+    this.printSequence(node.children, node, { indent: true });
   
     this.print(node.endTag, node);
-    this.newline();
   },
 
   HTMLStartTag(node) {
     this.token("<");
 
     if (t.isStringLiteral(node.name)) {
+      this.startTerminatorless();
       this.token(node.name.value);
+      this.endTerminatorless();
     } else {
       this.token("${");
       this.print(node.name, node);
@@ -94,7 +98,7 @@ Object.assign(Printer.prototype, {
 
     if (node.params.length) {
       this.token("(");
-      this.printJoin(node.params, node, { separator: spaceSeparator });
+      this.printList(node.params, node);
       this.token(")");
     }
 
@@ -108,6 +112,7 @@ Object.assign(Printer.prototype, {
       this.token("/>");
     } else {
       this.token(">");
+      this.newline();
     }
   },
   HTMLEndTag(node) {
@@ -120,5 +125,9 @@ Object.assign(Printer.prototype, {
 });
 
 function spaceSeparator() {
+  this.space();
+}
+
+function commaSeparator() {
   this.space();
 }
