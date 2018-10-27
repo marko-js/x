@@ -1,4 +1,5 @@
 import * as t from "../definitions";
+import SELF_CLOSING from "self-closing-tags";
 import Printer from "@babel/generator/lib/printer";
 
 Object.assign(Printer.prototype, {
@@ -75,25 +76,31 @@ Object.assign(Printer.prototype, {
   },
   HTMLElement(node) {
     const start = node.startTag;
+    const tagName = start.name.value;
+    const selfClosing = !node.children.length || SELF_CLOSING.includes(tagName);
     this.print(start, node);
-    if (start.selfClosing) return; // TODO: expose this
-  
-    this.printSequence(node.children, node, { indent: true });
-  
-    this.print(node.endTag, node);
+    if (selfClosing) {
+      this.token("/>");
+    } else {
+      this.token(">");
+      this.newline();
+      this.printSequence(node.children, node, { indent: true });
+      this.print(node.endTag, node);
+    }
   },
 
-  HTMLStartTag(node) {
+  HTMLStartTag(node, parent) {
     this.token("<");
 
     if (t.isStringLiteral(node.name)) {
-      this.startTerminatorless();
-      this.token(node.name.value);
-      this.endTerminatorless();
+      const tagName = node.name.value;
+      this.token(tagName);
     } else {
+      this.startTerminatorless();
       this.token("${");
       this.print(node.name, node);
       this.token("}");
+      this.endTerminatorless();
     }
 
     if (node.params.length) {
@@ -106,14 +113,6 @@ Object.assign(Printer.prototype, {
       this.space();
       this.printJoin(node.attributes, node, { separator: spaceSeparator });
     }
-
-    if (node.selfClosing) { // TODO: add self closing to ast.
-      this.space();
-      this.token("/>");
-    } else {
-      this.token(">");
-      this.newline();
-    }
   },
   HTMLEndTag(node) {
     this.token("</");
@@ -125,9 +124,5 @@ Object.assign(Printer.prototype, {
 });
 
 function spaceSeparator() {
-  this.space();
-}
-
-function commaSeparator() {
   this.space();
 }
