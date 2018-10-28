@@ -7,25 +7,21 @@ Object.assign(Printer.prototype, {
     this.token("<!");
     this.token(node.value);
     this.token(">");
-    this.newline();
   },
   HTMLDeclaration(node) {
     this.token("<?");
     this.token(node.value);
     this.token("?>");
-    this.newline();
   },
   HTMLCDATA(node) {
     this.token("<![CDATA[");
     this.token(node.value);
     this.token("]]>");
-    this.newline();
   },
   HTMLComment(node) {
     this.token("<!--");
     this.token(node.value);
     this.token("-->");
-    this.newline();
   },
   HTMLPlaceholder(node) {
     this.token(node.escape ? "${" : "!${");
@@ -33,9 +29,15 @@ Object.assign(Printer.prototype, {
     this.token("}");
   },
   HTMLScriptlet(node) {
+    if (!this.endsWith("\n")) {
+      this.token("\n");
+    }
+
     this.token("$ ");
+
     if (node.body.length === 1) {
       this.print(node.body[0], node);
+      this.token("\n");
     } else {
       this.token("{");
       this.newline();
@@ -44,7 +46,6 @@ Object.assign(Printer.prototype, {
       this.dedent();
       this.token("}");
     }
-    this.newline();
   },
   HTMLAttribute(node) {
     this.token(node.name);
@@ -72,7 +73,7 @@ Object.assign(Printer.prototype, {
     this.print(node.value, node);
   },
   HTMLText(node) {
-    this.token(node.value);
+    this.word(node.value);
   },
   HTMLElement(node) {
     const start = node.startTag;
@@ -89,18 +90,16 @@ Object.assign(Printer.prototype, {
     }
   },
 
-  HTMLStartTag(node, parent) {
+  HTMLStartTag(node) {
     this.token("<");
 
     if (t.isStringLiteral(node.name)) {
       const tagName = node.name.value;
       this.token(tagName);
     } else {
-      this.startTerminatorless();
       this.token("${");
       this.print(node.name, node);
       this.token("}");
-      this.endTerminatorless();
     }
 
     if (node.params.length) {
@@ -110,7 +109,7 @@ Object.assign(Printer.prototype, {
     }
 
     if (node.attributes.length > 0) {
-      this.space();
+      this.token(" ");
       this.printJoin(node.attributes, node, { separator: spaceSeparator });
     }
   },
@@ -124,5 +123,5 @@ Object.assign(Printer.prototype, {
 });
 
 function spaceSeparator() {
-  this.space();
+  this.token(" ");
 }

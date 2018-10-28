@@ -1,0 +1,4 @@
+{}
+<for(key, value) in=obj x=1>
+  <div/>
+</for>

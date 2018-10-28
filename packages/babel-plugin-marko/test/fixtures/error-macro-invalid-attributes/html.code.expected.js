@@ -1,0 +1,4 @@
+{}
+<macro(stuff) name="thing" x=1>
+  <div/>
+</macro>

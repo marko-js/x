@@ -1,0 +1,11 @@
+{}
+<macro(stuff) name="thing">
+  <div>
+    a
+  </div>
+</macro>
+<macro(stuff) name="thing">
+  <div>
+    b
+  </div>
+</macro>

@@ -1,0 +1,9 @@
+{}
+<some-tag>
+  <@header class="my-header">
+    Header content
+  </@header>
+  <@header class="my-header">
+    Header content
+  </@header>
+</some-tag>

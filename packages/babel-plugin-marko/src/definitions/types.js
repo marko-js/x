@@ -16,32 +16,32 @@ const valueFieldCommon = {
 export default {
   HTMLDocumentType: {
     builder: ["value"],
-    aliases: ["Marko", "Expression", "Literal"],
+    aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
   HTMLDeclaration: {
     builder: ["value"],
-    aliases: ["Marko", "Expression", "Literal"],
+    aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
   HTMLCDATA: {
     builder: ["value"],
-    aliases: ["Marko", "Expression", "Literal"],
+    aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
   HTMLComment: {
     builder: ["value"],
-    aliases: ["Marko", "Expression", "Literal"],
+    aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
   HTMLText: {
     visitor: ["value"],
     builder: ["value"],
-    aliases: ["Marko", "StringLiteral", "Literal"],
+    aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
@@ -111,7 +111,7 @@ export default {
 
   HTMLStartTag: {
     builder: ["name", "params", "attributes", "rawValue"],
-    aliases: ["Marko", "Expression"],
+    aliases: ["Marko", "Statement"],
     fields: {
       name: {
         validate: assertNodeType("Expression")
@@ -137,7 +137,7 @@ export default {
 
   HTMLEndTag: {
     builder: ["name"],
-    aliases: ["Marko", "Expression"],
+    aliases: ["Marko", "Statement"],
     fields: {
       name: {
         validate: assertNodeType("Expression")

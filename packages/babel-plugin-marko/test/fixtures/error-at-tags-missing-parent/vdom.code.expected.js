@@ -1,0 +1,10 @@
+{}
+<div>
+  <@header class="my-header">
+    Header content
+  </@header>
+  Body content
+  <@footer class="my-footer">
+    Footer content
+  </@footer>
+</div>
