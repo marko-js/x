@@ -1,5 +1,7 @@
 import * as t from "../../definitions";
 
+// TODO: leave class in correct place until translate.
+
 export default function(path) {
   const { node, hub } = path;
   const { startTag } = node;

@@ -62,11 +62,15 @@ export default {
 
   HTMLScriptlet: {
     visitor: ["body"],
-    builder: ["body"],
+    builder: ["body", "static"],
     aliases: ["Marko", "BlockStatement"],
     fields: {
       body: {
         validate: arrayOfType(["Statement"])
+      },
+      static: {
+        validate: assertValueType("boolean"),
+        default: false
       }
     }
   },

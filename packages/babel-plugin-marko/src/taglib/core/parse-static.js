@@ -11,5 +11,5 @@ export default function(path) {
     body = body[0].body;
   }
 
-  return body;
+  return t.HTMLScriptlet(body, true);
 }

@@ -41,7 +41,7 @@ Object.assign(Printer.prototype, {
       this.token("\n");
     }
 
-    this.token("$ ");
+    this.token(`${node.static ? "static" : "$"} `);
 
     if (node.body.length === 1) {
       this.print(node.body[0], node);

@@ -1,9 +1,11 @@
 import { replaceInRenderBody } from "../../taglib/core/util";
 
 export default function(path) {
-  const {
-    node: { body }
-  } = path;
+  const { node } = path;
 
-  replaceInRenderBody(path, body);
+  if (node.static) {
+    path.replaceWithMultiple(node.body);
+  } else {
+    replaceInRenderBody(path, node.body);
+  }
 }

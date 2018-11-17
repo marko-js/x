@@ -23,13 +23,15 @@ export { a };
   ${x}
   ;
 </script>
-doThings();
-andStuff();
+static {
+  doThings();
+  andStuff();
 
-function more() {
-  abc();
+  function more() {
+    abc();
+  }
+
 }
-
 <macro(stuff) name="thing">
   <div x=stuff.x/>
 </macro>
