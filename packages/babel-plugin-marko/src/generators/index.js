@@ -2,6 +2,14 @@ import * as t from "../definitions";
 import SELF_CLOSING from "self-closing-tags";
 import Printer from "@babel/generator/lib/printer";
 
+const UNENCLOSED_WHITESPACE_TYPES = [
+  "LogicalExpression",
+  "AssignmentExpression",
+  "ConditionalExpression",
+  "BinaryExpression",
+  "NewExpression"
+]
+
 Object.assign(Printer.prototype, {
   HTMLDocumentType(node) {
     this.token("<!");
@@ -64,13 +72,14 @@ Object.assign(Printer.prototype, {
     if (node.value) {
       if (!t.isBooleanLiteral(node.value) || !node.value.value) {
         this.token("=");
-        this.print(node.value, node);
+
+        printWithParansIfNeeded.call(this, node.value, node);
       }
     }
   },
   HTMLSpreadAttribute(node) {
     this.token("...");
-    this.print(node.value, node);
+    printWithParansIfNeeded.call(this, node.value, node);
   },
   HTMLText(node) {
     this.word(node.value);
@@ -124,4 +133,22 @@ Object.assign(Printer.prototype, {
 
 function spaceSeparator() {
   this.token(" ");
+}
+
+function printWithParansIfNeeded(value, parent) {
+  const needsParans = hasUnenclosedWhitespace(value);
+
+  if (needsParans) {
+    this.token("(");
+  }
+
+  this.print(value, parent);
+
+  if (needsParans) {
+    this.token(")");
+  }
+}
+
+function hasUnenclosedWhitespace(node) {
+  return UNENCLOSED_WHITESPACE_TYPES.includes(node.type);
 }

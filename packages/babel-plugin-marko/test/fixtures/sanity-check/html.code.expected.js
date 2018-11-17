@@ -66,7 +66,7 @@ $ let c = thing;
 </other>
 <other(b) x=1 ...thing b={
   a: 1
-} ...c>
+} ...c ...(d || e)>
   <div/>
   <@c c=1>
     <div/>
@@ -85,11 +85,11 @@ $ let c = thing;
   </html-comment>
   <div c=1/>
   <div d=1/>
-  <if if=x === a>
+  <if if=(x === a)>
     a
     ${b}
   </if>
-  <else if=x === 2>
+  <else if=(x === 2)>
     b
   </else>
   <else>
