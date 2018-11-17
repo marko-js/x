@@ -1,126 +1,152 @@
-{}
 import a from "b";
 export { a };
-<style/>
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>
-      Title of the document
-    </title>
-  </head>
-  <body>
-    The content of the document......
-  </body>
-</html>
-<style>
-  div { color:
-  ${x}
-  ; }
-</style>
-<script>
-  var y =
-  ${x}
-  ;
-</script>
-static {
-  doThings();
-  andStuff();
+doThings();
+andStuff();
 
-  function more() {
-    abc();
-  }
-
+function more() {
+  abc();
 }
-<macro(stuff) name="thing">
-  <div x=stuff.x/>
-</macro>
-$ var b = thing;
 
-$ let c = thing;
+function _thing(stuff, out) {
+  out.w(`<div${_marko_attr("x", stuff.x)}></div>`);
+}
 
-<div b=b c=c>
-  $ var d = thing;
+import { cl as _marko_class_merge, xc as _marko_escapeStyle, xs as _marko_escapeScript, a as _marko_attr, d as _marko_dynamicTag, t as _t, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/html/helpers";
+import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
+import _other from "./components/other/index.marko";
 
-  $ let e = thing;
+const _other_tag = _t(_other);
 
-  $ {
-    crazy();
-    stuff();
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { t as _t2 } from "marko/src/runtime/html";
+
+const _marko_template = _t2(__filename),
+      _marko_componentType = "8f1lFGb_";
+
+_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+  out.w(`<style>div { color:${_marko_escapeStyle(x)}; }</style><script>var y =${_marko_escapeScript(x)};</script>`)
+  var b = thing;
+  let c = thing;
+  out.w(`<div${_marko_attr("b", b)}${_marko_attr("c", c)}>`)
+  {
+    var d = thing;
+    let e = thing;
+    out.w(`<div${_marko_attr("d", d)}${_marko_attr("e", e)}></div>`);
   }
-  <div d=d e=e/>
-</div>
-<div on-click("handleClick", a, b, ...d)/>
-<div id:scoped="1"/>
-<div class=["a", {
-  b: c,
-  d
-}] style={
-  a: "b"
-}/>
-<input type="text"/>
-<${a} key="x">
-  <div/>
-</>
-<thing x=1/>
-<other(a) on-click("handleClick", a, b, ...d)>
-  <div/>
-</other>
-<other(b) x=1 ...thing b={
-  a: 1
-} ...c ...(d || e)>
-  <div/>
-  <@c c=1>
-    <div/>
-    <@d d=1>
-      <div/>
-    </@d>
-  </@c>
-</other>
-<div id="a" class="b c" a={
-  a: 1
-} c="${d}" ...e>
-  ${a}
-  <!--123-->
-  <html-comment>
-    abc
-  </html-comment>
-  <div c=1/>
-  <div d=1/>
-  <if if=(x === a)>
-    a
-    ${b}
-  </if>
-  <else if=(x === 2)>
-    b
-  </else>
-  <else>
-    c
-  </else>
-</div>
-<div b=1/>
-<div>
-  123 abc 123
-</div>
-<span ...abc/>
-<if if=cond>
-  Hello
-  ${planet}
-</if>
-<for(i) from=0 to=10 step=2>
-  <div c=1/>
-</for>
-<for(key, val) in=obj>
-  <div c=1/>
-</for>
-<for(val, i) of=arr>
-  $ i;
+  out.w(`</div><div${_marko_attr("data-marko", {
+    onclick: __component.d("click", "handleClick", [a, b, ...d], false)
+  })}></div><div${_marko_attr("id", __component.elId("1"))}></div><div${_marko_attr("class", _marko_class_merge(["a", {
+    b: c,
+    d
+  }]))}${_marko_attr("style", _marko_style_merge({
+    a: "b"
+  }))}></div><input type="text">`)
 
-  <key key=val.name>
-    <div c=1/>
-    <other d=2/>
-  </key>
-</for>
-<div body-only-if>
-  Hi
-</div>
+  _marko_dynamicTag(a, {
+    "renderBody": out => {
+      out.w("<div></div>");
+    }
+  }, out, __component, "@x")
+
+  _thing({
+    "x": 1
+  }, out)
+
+  _other_tag({
+    "renderBody": (out, a) => {
+      out.w("<div></div>");
+    }
+  }, out, "11", ["click", "handleClick", false, [a, b, ...d]])
+
+  _other_tag({
+    "x": 1,
+    ...thing,
+    "b": {
+      a: 1
+    },
+    ...c,
+    "c": {
+      "c": 1,
+      "d": {
+        "d": 1,
+        "renderBody": out => {
+          out.w("<div></div>");
+        }
+      },
+      "renderBody": out => {
+        out.w("<div></div>");
+      }
+    },
+    "renderBody": (out, b) => {
+      out.w("<div></div>");
+    }
+  }, out, "13")
+
+  out.w(`<div id="a" class="b c" a="[object Object]" c="${d}"${_marko_attrs(e)}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`)
+
+  if (x === a) {
+    out.w(`a${_marko_escapeXml(b)}`);
+  } else if (x === 2) {
+    out.w("b");
+  } else {
+    out.w("c");
+  }
+
+  out.w(`</div><div b="1"></div><div>123 abc 123</div><span${_marko_attrs(abc)}></span>`)
+
+  if (cond) {
+    out.w(`Hello${_marko_escapeXml(planet)}`);
+  }
+
+  for (let _i = 0; _i <= 10; _i += 2) {
+    const i = _i;
+    out.w("<div c=\"1\"></div>");
+  }
+
+  for (const key in obj) {
+    const val = obj[key];
+    out.w("<div c=\"1\"></div>");
+  }
+
+  let _i2 = -1;
+
+  for (const val of arr) {
+    let i = _i2++;
+    i;
+    out.w("<div c=\"1\"></div>");
+
+    _other_tag({
+      "d": 2
+    }, out, `@${val.name}`);
+  }
+
+  if (false) {
+    out.w("<div>");
+  }
+
+  out.w("Hi")
+
+  if (false) {
+    out.w("</div>");
+  }
+}, {
+  ___type: _marko_componentType,
+  ___implicit: true
+})
+_marko_template.Component = _marko_defineComponent({
+  onCreate() {
+    this.stuff();
+  }
+
+}, _marko_template._)
+_marko_template.meta = {
+  id: _marko_componentType,
+  deps: [{
+    "type": "css",
+    "code": "div {\n    color: green;\n  }",
+    "path": "./template.marko",
+    "virtualPath": "./template.marko.css"
+  }],
+  tags: ["./components/other/index.marko"]
+}
+export default _marko_template;

@@ -15,10 +15,10 @@ export default (api, options) => {
         isProduction
       });
       const ast = parse(hub);
-      // const nodePath = hub.createNodePath();
-      // nodePath.traverse(transform);
-      // nodePath.traverse(translate);
-      // nodePath.traverse(finalize);
+      const nodePath = hub.createNodePath();
+      nodePath.traverse(transform);
+      nodePath.traverse(translate);
+      nodePath.traverse(finalize);
       return ast;
     }
   };

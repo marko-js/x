@@ -7,18 +7,6 @@ style {
   }
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Title of the document</title>
-</head>
-
-<body>
-  The content of the document......
-</body>
-
-</html>
-
 <style id="css">
   div {
     color: ${x};
@@ -52,10 +40,6 @@ $ let c = thing;
 <div b=b c=c>
   $ var d = thing;
   $ let e = thing;
-  $ {
-    crazy();
-    stuff();
-  }
   <div d=d e=e/>
 </div>
 
@@ -77,7 +61,7 @@ $ let c = thing;
   <div/>
 </other>
 
-<other(b) x=1 ...thing b={ a: 1 } ...c ...(d || e)>
+<other(b) x=1 ...thing b={ a: 1 } ...c>
   <div/>
   <@c c=1>
     <div/>
