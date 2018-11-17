@@ -75,6 +75,17 @@ export default {
     }
   },
 
+  HTMLClass: {
+    builder: ["body"],
+    visitor: ["body"],
+    aliases: ["Marko", "Statement"],
+    fields: {
+      body: {
+        validate: assertNodeType("ClassBody")
+      }
+    }
+  },
+
   HTMLAttribute: {
     builder: ["name", "value", "modifier", "arguments"],
     visitor: ["value"],

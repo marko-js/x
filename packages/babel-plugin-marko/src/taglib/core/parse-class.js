@@ -1,6 +1,5 @@
 import * as t from "../../definitions";
-
-// TODO: leave class in correct place until translate.
+import withPreviousLocation from "../../util/with-previous-location";
 
 export default function(path) {
   const { node, hub } = path;
@@ -13,33 +12,20 @@ export default function(path) {
     );
   }
 
-  if (hub._componentClass) {
-    throw path.buildCodeFrameError(
-      "A Marko component can only have one top level class."
-    );
+  const parsed = hub.parseExpression(code, start);
+
+  if (parsed.id) {
+    throw hub.buildError(parsed.id, "Component class cannot have a name.");
   }
 
-  const classBody = hub.parseExpression(code, start).body.body;
-  hub._componentClass = t.objectExpression(
-    classBody.map(prop => {
-      if (t.isClassMethod(prop)) {
-        if (prop.kind === "constructor") {
-          throw hub.buildError(
-            prop,
-            "The constructor method should not be used for a component, use onCreate instead."
-          );
-        }
-        prop.type = "ObjectMethod";
-      } else if (t.isClassProperty(prop)) {
-        prop.type = "ObjectProperty";
-      } else {
-        // TODO support classProperties and move them into the onCreate method.
-        throw hub.buildError(prop, "Unsupported class property on component.");
-      }
+  if (parsed.superClass) {
+    throw hub.buildError(parsed.superClass, "Component class cannot have a super class.");
+  }
 
-      return prop;
-    })
-  );
+  const constructorProp = parsed.body.body.find(prop => t.isClassMethod(prop) && prop.kind === "constructor");
+  if (constructorProp) {
+    throw hub.buildError(constructorProp, "The constructor method should not be used for a component, use onCreate instead.");
+  }
 
-  return;
+  return withPreviousLocation(t.htmlClass(parsed.body), node);
 }

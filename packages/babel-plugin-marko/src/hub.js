@@ -30,8 +30,6 @@ export class Hub {
     this._componentClass = null;
     this._nextKey = 0;
 
-    this.file.program.body.push(this._renderBlock);
-
     const {
       styleFile,
       packageFile,

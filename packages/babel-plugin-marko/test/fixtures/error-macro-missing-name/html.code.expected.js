@@ -1,4 +1,0 @@
-{}
-<macro(stuff)>
-  <div/>
-</macro>

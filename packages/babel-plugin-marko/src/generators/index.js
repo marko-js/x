@@ -55,6 +55,11 @@ Object.assign(Printer.prototype, {
       this.token("}");
     }
   },
+  HTMLClass(node) {
+    this.token("class");
+    this.token(" ");
+    this.print(node.body, node);
+  },
   HTMLAttribute(node) {
     this.token(node.name);
 
