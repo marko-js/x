@@ -146,7 +146,12 @@ export function parse(hub) {
             attrEndPos = attr.endPos;
 
             if (attr.name.slice(0, 3) === "...") {
-              const attrExpression = attr.argument ? `(${attr.argument.value})` : attr.name.slice(3);
+              let attrExpression = attr.name.slice(3);
+
+              if (attr.argument) {
+                attrExpression += `(${attr.argument.value})`;
+              }
+
               const value = hub.parseExpression(
                 attrExpression,
                 attrStartPos + 3

@@ -132,7 +132,8 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
       a: 1
     },
     "c": "${d}",
-    ...e
+    ...e,
+    ...f()
   }, "17", component, 0, 0)
   out.t(a)
 
