@@ -146,8 +146,14 @@ export function parse(hub) {
             attrEndPos = attr.endPos;
 
             if (attr.name.slice(0, 3) === "...") {
+              let attrExpression = attr.name.slice(3);
+
+              if (attr.argument) {
+                attrExpression += `(${attr.argument.value})`;
+              }
+
               const value = hub.parseExpression(
-                attr.name.slice(3),
+                attrExpression,
                 attrStartPos + 3
               );
               // TODO: Inline merge object literals.

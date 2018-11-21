@@ -7,6 +7,7 @@ import HTMLElement from "./element";
 import HTMLText from "./text";
 import HTMLPlaceholder from "./placeholder";
 import HTMLScriptlet from "./scriptlet";
+import HTMLClass from "./html-class";
 
 export const visitor = {
   HTMLDocumentType,
@@ -16,11 +17,13 @@ export const visitor = {
   HTMLText,
   HTMLPlaceholder,
   HTMLScriptlet,
+  HTMLClass,
   HTMLComment(path) {
     path.remove();
   },
   Program: {
     exit(path) {
+      path.node.body.push(path.hub._renderBlock);
       path.traverse({
         // Merges out.write calls
         CallExpression(path) {

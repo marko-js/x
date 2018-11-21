@@ -14,35 +14,77 @@ fs.readdirSync(fixturesDir).forEach(folder => {
   }
 
   const fixtureDir = path.join(fixturesDir, folder);
-  const sourceFile = path.join(fixtureDir, "template.marko");
+  const filename = path.join(fixtureDir, "template.marko");
+  const snapshotDir = path.join(fixtureDir, "snapshots");
+  const source = fs.readFileSync(filename);
 
-  OUTPUT_TYPES.forEach(type => {
-    it(`${folder}[${type}]`, () => {
-      const source = fs.readFileSync(sourceFile);
+  if (!fs.existsSync(snapshotDir)) {
+    fs.mkdirSync(snapshotDir);
+  }
 
-      try {
-        const { code } = transform(source, {
-          ast: true,
-          code: true,
-          babelrc: false,
-          configFile: false,
-          sourceMaps: false,
-          filename: sourceFile,
-          sourceFileName: sourceFile,
-          plugins: [[plugin, { output: type }]]
+  describe(folder, () => {
+    describe("translate", () => {
+      OUTPUT_TYPES.forEach(type => {
+        it(type, () => {
+          snapshotTransform({
+            ext: "js",
+            dir: snapshotDir,
+            name: `translated-${type}`,
+            source,
+            filename,
+            config: { output: type }
+          });
         });
+      });
+    });
 
-        snapshot(fixtureDir, `${type}.code.js`, code);
-      } catch (err) {
-        if (err.snapshot) {
-          throw err;
-        }
-
-        snapshot(fixtureDir, `${type}.error.txt`, stripAnsi(err.message), err);
-      }
+    it("generate", () => {
+      snapshotTransform({
+        ext: "marko",
+        dir: snapshotDir,
+        name: `generated`,
+        source,
+        filename,
+        config: { _parseOnly: true }
+      });
     });
   });
 });
+
+function snapshotTransform({
+  ext,
+  dir,
+  name,
+  config,
+  source,
+  filename
+}) {
+  try {
+    const { code } = transform(source, {
+      ast: true,
+      code: true,
+      babelrc: false,
+      configFile: false,
+      sourceMaps: false,
+      filename,
+      sourceFileName: filename,
+      plugins: [[plugin, config]]
+    });
+
+    snapshot(dir, `${name}.${ext}`, code);
+  } catch (err) {
+    if (err.snapshot) {
+      throw err;
+    }
+
+    snapshot(
+      dir,
+      `${name}-error.txt`,
+      stripAnsi(err.message),
+      err
+    );
+  }
+}
 
 function snapshot(dir, file, data, originalError) {
   let { name, ext } = path.parse(file);

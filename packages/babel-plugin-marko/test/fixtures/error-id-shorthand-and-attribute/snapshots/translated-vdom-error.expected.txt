@@ -1,0 +1,3 @@
+packages/babel-plugin-marko/test/fixtures/error-id-shorthand-and-attribute/template.marko(1,1): Cannot have shorthand id and id attribute.
+> 1 | <div#x id="y"/>
+    | ^^^^^^

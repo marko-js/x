@@ -14,45 +14,34 @@ const valueFieldCommon = {
 };
 
 export default {
-  MarkoFile: {
-    builder: ["program", "comments", "tokens"],
-    visitor: ["program"],
-    aliases: ["Marko", "File"],
-    fields: {
-      program: {
-        validate: assertNodeType("Program")
-      }
-    }
-  },
-
   HTMLDocumentType: {
     builder: ["value"],
-    aliases: ["Marko", "Expression", "Literal"],
+    aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
   HTMLDeclaration: {
     builder: ["value"],
-    aliases: ["Marko", "Expression", "Literal"],
+    aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
   HTMLCDATA: {
     builder: ["value"],
-    aliases: ["Marko", "Expression", "Literal"],
+    aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
   HTMLComment: {
     builder: ["value"],
-    aliases: ["Marko", "Expression", "Literal"],
+    aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
   HTMLText: {
     visitor: ["value"],
     builder: ["value"],
-    aliases: ["Marko", "StringLiteral", "Literal"],
+    aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
@@ -73,11 +62,26 @@ export default {
 
   HTMLScriptlet: {
     visitor: ["body"],
-    builder: ["body"],
+    builder: ["body", "static"],
     aliases: ["Marko", "BlockStatement"],
     fields: {
       body: {
         validate: arrayOfType(["Statement"])
+      },
+      static: {
+        validate: assertValueType("boolean"),
+        default: false
+      }
+    }
+  },
+
+  HTMLClass: {
+    builder: ["body"],
+    visitor: ["body"],
+    aliases: ["Marko", "Statement"],
+    fields: {
+      body: {
+        validate: assertNodeType("ClassBody")
       }
     }
   },
@@ -122,7 +126,7 @@ export default {
 
   HTMLStartTag: {
     builder: ["name", "params", "attributes", "rawValue"],
-    aliases: ["Marko", "Expression"],
+    aliases: ["Marko", "Statement"],
     fields: {
       name: {
         validate: assertNodeType("Expression")
@@ -148,7 +152,7 @@ export default {
 
   HTMLEndTag: {
     builder: ["name"],
-    aliases: ["Marko", "Expression"],
+    aliases: ["Marko", "Statement"],
     fields: {
       name: {
         validate: assertNodeType("Expression")

@@ -1,5 +1,6 @@
 import path from "path";
 import { getClientPath } from "lasso-modules-client/transport";
+import "./generators";
 import * as t from "./definitions";
 import { NodePath, Scope } from "@babel/traverse";
 import { parse, parseExpression } from "@babel/parser";
@@ -28,8 +29,6 @@ export class Hub {
     this._renderBlock = t.blockStatement([]);
     this._componentClass = null;
     this._nextKey = 0;
-
-    this.file.program.body.push(this._renderBlock);
 
     const {
       styleFile,
