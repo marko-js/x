@@ -19,12 +19,20 @@ export default function(path) {
   }
 
   if (parsed.superClass) {
-    throw hub.buildError(parsed.superClass, "Component class cannot have a super class.");
+    throw hub.buildError(
+      parsed.superClass,
+      "Component class cannot have a super class."
+    );
   }
 
-  const constructorProp = parsed.body.body.find(prop => t.isClassMethod(prop) && prop.kind === "constructor");
+  const constructorProp = parsed.body.body.find(
+    prop => t.isClassMethod(prop) && prop.kind === "constructor"
+  );
   if (constructorProp) {
-    throw hub.buildError(constructorProp, "The constructor method should not be used for a component, use onCreate instead.");
+    throw hub.buildError(
+      constructorProp,
+      "The constructor method should not be used for a component, use onCreate instead."
+    );
   }
 
   return withPreviousLocation(t.htmlClass(parsed.body), node);

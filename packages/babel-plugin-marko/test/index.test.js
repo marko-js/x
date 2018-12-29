@@ -51,14 +51,7 @@ fs.readdirSync(fixturesDir).forEach(folder => {
   });
 });
 
-function snapshotTransform({
-  ext,
-  dir,
-  name,
-  config,
-  source,
-  filename
-}) {
+function snapshotTransform({ ext, dir, name, config, source, filename }) {
   try {
     const { code } = transform(source, {
       ast: true,
@@ -77,12 +70,7 @@ function snapshotTransform({
       throw err;
     }
 
-    snapshot(
-      dir,
-      `${name}-error.txt`,
-      stripAnsi(err.message),
-      err
-    );
+    snapshot(dir, `${name}-error.txt`, stripAnsi(err.message), err);
   }
 }
 

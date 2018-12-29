@@ -119,11 +119,8 @@ export const visitor = {
           t.identifier("deps"),
           hub.parseExpression(
             JSON.stringify(
-              meta.deps.map(
-                file =>
-                  typeof file === "string"
-                    ? hub.resolveRelativePath(file)
-                    : file
+              meta.deps.map(file =>
+                typeof file === "string" ? hub.resolveRelativePath(file) : file
               )
             ),
             hub.code.length

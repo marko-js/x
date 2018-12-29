@@ -3,12 +3,7 @@ import { getAttrs } from "./util";
 
 const EMPTY_OBJECT = {};
 const parentIdentifierLookup = new WeakMap();
-const transparentTags = new Set([
-  "for",
-  "if",
-  "else",
-  "no-update"
-]);
+const transparentTags = new Set(["for", "if", "else", "no-update"]);
 
 // TODO: test not root
 // TODO: optimize inline repeated @tags.
