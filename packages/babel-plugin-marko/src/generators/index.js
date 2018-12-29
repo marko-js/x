@@ -7,8 +7,10 @@ const UNENCLOSED_WHITESPACE_TYPES = [
   "AssignmentExpression",
   "ConditionalExpression",
   "BinaryExpression",
-  "NewExpression"
-]
+  "NewExpression",
+  "FunctionDeclaration",
+  "AssignmentExpression"
+];
 
 Object.assign(Printer.prototype, {
   HTMLDocumentType(node) {
@@ -44,6 +46,7 @@ Object.assign(Printer.prototype, {
     this.token(`${node.static ? "static" : "$"} `);
 
     if (node.body.length === 1) {
+      // TODO should determine if node has unenclosed newlines.
       this.print(node.body[0], node);
       this.token("\n");
     } else {
