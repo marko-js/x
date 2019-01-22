@@ -8,13 +8,13 @@
   "dependencies": {
     "@babel/core": "^7.2.2",
     "@babel/code-frame": "^7.0.0",
-    "@babel/runtime": "^7.2.0",
+    "@babel/runtime": "^7.3.1",
     "@babel/traverse": "^7.2.3",
-    "@babel/types": "^7.2.2",
-    "@babel/parser": "^7.2.3",
-    "htmljs-parser": "^2.5.0",
+    "@babel/types": "^7.3.0",
+    "@babel/parser": "^7.3.1",
+    "htmljs-parser": "^2.6.0",
     "lasso-modules-client": "^2.0.5",
-    "marko": "^4.14.12",
+    "marko": "^4.14.20",
     "resolve-from": "^4.0.0",
     "self-closing-tags": "^1.0.1",
     "strip-ansi": "^5.0.0"
