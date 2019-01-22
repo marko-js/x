@@ -6,7 +6,8 @@ import translateAttributes from "./attributes";
 import {
   replaceInRenderBody,
   toStatement,
-  assertNoParams
+  assertNoParams,
+  assertNoArgs
 } from "../../../../taglib/core/util";
 
 /**
@@ -24,6 +25,7 @@ export default function(path) {
   const tagProperties = properties.slice();
 
   assertNoParams(path);
+  assertNoArgs(path);
 
   if (handlers) {
     Object.entries(handlers).forEach(

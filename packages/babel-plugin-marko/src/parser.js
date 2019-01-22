@@ -1,4 +1,6 @@
 import { createParser } from "htmljs-parser";
+import parseArguments from "./util/parse-arguments";
+import parseParams from "./util/parse-params";
 import * as t from "./definitions";
 const EMPTY_OBJECT = {};
 
@@ -102,7 +104,6 @@ export function parse(hub) {
         let {
           tagName,
           tagNameExpression,
-          argument,
           attributes,
           pos,
           endPos,
@@ -115,7 +116,6 @@ export function parse(hub) {
         const { tagDef } = curElement;
         const parseOptions = (tagDef && tagDef.parseOptions) || EMPTY_OBJECT;
         let rawValue;
-        let params;
         wasSelfClosing = selfClosed;
 
         if (tagNameExpression) {
@@ -133,13 +133,6 @@ export function parse(hub) {
           rawValue = parser.substring(pos, endPos).replace(/^<|\/>$|>$/g, "");
           attributes = [];
         } else {
-          if (argument) {
-            params = hub.parseExpression(
-              `(${argument.value})=>{}`,
-              argument.pos
-            ).params;
-          }
-
           let attrEndPos = tagNameEndPos;
           attributes = attributes.map(attr => {
             const attrStartPos = code.indexOf(attr.name, attrEndPos);
@@ -182,15 +175,6 @@ export function parse(hub) {
                   "Cannot have both attribute arguments and a value."
                 );
               }
-
-              if (attr.argument.value === "") {
-                attr.argument = undefined;
-              } else {
-                attr.argument = hub.parseExpression(
-                  `_(${attr.argument.value})`,
-                  attr.argument.pos
-                ).arguments;
-              }
             }
 
             if (attr.value) {
@@ -208,7 +192,7 @@ export function parse(hub) {
               attr.name,
               value,
               modifier,
-              attr.argument
+              parseArguments(hub, attr.argument)
             );
           });
         }
@@ -269,7 +253,8 @@ export function parse(hub) {
           pos,
           endPos,
           tagName,
-          params,
+          parseArguments(hub, event.argument),
+          parseParams(hub, event.params),
           attributes,
           rawValue
         );

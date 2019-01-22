@@ -1,6 +1,6 @@
 <hello>
   <@list>
-    <for(color) of=input.colors>
+    <for|color| of=input.colors>
       <if if=x>
         <@item style={
           color
@@ -17,9 +17,9 @@
       </else>
     </for>
   </@list>
-  <for(col) of=input.table>
+  <for|col| of=input.table>
     <@col x=y>
-      <for(row) of=col>
+      <for|row| of=col>
         <@row row=row>
           ${row}
         </@row>

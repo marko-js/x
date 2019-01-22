@@ -20,13 +20,13 @@ export default function(path) {
   if (inAttr) {
     allowedAttributes.push("in");
 
-    const [keyParam, valParam] = startTag.params;
+    const [keyParam, valParam] = startTag.params || [];
 
     if (!keyParam) {
       throw path
         .get("startTag")
         .buildCodeFrameError(
-          "Invalid 'for in' tag, missing (key, value) params."
+          "Invalid 'for in' tag, missing |key, value| params."
         );
     }
 
@@ -49,13 +49,13 @@ export default function(path) {
   } else if (ofAttr) {
     allowedAttributes.push("of");
 
-    const [valParam, keyParam] = startTag.params;
+    const [valParam, keyParam] = startTag.params || [];
 
     if (!valParam) {
       throw path
         .get("startTag")
         .buildCodeFrameError(
-          "Invalid 'for of' tag, missing (value, key) params."
+          "Invalid 'for of' tag, missing |value, index| params."
         );
     }
 

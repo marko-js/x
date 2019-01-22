@@ -1,0 +1,3 @@
+packages/babel-plugin-marko/test/fixtures/error-html-element-arguments/template.marko(1,1): "div" tag does not support arguments.
+> 1 | <div(a, b, { c })/>
+    | ^^^^^^^^^^^^^^^^^

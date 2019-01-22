@@ -38,9 +38,23 @@ export function assertNoParams(path) {
     node: { startTag }
   } = path;
   const { params } = startTag;
-  if (params.length) {
+
+  if (params && params.length) {
     throw path.buildCodeFrameError(
       `"${startTag.name.value}" tag does not support parameters.`
+    );
+  }
+}
+
+export function assertNoArgs(path) {
+  const {
+    node: { startTag }
+  } = path;
+  const { arguments: args } = startTag;
+
+  if (args && args.length) {
+    throw path.buildCodeFrameError(
+      `"${startTag.name.value}" tag does not support arguments.`
     );
   }
 }

@@ -1,5 +1,6 @@
 import * as t from "../../../definitions";
 import { getAttrs } from "./util";
+import { assertNoArgs } from "../../../taglib/core/util";
 
 const EMPTY_OBJECT = {};
 const parentIdentifierLookup = new WeakMap();
@@ -16,6 +17,8 @@ export default function(path) {
   const parentPath = findParentTag(path);
   const parent = parentPath.node;
   parent.hasAttributeTag = node;
+
+  assertNoArgs(path);
 
   if (!parent || !t.isHTMLElement(parent)) {
     throw path.buildCodeFrameError(

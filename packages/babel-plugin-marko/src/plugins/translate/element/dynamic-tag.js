@@ -1,5 +1,5 @@
 import * as t from "../../../definitions";
-import { replaceInRenderBody } from "../../../taglib/core/util";
+import { replaceInRenderBody, assertNoArgs } from "../../../taglib/core/util";
 import { getAttrs, buildEventHandlerArray } from "./util";
 
 export default function(path) {
@@ -7,6 +7,8 @@ export default function(path) {
   const { options } = hub;
   const { key, startTag } = node;
   const { name: expression } = startTag;
+
+  assertNoArgs(path);
 
   replaceInRenderBody(
     path,

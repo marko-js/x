@@ -1,10 +1,10 @@
-<macro(node) name="renderTree">
+<macro|node| name="renderTree">
     Name: ${node.name}
 
     Children:
     <if=node.children>
         <ul>
-            <for(child) of=node.children>
+            <for|child| of=node.children>
                 <li>
                     <renderTree ...child/>
                 </li>

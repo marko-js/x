@@ -4,7 +4,8 @@ import write from "../../../../util/vdom-out-write";
 import {
   replaceInRenderBody,
   toStatement,
-  assertNoParams
+  assertNoParams,
+  assertNoArgs
 } from "../../../../taglib/core/util";
 import { getAttrs } from "../util";
 
@@ -31,6 +32,7 @@ export default function(path) {
   ];
 
   assertNoParams(path);
+  assertNoArgs(path);
 
   if (handlers) {
     Object.entries(handlers).forEach(

@@ -1,0 +1,3 @@
+packages/babel-plugin-marko/test/fixtures/error-custom-tag-arguments/template.marko(1,1): "custom-tag" tag does not support arguments.
+> 1 | <custom-tag(a, b, { c })/>
+    | ^^^^^^^^^^^^^^^^^^^^^^^^

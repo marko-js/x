@@ -125,11 +125,18 @@ export default {
   },
 
   HTMLStartTag: {
-    builder: ["name", "params", "attributes", "rawValue"],
+    builder: ["name", "arguments", "params", "attributes", "rawValue"],
     aliases: ["Marko", "Statement"],
     fields: {
       name: {
         validate: assertNodeType("Expression")
+      },
+      arguments: {
+        validate: chain(
+          assertValueType("array"),
+          assertEach(assertNodeType("Expression", "SpreadElement"))
+        ),
+        default: []
       },
       params: {
         ...functionCommon.params,

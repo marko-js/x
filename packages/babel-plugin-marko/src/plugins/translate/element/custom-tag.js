@@ -1,5 +1,5 @@
 import * as t from "../../../definitions";
-import { replaceInRenderBody } from "../../../taglib/core/util";
+import { replaceInRenderBody, assertNoArgs } from "../../../taglib/core/util";
 import { getAttrs, buildEventHandlerArray } from "./util";
 
 // TODO: support transform and other entries.
@@ -12,6 +12,8 @@ export default function(path, tagDef) {
   const { name } = tagDef;
   const { key } = node;
   const relativePath = resolveRelativePath(hub, tagDef);
+
+  assertNoArgs(path);
 
   if (!relativePath) {
     throw path.buildCodeFrameError(

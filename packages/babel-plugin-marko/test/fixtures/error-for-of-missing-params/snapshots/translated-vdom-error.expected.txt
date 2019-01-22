@@ -1,5 +1,5 @@
-packages/babel-plugin-marko/test/fixtures/error-for-of-missing-params/template.marko(1,1): Invalid 'for of' tag, missing (value, key) params.
-> 1 | <for() of=x>
+packages/babel-plugin-marko/test/fixtures/error-for-of-missing-params/template.marko(1,1): Invalid 'for of' tag, missing |value, index| params.
+> 1 | <for|| of=x>
     | ^^^^^^^^^^^^
   2 |   <div/>
   3 | </for>

@@ -71,7 +71,7 @@ Object.assign(Printer.prototype, {
       this.token(node.modifier);
     }
 
-    if (node.arguments) {
+    if (node.arguments.length) {
       this.token("(");
       this.printList(node.arguments, node);
       this.token(")");
@@ -119,10 +119,16 @@ Object.assign(Printer.prototype, {
       this.token("}");
     }
 
-    if (node.params.length) {
+    if (node.arguments.length) {
       this.token("(");
-      this.printList(node.params, node);
+      this.printList(node.arguments, node);
       this.token(")");
+    }
+
+    if (node.params.length) {
+      this.token("|");
+      this.printList(node.params, node);
+      this.token("|");
     }
 
     if (node.attributes.length > 0) {

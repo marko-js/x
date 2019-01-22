@@ -26,7 +26,7 @@ export default function(path, attr, opts = EMPTY_OBJECT) {
   }
 
   const replacement = t.htmlElement(
-    t.htmlStartTag(name, [], replacementAttrs),
+    t.htmlStartTag(name, undefined, undefined, replacementAttrs),
     t.htmlEndTag(name),
     [node],
     []

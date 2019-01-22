@@ -1,5 +1,5 @@
 packages/babel-plugin-marko/test/fixtures/error-for-invalid-attribute/template.marko(1,25): Invalid "for" tag attribute: "x".
-> 1 | <for(key, value) in=obj x=1>
+> 1 | <for|key, value| in=obj x=1>
     |                         ^^^
   2 |   <div/>
   3 | </for>

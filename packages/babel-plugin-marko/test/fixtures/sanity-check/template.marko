@@ -31,7 +31,7 @@ class {
   }
 }
 
-<macro(stuff) name="thing">
+<macro|stuff| name="thing">
   <div x=stuff.x/>
 </macro>
 
@@ -57,11 +57,11 @@ $ let c = thing;
 
 <thing x=1/>
 
-<other(a) on-click("handleClick", a, b, ...d)>
+<other|a| on-click("handleClick", a, b, ...d)>
   <div/>
 </other>
 
-<other(b) x=1 ...thing b={ a: 1 } ...c>
+<other|b| x=1 ...thing b={ a: 1 } ...c>
   <div/>
   <@c c=1>
     <div/>
@@ -101,15 +101,15 @@ $ let c = thing;
   Hello ${planet}
 </if>
 
-<for(i) from=0 to=10 step=2>
+<for|i| from=0 to=10 step=2>
   <div c=1/>
 </for>
 
-<for(key, val) in=obj>
+<for|key, val| in=obj>
   <div c=1/>
 </for>
 
-<for(val, i) of=arr>
+<for|val, i| of=arr>
   $ i
   <key=val.name>
     <div c=1/>

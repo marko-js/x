@@ -3,7 +3,8 @@ import withPreviousLocation from "../../../util/with-previous-location";
 import {
   replaceInRenderBody,
   assertAllowedAttributes,
-  assertNoParams
+  assertNoParams,
+  assertNoArgs
 } from "../util";
 
 /**
@@ -15,6 +16,7 @@ export default function(path) {
   } = path;
 
   assertNoParams(path);
+  assertNoArgs(path);
   assertAllowedAttributes(path, []);
 
   replaceInRenderBody(path, [
