@@ -77,11 +77,11 @@ $ let c = thing;
   </html-comment>
   <div c=1/>
   <div d=1/>
-  <if if=(x === a)>
+  <if(x === a)>
     a
     ${b}
   </if>
-  <else if=(x === 2)>
+  <else if(x === 2)>
     b
   </else>
   <else>
@@ -93,7 +93,7 @@ $ let c = thing;
   123 abc 123
 </div>
 <span ...abc/>
-<if if=cond>
+<if(cond)>
   Hello
   ${planet}
 </if>
@@ -106,10 +106,10 @@ $ let c = thing;
 <for|val, i| of=arr>
   $ i;
 
-  <key key=val.name>
+  <fragment key=val.name>
     <div c=1/>
     <other d=2/>
-  </key>
+  </fragment>
 </for>
 <div body-only-if>
   Hi

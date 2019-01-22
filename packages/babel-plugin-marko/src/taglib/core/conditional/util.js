@@ -1,12 +1,18 @@
 import * as t from "../../../definitions";
 import { toStatement } from "../util";
 
-export function buildIfStatement(path) {
+export function buildIfStatement(path, args) {
   const { node } = path;
-  const { startTag, children } = node;
-  const ifAttr = startTag.attributes.find(attr => attr.name === "if");
+  const { children } = node;
+
+  if (!args || !args.length) {
+    throw path.buildCodeFrameError(
+      "Invalid '<if>' tag, expected arguments like '<if(test)>'."
+    );
+  }
+
   const ifStatement = t.ifStatement(
-    ifAttr.value,
+    args.length === 1 ? args[0] : t.sequenceExpression(args),
     t.blockStatement(children.map(toStatement))
   );
 

@@ -71,7 +71,7 @@ Object.assign(Printer.prototype, {
       this.token(node.modifier);
     }
 
-    if (node.arguments.length) {
+    if (node.arguments && node.arguments.length) {
       this.token("(");
       this.printList(node.arguments, node);
       this.token(")");

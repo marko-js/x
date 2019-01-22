@@ -45,7 +45,7 @@ export default function(path) {
       };
 
       attr.remove();
-    } else if (args) {
+    } else if (!attr.node.allowArguments && args) {
       throw attr.buildCodeFrameError("Unsupported arguments on attribute.");
     }
 

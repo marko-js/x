@@ -1,7 +1,7 @@
 ---
 Hello ${input.name}!
 
-<if=input.colors.length>
+<if(input.colors.length)>
     <ul>
         <for|color| of=input.colors>
             <li>

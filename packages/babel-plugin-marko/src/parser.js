@@ -326,7 +326,6 @@ export function parse(hub) {
       }
     },
     {
-      reflectiveAttributes: true,
       isOpenTagOnly(name) {
         const { parseOptions = EMPTY_OBJECT } =
           hub.lookup.getTag(name) || EMPTY_OBJECT;

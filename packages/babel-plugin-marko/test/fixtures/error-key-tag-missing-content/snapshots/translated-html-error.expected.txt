@@ -1,3 +1,0 @@
-packages/babel-plugin-marko/test/fixtures/error-key-tag-missing-content/template.marko(1,1): "key" tag must have children.
-> 1 | <key=1/>
-    | ^^^^^^^^

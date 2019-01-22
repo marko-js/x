@@ -15,8 +15,12 @@ export default function translate(path) {
 
   const { startTag, children } = path.node;
   const ifAttr = startTag.attributes.find(attr => attr.name === "if");
-  ifStatement.alternate = ifAttr
-    ? buildIfStatement(path)
-    : t.blockStatement(children.map(toStatement));
+
+  if (ifAttr) {
+    ifStatement.alternate = buildIfStatement(path, ifAttr.arguments);
+  } else {
+    ifStatement.alternate = t.blockStatement(children.map(toStatement));
+  }
+
   path.remove();
 }

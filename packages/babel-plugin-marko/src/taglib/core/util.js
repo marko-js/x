@@ -39,7 +39,7 @@ export function assertNoParams(path) {
   } = path;
   const { params } = startTag;
 
-  if (params && params.length) {
+  if (params.length) {
     throw path.buildCodeFrameError(
       `"${startTag.name.value}" tag does not support parameters.`
     );
@@ -52,7 +52,7 @@ export function assertNoArgs(path) {
   } = path;
   const { arguments: args } = startTag;
 
-  if (args && args.length) {
+  if (args.length) {
     throw path.buildCodeFrameError(
       `"${startTag.name.value}" tag does not support arguments.`
     );

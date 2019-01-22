@@ -59,6 +59,7 @@
     "@if": "expression"
   },
   "<else>": {
+    "node-factory": "./conditional/parse-else.js",
     "code-generator": "./conditional/translate-else.js",
     "@if": "expression"
   },
@@ -75,8 +76,8 @@
     "code-generator": "./translate-html-comment/index.js",
     "attribute-groups": ["html-attributes"]
   },
-  "<key>": {
-    "transformer": "./transform-key.js",
+  "<fragment>": {
+    "transformer": "./transform-fragment.js",
     "@key": "string"
   },
   "<no-update>": {

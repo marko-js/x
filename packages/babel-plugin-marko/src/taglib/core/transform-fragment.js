@@ -10,18 +10,18 @@ export default function(path) {
 
   if (!keyAttr) {
     throw startTag.buildCodeFrameError(
-      '"key" tag must have a "key" or default attribute.'
+      '"fragment" tag must have a "key" or default attribute.'
     );
   }
 
   if (attributes.length > 1) {
     throw startTag.buildCodeFrameError(
-      '"key" tag can only have a "key" or default attribute.'
+      '"fragment" tag can only have a "key" or default attribute.'
     );
   }
 
   if (!children.length) {
-    throw startTag.buildCodeFrameError('"key" tag must have children.');
+    throw startTag.buildCodeFrameError('"fragment" tag must have children.');
   }
 
   const keyValue = normalizeTemplateLiteral(
