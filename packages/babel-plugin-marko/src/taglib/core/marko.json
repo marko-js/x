@@ -72,6 +72,13 @@
     "@step": "number",
     "@by": "string"
   },
+  "<while>": {
+    "code-generator": "./translate-while.js",
+    "parse-options": {
+      "rawOpenTag": true,
+      "ignoreAttributes": true
+    }
+  },
   "<html-comment>": {
     "code-generator": "./translate-html-comment/index.js",
     "attribute-groups": ["html-attributes"]
