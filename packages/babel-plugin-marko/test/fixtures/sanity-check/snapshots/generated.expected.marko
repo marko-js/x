@@ -30,14 +30,10 @@ class {
   <div x=stuff.x/>
 </macro>
 $ var b = thing;
-
 $ let c = thing;
-
 <div b=b c=c>
   $ var d = thing;
-
   $ let e = thing;
-
   <div d=d e=e/>
 </div>
 <div on-click("handleClick", a, b, ...d)/>
@@ -105,7 +101,6 @@ $ let c = thing;
 </for>
 <for|val, i| of=arr>
   $ i;
-
   <fragment key=val.name>
     <div c=1/>
     <other d=2/>

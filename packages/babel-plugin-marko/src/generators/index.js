@@ -38,8 +38,10 @@ Object.assign(Printer.prototype, {
     this.print(node.value, node);
     this.token("}");
   },
-  HTMLScriptlet(node) {
-    if (!this.endsWith("\n")) {
+  HTMLScriptlet(node, parent) {
+    const parentBody = t.isHTMLElement(parent) ? parent.children : parent.body;
+    if (parentBody.indexOf(node) && !this.endsWith("\n")) {
+      this.removeTrailingNewline();
       this.token("\n");
     }
 
@@ -48,7 +50,6 @@ Object.assign(Printer.prototype, {
     if (node.body.length === 1) {
       // TODO should determine if node has unenclosed newlines.
       this.print(node.body[0], node);
-      this.token("\n");
     } else {
       this.token("{");
       this.newline();
