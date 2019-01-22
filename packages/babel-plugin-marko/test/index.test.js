@@ -1,3 +1,4 @@
+import "it-fails";
 import fs from "fs";
 import path from "path";
 import assert from "assert";
@@ -14,8 +15,16 @@ fs.readdirSync(fixturesDir).forEach(folder => {
   }
 
   const fixtureDir = path.join(fixturesDir, folder);
-  const filename = path.join(fixtureDir, "template.marko");
   const snapshotDir = path.join(fixtureDir, "snapshots");
+  const testConfigFile = path.join(fixtureDir, "test.js");
+  const testConfig = fs.existsSync(testConfigFile)
+    ? require(testConfigFile)
+    : {};
+  const fails = testConfig.fails || {};
+  const filename = path.join(
+    fixtureDir,
+    testConfig.templateFile || "template.marko"
+  );
   const source = fs.readFileSync(filename);
 
   if (!fs.existsSync(snapshotDir)) {
@@ -25,7 +34,9 @@ fs.readdirSync(fixturesDir).forEach(folder => {
   describe(folder, () => {
     describe("translate", () => {
       OUTPUT_TYPES.forEach(type => {
-        it(type, () => {
+        const translateFailDesc = fails.translate && fails.translate[type];
+        const translateTestFn = translateFailDesc ? it.fails : it;
+        const translateMochaTest = translateTestFn(type, () => {
           snapshotTransform({
             ext: "js",
             dir: snapshotDir,
@@ -35,10 +46,16 @@ fs.readdirSync(fixturesDir).forEach(folder => {
             config: { output: type }
           });
         });
+
+        if (translateFailDesc) {
+          translateMochaTest.description = translateFailDesc;
+        }
       });
     });
 
-    it("generate", () => {
+    const generateFailDesc = fails.generate;
+    const generateTestFn = generateFailDesc ? it.fails : it;
+    const generateMochaTest = generateTestFn("generate", () => {
       snapshotTransform({
         ext: "marko",
         dir: snapshotDir,
@@ -48,6 +65,10 @@ fs.readdirSync(fixturesDir).forEach(folder => {
         config: { _parseOnly: true }
       });
     });
+
+    if (generateFailDesc) {
+      generateMochaTest.description = generateFailDesc;
+    }
   });
 });
 
