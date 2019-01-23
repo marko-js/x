@@ -5,11 +5,11 @@ const _marko_template = _t(__filename),
       _marko_componentType = "Lt7mJiby";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  out.t("Hello")
+  out.t("Hello ")
   out.t(input.name)
-  out.t("! Hello")
+  out.t("! Hello ")
   out.h(input.name)
-  out.t("! Hello")
+  out.t("! Hello ")
   out.h(input.missing)
   out.t("!")
 }, {

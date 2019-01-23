@@ -5,7 +5,7 @@ const _marko_template = _t(__filename),
       _marko_componentType = "hXm4QTQF";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  out.t("Hello")
+  out.t("Hello ")
   out.t(input.name)
   out.t("!")
 

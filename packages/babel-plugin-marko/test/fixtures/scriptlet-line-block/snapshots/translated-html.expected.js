@@ -13,7 +13,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   var baz = 456;
   out.w("<div>")
   console.log('foo');
-  out.w(`Hello there${_marko_escapeXml(name)}</div>`)
+  out.w(`Hello there ${_marko_escapeXml(name)}</div>`)
 }, {
   ___type: _marko_componentType,
   ___implicit: true

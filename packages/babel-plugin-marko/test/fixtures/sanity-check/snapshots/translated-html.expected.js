@@ -24,7 +24,7 @@ const _marko_template = _t2(__filename),
       _marko_componentType = "8f1lFGb_";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  out.w(`<style>div { color:${_marko_escapeStyle(x)}; }</style><script>var y =${_marko_escapeScript(x)};</script>`)
+  out.w(`<style>div { color: ${_marko_escapeStyle(x)}; }</style><script>var y = ${_marko_escapeScript(x)};</script>`)
   var b = thing;
   let c = thing;
   out.w(`<div${_marko_attr("b", b)}${_marko_attr("c", c)}>`)
@@ -85,7 +85,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   out.w(`<div id="a" class="b c" a="[object Object]" c="${d}"${_marko_attrs(e)}${_marko_attrs(f())}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`)
 
   if (x === a) {
-    out.w(`a${_marko_escapeXml(b)}`);
+    out.w(`a ${_marko_escapeXml(b)}`);
   } else if (x === 2) {
     out.w("b");
   } else {
@@ -95,7 +95,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   out.w(`</div><div b="1"></div><div>123 abc 123</div><span${_marko_attrs(abc)}></span>`)
 
   if (cond) {
-    out.w(`Hello${_marko_escapeXml(planet)}`);
+    out.w(`Hello ${_marko_escapeXml(planet)}`);
   }
 
   for (let _i = 0; _i <= 10; _i += 2) {

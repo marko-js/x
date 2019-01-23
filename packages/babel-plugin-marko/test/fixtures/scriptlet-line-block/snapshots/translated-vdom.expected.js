@@ -12,7 +12,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   var baz = 456;
   out.be("div", {}, "0", component, 0, 0)
   console.log('foo');
-  out.t("Hello there")
+  out.t("Hello there ")
   out.t(name)
   out.ee()
 }, {

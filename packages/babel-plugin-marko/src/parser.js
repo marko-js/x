@@ -11,53 +11,78 @@ export function parse(hub) {
   let preservingWhitespaceUntil = preserveWhitespace;
   let context = stack[0].context;
   let wasSelfClosing = false;
+  let onNext;
 
   createParser(
     {
       onDocumentType({ value, pos, endPos }) {
-        context.push(hub.createNode("htmlDocumentType", pos, endPos, value));
+        const node = hub.createNode("htmlDocumentType", pos, endPos, value);
+        onNext = onNext && onNext(node);
+        context.push(node);
       },
 
       onDeclaration({ value, pos, endPos }) {
-        context.push(hub.createNode("htmlDeclaration", pos, endPos, value));
+        const node = hub.createNode("htmlDeclaration", pos, endPos, value);
+        onNext = onNext && onNext(node);
+        context.push(node);
       },
 
       onComment({ value, pos, endPos }) {
-        context.push(hub.createNode("htmlComment", pos, endPos, value));
+        const node = hub.createNode("htmlComment", pos, endPos, value);
+        onNext = onNext && onNext(node);
+        context.push(node);
       },
 
       onCDATA({ value, pos, endPos }) {
-        context.push(hub.createNode("htmlCDATA", pos, endPos, value));
+        const node = hub.createNode("htmlCDATA", pos, endPos, value);
+        onNext = onNext && onNext(node);
+        context.push(node);
       },
 
       onText({ value }, { pos }) {
-        if (!preservingWhitespaceUntil) {
-          value = value.trim().replace(/\s+/g, " ");
-          if (value === "") {
+        const shouldTrim = !preservingWhitespaceUntil;
+
+        if (shouldTrim) {
+          value = value.replace(/\s+/g, " ");
+
+          if (value.trim() === "") {
             return;
-          } else {
-            pos = value.indexOf(value);
           }
+
+          const prev = context[context.length - 1];
+          if (!prev || !t.isHTMLPlaceholder(prev)) {
+            value = value.trimStart();
+          }
+
+          pos = value.indexOf(value);
         }
 
         const endPos = pos + value.length;
-        context.push(hub.createNode("htmlText", pos, endPos, value));
+        const node = hub.createNode("htmlText", pos, endPos, value);
+        onNext && onNext(node);
+        onNext = next => {
+          if (!next || !t.isHTMLPlaceholder(next)) {
+            node.value = node.value.trimEnd();
+          }
+        };
+        context.push(node);
       },
 
       onPlaceholder({ escape, value, withinBody, pos, endPos }) {
         if (withinBody) {
-          context.push(
-            hub.createNode(
-              "htmlPlaceholder",
-              pos,
-              endPos,
-              hub.parseExpression(
-                value,
-                pos + (escape ? 2 /* ${ */ : 3) /* $!{ */
-              ),
-              escape
-            )
+          const node = hub.createNode(
+            "htmlPlaceholder",
+            pos,
+            endPos,
+            hub.parseExpression(
+              value,
+              pos + (escape ? 2 /* ${ */ : 3) /* $!{ */
+            ),
+            escape
           );
+
+          onNext = onNext && onNext(node);
+          context.push(node);
         }
       },
 
@@ -69,14 +94,14 @@ export function parse(hub) {
           );
         }
 
-        context.push(
-          hub.createNode(
-            "HTMLScriptlet",
-            pos,
-            endPos,
-            hub.parse(value, pos).body
-          )
+        const node = hub.createNode(
+          "HTMLScriptlet",
+          pos,
+          endPos,
+          hub.parse(value, pos).body
         );
+        onNext = onNext && onNext(node);
+        context.push(node);
       },
 
       onOpenTagName(event) {
@@ -259,6 +284,7 @@ export function parse(hub) {
           rawValue
         );
         curElement.context = context = [];
+        onNext = onNext && onNext(curElement);
 
         if (!preservingWhitespaceUntil && parseOptions.preserveWhitespace) {
           preservingWhitespaceUntil = curElement.startTag;
@@ -318,6 +344,10 @@ export function parse(hub) {
         } else {
           context.push(htmlElement);
         }
+      },
+
+      onfinish() {
+        onNext = onNext && onNext();
       },
 
       onError({ message, pos, endPos }) {

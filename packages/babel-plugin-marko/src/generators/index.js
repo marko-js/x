@@ -33,15 +33,22 @@ Object.assign(Printer.prototype, {
     this.token(node.value);
     this.token("-->");
   },
-  HTMLPlaceholder(node) {
-    this.token(node.escape ? "${" : "!${");
+  HTMLPlaceholder(node, parent) {
+    const parentBody = t.isHTMLElement(parent) ? parent.children : parent.body;
+    const prev = parentBody[parentBody.indexOf(node) - 1];
+
+    if (prev && (t.isHTMLText(prev) || t.isHTMLPlaceholder(prev))) {
+      this.removeTrailingNewline();
+    }
+
+    this.token(node.escape ? "${" : "$!{");
     this.print(node.value, node);
     this.token("}");
   },
   HTMLScriptlet(node, parent) {
-    const parentBody = t.isHTMLElement(parent) ? parent.children : parent.body;
-    if (parentBody.indexOf(node) && !this.endsWith("\n")) {
-      this.removeTrailingNewline();
+    this.removeTrailingNewline();
+
+    if (!(t.isProgram(parent) && parent.body.indexOf(node) === 0)) {
       this.token("\n");
     }
 
@@ -90,8 +97,32 @@ Object.assign(Printer.prototype, {
     this.token("...");
     printWithParansIfNeeded.call(this, node.value, node);
   },
-  HTMLText(node) {
-    this.word(node.value);
+  HTMLText(node, parent) {
+    const parentBody = t.isHTMLElement(parent) ? parent.children : parent.body;
+    const prev = parentBody[parentBody.indexOf(node) - 1];
+    const concatToPrev = prev && t.isHTMLPlaceholder(prev);
+    let { value } = node;
+
+    if (concatToPrev) {
+      this.removeTrailingNewline();
+    }
+
+    const isMultiLine = /[\r\n]/g.test(value);
+    const isRootLevel = !concatToPrev && t.isProgram(parent);
+
+    if (isRootLevel) {
+      if (isMultiLine) {
+        this.token("---\n");
+      } else {
+        this.token("-- ");
+      }
+    }
+
+    this.word(value);
+
+    if (isMultiLine && isRootLevel) {
+      this.token("\n---");
+    }
   },
   HTMLElement(node) {
     const start = node.startTag;

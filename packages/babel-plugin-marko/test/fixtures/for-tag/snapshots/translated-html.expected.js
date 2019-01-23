@@ -10,12 +10,12 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
 
   for (const val of arr) {
     let i = _i++;
-    out.w(`<div>${_marko_escapeXml(i)}:${_marko_escapeXml(val)}</div>`);
+    out.w(`<div>${_marko_escapeXml(i)}: ${_marko_escapeXml(val)}</div>`);
   }
 
   for (const key in obj) {
     const val = obj[key];
-    out.w(`<div>${_marko_escapeXml(key)}:${_marko_escapeXml(val)}</div>`);
+    out.w(`<div>${_marko_escapeXml(key)}: ${_marko_escapeXml(val)}</div>`);
   }
 
   for (let _i2 = 0; _i2 <= 10; _i2 += 2) {

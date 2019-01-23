@@ -33,12 +33,12 @@ const _marko_template = _t2(__filename),
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.be("style", {}, "0", component, 0, 0)
-  out.t("div { color:")
+  out.t("div { color: ")
   out.t(x)
   out.t("; }")
   out.ee()
   out.be("script", {}, "1", component, 0, 0)
-  out.t("var y =")
+  out.t("var y = ")
   out.t(x)
   out.t(";")
   out.ee()
@@ -153,7 +153,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   out.ee()
 
   if (x === a) {
-    out.t("a");
+    out.t("a ");
     out.t(b);
   } else if (x === 2) {
     out.t("b");
@@ -174,7 +174,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   out.ee()
 
   if (cond) {
-    out.t("Hello");
+    out.t("Hello ");
     out.t(planet);
   }
 

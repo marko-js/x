@@ -6,7 +6,7 @@ const _marko_template = _t(__filename),
       _marko_componentType = "Lt7mJiby";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  out.w(`Hello${_marko_escapeXml(input.name)}! Hello${input.name}! Hello${input.missing}!`)
+  out.w(`Hello ${_marko_escapeXml(input.name)}! Hello ${input.name}! Hello ${input.missing}!`)
 }, {
   ___type: _marko_componentType,
   ___implicit: true

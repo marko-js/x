@@ -6,7 +6,7 @@ const _marko_template = _t(__filename),
       _marko_componentType = "hXm4QTQF";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  out.w(`Hello${_marko_escapeXml(input.name)}!`)
+  out.w(`Hello ${_marko_escapeXml(input.name)}!`)
 
   if (input.colors.length) {
     out.w("<ul>");

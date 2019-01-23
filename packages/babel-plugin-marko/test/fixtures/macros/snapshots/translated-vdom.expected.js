@@ -1,7 +1,7 @@
 function _renderTree(node, out) {
-  out.t("Name:");
+  out.t("Name: ");
   out.t(node.name);
-  out.t("Children:");
+  out.t(" Children:");
 
   if (node.children) {
     out.be("ul", {}, "2", component, 0, 0);
