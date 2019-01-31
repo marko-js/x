@@ -24,7 +24,13 @@ const _marko_template = _t2(__filename),
       _marko_componentType = "8f1lFGb_";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  out.w(`<style>div { color: ${_marko_escapeStyle(x)}; }</style><script>var y = ${_marko_escapeScript(x)};</script>`)
+  out.w(`<style>
+  div {
+    color: ${_marko_escapeStyle(x)};
+  }
+</style><script>
+  var y = ${_marko_escapeScript(x)};
+</script>`)
   var b = thing;
   let c = thing;
   out.w(`<div${_marko_attr("b", b)}${_marko_attr("c", c)}>`)

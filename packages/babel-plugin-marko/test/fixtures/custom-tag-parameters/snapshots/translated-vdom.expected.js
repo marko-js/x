@@ -16,7 +16,9 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     }) => {
       out.be("div", {}, "1", component, 0, 0);
       out.t(a);
+      out.t(" ");
       out.t(b);
+      out.t(" ");
       out.t(c);
       out.ee();
     }

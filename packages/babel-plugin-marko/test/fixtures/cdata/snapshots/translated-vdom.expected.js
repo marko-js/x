@@ -6,9 +6,9 @@ const _marko_template = _t(__filename),
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.be("div", {}, "0", component, 0, 0)
-  out.t("Here is a CDATA section:")
+  out.t("Here is a CDATA section: ")
   out.t(" < > & ")
-  out.t("with all kinds of unescaped text.")
+  out.t(" with all kinds of unescaped text.")
   out.ee()
 }, {
   ___type: _marko_componentType,

@@ -1,5 +1,5 @@
 function _renderTree(node, out) {
-  out.w(`Name: ${_marko_escapeXml(node.name)} Children:`);
+  out.w(`Name: ${_marko_escapeXml(node.name)} Children: `);
 
   if (node.children) {
     out.w("<ul>");
