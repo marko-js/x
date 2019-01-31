@@ -7,7 +7,7 @@ const _marko_template = _t(__filename),
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.t("Hello ")
   out.t(input.name)
-  out.t("!")
+  out.t("! ")
 
   if (input.colors.length) {
     out.be("ul", {}, "1", component, 0, 0);

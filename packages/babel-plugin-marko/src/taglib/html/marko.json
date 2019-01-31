@@ -657,9 +657,11 @@
     "attribute-groups": ["html-attributes"]
   },
   "<pre>": {
-    "preserve-whitespace": true,
     "html": true,
-    "attribute-groups": ["html-attributes"]
+    "attribute-groups": ["html-attributes"],
+    "parse-options": {
+      "preserveWhitespace": true
+    }
   },
   "<progress>": {
     "@form": "#html-form",
@@ -703,7 +705,6 @@
     "attribute-groups": ["html-attributes"]
   },
   "<script>": {
-    "preserve-whitespace": true,
     "@marko-init": "boolean",
     "@template-helpers": "boolean",
     "@*": {
@@ -721,7 +722,10 @@
     "@src": "#html-src",
     "@type": "#html-type",
     "html": true,
-    "attribute-groups": ["html-attributes"]
+    "attribute-groups": ["html-attributes"],
+    "parse-options": {
+      "preserveWhitespace": true
+    }
   },
   "<section>": {
     "html": true,
@@ -768,7 +772,6 @@
     "attribute-groups": ["html-attributes"]
   },
   "<style>": {
-    "preserve-whitespace": true,
     "@disabled": "#html-disabled",
     "@media": "#html-media",
     "@scoped": "#html-scoped",
@@ -779,7 +782,10 @@
         "snippet": "style media=\"screen\""
       }
     ],
-    "attribute-groups": ["html-attributes"]
+    "attribute-groups": ["html-attributes"],
+    "parse-options": {
+      "preserveWhitespace": true
+    }
   },
   "<sub>": {
     "html": true,
@@ -810,7 +816,6 @@
     "attribute-groups": ["html-attributes"]
   },
   "<textarea>": {
-    "preserve-whitespace": true,
     "@autofocus": "#html-autofocus",
     "@cols": "#html-cols",
     "@dirname": "#html-dirname",
@@ -830,7 +835,10 @@
         "snippet": "textarea name=\"${1:name}\" rows=\"${2:8}\" cols=\"${3:40}\""
       }
     ],
-    "attribute-groups": ["html-attributes"]
+    "attribute-groups": ["html-attributes"],
+    "parse-options": {
+      "preserveWhitespace": true
+    }
   },
   "<tfoot>": {
     "html": true,

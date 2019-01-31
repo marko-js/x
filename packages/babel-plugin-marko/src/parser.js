@@ -3,6 +3,14 @@ import parseArguments from "./util/parse-arguments";
 import parseParams from "./util/parse-params";
 import * as t from "./definitions";
 const EMPTY_OBJECT = {};
+const htmlTrimStart = t => t.replace(/^[\n\r]\s*/, "");
+const htmlTrimEnd = t => t.replace(/[\n\r]\s*$/, "");
+const htmlTrim = t => htmlTrimStart(htmlTrimEnd(t));
+const isNestedTag = node =>
+  (node.tagName && node.tagName[0] === "@") ||
+  (node.startTag &&
+    t.isStringLiteral(node.startTag.name) &&
+    node.startTag.name.value[0] === "@");
 
 export function parse(hub) {
   const { code, filename, htmlParseOptions = {} } = hub;
@@ -17,55 +25,70 @@ export function parse(hub) {
     {
       onDocumentType({ value, pos, endPos }) {
         const node = hub.createNode("htmlDocumentType", pos, endPos, value);
-        onNext = onNext && onNext(node);
         context.push(node);
+        onNext = onNext && onNext(node);
       },
 
       onDeclaration({ value, pos, endPos }) {
         const node = hub.createNode("htmlDeclaration", pos, endPos, value);
-        onNext = onNext && onNext(node);
         context.push(node);
+        onNext = onNext && onNext(node);
       },
 
       onComment({ value, pos, endPos }) {
         const node = hub.createNode("htmlComment", pos, endPos, value);
-        onNext = onNext && onNext(node);
         context.push(node);
+        onNext = onNext && onNext(node);
       },
 
       onCDATA({ value, pos, endPos }) {
         const node = hub.createNode("htmlCDATA", pos, endPos, value);
-        onNext = onNext && onNext(node);
         context.push(node);
+        onNext = onNext && onNext(node);
       },
 
       onText({ value }, { pos }) {
         const shouldTrim = !preservingWhitespaceUntil;
 
         if (shouldTrim) {
-          value = value.replace(/\s+/g, " ");
-
-          if (value.trim() === "") {
+          if (htmlTrim(value) === "") {
             return;
           }
 
-          const prev = context[context.length - 1];
-          if (!prev || !t.isHTMLPlaceholder(prev)) {
-            value = value.trimStart();
+          // Find previous non-scriptlet/@tag.
+          let prev;
+          let prevIndex = context.length;
+          while (prevIndex > 0) {
+            prev = context[--prevIndex];
+
+            if (t.isHTMLScriptlet(prev) || isNestedTag(prev)) {
+              prev = undefined;
+            } else {
+              break;
+            }
           }
 
-          pos = value.indexOf(value);
+          if (!prev) {
+            const originalValue = value;
+            value = htmlTrimStart(value);
+            pos += originalValue.indexOf(value);
+          }
         }
 
         const endPos = pos + value.length;
         const node = hub.createNode("htmlText", pos, endPos, value);
-        onNext && onNext(node);
-        onNext = next => {
-          if (!next || !t.isHTMLPlaceholder(next)) {
-            node.value = node.value.trimEnd();
-          }
-        };
+        const prevContext = context;
         context.push(node);
+        onNext && onNext(node);
+        onNext =
+          shouldTrim &&
+          (next => {
+            if (!next || prevContext.indexOf(next) === -1) {
+              node.value = htmlTrimEnd(node.value);
+            }
+
+            node.value = node.value.replace(/\s+/g, " ");
+          });
       },
 
       onPlaceholder({ escape, value, withinBody, pos, endPos }) {
@@ -81,8 +104,8 @@ export function parse(hub) {
             escape
           );
 
-          onNext = onNext && onNext(node);
           context.push(node);
+          onNext = onNext && onNext(node);
         }
       },
 
@@ -94,14 +117,15 @@ export function parse(hub) {
           );
         }
 
-        const node = hub.createNode(
-          "HTMLScriptlet",
-          pos,
-          endPos,
-          hub.parse(value, pos).body
+        // Scriptlets are ignored as content and don't call `onNext`.
+        context.push(
+          hub.createNode(
+            "HTMLScriptlet",
+            pos,
+            endPos,
+            hub.parse(value, pos).body
+          )
         );
-        onNext = onNext && onNext(node);
-        context.push(node);
       },
 
       onOpenTagName(event) {
@@ -122,7 +146,16 @@ export function parse(hub) {
           }
         }
 
-        stack.push({ tagDef });
+        const node = { tagName, tagDef, context: [] };
+        stack.push(node);
+        context.push(node);
+
+        // @tags are not treated as content and do not call next.
+        if (!isNestedTag(node)) {
+          onNext = onNext && onNext(node);
+        }
+
+        context = node.context;
       },
 
       onOpenTag(event, parser) {
@@ -283,8 +316,6 @@ export function parse(hub) {
           attributes,
           rawValue
         );
-        curElement.context = context = [];
-        onNext = onNext && onNext(curElement);
 
         if (!preservingWhitespaceUntil && parseOptions.preserveWhitespace) {
           preservingWhitespaceUntil = curElement.startTag;
@@ -295,6 +326,7 @@ export function parse(hub) {
         let { tagName, pos, endPos } = event;
         const { tagDef, startTag, context: children } = stack.pop();
         context = stack[stack.length - 1].context;
+        context.pop();
 
         if (preservingWhitespaceUntil === startTag) {
           preservingWhitespaceUntil = preserveWhitespace;

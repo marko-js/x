@@ -14,7 +14,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "renderBody": (out, a, b, {
       c
     }) => {
-      out.w(`<div>${_marko_escapeXml(a)}${_marko_escapeXml(b)}${_marko_escapeXml(c)}</div>`);
+      out.w(`<div>${_marko_escapeXml(a)} ${_marko_escapeXml(b)} ${_marko_escapeXml(c)}</div>`);
     }
   }, out, "0")
 }, {

@@ -33,14 +33,14 @@ const _marko_template = _t2(__filename),
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.be("style", {}, "0", component, 0, 0)
-  out.t("div { color: ")
+  out.t("\n  div {\n    color: ")
   out.t(x)
-  out.t("; }")
+  out.t(";\n  }\n")
   out.ee()
   out.be("script", {}, "1", component, 0, 0)
-  out.t("var y = ")
+  out.t("\n  var y = ")
   out.t(x)
-  out.t(";")
+  out.t(";\n")
   out.ee()
   var b = thing;
   let c = thing;
