@@ -6,6 +6,11 @@ const EMPTY_OBJECT = {};
 const htmlTrimStart = t => t.replace(/^[\n\r]\s*/, "");
 const htmlTrimEnd = t => t.replace(/[\n\r]\s*$/, "");
 const htmlTrim = t => htmlTrimStart(htmlTrimEnd(t));
+const isNestedTag = node =>
+  (node.tagName && node.tagName[0] === "@") ||
+  (node.startTag &&
+    t.isStringLiteral(node.startTag.name) &&
+    node.startTag.name.value[0] === "@");
 
 export function parse(hub) {
   const { code, filename, htmlParseOptions = {} } = hub;
@@ -50,13 +55,13 @@ export function parse(hub) {
             return;
           }
 
-          // Find previous non-scriptlet.
+          // Find previous non-scriptlet/@tag.
           let prev;
           let prevIndex = context.length;
           while (prevIndex > 0) {
             prev = context[--prevIndex];
 
-            if (t.isHTMLScriptlet(prev)) {
+            if (t.isHTMLScriptlet(prev) || isNestedTag(prev)) {
               prev = undefined;
             } else {
               break;
@@ -144,7 +149,12 @@ export function parse(hub) {
         const node = { tagName, tagDef, context: [] };
         stack.push(node);
         context.push(node);
-        onNext = onNext && onNext(node);
+
+        // @tags are not treated as content and do not call next.
+        if (!isNestedTag(node)) {
+          onNext = onNext && onNext(node);
+        }
+
         context = node.context;
       },
 
