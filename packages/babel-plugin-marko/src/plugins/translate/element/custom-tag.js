@@ -1,5 +1,9 @@
 import * as t from "../../../definitions";
-import { replaceInRenderBody, assertNoArgs } from "../../../taglib/core/util";
+import {
+  replaceInRenderBody,
+  assertNoArgs,
+  insertBeforeInRenderBody
+} from "../../../taglib/core/util";
 import { getAttrs, buildEventHandlerArray } from "./util";
 
 // TODO: support transform and other entries.
@@ -10,7 +14,7 @@ export default function(path, tagDef) {
   const { hub, node } = path;
   const { options, meta } = hub;
   const { name } = tagDef;
-  const { key } = node;
+  const { key, bodyOnlyIf } = node;
   const relativePath = resolveRelativePath(hub, tagDef);
 
   assertNoArgs(path);
@@ -51,15 +55,58 @@ export default function(path, tagDef) {
     meta.tags.push(relativePath);
   }
 
-  replaceInRenderBody(
-    path,
-    t.callExpression(tagIdentifier, [
-      getAttrs(path),
-      t.identifier("out"),
-      key,
-      ...buildEventHandlerArray(path)
-    ])
+  const foundAttrs = getAttrs(path);
+  const renderBodyProp = foundAttrs.properties.find(
+    prop => prop.key && prop.key.value === "renderBody"
   );
+  const customTagRenderCall = t.callExpression(tagIdentifier, [
+    foundAttrs,
+    t.identifier("out"),
+    key,
+    ...buildEventHandlerArray(path)
+  ]);
+
+  if (bodyOnlyIf && renderBodyProp) {
+    const renderBodyIdentifier = path.scope.generateUidIdentifier(
+      `${name}_tag_renderBody`
+    );
+    insertBeforeInRenderBody(
+      path,
+      t.variableDeclaration("const", [
+        t.variableDeclarator(renderBodyIdentifier, renderBodyProp.value)
+      ])
+    );
+
+    renderBodyProp.value = renderBodyIdentifier;
+    replaceInRenderBody(
+      path,
+      t.ifStatement(
+        bodyOnlyIf,
+        t.blockStatement([
+          t.expressionStatement(
+            t.callExpression(
+              hub.importNamed(
+                path,
+                `marko/src/runtime/${options.output}/helpers`,
+                "d",
+                "marko_dynamicTag"
+              ),
+              [
+                renderBodyIdentifier,
+                t.nullLiteral(),
+                t.identifier("out"),
+                t.identifier("__component"),
+                hub.nextKey()
+              ]
+            )
+          )
+        ]),
+        t.blockStatement([t.expressionStatement(customTagRenderCall)])
+      )
+    );
+  } else {
+    replaceInRenderBody(path, customTagRenderCall);
+  }
 }
 
 function resolveRelativePath(hub, tagDef) {

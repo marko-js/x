@@ -1,5 +1,8 @@
 import noUpdateTransform from "./no-update";
+import { getArgOrSequence } from "../../util";
 
 export default function(path, attr) {
-  noUpdateTransform(path, attr, { if: attr.node.value });
+  const condition = getArgOrSequence(attr);
+  attr.node.allowArguments = true;
+  noUpdateTransform(path, attr, { if: condition });
 }

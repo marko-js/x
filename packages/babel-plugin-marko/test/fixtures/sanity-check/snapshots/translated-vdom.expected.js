@@ -209,13 +209,13 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     }, out, `@${val.name}`);
   }
 
-  if (false) {
+  if (!true) {
     out.be("div", {}, "33", component, 0, 0);
   }
 
   out.t("Hi")
 
-  if (false) {
+  if (!true) {
     out.ee();
   }
 }, {

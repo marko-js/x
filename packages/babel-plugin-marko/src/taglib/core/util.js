@@ -59,6 +59,21 @@ export function assertNoArgs(path) {
   }
 }
 
+export function getArgOrSequence(path) {
+  const {
+    node: { arguments: args }
+  } = path;
+  const len = args && args.length;
+
+  if (len) {
+    if (len > 1) {
+      return t.sequenceExpression(args);
+    } else {
+      return args[0];
+    }
+  }
+}
+
 export function replaceInRenderBody(path, nodes) {
   nodes = [].concat(nodes);
 

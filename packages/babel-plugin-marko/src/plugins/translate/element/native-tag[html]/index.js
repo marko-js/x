@@ -79,12 +79,13 @@ export default function(path) {
 
   const { bodyOnlyIf } = path.node;
   if (bodyOnlyIf) {
+    const negatedBodyOnlyIf = t.unaryExpression("!", bodyOnlyIf, true);
     writeStartNode = t.ifStatement(
-      bodyOnlyIf,
+      negatedBodyOnlyIf,
       t.blockStatement([toStatement(writeStartNode)])
     );
     writeEndNode = t.ifStatement(
-      bodyOnlyIf,
+      negatedBodyOnlyIf,
       t.blockStatement([toStatement(writeEndNode)])
     );
   }

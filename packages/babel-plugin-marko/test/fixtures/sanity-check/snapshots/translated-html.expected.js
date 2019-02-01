@@ -126,13 +126,13 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     }, out, `@${val.name}`);
   }
 
-  if (false) {
+  if (!true) {
     out.w("<div>");
   }
 
   out.w("Hi")
 
-  if (false) {
+  if (!true) {
     out.w("</div>");
   }
 }, {
