@@ -4,11 +4,10 @@ import * as t from "../definitions";
  * Applies custom transformers on tags.
  */
 export const visitor = {
-  HTMLElement(path) {
+  HTMLTag(path) {
     const { hub, node } = path;
     const { lookup, macros } = hub;
-    const { startTag } = node;
-    const { name } = startTag;
+    const { name } = node;
     let tagName = name.value;
     const isDynamicTag = !t.isStringLiteral(name);
     const isAttributeTag = !isDynamicTag && tagName[0] === "@";
@@ -17,7 +16,7 @@ export const visitor = {
     if (isDynamicTag) {
       tagName = undefined;
     } else if (isAttributeTag) {
-      tagName = `${path.parent.startTag.name.value}:${tagName.slice(1)}`;
+      tagName = `${path.parent.name.value}:${tagName.slice(1)}`;
     }
 
     if (macros[tagName]) {
@@ -27,7 +26,9 @@ export const visitor = {
     const tagDef = (node.tagDef = tagName && lookup.getTag(tagName));
 
     if (!isTagDefOptional && !tagDef) {
-      throw path.buildCodeFrameError(`Could not find custom tag "${tagName}".`);
+      throw path
+        .get("name")
+        .buildCodeFrameError(`Could not find custom tag "${tagName}".`);
     }
 
     const transformers = [

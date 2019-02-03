@@ -2,9 +2,7 @@ packages/babel-plugin-marko/test/fixtures/error-at-tags-missing-parent/template.
    7 |     Body content
    8 | 
 >  9 |     <@footer class="my-footer">
-     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 10 |         Footer content
-     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 11 |     </@footer>
-     | ^^^^^^^^^^^^^^^
+     |     ^^^^^^^^
+  10 |         Footer content
+  11 |     </@footer>
   12 | </div>

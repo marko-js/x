@@ -25,13 +25,9 @@ export default function(path, attr, opts = EMPTY_OBJECT) {
     replacementAttrs.push(t.htmlAttribute("bodyOnly", t.booleanLiteral(true)));
   }
 
-  const replacement = t.htmlElement(
-    t.htmlStartTag(name, undefined, undefined, replacementAttrs),
-    t.htmlEndTag(name),
-    [node],
-    []
-  );
-
+  const replacement = t.htmlTag(name, undefined, undefined, replacementAttrs, [
+    node
+  ]);
   replacement.key = normalizeTemplateLiteral(["#", ""], [keyIdentifier]);
 
   insertBeforeInRenderBody(

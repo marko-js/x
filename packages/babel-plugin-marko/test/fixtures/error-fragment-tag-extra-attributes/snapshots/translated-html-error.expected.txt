@@ -1,5 +1,5 @@
-packages/babel-plugin-marko/test/fixtures/error-fragment-tag-extra-attributes/template.marko(1,1): "fragment" tag can only have a "key" or default attribute.
+packages/babel-plugin-marko/test/fixtures/error-fragment-tag-extra-attributes/template.marko(1,17): "fragment" tag can only have a "key" or default attribute.
 > 1 | <fragment key=1 x=2>
-    | ^^^^^^^^^^^^^^^^^^^^
+    |                 ^^^
   2 |   <div/>
   3 | </fragment>

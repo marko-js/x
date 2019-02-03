@@ -46,14 +46,11 @@ function findParentTagName(path) {
       return;
     }
 
-    if (t.isHTMLElement(path.node)) {
+    if (t.isHTMLTag(path.node)) {
       const { tagDef = EMPTY_OBJECT } = path.node;
       return (
         tagDef.html &&
-        path
-          .get("startTag")
-          .get("name")
-          .get("value").node
+        path.get("name").get("value").node
       );
     }
   }

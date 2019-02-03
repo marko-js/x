@@ -3,8 +3,7 @@ import withPreviousLocation from "../../util/with-previous-location";
 
 export default function(path) {
   const { node, hub } = path;
-  const { startTag } = node;
-  const { rawValue: code, start } = startTag;
+  const { rawValue: code, start } = node;
 
   if (hub.componentFiles.componentFile) {
     throw path.buildCodeFrameError(

@@ -48,7 +48,7 @@ export default {
   HTMLPlaceholder: {
     visitor: ["value"],
     builder: ["value", "escape"],
-    aliases: ["Marko", "Expression"],
+    aliases: ["Marko", "Statement"],
     fields: {
       value: {
         validate: assertNodeType("Expression")
@@ -63,7 +63,7 @@ export default {
   HTMLScriptlet: {
     visitor: ["body"],
     builder: ["body", "static"],
-    aliases: ["Marko", "BlockStatement"],
+    aliases: ["Marko", "Statement"],
     fields: {
       body: {
         validate: arrayOfType(["Statement"])
@@ -89,7 +89,7 @@ export default {
   HTMLAttribute: {
     builder: ["name", "value", "modifier", "arguments"],
     visitor: ["value"],
-    aliases: ["Marko"],
+    aliases: ["Marko", "Expression"],
     fields: {
       name: {
         validate: assertValueType("string")
@@ -124,9 +124,17 @@ export default {
     }
   },
 
-  HTMLStartTag: {
-    builder: ["name", "arguments", "params", "attributes", "rawValue"],
+  HTMLTag: {
+    builder: [
+      "name",
+      "arguments",
+      "params",
+      "attributes",
+      "body",
+      "properties"
+    ],
     aliases: ["Marko", "Statement"],
+    visitor: ["name", "arguments", "params", "attributes", "body"],
     fields: {
       name: {
         validate: assertNodeType("Expression")
@@ -146,42 +154,9 @@ export default {
         validate: arrayOfType(["HTMLAttribute", "HTMLSpreadAttribute"]),
         default: []
       },
-      rawValue: {
-        validate: assertValueType("string"),
-        optional: true
-      },
-      handlers: {
-        validate: assertEach(assertNodeType("Expression")),
-        optional: true
-      }
-    }
-  },
-
-  HTMLEndTag: {
-    builder: ["name"],
-    aliases: ["Marko", "Statement"],
-    fields: {
-      name: {
-        validate: assertNodeType("Expression")
-      }
-    }
-  },
-
-  HTMLElement: {
-    visitor: ["startTag", "endTag", "children"],
-    builder: ["startTag", "endTag", "children", "properties"],
-    aliases: ["Marko", "Statement"],
-    fields: {
-      startTag: {
-        validate: assertNodeType("HTMLStartTag")
-      },
-      endTag: {
-        validate: assertNodeType("HTMLEndTag"),
-        optional: true
-      },
-      children: {
+      body: {
         validate: arrayOfType([
-          "HTMLElement",
+          "HTMLTag",
           "HTMLCDATA",
           "HTMLText",
           "HTMLPlaceholder",
@@ -191,7 +166,16 @@ export default {
         default: []
       },
       properties: {
-        validate: arrayOfType(["ObjectProperty"])
+        validate: arrayOfType(["ObjectProperty"]),
+        default: []
+      },
+      handlers: {
+        validate: assertEach(assertNodeType("Expression")),
+        optional: true
+      },
+      rawValue: {
+        validate: assertValueType("string"),
+        optional: true
       }
     }
   }

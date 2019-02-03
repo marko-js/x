@@ -34,7 +34,7 @@ Object.assign(Printer.prototype, {
     this.token("-->");
   },
   HTMLPlaceholder(node, parent) {
-    const parentBody = t.isHTMLElement(parent) ? parent.children : parent.body;
+    const parentBody = parent.body;
     const prev = parentBody[parentBody.indexOf(node) - 1];
 
     if (prev && (t.isHTMLText(prev) || t.isHTMLPlaceholder(prev))) {
@@ -98,7 +98,7 @@ Object.assign(Printer.prototype, {
     printWithParansIfNeeded.call(this, node.value, node);
   },
   HTMLText(node, parent) {
-    const parentBody = t.isHTMLElement(parent) ? parent.children : parent.body;
+    const parentBody = parent.body;
     const prev = parentBody[parentBody.indexOf(node) - 1];
     const concatToPrev = prev && t.isHTMLPlaceholder(prev);
     let { value } = node;
@@ -124,56 +124,63 @@ Object.assign(Printer.prototype, {
       this.token("\n---");
     }
   },
-  HTMLElement(node) {
-    const start = node.startTag;
-    const tagName = start.name.value;
-    const selfClosing = !node.children.length || SELF_CLOSING.includes(tagName);
-    this.print(start, node);
+  HTMLTag(node) {
+    const isDynamicTag = !t.isStringLiteral(node.name);
+    const tagName = !isDynamicTag && node.name.value;
+    const selfClosing = !node.body.length || SELF_CLOSING.includes(tagName);
+    const rawValue = node.rawValue;
+
+    if (
+      tagName === "style" &&
+      /^style(?:\.[^\s]+)?\s*\{[\s\S]*}$/.test(rawValue)
+    ) {
+      this.token(rawValue);
+      return;
+    }
+
+    this.token("<");
+
+    if (rawValue) {
+      this.token(rawValue);
+    } else if (isDynamicTag) {
+      this.token("${");
+      this.print(node.name, node);
+      this.token("}");
+    } else {
+      this.token(tagName);
+    }
+
+    if (!rawValue) {
+      if (node.arguments.length) {
+        this.token("(");
+        this.printList(node.arguments, node);
+        this.token(")");
+      }
+
+      if (node.params.length) {
+        this.token("|");
+        this.printList(node.params, node);
+        this.token("|");
+      }
+
+      if (node.attributes.length > 0) {
+        this.token(" ");
+        this.printJoin(node.attributes, node, { separator: spaceSeparator });
+      }
+    }
+
     if (selfClosing) {
       this.token("/>");
     } else {
       this.token(">");
       this.newline();
-      this.printSequence(node.children, node, { indent: true });
-      this.print(node.endTag, node);
+      this.printSequence(node.body, node, { indent: true });
+      this.token("</");
+      if (!isDynamicTag) {
+        this.token(tagName);
+      }
+      this.token(">");
     }
-  },
-
-  HTMLStartTag(node) {
-    this.token("<");
-
-    if (t.isStringLiteral(node.name)) {
-      const tagName = node.name.value;
-      this.token(tagName);
-    } else {
-      this.token("${");
-      this.print(node.name, node);
-      this.token("}");
-    }
-
-    if (node.arguments.length) {
-      this.token("(");
-      this.printList(node.arguments, node);
-      this.token(")");
-    }
-
-    if (node.params.length) {
-      this.token("|");
-      this.printList(node.params, node);
-      this.token("|");
-    }
-
-    if (node.attributes.length > 0) {
-      this.token(" ");
-      this.printJoin(node.attributes, node, { separator: spaceSeparator });
-    }
-  },
-  HTMLEndTag(node) {
-    this.token("</");
-    if (t.isStringLiteral(node.name)) {
-      this.token(node.name.value);
-    }
-    this.token(">");
   }
 });
 

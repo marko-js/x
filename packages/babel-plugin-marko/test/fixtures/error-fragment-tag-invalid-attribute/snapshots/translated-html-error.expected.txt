@@ -1,7 +1,5 @@
-packages/babel-plugin-marko/test/fixtures/error-fragment-tag-invalid-attribute/template.marko(1,1): Could not find custom tag "key".
-> 1 | <key x=1>
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 2 |   <div/>
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 3 | </key>
-    | ^^^^^^^
+packages/babel-plugin-marko/test/fixtures/error-fragment-tag-invalid-attribute/template.marko(1,2): "fragment" tag must have a "key" or default attribute.
+> 1 | <fragment x=1>
+    |  ^^^^^^^^
+  2 |   <div/>
+  3 | </fragment>

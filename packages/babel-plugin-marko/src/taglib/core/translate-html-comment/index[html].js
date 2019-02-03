@@ -1,5 +1,4 @@
 import write from "../../../util/html-out-write";
-import withPreviousLocation from "../../../util/with-previous-location";
 import {
   replaceInRenderBody,
   assertAllowedAttributes,
@@ -12,7 +11,7 @@ import {
  */
 export default function(path) {
   const {
-    node: { startTag, children, endTag }
+    node: { body }
   } = path;
 
   assertNoParams(path);
@@ -20,8 +19,8 @@ export default function(path) {
   assertAllowedAttributes(path, []);
 
   replaceInRenderBody(path, [
-    withPreviousLocation(write`<!--`, startTag),
-    ...children,
-    withPreviousLocation(write`-->`, endTag)
+    write`<!--`,
+    ...body,
+    write`-->`
   ]);
 }

@@ -13,17 +13,21 @@ import { getAttrs } from "../util";
  * Translates the html streaming version of a standard html element.
  */
 export default function(path) {
+  const { node } = path;
   const {
-    node: { parent, key, startTag, children, properties, handlers }
-  } = path;
+    name: { value: tagName },
+    key,
+    body,
+    properties,
+    handlers
+  } = node;
 
-  const tagName = startTag.name.value;
   const tagProperties = properties.slice();
   const isSelfClosing = SELF_CLOSING.indexOf(tagName) !== -1;
   const attrsObj = getAttrs(path, true);
   const writeArgs = [
     isSelfClosing ? "e" : "be",
-    startTag.name,
+    node.name,
     attrsObj,
     key,
     t.identifier("component"),
@@ -38,6 +42,7 @@ export default function(path) {
     Object.entries(handlers).forEach(
       ([eventName, { arguments: args, once }]) => {
         const delegateArgs = [t.stringLiteral(eventName), args[0]];
+        debugger;
         if (args.length > 1) {
           delegateArgs.push(t.arrayExpression(args.slice(1)));
         }
@@ -89,13 +94,11 @@ export default function(path) {
   }
 
   let needsBlock;
-  if (!t.isProgram(parent)) {
-    for (const node of children) {
-      if (t.isVariableDeclaration(node)) {
-        if (node.kind === "const" || node.kind === "let") {
-          needsBlock = true;
-          break;
-        }
+  for (const childNode of body) {
+    if (t.isVariableDeclaration(childNode)) {
+      if (childNode.kind === "const" || childNode.kind === "let") {
+        needsBlock = true;
+        break;
       }
     }
   }
@@ -103,9 +106,7 @@ export default function(path) {
   replaceInRenderBody(
     path,
     [writeStartNode]
-      .concat(
-        needsBlock ? t.blockStatement(children.map(toStatement)) : children
-      )
+      .concat(needsBlock ? t.blockStatement(body.map(toStatement)) : body)
       .concat(writeEndNode)
   );
 }

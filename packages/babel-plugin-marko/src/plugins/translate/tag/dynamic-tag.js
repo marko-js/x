@@ -9,8 +9,7 @@ import { getAttrs, buildEventHandlerArray } from "./util";
 export default function(path) {
   const { node, hub } = path;
   const { options } = hub;
-  const { key, startTag, bodyOnlyIf } = node;
-  const { name: expression } = startTag;
+  const { name: expression, key, bodyOnlyIf } = node;
 
   assertNoArgs(path);
 

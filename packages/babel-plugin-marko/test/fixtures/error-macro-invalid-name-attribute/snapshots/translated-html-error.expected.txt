@@ -1,5 +1,5 @@
 packages/babel-plugin-marko/test/fixtures/error-macro-invalid-name-attribute/template.marko(1,20): The "name" attribute for "macro" tags must be a string literal.
-> 1 | <macro(stuff) name=1>
+> 1 | <macro|stuff| name=1>
     |                    ^
   2 |   <div/>
   3 | </macro>
