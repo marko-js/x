@@ -1,13 +1,15 @@
 {
   "command": {
     "publish": {
-      "conventionalCommits": true
+      "conventionalCommits": true,
+      "message": "chore: publish"
     }
   },
   "packages": [
     "packages/*"
   ],
   "ignoreChanges": [
+    "**/package-lock.json",
     "packages/*/test/**",
     "**/*.md"
   ],
