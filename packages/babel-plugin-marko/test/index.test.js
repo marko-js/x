@@ -82,7 +82,7 @@ function snapshotTransform({ ext, dir, name, config, source, filename }) {
       sourceMaps: false,
       filename,
       sourceFileName: filename,
-      plugins: [[plugin, config]]
+      plugins: ["@babel/plugin-proposal-class-properties", [plugin, config]]
     });
 
     snapshot(dir, `${name}.${ext}`, code);

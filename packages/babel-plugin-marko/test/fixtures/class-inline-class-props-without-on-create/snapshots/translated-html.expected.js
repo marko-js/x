@@ -2,7 +2,7 @@ import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/com
 import { t as _t } from "marko/src/runtime/html";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "rBg9zhFf";
+      _marko_componentType = "ei0Mhp4E";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.w("<div></div>")
@@ -14,7 +14,6 @@ _marko_template.Component = _marko_defineComponent({
   onCreate() {
     this.x = 1
     this.y = 2
-    this.stuff();
   }
 
 }, _marko_template._)

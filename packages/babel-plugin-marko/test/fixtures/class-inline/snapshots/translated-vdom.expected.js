@@ -13,6 +13,8 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
 })
 _marko_template.Component = _marko_defineComponent({
   onCreate() {
+    this.x = 1
+    this.y = 2
     this.stuff();
   }
 
