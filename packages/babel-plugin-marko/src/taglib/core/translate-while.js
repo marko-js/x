@@ -3,9 +3,8 @@ import { replaceInRenderBody, toStatement } from "./util";
 
 export default function(path) {
   const { node, hub } = path;
-  const { startTag, children } = node;
-  const { rawValue, start } = startTag;
+  const { rawValue, start, body } = node;
   const [whileNode] = hub.parse(rawValue + ";", start).body;
-  whileNode.body = t.blockStatement(children.map(toStatement));
+  whileNode.body = t.blockStatement(body.map(toStatement));
   replaceInRenderBody(path, whileNode);
 }

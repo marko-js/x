@@ -12,8 +12,7 @@ export default {
   exit(path) {
     const { hub, node } = path;
     const { options, macros } = hub;
-    const { startTag, hasAttributeTag, tagDef = EMPTY_OBJECT } = node;
-    const { name } = startTag;
+    const { name, hasAttributeTag, tagDef = EMPTY_OBJECT } = node;
 
     if (!t.isStringLiteral(name)) {
       assertNoAttributeTags();

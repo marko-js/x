@@ -6,34 +6,33 @@ const EMPTY_OBJECT = {};
 const parentIdentifierLookup = new WeakMap();
 const transparentTags = new Set(["for", "if", "else", "no-update"]);
 
-// TODO: test not root
 // TODO: optimize inline repeated @tags.
 
 export default function(path) {
   const { node, hub } = path;
   const { lookup } = hub;
-  const tagName = node.startTag.name.value;
+  const namePath = path.get("name");
+  const tagName = namePath.node.value;
   const fullTagName = getFullyResolvedTagName(path);
   const parentPath = findParentTag(path);
-  const parent = parentPath.node;
-  parent.hasAttributeTag = node;
+  const parent = parentPath && parentPath.node;
 
   assertNoArgs(path);
 
-  if (!parent || !t.isHTMLElement(parent)) {
-    throw path.buildCodeFrameError(
-      `@tags must be nested within another element.`
+  if (!parent || !t.isHTMLTag(parent)) {
+    throw namePath.buildCodeFrameError(
+      "@tags must be nested within another element."
     );
   }
 
   if (node.bodyOnlyIf) {
-    throw path.buildCodeFrameError(
+    throw namePath.buildCodeFrameError(
       `@tags do not support the "body-only-if" attribute.`
     );
   }
 
-  const parentStartTag = parent.startTag;
-  const parentAttributes = parentStartTag.attributes;
+  parent.hasAttributeTag = node;
+  const parentAttributes = parent.attributes;
   const tagDef = lookup.getTag(fullTagName) || EMPTY_OBJECT;
   const { isRepeated, targetProperty = tagName.slice(1) } = tagDef;
   const isDynamic = isRepeated || parent !== path.parent;
@@ -41,7 +40,7 @@ export default function(path) {
 
   if (!isDynamic) {
     if (parentAttributes.some(attr => attr.name === targetProperty)) {
-      throw path.buildCodeFrameError(
+      throw namePath.buildCodeFrameError(
         `Only one "${tagName}" tag is allowed here.`
       );
     }
@@ -86,7 +85,7 @@ function getFullyResolvedTagName(path) {
   const parts = [];
   let cur;
   do {
-    cur = path.node.startTag.name.value;
+    cur = path.node.name.value;
 
     if (cur[0] !== "@") {
       parts.push(cur);
@@ -105,12 +104,12 @@ function findParentTag(path) {
   while (cur.node) {
     const { node } = cur;
 
-    if (!t.isHTMLElement(node)) {
+    if (!t.isHTMLTag(node)) {
       cur = undefined;
       break;
     }
 
-    const tagName = node.startTag.name;
+    const tagName = node.name;
     if (!t.isStringLiteral(tagName)) {
       cur = undefined;
       break;
@@ -126,5 +125,5 @@ function findParentTag(path) {
 }
 
 function appendNode(path, node) {
-  path.node.children.unshift(node);
+  path.node.body.unshift(node);
 }

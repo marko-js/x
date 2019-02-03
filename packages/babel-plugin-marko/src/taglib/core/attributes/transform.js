@@ -8,8 +8,7 @@ const EVENT_REG = /^(on(?:ce)?)-?(.*)$/;
 
 export default function(path) {
   const { hub, node } = path;
-  const startTag = path.get("startTag");
-  const attributes = startTag.get("attributes");
+  const attributes = path.get("attributes");
 
   for (const attr of attributes) {
     const { name, value, modifier, arguments: args } = attr.node;
@@ -27,7 +26,7 @@ export default function(path) {
     const [, eventType, eventName] = EVENT_REG.exec(name) || EMPTY_ARRAY;
 
     if (eventType) {
-      if (!args) {
+      if (!args || !args.length) {
         throw attr.buildCodeFrameError("Event handler is missing arguments.");
       }
 
@@ -61,7 +60,7 @@ export default function(path) {
       if (node !== path.node) break;
     }
 
-    if (args && attr.node && !attr.node.allowArguments) {
+    if (args && args.length && attr.node && !attr.node.allowArguments) {
       throw attr.buildCodeFrameError("Unsupported arguments on attribute.");
     }
   }

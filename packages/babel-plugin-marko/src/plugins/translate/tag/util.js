@@ -6,10 +6,9 @@ import {
 
 export function getAttrs(path, skipRenderBody) {
   const { node } = path;
-  const { startTag, attributeTags, children, hasDynamicAttributeTags } = node;
-  const { attributes } = startTag;
+  const { attributes, attributeTags, body, hasDynamicAttributeTags } = node;
   const attrsLen = attributes.length;
-  const childLen = children.length;
+  const childLen = body.length;
   const hasRenderBody = !skipRenderBody && childLen;
 
   if (!attrsLen && !hasRenderBody && !attributeTags) {
@@ -28,14 +27,14 @@ export function getAttrs(path, skipRenderBody) {
   if (!skipRenderBody && childLen) {
     if (hasDynamicAttributeTags) {
       // TODO: throw error if content mixed with @tags.
-      insertBeforeInRenderBody(path, children);
+      insertBeforeInRenderBody(path, body);
     } else {
       properties.push(
         t.objectProperty(
           t.stringLiteral("renderBody"),
           t.arrowFunctionExpression(
-            [t.identifier("out"), ...startTag.params],
-            t.blockStatement(children.map(toStatement))
+            [t.identifier("out"), ...node.params],
+            t.blockStatement(body.map(toStatement))
           )
         )
       );

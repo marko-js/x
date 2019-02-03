@@ -7,17 +7,14 @@ const htmlTrimStart = t => t.replace(/^[\n\r]\s*/, "");
 const htmlTrimEnd = t => t.replace(/[\n\r]\s*$/, "");
 const htmlTrim = t => htmlTrimStart(htmlTrimEnd(t));
 const isNestedTag = node =>
-  (node.tagName && node.tagName[0] === "@") ||
-  (node.startTag &&
-    t.isStringLiteral(node.startTag.name) &&
-    node.startTag.name.value[0] === "@");
+  t.isStringLiteral(node.name) && node.name.value[0] === "@";
 
 export function parse(hub) {
   const { code, filename, htmlParseOptions = {} } = hub;
   const { preserveWhitespace } = htmlParseOptions;
-  const stack = [{ context: hub.file.program.body }];
+  let { body } = hub.file.program;
+  const stack = [{ body }];
   let preservingWhitespaceUntil = preserveWhitespace;
-  let context = stack[0].context;
   let wasSelfClosing = false;
   let onNext;
 
@@ -25,25 +22,25 @@ export function parse(hub) {
     {
       onDocumentType({ value, pos, endPos }) {
         const node = hub.createNode("htmlDocumentType", pos, endPos, value);
-        context.push(node);
+        body.push(node);
         onNext = onNext && onNext(node);
       },
 
       onDeclaration({ value, pos, endPos }) {
         const node = hub.createNode("htmlDeclaration", pos, endPos, value);
-        context.push(node);
+        body.push(node);
         onNext = onNext && onNext(node);
       },
 
       onComment({ value, pos, endPos }) {
         const node = hub.createNode("htmlComment", pos, endPos, value);
-        context.push(node);
+        body.push(node);
         onNext = onNext && onNext(node);
       },
 
       onCDATA({ value, pos, endPos }) {
         const node = hub.createNode("htmlCDATA", pos, endPos, value);
-        context.push(node);
+        body.push(node);
         onNext = onNext && onNext(node);
       },
 
@@ -57,9 +54,9 @@ export function parse(hub) {
 
           // Find previous non-scriptlet/@tag.
           let prev;
-          let prevIndex = context.length;
+          let prevIndex = body.length;
           while (prevIndex > 0) {
-            prev = context[--prevIndex];
+            prev = body[--prevIndex];
 
             if (t.isHTMLScriptlet(prev) || isNestedTag(prev)) {
               prev = undefined;
@@ -77,13 +74,13 @@ export function parse(hub) {
 
         const endPos = pos + value.length;
         const node = hub.createNode("htmlText", pos, endPos, value);
-        const prevContext = context;
-        context.push(node);
+        const prevBody = body;
+        body.push(node);
         onNext && onNext(node);
         onNext =
           shouldTrim &&
           (next => {
-            if (!next || prevContext.indexOf(next) === -1) {
+            if (!next || prevBody.indexOf(next) === -1) {
               node.value = htmlTrimEnd(node.value);
             }
 
@@ -104,7 +101,7 @@ export function parse(hub) {
             escape
           );
 
-          context.push(node);
+          body.push(node);
           onNext = onNext && onNext(node);
         }
       },
@@ -113,14 +110,14 @@ export function parse(hub) {
         if (!line && !block) {
           throw hub.buildError(
             { start: pos, end: endPos },
-            "Scriptlets are no longer supported."
+            "<% scriptlets %> are no longer supported."
           );
         }
 
         // Scriptlets are ignored as content and don't call `onNext`.
-        context.push(
+        body.push(
           hub.createNode(
-            "HTMLScriptlet",
+            "htmlScriptlet",
             pos,
             endPos,
             hub.parse(value, pos).body
@@ -129,10 +126,31 @@ export function parse(hub) {
       },
 
       onOpenTagName(event) {
-        const { tagName, tagNameExpression, pos, endPos } = event;
+        const { tagName, pos, endPos } = event;
+        const [, tagNameExpression] =
+          /^\$\{([\s\S]+)\}/.exec(tagName) || EMPTY_OBJECT;
         const tagDef = !tagNameExpression && hub.lookup.getTag(tagName);
+        const tagNameStartPos = pos + (event.concise ? 0 : 1); // Account for leading `<`.
+        const node = hub.createNode(
+          "HTMLTag",
+          pos,
+          endPos,
+          tagNameExpression
+            ? hub.parseExpression(
+                tagNameExpression,
+                tagNameStartPos + 2 /* ${ */
+              )
+            : hub.createNode(
+                "stringLiteral",
+                tagNameStartPos,
+                tagNameStartPos + tagName.length,
+                tagName
+              )
+        );
 
         if (tagDef) {
+          node.tagDef = tagDef;
+
           const { parseOptions } = tagDef;
           if (parseOptions) {
             event.setParseOptions(parseOptions);
@@ -146,55 +164,34 @@ export function parse(hub) {
           }
         }
 
-        const node = { tagName, tagDef, context: [] };
         stack.push(node);
-        context.push(node);
+        body.push(node);
+        body = node.body;
 
         // @tags are not treated as content and do not call next.
         if (!isNestedTag(node)) {
           onNext = onNext && onNext(node);
         }
-
-        context = node.context;
       },
 
       onOpenTag(event, parser) {
-        let {
-          tagName,
-          tagNameExpression,
-          attributes,
-          pos,
-          endPos,
-          tagNameEndPos,
-          selfClosed,
-          shorthandId,
-          shorthandClassNames
-        } = event;
-        const curElement = stack[stack.length - 1];
-        const { tagDef } = curElement;
+        const { pos, endPos, tagNameEndPos } = event;
+        const node = stack[stack.length - 1];
+        const { tagDef } = node;
         const parseOptions = (tagDef && tagDef.parseOptions) || EMPTY_OBJECT;
-        let rawValue;
-        wasSelfClosing = selfClosed;
-
-        if (tagNameExpression) {
-          tagName = hub.parseExpression(tagNameExpression, pos + 2 /* ${ */);
-        } else {
-          tagName = hub.createNode(
-            "stringLiteral",
-            pos,
-            tagNameEndPos,
-            tagName
-          );
-        }
+        wasSelfClosing = event.selfClosed;
 
         if (parseOptions.rawOpenTag) {
-          rawValue = parser.substring(pos, endPos).replace(/^<|\/>$|>$/g, "");
-          attributes = [];
+          node.rawValue = parser
+            .substring(pos, endPos)
+            .replace(/^<|\/>$|>$/g, "");
         } else {
+          node.arguments = parseArguments(hub, event.argument);
+          node.params = parseParams(hub, event.params);
+
           let attrEndPos = tagNameEndPos;
-          attributes = attributes.map(attr => {
+          for (const attr of event.attributes) {
             const attrStartPos = code.indexOf(attr.name, attrEndPos);
-            attrEndPos = attr.endPos;
 
             if (attr.name.slice(0, 3) === "...") {
               let attrExpression = attr.name.slice(3);
@@ -203,17 +200,24 @@ export function parse(hub) {
                 attrExpression += `(${attr.argument.value})`;
               }
 
+              attrEndPos = attrStartPos + attrExpression.length;
+
               const value = hub.parseExpression(
                 attrExpression,
                 attrStartPos + 3
               );
+
               // TODO: Inline merge object literals.
-              return hub.createNode(
-                "htmlSpreadAttribute",
-                attrStartPos,
-                attrEndPos,
-                value
+              node.attributes.push(
+                hub.createNode(
+                  "htmlSpreadAttribute",
+                  attrStartPos,
+                  attrEndPos,
+                  value
+                )
               );
+
+              continue;
             }
 
             let value;
@@ -227,33 +231,39 @@ export function parse(hub) {
             }
 
             if (attr.value) {
+              attrEndPos = attr.endPos;
               const valueStart = attr.pos + 1; // Add one to account for "=".
-              const rawValue = code.slice(valueStart, attrEndPos);
+              const rawValue = code.slice(valueStart, attrEndPos); // We use the raw value to ignore things like non standard placeholders.
               value = hub.parseExpression(rawValue, valueStart);
             } else {
+              attrEndPos = attr.argument
+                ? attr.argument.endPos + 1
+                : attr.endPos;
               value = t.booleanLiteral(true);
             }
 
-            return hub.createNode(
-              "htmlAttribute",
-              attrStartPos,
-              attrEndPos,
-              attr.name,
-              value,
-              modifier,
-              parseArguments(hub, attr.argument)
+            node.attributes.push(
+              hub.createNode(
+                "htmlAttribute",
+                attrStartPos,
+                attrEndPos,
+                attr.name,
+                value,
+                modifier,
+                parseArguments(hub, attr.argument)
+              )
             );
-          });
+          }
         }
 
-        if (shorthandClassNames) {
-          let classAttr = attributes.find(({ name }) => name === "class");
-          const classes = shorthandClassNames
+        if (event.shorthandClassNames) {
+          let classAttr = node.attributes.find(({ name }) => name === "class");
+          const classes = event.shorthandClassNames
             .map(({ value }) => value.slice(1, -1))
             .join(" ");
 
           if (!classAttr) {
-            attributes.unshift(
+            node.attributes.unshift(
               hub.createNode(
                 "htmlAttribute",
                 pos,
@@ -278,64 +288,46 @@ export function parse(hub) {
           }
         }
 
-        if (shorthandId) {
-          if (attributes.some(({ name }) => name === "id")) {
+        if (event.shorthandId) {
+          if (node.attributes.some(({ name }) => name === "id")) {
             throw hub.buildError(
               { start: pos, end: tagNameEndPos },
               "Cannot have shorthand id and id attribute."
             );
           }
 
-          attributes.unshift(
+          node.attributes.unshift(
             hub.createNode(
               "htmlAttribute",
               pos,
               tagNameEndPos,
               "id",
-              t.stringLiteral(shorthandId.value.slice(1, -1))
+              t.stringLiteral(event.shorthandId.value.slice(1, -1))
             )
           );
         }
 
-        curElement.startTag = hub.createNode(
-          "htmlStartTag",
-          pos,
-          endPos,
-          tagName,
-          parseArguments(hub, event.argument),
-          parseParams(hub, event.params),
-          attributes,
-          rawValue
-        );
-
         if (!preservingWhitespaceUntil && parseOptions.preserveWhitespace) {
-          preservingWhitespaceUntil = curElement.startTag;
+          preservingWhitespaceUntil = node;
         }
       },
 
       onCloseTag(event, parser) {
         let { tagName, pos, endPos } = event;
-        const { tagDef, startTag, context: children } = stack.pop();
-        context = stack[stack.length - 1].context;
-        context.pop();
+        const node = stack.pop();
+        const { tagDef } = node;
+        body = stack[stack.length - 1].body;
 
-        if (preservingWhitespaceUntil === startTag) {
-          preservingWhitespaceUntil = preserveWhitespace;
+        if (preservingWhitespaceUntil === node) {
+          preservingWhitespaceUntil = undefined;
         }
 
-        if (!pos) event.pos = pos = parser.pos;
-        if (!endPos) event.endPos = endPos = pos;
+        if (!pos) pos = parser.pos;
+        if (!endPos) endPos = pos;
 
-        if (!startTag) {
-          throw hub.buildError(
-            { start: pos, end: endPos },
-            `Missing closing tag around ${tagName}.`
-          );
-        }
-
-        if (tagName) {
-          if (t.isStringLiteral(startTag.name)) {
-            if (startTag.name.value !== tagName) {
+        if (tagName && !wasSelfClosing) {
+          if (t.isStringLiteral(node.name)) {
+            if (node.name.value !== tagName) {
               throw hub.buildError(
                 { start: pos, end: endPos },
                 `Invalid closing tag ${tagName}.`
@@ -349,23 +341,14 @@ export function parse(hub) {
           }
         }
 
-        const endTag = hub.createNode("htmlEndTag", pos, endPos, startTag.name);
-        const htmlElement = hub.createNode(
-          "htmlElement",
-          startTag.start,
-          endTag.end,
-          startTag,
-          endTag,
-          children,
-          []
-        );
-
         if (tagDef && tagDef.nodeFactoryPath) {
           const module = require(tagDef.nodeFactoryPath);
           const { default: fn = module } = module;
-          context.push(...[].concat(fn(hub.createNodePath(htmlElement))));
-        } else {
-          context.push(htmlElement);
+          body.splice(
+            body.length - 1,
+            1,
+            ...[].concat(fn(hub.createNodePath(node)))
+          );
         }
       },
 

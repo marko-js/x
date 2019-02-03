@@ -20,9 +20,9 @@ export default function(path, tagDef) {
   assertNoArgs(path);
 
   if (!relativePath) {
-    throw path.buildCodeFrameError(
-      `Unable to find entry point for "${name}" tag.`
-    );
+    throw path
+      .get("name")
+      .buildCodeFrameError(`Unable to find entry point for "${name}" tag.`);
   }
 
   let tagIdentifierLookup = TAG_IDENTIFIER_LOOKUPS.get(hub);

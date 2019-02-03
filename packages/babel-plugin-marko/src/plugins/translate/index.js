@@ -3,7 +3,7 @@ import normalizeTemplateLiteral from "../../util/normalize-template-string";
 import HTMLDocumentType from "./document-type";
 import HTMLDeclaration from "./declaration";
 import HTMLCDATA from "./cdata";
-import HTMLElement from "./element";
+import HTMLTag from "./tag";
 import HTMLText from "./text";
 import HTMLPlaceholder from "./placeholder";
 import HTMLScriptlet from "./scriptlet";
@@ -13,7 +13,7 @@ export const visitor = {
   HTMLDocumentType,
   HTMLDeclaration,
   HTMLCDATA,
-  HTMLElement,
+  HTMLTag,
   HTMLText,
   HTMLPlaceholder,
   HTMLScriptlet,

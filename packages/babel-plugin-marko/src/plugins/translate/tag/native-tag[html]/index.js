@@ -14,14 +14,15 @@ import {
  * Translates the html streaming version of a standard html element.
  */
 export default function(path) {
+  const { node } = path;
   const {
-    node: { parent, startTag, children, endTag, properties, handlers }
-  } = path;
+    name: { value: tagName },
+    body,
+    properties,
+    handlers
+  } = node;
 
-  const {
-    name: { value: tagName }
-  } = startTag;
-  const attributes = path.get("startTag").get("attributes");
+  const attributes = path.get("attributes");
   const tagProperties = properties.slice();
 
   assertNoParams(path);
@@ -57,17 +58,17 @@ export default function(path) {
 
   if (tagProperties.length) {
     // TODO: prevent escaping this with the attr helper.
-    startTag.attributes.push(
+    node.attributes.push(
       t.htmlAttribute("data-marko", t.objectExpression(tagProperties))
     );
 
     // TODO: Hack to push to existing attributes path, should revisit,
-    attributes.push(path.get("startTag").get("attributes")[attributes.length]);
+    attributes.push(path.get("attributes")[attributes.length]);
   }
 
   let writeStartNode = withPreviousLocation(
     write`<${tagName}${translateAttributes(attributes)}>`,
-    startTag
+    node
   );
 
   if (SELF_CLOSING.indexOf(tagName) !== -1) {
@@ -75,7 +76,7 @@ export default function(path) {
     return;
   }
 
-  let writeEndNode = withPreviousLocation(write`</${tagName}>`, endTag);
+  let writeEndNode = write`</${tagName}>`;
 
   const { bodyOnlyIf } = path.node;
   if (bodyOnlyIf) {
@@ -91,13 +92,11 @@ export default function(path) {
   }
 
   let needsBlock;
-  if (!t.isProgram(parent)) {
-    for (const node of children) {
-      if (t.isVariableDeclaration(node)) {
-        if (node.kind === "const" || node.kind === "let") {
-          needsBlock = true;
-          break;
-        }
+  for (const childNode of body) {
+    if (t.isVariableDeclaration(childNode)) {
+      if (childNode.kind === "const" || childNode.kind === "let") {
+        needsBlock = true;
+        break;
       }
     }
   }
@@ -105,9 +104,7 @@ export default function(path) {
   replaceInRenderBody(
     path,
     [writeStartNode]
-      .concat(
-        needsBlock ? t.blockStatement(children.map(toStatement)) : children
-      )
+      .concat(needsBlock ? t.blockStatement(body.map(toStatement)) : body)
       .concat(writeEndNode)
   );
 }

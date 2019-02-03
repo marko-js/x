@@ -1,9 +1,7 @@
-packages/babel-plugin-marko/test/fixtures/error-nested-tag-arguments/template.marko(2,3): "@test" tag does not support arguments.
+packages/babel-plugin-marko/test/fixtures/error-nested-tag-arguments/template.marko(2,10): Tag does not support arguments.
   1 | <custom-tag>
 > 2 |   <@test(a, b, { c })>
-    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 3 |     Hi
-    | ^^^^^^^^^^^^^^^^
-> 4 |   </@test>
-    | ^^^^^^^^^^^
+    |          ^^^^^^^^^^^
+  3 |     Hi
+  4 |   </@test>
   5 | </custom-tag>

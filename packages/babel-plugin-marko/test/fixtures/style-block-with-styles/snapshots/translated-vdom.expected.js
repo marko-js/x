@@ -1,11 +1,14 @@
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
-import { t as _t } from "marko/src/runtime/html";
+import { t as _t } from "marko/src/runtime/vdom";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = "dO-gHtpE";
+      _marko_componentType = "bZPuqO3U";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  out.w("<div class=\"test\"></div>")
+  out.be("div", {
+    "class": "test"
+  }, "0", component, 0, 0)
+  out.ee()
 }, {
   ___type: _marko_componentType,
   ___implicit: true

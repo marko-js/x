@@ -7,27 +7,25 @@ import {
 
 export default function(path) {
   const { node } = path;
-  const { startTag, children } = node;
-  const { attributes } = startTag;
+  const { attributes, body } = node;
+  const namePath = path.get("name");
   const ofAttr = findName(attributes, "of");
   const inAttr = findName(attributes, "in");
   const fromAttr = findName(attributes, "from");
   const toAttr = findName(attributes, "to");
-  const block = t.blockStatement(children.map(toStatement));
+  const block = t.blockStatement(body.map(toStatement));
   let forNode;
   let allowedAttributes = ["by"];
 
   if (inAttr) {
     allowedAttributes.push("in");
 
-    const [keyParam, valParam] = startTag.params || [];
+    const [keyParam, valParam] = node.params || [];
 
     if (!keyParam) {
-      throw path
-        .get("startTag")
-        .buildCodeFrameError(
-          "Invalid 'for in' tag, missing |key, value| params."
-        );
+      throw namePath.buildCodeFrameError(
+        "Invalid 'for in' tag, missing |key, value| params."
+      );
     }
 
     if (valParam) {
@@ -49,14 +47,12 @@ export default function(path) {
   } else if (ofAttr) {
     allowedAttributes.push("of");
 
-    const [valParam, keyParam] = startTag.params || [];
+    const [valParam, keyParam] = node.params || [];
 
     if (!valParam) {
-      throw path
-        .get("startTag")
-        .buildCodeFrameError(
-          "Invalid 'for of' tag, missing |value, index| params."
-        );
+      throw namePath.buildCodeFrameError(
+        "Invalid 'for of' tag, missing |value, index| params."
+      );
     }
 
     forNode = [];
@@ -87,7 +83,7 @@ export default function(path) {
     allowedAttributes.push("from", "to", "step");
 
     const stepAttr = findName(attributes, "step");
-    const [keyParam] = startTag.params;
+    const [keyParam] = node.params;
     const indexName = path.scope.generateUidIdentifier(
       keyParam ? keyParam.name : "i"
     );
@@ -111,11 +107,9 @@ export default function(path) {
       block
     );
   } else {
-    throw path
-      .get("startTag")
-      .buildCodeFrameError(
-        "Invalid 'for' tag, missing an 'of', 'in' or 'to' attribute."
-      );
+    throw namePath.buildCodeFrameError(
+      "Invalid 'for' tag, missing an 'of', 'in' or 'to' attribute."
+    );
   }
 
   assertAllowedAttributes(path, allowedAttributes);

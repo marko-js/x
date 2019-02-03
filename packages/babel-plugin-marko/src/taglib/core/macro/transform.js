@@ -3,18 +3,17 @@ export default function(path) {
     hub: { macros },
     node
   } = path;
-  const startTag = path.get("startTag");
-  const attributes = startTag.get("attributes");
+  const attributes = path.get("attributes");
   const nameAttr = attributes.find(attr => attr.get("name").node === "name");
 
   if (!nameAttr) {
-    throw startTag.buildCodeFrameError(
-      'The "name" attribute is required on "macro" tags.'
-    );
+    throw path
+      .get("name")
+      .buildCodeFrameError('The "name" attribute is required on "macro" tags.');
   }
 
   if (attributes.length > 1) {
-    throw startTag.buildCodeFrameError(
+    throw attributes[attributes[0] === nameAttr ? 1 : 0].buildCodeFrameError(
       'The "macro" tag can only have a "name" attribute.'
     );
   }

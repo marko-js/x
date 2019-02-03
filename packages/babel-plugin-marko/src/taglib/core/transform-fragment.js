@@ -3,34 +3,35 @@ import { replaceInRenderBody } from "./util";
 import normalizeTemplateLiteral from "../../util/normalize-template-string";
 
 export default function(path) {
-  const startTag = path.get("startTag");
-  const attributes = startTag.get("attributes");
-  const { children } = path.node;
+  const namePath = path.get("name");
+  const attributes = path.get("attributes");
+  const { body } = path.node;
   const keyAttr = attributes.find(attr => attr.node.name === "key");
 
   if (!keyAttr) {
-    throw startTag.buildCodeFrameError(
+    throw namePath.buildCodeFrameError(
       '"fragment" tag must have a "key" or default attribute.'
     );
   }
 
   if (attributes.length > 1) {
-    throw startTag.buildCodeFrameError(
+    throw attributes[attributes[0] === keyAttr ? 1 : 0].buildCodeFrameError(
       '"fragment" tag can only have a "key" or default attribute.'
     );
   }
 
-  if (!children.length) {
-    throw startTag.buildCodeFrameError('"fragment" tag must have children.');
+  if (!body.length) {
+    throw namePath.buildCodeFrameError('"fragment" tag must have children.');
   }
 
   const keyValue = normalizeTemplateLiteral(
     ["@", ""],
     [keyAttr.get("value").node]
   );
-  children
-    .filter(child => t.isHTMLElement(child))
+
+  body
+    .filter(child => t.isHTMLTag(child))
     .forEach(child => (child.key = keyValue));
 
-  replaceInRenderBody(path, children);
+  replaceInRenderBody(path, body);
 }

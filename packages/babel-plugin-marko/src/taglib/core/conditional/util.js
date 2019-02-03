@@ -3,17 +3,19 @@ import { toStatement } from "../util";
 
 export function buildIfStatement(path, args) {
   const { node } = path;
-  const { children } = node;
+  const { body } = node;
 
   if (!args || !args.length) {
-    throw path.buildCodeFrameError(
-      "Invalid '<if>' tag, expected arguments like '<if(test)>'."
-    );
+    throw path
+      .get("name")
+      .buildCodeFrameError(
+        "Invalid '<if>' tag, expected arguments like '<if(test)>'."
+      );
   }
 
   const ifStatement = t.ifStatement(
     args.length === 1 ? args[0] : t.sequenceExpression(args),
-    t.blockStatement(children.map(toStatement))
+    t.blockStatement(body.map(toStatement))
   );
 
   let nextPath = path.getNextSibling();
@@ -28,9 +30,9 @@ export function buildIfStatement(path, args) {
       nextPath = nextPath.getNextSibling();
     }
 
-    if (t.isHTMLElement(nextPath.node)) {
+    if (t.isHTMLTag(nextPath.node)) {
       const { node } = nextPath;
-      const { name } = node.startTag;
+      const { name } = node;
 
       if (name.value === "else") {
         node.ifStatement = ifStatement;
