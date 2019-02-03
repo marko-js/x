@@ -163,7 +163,7 @@ Object.assign(Printer.prototype, {
         this.token("|");
       }
 
-      if (node.attributes.length > 0) {
+      if (node.attributes.length) {
         this.token(" ");
         this.printJoin(node.attributes, node, { separator: spaceSeparator });
       }

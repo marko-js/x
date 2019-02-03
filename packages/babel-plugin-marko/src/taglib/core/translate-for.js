@@ -20,7 +20,7 @@ export default function(path) {
   if (inAttr) {
     allowedAttributes.push("in");
 
-    const [keyParam, valParam] = node.params || [];
+    const [keyParam, valParam] = node.params;
 
     if (!keyParam) {
       throw namePath.buildCodeFrameError(
@@ -47,7 +47,7 @@ export default function(path) {
   } else if (ofAttr) {
     allowedAttributes.push("of");
 
-    const [valParam, keyParam] = node.params || [];
+    const [valParam, keyParam] = node.params;
 
     if (!valParam) {
       throw namePath.buildCodeFrameError(

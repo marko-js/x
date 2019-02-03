@@ -42,7 +42,7 @@ export default function(path) {
     Object.entries(handlers).forEach(
       ([eventName, { arguments: args, once }]) => {
         const delegateArgs = [t.stringLiteral(eventName), args[0]];
-        debugger;
+
         if (args.length > 1) {
           delegateArgs.push(t.arrayExpression(args.slice(1)));
         }

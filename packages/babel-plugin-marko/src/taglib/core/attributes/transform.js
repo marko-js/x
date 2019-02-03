@@ -60,7 +60,7 @@ export default function(path) {
       if (node !== path.node) break;
     }
 
-    if (args && args.length && attr.node && !attr.node.allowArguments) {
+    if (attr.node && !attr.node.allowArguments && args && args.length) {
       throw attr.buildCodeFrameError("Unsupported arguments on attribute.");
     }
   }
