@@ -59,7 +59,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   }
   out.ee()
   out.be("div", {}, "6", component, 0, 0, {
-    onclick: __component.d("click", "handleClick", [a, b, ...d], false)
+    "onclick": __component.d("click", "handleClick", [a, b, ...d], false)
   })
   out.ee()
   out.be("div", {

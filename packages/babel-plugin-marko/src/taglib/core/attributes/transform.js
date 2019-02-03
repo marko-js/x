@@ -4,11 +4,12 @@ import fs from "fs";
 const directives = requireDir(join(__dirname, "directives"));
 const modifiers = requireDir(join(__dirname, "modifiers"));
 const EMPTY_ARRAY = [];
-const EVENT_REG = /^(on(?:ce)?)-?(.*)$/;
+const EVENT_REG = /^(on(?:ce)?)(-)?(.*)$/;
 
 export default function(path) {
   const { hub, node } = path;
   const attributes = path.get("attributes");
+  const isHTMLTag = node.tagDef && node.tagDef.html;
 
   for (const attr of attributes) {
     const { name, value, modifier, arguments: args } = attr.node;
@@ -23,7 +24,7 @@ export default function(path) {
       }
     }
 
-    const [, eventType, eventName] = EVENT_REG.exec(name) || EMPTY_ARRAY;
+    let [, eventType, isDash, eventName] = EVENT_REG.exec(name) || EMPTY_ARRAY;
 
     if (eventType) {
       if (!args || !args.length) {
@@ -38,7 +39,20 @@ export default function(path) {
           );
       }
 
-      // TODO: normalize eventName
+      if (!isDash) {
+        // When the event is not in dash case we normalized differently for html tags and custom tags.
+
+        if (isHTMLTag) {
+          // Lowercase the string
+          // Example: onMouseOver → mouseover
+          eventName = eventName.toLowerCase();
+        } else {
+          // Convert first character to lower case:
+          // Example: onBeforeShow → beforeShow
+          eventName = eventName.charAt(0).toLowerCase() + eventName.slice(1);
+        }
+      }
+
       const handlers = (node.handlers = node.handlers || {});
       if (handlers[eventName]) {
         throw attr.buildCodeFrameError(

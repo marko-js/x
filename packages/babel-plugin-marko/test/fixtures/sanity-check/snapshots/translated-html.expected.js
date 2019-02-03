@@ -40,7 +40,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     out.w(`<div${_marko_attr("d", d)}${_marko_attr("e", e)}></div>`);
   }
   out.w(`</div><div${_marko_attr("data-marko", {
-    onclick: __component.d("click", "handleClick", [a, b, ...d], false)
+    "onclick": __component.d("click", "handleClick", [a, b, ...d], false)
   })}></div><div${_marko_attr("id", __component.elId("1"))}></div><div${_marko_attr("class", _marko_class_merge(["a", {
     b: c,
     d

@@ -42,7 +42,7 @@ export default function(path) {
         // TODO: why do we output eventName twice.
         tagProperties.push(
           t.objectProperty(
-            t.identifier(`on${eventName}`),
+            t.stringLiteral(`on${eventName}`),
             t.callExpression(
               t.memberExpression(
                 t.identifier("__component"),

@@ -23,7 +23,7 @@ export default function(path) {
   );
 
   const objectProperties = body
-    .map((prop, i) => {
+    .map(prop => {
       if (t.isClassMethod(prop)) {
         prop.type = "ObjectMethod";
       } else if (t.isClassProperty(prop) && !prop.static) {
@@ -37,7 +37,6 @@ export default function(path) {
 
         return undefined;
       } else {
-        // TODO support classProperties and move them into the onCreate method.
         throw hub.buildError(prop, "Unsupported class property on component.");
       }
 

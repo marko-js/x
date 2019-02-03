@@ -103,6 +103,82 @@
     "transformer": "./transform-body.js"
   },
   "<*>": {
-    "transformer": "./attributes/transform.js"
+    "transformer": "./attributes/transform.js",
+    "@key": {
+      "type": "string",
+      "preserve-name": true,
+      "autocomplete": [
+        {
+          "displayText": "key=\"<method>\"",
+          "snippet": "key=\"${1:method}\"",
+          "descriptionMoreURL": "http://markojs.com/docs/marko-components/get-started/#referencing-nested-components"
+        },
+        {
+          "descriptionMoreURL": "http://markojs.com/docs/marko-components/get-started/#referencing-nested-components"
+        }
+      ]
+    },
+    "@on*": {
+      "pattern": true,
+      "type": "statement",
+      "allow-expressions": true,
+      "preserve-name": true,
+      "set-flag": "hasComponentEvents",
+      "autocomplete": [
+        {
+          "displayText": "on<event>(\"<method>\")",
+          "snippet": "on${1:Click}(\"handle${2:Button}${1:Click}\")",
+          "descriptionMoreURL": "https://markojs.com/docs/components/#attaching-dom-event-listeners"
+        }
+      ]
+    },
+    "@once*": {
+      "pattern": true,
+      "type": "statement",
+      "allow-expressions": true,
+      "preserve-name": true,
+      "set-flag": "hasComponentEvents",
+      "autocomplete": {
+        "displayText": "once<event>(\"<method>\")",
+        "snippet": "once${1:Click}(\"handle${2:Button}${1:Click}\")",
+        "descriptionMoreURL": "https://markojs.com/docs/components/#attaching-dom-event-listeners"
+      }
+    },
+    "@no-update": {
+      "type": "flag",
+      "preserve-name": true,
+      "autocomplete": [
+        {
+          "descriptionMoreURL": "http://markojs.com/docs/marko-components/#preserving-dom-nodes-during-re-render"
+        }
+      ]
+    },
+    "@no-update-body": {
+      "type": "flag",
+      "preserve-name": true,
+      "autocomplete": [
+        {
+          "descriptionMoreURL": "http://markojs.com/docs/marko-components/#preserving-dom-nodes-during-re-render"
+        }
+      ]
+    },
+    "@no-update-if": {
+      "preserve-name": true,
+      "autocomplete": [
+        {
+          "snippet": "no-update-if(${1:condition})",
+          "descriptionMoreURL": "http://markojs.com/docs/marko-components/#preserving-dom-nodes-during-re-render"
+        }
+      ]
+    },
+    "@no-update-body-if": {
+      "preserve-name": true,
+      "autocomplete": [
+        {
+          "snippet": "no-update-body-if(${1:condition})",
+          "descriptionMoreURL": "http://markojs.com/docs/marko-components/#preserving-dom-nodes-during-re-render"
+        }
+      ]
+    }
   }
 }
