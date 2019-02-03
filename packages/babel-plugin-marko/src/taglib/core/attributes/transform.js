@@ -12,7 +12,7 @@ export default function(path) {
   const attributes = startTag.get("attributes");
 
   for (const attr of attributes) {
-    const { name, modifier, arguments: args } = attr.node;
+    const { name, value, modifier, arguments: args } = attr.node;
 
     if (modifier) {
       const modifierTransform = modifiers[modifier];
@@ -31,6 +31,14 @@ export default function(path) {
         throw attr.buildCodeFrameError("Event handler is missing arguments.");
       }
 
+      if (value && value.value !== true) {
+        throw attr
+          .get("value")
+          .buildCodeFrameError(
+            `"${name}(handler, ...args)" does not accept a value.`
+          );
+      }
+
       // TODO: normalize eventName
       const handlers = (node.handlers = node.handlers || {});
       if (handlers[eventName]) {
@@ -45,14 +53,16 @@ export default function(path) {
       };
 
       attr.remove();
-    } else if (!attr.node.allowArguments && args) {
-      throw attr.buildCodeFrameError("Unsupported arguments on attribute.");
     }
 
     const directiveTransform = directives[name];
     if (directiveTransform) {
       directiveTransform(path, attr);
       if (node !== path.node) break;
+    }
+
+    if (args && attr.node && !attr.node.allowArguments) {
+      throw attr.buildCodeFrameError("Unsupported arguments on attribute.");
     }
   }
 

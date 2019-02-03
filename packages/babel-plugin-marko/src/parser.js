@@ -226,15 +226,6 @@ export function parse(hub) {
               );
             }
 
-            if (attr.argument) {
-              if (attr.value) {
-                throw hub.buildError(
-                  { start: attr.pos },
-                  "Cannot have both attribute arguments and a value."
-                );
-              }
-            }
-
             if (attr.value) {
               const valueStart = attr.pos + 1; // Add one to account for "=".
               const rawValue = code.slice(valueStart, attrEndPos);
@@ -350,7 +341,7 @@ export function parse(hub) {
                 `Invalid closing tag ${tagName}.`
               );
             }
-          } else if (!wasSelfClosing) {
+          } else if (!wasSelfClosing && code.slice(pos, endPos) !== "</>") {
             throw hub.buildError(
               { start: pos, end: endPos },
               `Invalid ending for dynamic tag ${tagName}.`
