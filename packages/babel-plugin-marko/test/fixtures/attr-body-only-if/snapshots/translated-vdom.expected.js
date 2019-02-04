@@ -11,19 +11,19 @@ const _marko_template = _t2(__filename),
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   const _dynamic_tag_renderBody = out => {
-    out.be("div", {}, "3", component, 0, 0);
+    out.be("div", null, "3", component, 0, 0);
     out.t("Hello World");
     out.ee();
   };
 
   const _test_tag_renderBody = out => {
-    out.be("div", {}, "1", component, 0, 0);
+    out.be("div", null, "1", component, 0, 0);
     out.t("Hello");
     out.ee();
   };
 
   if (!x) {
-    out.be("div", {}, "0", component, 0, 0);
+    out.be("div", null, "0", component, 0, 0);
   }
 
   out.t("Hello")

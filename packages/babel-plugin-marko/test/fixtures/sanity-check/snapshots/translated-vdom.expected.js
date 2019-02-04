@@ -32,12 +32,12 @@ const _marko_template = _t2(__filename),
       _marko_componentType = "8f1lFGb_";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  out.be("style", {}, "0", component, 0, 0)
+  out.be("style", null, "0", component, 0, 0)
   out.t("\n  div {\n    color: ")
   out.t(x)
   out.t(";\n  }\n")
   out.ee()
-  out.be("script", {}, "1", component, 0, 0)
+  out.be("script", null, "1", component, 0, 0)
   out.t("\n  var y = ")
   out.t(x)
   out.t(";\n")
@@ -58,7 +58,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     out.ee();
   }
   out.ee()
-  out.be("div", {}, "6", component, 0, 0, {
+  out.be("div", null, "6", component, 0, 0, {
     "onclick": __component.d("click", "handleClick", [a, b, ...d], false)
   })
   out.ee()
@@ -82,7 +82,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
 
   _marko_dynamicTag(a, {
     "renderBody": out => {
-      out.be("div", {}, "10", component, 0, 0);
+      out.be("div", null, "10", component, 0, 0);
       out.ee();
     }
   }, out, __component, "@x")
@@ -93,7 +93,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
 
   _other_tag({
     "renderBody": (out, a) => {
-      out.be("div", {}, "12", component, 0, 0);
+      out.be("div", null, "12", component, 0, 0);
       out.ee();
     }
   }, out, "13", ["click", "handleClick", false, [a, b, ...d]])
@@ -110,17 +110,17 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
       "d": {
         "d": 1,
         "renderBody": out => {
-          out.be("div", {}, "16", component, 0, 0);
+          out.be("div", null, "16", component, 0, 0);
           out.ee();
         }
       },
       "renderBody": out => {
-        out.be("div", {}, "15", component, 0, 0);
+        out.be("div", null, "15", component, 0, 0);
         out.ee();
       }
     },
     "renderBody": (out, b) => {
-      out.be("div", {}, "14", component, 0, 0);
+      out.be("div", null, "14", component, 0, 0);
       out.ee();
     }
   }, out, "19")
@@ -166,7 +166,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "b": 1
   }, "27", component, 0, 0)
   out.ee()
-  out.be("div", {}, "28", component, 0, 0)
+  out.be("div", null, "28", component, 0, 0)
   out.t("123 abc 123")
   out.ee()
   out.be("span", { ...abc
@@ -210,7 +210,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   }
 
   if (!true) {
-    out.be("div", {}, "36", component, 0, 0);
+    out.be("div", null, "36", component, 0, 0);
   }
 
   out.t("Hi")

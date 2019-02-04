@@ -28,7 +28,7 @@ export default function(path) {
   const writeArgs = [
     isSelfClosing ? "e" : "be",
     node.name,
-    attrsObj,
+    attrsObj.properties.length ? attrsObj : t.nullLiteral(),
     key,
     t.identifier("component"),
     t.numericLiteral(0), // TODO flags.

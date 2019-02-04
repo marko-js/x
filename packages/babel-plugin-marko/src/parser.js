@@ -1,6 +1,9 @@
 import { createParser } from "htmljs-parser";
+import parseAttributes from "./util/parse-attributes";
 import parseArguments from "./util/parse-arguments";
 import parseParams from "./util/parse-params";
+import parseIDShorthand from "./util/parse-id-shorthand";
+import parseClassnameShorthand from "./util/parse-classname-shorthand";
 import * as t from "./definitions";
 const EMPTY_OBJECT = {};
 const htmlTrimStart = t => t.replace(/^[\n\r]\s*/, "");
@@ -186,124 +189,22 @@ export function parse(hub) {
             .substring(pos, endPos)
             .replace(/^<|\/>$|>$/g, "");
         } else {
-          node.arguments = parseArguments(hub, event.argument);
           node.params = parseParams(hub, event.params);
-
-          let attrEndPos = tagNameEndPos;
-          for (const attr of event.attributes) {
-            const attrStartPos = code.indexOf(attr.name, attrEndPos);
-
-            if (attr.name.slice(0, 3) === "...") {
-              let attrExpression = attr.name.slice(3);
-
-              if (attr.argument) {
-                attrExpression += `(${attr.argument.value})`;
-              }
-
-              attrEndPos = attrStartPos + attrExpression.length;
-
-              const value = hub.parseExpression(
-                attrExpression,
-                attrStartPos + 3
-              );
-
-              // TODO: Inline merge object literals.
-              node.attributes.push(
-                hub.createNode(
-                  "markoSpreadAttribute",
-                  attrStartPos,
-                  attrEndPos,
-                  value
-                )
-              );
-
-              continue;
-            }
-
-            let value;
-            let [, modifier] = /:(.*)$/.exec(attr.name) || EMPTY_OBJECT;
-
-            if (modifier) {
-              attr.name = attr.name.slice(
-                0,
-                attr.name.length - modifier.length - 1
-              );
-            }
-
-            if (attr.value) {
-              attrEndPos = attr.endPos;
-              const valueStart = attr.pos + 1; // Add one to account for "=".
-              const rawValue = code.slice(valueStart, attrEndPos); // We use the raw value to ignore things like non standard placeholders.
-              value = hub.parseExpression(rawValue, valueStart);
-            } else {
-              attrEndPos = attr.argument
-                ? attr.argument.endPos + 1
-                : attr.endPos;
-              value = t.booleanLiteral(true);
-            }
-
-            node.attributes.push(
-              hub.createNode(
-                "markoAttribute",
-                attrStartPos,
-                attrEndPos,
-                attr.name,
-                value,
-                modifier,
-                parseArguments(hub, attr.argument)
-              )
-            );
-          }
-        }
-
-        if (event.shorthandClassNames) {
-          let classAttr = node.attributes.find(({ name }) => name === "class");
-          const classes = event.shorthandClassNames
-            .map(({ value }) => value.slice(1, -1))
-            .join(" ");
-
-          if (!classAttr) {
-            node.attributes.unshift(
-              hub.createNode(
-                "markoAttribute",
-                pos,
-                tagNameEndPos,
-                "class",
-                t.stringLiteral(classes)
-              )
-            );
-          } else {
-            if (t.isStringLiteral(classAttr.value)) {
-              classAttr.value = t.stringLiteral(
-                classAttr.value.value
-                  ? `${classes} ${classAttr.value.value}`
-                  : classes
-              );
-            } else {
-              classAttr.value = t.arrayExpression([
-                t.stringLiteral(classes),
-                classAttr.value
-              ]);
-            }
-          }
-        }
-
-        if (event.shorthandId) {
-          if (node.attributes.some(({ name }) => name === "id")) {
-            throw hub.buildError(
-              { start: pos, end: tagNameEndPos },
-              "Cannot have shorthand id and id attribute."
-            );
-          }
-
-          node.attributes.unshift(
-            hub.createNode(
-              "markoAttribute",
-              pos,
-              tagNameEndPos,
-              "id",
-              t.stringLiteral(event.shorthandId.value.slice(1, -1))
-            )
+          node.arguments = parseArguments(hub, event.argument);
+          node.attributes = parseAttributes(
+            hub,
+            event.attributes,
+            tagNameEndPos
+          );
+          node.attributes = parseIDShorthand(
+            hub,
+            event.shorthandId,
+            node.attributes
+          );
+          node.attributes = parseClassnameShorthand(
+            hub,
+            event.shorthandClassNames,
+            node.attributes
           );
         }
 

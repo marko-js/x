@@ -4,10 +4,10 @@ function _renderTree(node, out) {
   out.t(" Children: ");
 
   if (node.children) {
-    out.be("ul", {}, "3", component, 0, 0);
+    out.be("ul", null, "3", component, 0, 0);
 
     for (const child of node.children) {
-      out.be("li", {}, "1", component, 0, 0);
+      out.be("li", null, "1", component, 0, 0);
 
       _renderTree({ ...child
       }, out);

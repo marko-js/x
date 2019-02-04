@@ -705,17 +705,6 @@
     "attribute-groups": ["html-attributes"]
   },
   "<script>": {
-    "@marko-init": "boolean",
-    "@template-helpers": "boolean",
-    "@*": {
-      "ignore": true
-    },
-    "autocomplete": [
-      {
-        "snippet": "script template-helpers",
-        "descriptionMoreURL": "http://markojs.com/docs/marko/language-guide/#helpers"
-      }
-    ],
     "@async": "#html-async",
     "@charset": "#html-charset",
     "@defer": "#html-defer",

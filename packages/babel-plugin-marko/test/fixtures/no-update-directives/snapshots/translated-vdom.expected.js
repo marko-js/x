@@ -29,7 +29,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
         "renderBody": out => {
           _hello_tag({}, out, "4");
 
-          out.be("div", {}, "5", component, 0, 0);
+          out.be("div", null, "5", component, 0, 0);
           out.ee();
         }
       }, out, "6");
@@ -44,7 +44,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
         "renderBody": out => {
           _hello_tag({}, out, "7");
 
-          out.be("div", {}, "8", component, 0, 0);
+          out.be("div", null, "8", component, 0, 0);
           out.ee();
         }
       }, out, "9");
@@ -59,7 +59,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
         "renderBody": out => {
           _hello_tag({}, out, "10");
 
-          out.be("div", {}, "11", component, 0, 0);
+          out.be("div", null, "11", component, 0, 0);
           out.ee();
         }
       }, out, "12");
@@ -75,7 +75,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
         "renderBody": out => {
           _hello_tag({}, out, "13");
 
-          out.be("div", {}, "14", component, 0, 0);
+          out.be("div", null, "14", component, 0, 0);
           out.ee();
         }
       }, out, "15");

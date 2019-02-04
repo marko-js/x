@@ -10,15 +10,15 @@ const _marko_template = _t2(__filename),
       _marko_componentType = "SSsZKEJG";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  out.be("div", {}, "0", component, 0, 0, {
+  out.be("div", null, "0", component, 0, 0, {
     "onclick": __component.d("click", "handleClick", [a, b, ...d], false)
   })
   out.ee()
-  out.be("div", {}, "1", component, 0, 0, {
+  out.be("div", null, "1", component, 0, 0, {
     "onDashed-cased-Event": __component.d("Dashed-cased-Event", "handle", false)
   })
   out.ee()
-  out.be("div", {}, "2", component, 0, 0, {
+  out.be("div", null, "2", component, 0, 0, {
     "oncamelcasedevent": __component.d("camelcasedevent", "handle", false)
   })
   out.ee()
