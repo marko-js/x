@@ -59,7 +59,7 @@ export default function(path) {
   if (tagProperties.length) {
     // TODO: prevent escaping this with the attr helper.
     node.attributes.push(
-      t.htmlAttribute("data-marko", t.objectExpression(tagProperties))
+      t.markoAttribute("data-marko", t.objectExpression(tagProperties))
     );
 
     // TODO: Hack to push to existing attributes path, should revisit,

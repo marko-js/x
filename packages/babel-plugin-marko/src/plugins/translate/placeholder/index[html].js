@@ -46,7 +46,7 @@ function findParentTagName(path) {
       return;
     }
 
-    if (t.isHTMLTag(path.node)) {
+    if (t.isMarkoTag(path.node)) {
       const { tagDef = EMPTY_OBJECT } = path.node;
       return (
         tagDef.html &&

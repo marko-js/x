@@ -19,7 +19,7 @@ export default function(path) {
 
   assertNoArgs(path);
 
-  if (!parent || !t.isHTMLTag(parent)) {
+  if (!parent || !t.isMarkoTag(parent)) {
     throw namePath.buildCodeFrameError(
       "@tags must be nested within another element."
     );
@@ -45,7 +45,7 @@ export default function(path) {
       );
     }
 
-    parentAttributes.push(t.htmlAttribute(targetProperty, getAttrs(path)));
+    parentAttributes.push(t.markoAttribute(targetProperty, getAttrs(path)));
 
     path.remove();
     return;
@@ -67,7 +67,7 @@ export default function(path) {
       ])
     );
 
-    parentAttributes.push(t.htmlAttribute(targetProperty, identifier));
+    parentAttributes.push(t.markoAttribute(targetProperty, identifier));
   }
 
   if (isRepeated) {
@@ -104,7 +104,7 @@ function findParentTag(path) {
   while (cur.node) {
     const { node } = cur;
 
-    if (!t.isHTMLTag(node)) {
+    if (!t.isMarkoTag(node)) {
       cur = undefined;
       break;
     }

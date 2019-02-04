@@ -21,25 +21,25 @@ export function parse(hub) {
   createParser(
     {
       onDocumentType({ value, pos, endPos }) {
-        const node = hub.createNode("htmlDocumentType", pos, endPos, value);
+        const node = hub.createNode("markoDocumentType", pos, endPos, value);
         body.push(node);
         onNext = onNext && onNext(node);
       },
 
       onDeclaration({ value, pos, endPos }) {
-        const node = hub.createNode("htmlDeclaration", pos, endPos, value);
+        const node = hub.createNode("markoDeclaration", pos, endPos, value);
         body.push(node);
         onNext = onNext && onNext(node);
       },
 
       onComment({ value, pos, endPos }) {
-        const node = hub.createNode("htmlComment", pos, endPos, value);
+        const node = hub.createNode("markoComment", pos, endPos, value);
         body.push(node);
         onNext = onNext && onNext(node);
       },
 
       onCDATA({ value, pos, endPos }) {
-        const node = hub.createNode("htmlCDATA", pos, endPos, value);
+        const node = hub.createNode("markoCDATA", pos, endPos, value);
         body.push(node);
         onNext = onNext && onNext(node);
       },
@@ -58,7 +58,7 @@ export function parse(hub) {
           while (prevIndex > 0) {
             prev = body[--prevIndex];
 
-            if (t.isHTMLScriptlet(prev) || isNestedTag(prev)) {
+            if (t.isMarkoScriptlet(prev) || isNestedTag(prev)) {
               prev = undefined;
             } else {
               break;
@@ -73,7 +73,7 @@ export function parse(hub) {
         }
 
         const endPos = pos + value.length;
-        const node = hub.createNode("htmlText", pos, endPos, value);
+        const node = hub.createNode("markoText", pos, endPos, value);
         const prevBody = body;
         body.push(node);
         onNext && onNext(node);
@@ -91,7 +91,7 @@ export function parse(hub) {
       onPlaceholder({ escape, value, withinBody, pos, endPos }) {
         if (withinBody) {
           const node = hub.createNode(
-            "htmlPlaceholder",
+            "markoPlaceholder",
             pos,
             endPos,
             hub.parseExpression(
@@ -117,7 +117,7 @@ export function parse(hub) {
         // Scriptlets are ignored as content and don't call `onNext`.
         body.push(
           hub.createNode(
-            "htmlScriptlet",
+            "markoScriptlet",
             pos,
             endPos,
             hub.parse(value, pos).body
@@ -132,7 +132,7 @@ export function parse(hub) {
         const tagDef = !tagNameExpression && hub.lookup.getTag(tagName);
         const tagNameStartPos = pos + (event.concise ? 0 : 1); // Account for leading `<`.
         const node = hub.createNode(
-          "HTMLTag",
+          "markoTag",
           pos,
           endPos,
           tagNameExpression
@@ -210,7 +210,7 @@ export function parse(hub) {
               // TODO: Inline merge object literals.
               node.attributes.push(
                 hub.createNode(
-                  "htmlSpreadAttribute",
+                  "markoSpreadAttribute",
                   attrStartPos,
                   attrEndPos,
                   value
@@ -244,7 +244,7 @@ export function parse(hub) {
 
             node.attributes.push(
               hub.createNode(
-                "htmlAttribute",
+                "markoAttribute",
                 attrStartPos,
                 attrEndPos,
                 attr.name,
@@ -265,7 +265,7 @@ export function parse(hub) {
           if (!classAttr) {
             node.attributes.unshift(
               hub.createNode(
-                "htmlAttribute",
+                "markoAttribute",
                 pos,
                 tagNameEndPos,
                 "class",
@@ -298,7 +298,7 @@ export function parse(hub) {
 
           node.attributes.unshift(
             hub.createNode(
-              "htmlAttribute",
+              "markoAttribute",
               pos,
               tagNameEndPos,
               "id",

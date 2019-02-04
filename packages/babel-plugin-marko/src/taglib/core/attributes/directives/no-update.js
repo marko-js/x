@@ -15,17 +15,17 @@ export default function(path, attr, opts = EMPTY_OBJECT) {
   ]);
   const keyIdentifier = path.scope.generateUidIdentifier("noUpdateKey");
   const name = t.stringLiteral("no-update");
-  const replacementAttrs = [t.htmlAttribute("cid", keyIdentifier)];
+  const replacementAttrs = [t.markoAttribute("cid", keyIdentifier)];
 
   if (opts.if) {
-    replacementAttrs.push(t.htmlAttribute("if", opts.if));
+    replacementAttrs.push(t.markoAttribute("if", opts.if));
   }
 
   if (opts.bodyOnly) {
-    replacementAttrs.push(t.htmlAttribute("bodyOnly", t.booleanLiteral(true)));
+    replacementAttrs.push(t.markoAttribute("bodyOnly", t.booleanLiteral(true)));
   }
 
-  const replacement = t.htmlTag(name, undefined, undefined, replacementAttrs, [
+  const replacement = t.markoTag(name, undefined, undefined, replacementAttrs, [
     node
   ]);
   replacement.key = normalizeTemplateLiteral(["#", ""], [keyIdentifier]);

@@ -2,8 +2,8 @@ import * as t from "../../definitions";
 
 export default function(path) {
   const body = path.get("body");
-  body[0].insertBefore(t.htmlTag(t.stringLiteral("component-globals")));
+  body[0].insertBefore(t.markoTag(t.stringLiteral("component-globals")));
   body[body.length - 1].insertAfter(
-    t.htmlTag(t.stringLiteral("init-components"))
+    t.markoTag(t.stringLiteral("init-components"))
   );
 }

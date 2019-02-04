@@ -25,12 +25,12 @@ export function buildIfStatement(path, args) {
     let removePath;
 
     // Remove empty whitespace between blocks.
-    if (t.isHTMLText(nextPath.node) && /^\s*$/.test(nextPath.node.value)) {
+    if (t.isMarkoText(nextPath.node) && /^\s*$/.test(nextPath.node.value)) {
       removePath = nextPath;
       nextPath = nextPath.getNextSibling();
     }
 
-    if (t.isHTMLTag(nextPath.node)) {
+    if (t.isMarkoTag(nextPath.node)) {
       const { node } = nextPath;
       const { name } = node;
 
