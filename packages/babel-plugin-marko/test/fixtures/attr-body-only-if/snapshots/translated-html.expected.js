@@ -29,19 +29,19 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   }
 
   if (x) {
-    _marko_dynamicTag(_test_tag_renderBody, null, out, __component, "5");
+    _marko_dynamicTag(_test_tag_renderBody, null, out, __component, "5")
   } else {
     _test_tag({
       "renderBody": _test_tag_renderBody
-    }, out, "1");
+    }, out, "2");
   }
 
   if (x) {
-    _marko_dynamicTag(_dynamic_tag_renderBody, null, out, __component, "6");
+    _marko_dynamicTag(_dynamic_tag_renderBody, null, out, __component, "6")
   } else {
     _marko_dynamicTag(test, {
       "renderBody": _dynamic_tag_renderBody
-    }, out, __component, "3");
+    }, out, __component, "4");
   }
 }, {
   ___type: _marko_componentType,

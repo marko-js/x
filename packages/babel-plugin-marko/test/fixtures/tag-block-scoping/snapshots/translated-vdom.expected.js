@@ -10,14 +10,14 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   out.be("div", {
     "b": b,
     "c": c
-  }, "0", component, 0, 0)
+  }, "1", component, 0, 0)
   {
     var d = thing;
     let e = thing;
     out.be("div", {
       "d": d,
       "e": e
-    }, "1", component, 0, 0);
+    }, "0", component, 0, 0);
     out.ee();
   }
   out.ee()

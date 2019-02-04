@@ -14,11 +14,11 @@ const _marko_template = _t2(__filename),
       _marko_componentType = "FaQWPoit";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  const _noUpdateKey4 = __component.___nextKey("12");
+  const _noUpdateKey4 = __component.___nextKey("3");
 
-  const _noUpdateKey3 = __component.___nextKey("8");
+  const _noUpdateKey3 = __component.___nextKey("2");
 
-  const _noUpdateKey2 = __component.___nextKey("4");
+  const _noUpdateKey2 = __component.___nextKey("1");
 
   const _noUpdateKey = __component.___nextKey("0");
 
@@ -27,11 +27,11 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, "2");
+          _hello_tag({}, out, "4");
 
           out.w("<div></div>");
         }
-      }, out, "1");
+      }, out, "6");
     }
   }, out, `#${_noUpdateKey}`)
 
@@ -41,11 +41,11 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, "6");
+          _hello_tag({}, out, "7");
 
           out.w("<div></div>");
         }
-      }, out, "5");
+      }, out, "9");
     }
   }, out, `#${_noUpdateKey2}`)
 
@@ -59,7 +59,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
 
           out.w("<div></div>");
         }
-      }, out, "9");
+      }, out, "12");
     }
   }, out, `#${_noUpdateKey3}`)
 
@@ -70,11 +70,11 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, "14");
+          _hello_tag({}, out, "13");
 
           out.w("<div></div>");
         }
-      }, out, "13");
+      }, out, "15");
     }
   }, out, `#${_noUpdateKey4}`)
 }, {

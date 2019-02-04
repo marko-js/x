@@ -23,7 +23,6 @@ export const visitor = {
   },
   Program: {
     exit(path) {
-      path.node.body.push(path.hub._renderBlock);
       path.traverse({
         // Merges out.write calls
         CallExpression(path) {

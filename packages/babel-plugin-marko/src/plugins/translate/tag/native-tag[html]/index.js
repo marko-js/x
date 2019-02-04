@@ -14,6 +14,9 @@ import {
  * Translates the html streaming version of a standard html element.
  */
 export default function(path) {
+  assertNoParams(path);
+  assertNoArgs(path);
+
   const { node } = path;
   const {
     name: { value: tagName },
@@ -21,12 +24,7 @@ export default function(path) {
     properties,
     handlers
   } = node;
-
-  const attributes = path.get("attributes");
   const tagProperties = properties.slice();
-
-  assertNoParams(path);
-  assertNoArgs(path);
 
   if (handlers) {
     Object.entries(handlers).forEach(
@@ -58,16 +56,11 @@ export default function(path) {
 
   if (tagProperties.length) {
     // TODO: prevent escaping this with the attr helper.
-    node.attributes.push(
-      t.markoAttribute("data-marko", t.objectExpression(tagProperties))
-    );
-
-    // TODO: Hack to push to existing attributes path, should revisit,
-    attributes.push(path.get("attributes")[attributes.length]);
+    path.pushContainer("attributes", t.markoAttribute("data-marko", t.objectExpression(tagProperties)));
   }
 
   let writeStartNode = withPreviousLocation(
-    write`<${tagName}${translateAttributes(attributes)}>`,
+    write`<${tagName}${translateAttributes(path.get("attributes"))}>`,
     node
   );
 

@@ -15,11 +15,10 @@ export default function(path) {
   const tagName = namePath.node.value;
   const fullTagName = getFullyResolvedTagName(path);
   const parentPath = findParentTag(path);
-  const parent = parentPath && parentPath.node;
 
   assertNoArgs(path);
 
-  if (!parent || !t.isMarkoTag(parent)) {
+  if (!parentPath) {
     throw namePath.buildCodeFrameError(
       "@tags must be nested within another element."
     );
@@ -31,34 +30,38 @@ export default function(path) {
     );
   }
 
-  parent.hasAttributeTag = node;
-  const parentAttributes = parent.attributes;
+  const parentAttributes = parentPath.get("attributes");
   const tagDef = lookup.getTag(fullTagName) || EMPTY_OBJECT;
   const { isRepeated, targetProperty = tagName.slice(1) } = tagDef;
-  const isDynamic = isRepeated || parent !== path.parent;
-  parent.hasDynamicAttributeTags = isDynamic || node.hasDynamicAttributeTags;
+  const isDynamic = isRepeated || parentPath !== path.parentPath;
+  parentPath.node.hasAttributeTag = node;
+  parentPath.node.hasDynamicAttributeTags =
+    isDynamic || node.hasDynamicAttributeTags;
 
   if (!isDynamic) {
-    if (parentAttributes.some(attr => attr.name === targetProperty)) {
+    if (
+      parentAttributes.some(attr => attr.get("name").node === targetProperty)
+    ) {
       throw namePath.buildCodeFrameError(
         `Only one "${tagName}" tag is allowed here.`
       );
     }
 
-    parentAttributes.push(t.markoAttribute(targetProperty, getAttrs(path)));
-
+    parentPath.pushContainer(
+      "attributes",
+      t.markoAttribute(targetProperty, getAttrs(path))
+    );
     path.remove();
     return;
   }
 
-  let identifier = parentIdentifierLookup.get(parent);
+  let identifier = parentIdentifierLookup.get(parentPath);
 
   if (!identifier) {
     identifier = path.scope.generateUidIdentifier(targetProperty);
-    parentIdentifierLookup.set(parent, identifier);
-
-    appendNode(
-      parentPath,
+    parentIdentifierLookup.set(parentPath, identifier);
+    parentPath.unshiftContainer(
+      "body",
       t.variableDeclaration(isRepeated ? "const" : "let", [
         t.variableDeclarator(
           identifier,
@@ -66,8 +69,10 @@ export default function(path) {
         )
       ])
     );
-
-    parentAttributes.push(t.markoAttribute(targetProperty, identifier));
+    parentPath.pushContainer(
+      "attributes",
+      t.markoAttribute(targetProperty, identifier)
+    );
   }
 
   if (isRepeated) {

@@ -82,25 +82,7 @@ export default function(path, tagDef) {
       path,
       t.ifStatement(
         bodyOnlyIf,
-        t.blockStatement([
-          t.expressionStatement(
-            t.callExpression(
-              hub.importNamed(
-                path,
-                `marko/src/runtime/${options.output}/helpers`,
-                "d",
-                "marko_dynamicTag"
-              ),
-              [
-                renderBodyIdentifier,
-                t.nullLiteral(),
-                t.identifier("out"),
-                t.identifier("__component"),
-                hub.nextKey()
-              ]
-            )
-          )
-        ]),
+        t.blockStatement([t.markoTag(renderBodyIdentifier)]),
         t.blockStatement([t.expressionStatement(customTagRenderCall)])
       )
     );

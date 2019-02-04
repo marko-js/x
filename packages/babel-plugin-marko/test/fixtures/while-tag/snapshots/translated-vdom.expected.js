@@ -9,7 +9,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
 
   while (i < 10) {
     i++;
-    out.be("div", {}, "1", component, 0, 0);
+    out.be("div", {}, "0", component, 0, 0);
     out.ee();
   }
 }, {

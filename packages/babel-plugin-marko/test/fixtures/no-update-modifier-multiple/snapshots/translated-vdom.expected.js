@@ -6,17 +6,17 @@ const _marko_template = _t(__filename),
       _marko_componentType = "i58_DLy_";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  out.be("div", {}, "0", component, 0, 0)
+  out.be("div", {}, "2", component, 0, 0)
   out.e("input", {
     "value": input.defaultValue
-  }, "1", component, 0, 0, {
+  }, "0", component, 0, 0, {
     noupdate: ["value"]
   })
   out.e("input", {
     "type": "checkbox",
     "value": input.defaultValue,
     "checked": input.checked
-  }, "2", component, 0, 0, {
+  }, "1", component, 0, 0, {
     noupdate: ["value", "checked"]
   })
   out.ee()
