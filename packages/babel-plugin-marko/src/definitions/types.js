@@ -14,38 +14,38 @@ const valueFieldCommon = {
 };
 
 export default {
-  HTMLDocumentType: {
+  MarkoDocumentType: {
     builder: ["value"],
     aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
-  HTMLDeclaration: {
+  MarkoDeclaration: {
     builder: ["value"],
     aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
-  HTMLCDATA: {
+  MarkoCDATA: {
     builder: ["value"],
     aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
-  HTMLComment: {
+  MarkoComment: {
     builder: ["value"],
     aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
-  HTMLText: {
+  MarkoText: {
     visitor: ["value"],
     builder: ["value"],
     aliases: ["Marko", "Statement"],
     fields: { ...valueFieldCommon }
   },
 
-  HTMLPlaceholder: {
+  MarkoPlaceholder: {
     visitor: ["value"],
     builder: ["value", "escape"],
     aliases: ["Marko", "Statement"],
@@ -60,7 +60,7 @@ export default {
     }
   },
 
-  HTMLScriptlet: {
+  MarkoScriptlet: {
     visitor: ["body"],
     builder: ["body", "static"],
     aliases: ["Marko", "Statement"],
@@ -75,7 +75,7 @@ export default {
     }
   },
 
-  HTMLClass: {
+  MarkoClass: {
     builder: ["body"],
     visitor: ["body"],
     aliases: ["Marko", "Statement"],
@@ -86,7 +86,7 @@ export default {
     }
   },
 
-  HTMLAttribute: {
+  MarkoAttribute: {
     builder: ["name", "value", "modifier", "arguments"],
     visitor: ["value"],
     aliases: ["Marko", "Expression"],
@@ -112,10 +112,10 @@ export default {
     }
   },
 
-  HTMLSpreadAttribute: {
+  MarkoSpreadAttribute: {
     builder: ["value"],
     visitor: ["value"],
-    aliases: ["Marko", "HTMLAttribute"],
+    aliases: ["Marko", "MarkoAttribute"],
     fields: {
       value: {
         validate: assertNodeType("Expression"),
@@ -124,7 +124,7 @@ export default {
     }
   },
 
-  HTMLTag: {
+  MarkoTag: {
     builder: [
       "name",
       "arguments",
@@ -151,17 +151,17 @@ export default {
         default: []
       },
       attributes: {
-        validate: arrayOfType(["HTMLAttribute", "HTMLSpreadAttribute"]),
+        validate: arrayOfType(["MarkoAttribute", "MarkoSpreadAttribute"]),
         default: []
       },
       body: {
         validate: arrayOfType([
-          "HTMLTag",
-          "HTMLCDATA",
-          "HTMLText",
-          "HTMLPlaceholder",
-          "HTMLScriptlet",
-          "HTMLComment"
+          "MarkoTag",
+          "MarkoCDATA",
+          "MarkoText",
+          "MarkoPlaceholder",
+          "MarkoScriptlet",
+          "MarkoComment"
         ]),
         default: []
       },

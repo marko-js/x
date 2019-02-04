@@ -30,7 +30,7 @@ export default function(path) {
   );
 
   body
-    .filter(child => t.isHTMLTag(child))
+    .filter(child => t.isMarkoTag(child))
     .forEach(child => (child.key = keyValue));
 
   replaceInRenderBody(path, body);

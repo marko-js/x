@@ -4,7 +4,7 @@ import * as t from "../definitions";
  * Applies custom transformers on tags.
  */
 export const visitor = {
-  HTMLTag(path) {
+  MarkoTag(path) {
     const { hub, node } = path;
     const { lookup, macros } = hub;
     const { name } = node;

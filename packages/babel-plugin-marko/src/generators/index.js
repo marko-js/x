@@ -13,31 +13,31 @@ const UNENCLOSED_WHITESPACE_TYPES = [
 ];
 
 Object.assign(Printer.prototype, {
-  HTMLDocumentType(node) {
+  MarkoDocumentType(node) {
     this.token("<!");
     this.token(node.value);
     this.token(">");
   },
-  HTMLDeclaration(node) {
+  MarkoDeclaration(node) {
     this.token("<?");
     this.token(node.value);
     this.token("?>");
   },
-  HTMLCDATA(node) {
+  MarkoCDATA(node) {
     this.token("<![CDATA[");
     this.token(node.value);
     this.token("]]>");
   },
-  HTMLComment(node) {
+  MarkoComment(node) {
     this.token("<!--");
     this.token(node.value);
     this.token("-->");
   },
-  HTMLPlaceholder(node, parent) {
+  MarkoPlaceholder(node, parent) {
     const parentBody = parent.body;
     const prev = parentBody[parentBody.indexOf(node) - 1];
 
-    if (prev && (t.isHTMLText(prev) || t.isHTMLPlaceholder(prev))) {
+    if (prev && (t.isMarkoText(prev) || t.isMarkoPlaceholder(prev))) {
       this.removeTrailingNewline();
     }
 
@@ -45,7 +45,7 @@ Object.assign(Printer.prototype, {
     this.print(node.value, node);
     this.token("}");
   },
-  HTMLScriptlet(node, parent) {
+  MarkoScriptlet(node, parent) {
     this.removeTrailingNewline();
 
     if (!(t.isProgram(parent) && parent.body.indexOf(node) === 0)) {
@@ -66,12 +66,12 @@ Object.assign(Printer.prototype, {
       this.token("}");
     }
   },
-  HTMLClass(node) {
+  MarkoClass(node) {
     this.token("class");
     this.token(" ");
     this.print(node.body, node);
   },
-  HTMLAttribute(node) {
+  MarkoAttribute(node) {
     this.token(node.name);
 
     if (node.modifier) {
@@ -93,14 +93,14 @@ Object.assign(Printer.prototype, {
       }
     }
   },
-  HTMLSpreadAttribute(node) {
+  MarkoSpreadAttribute(node) {
     this.token("...");
     printWithParansIfNeeded.call(this, node.value, node);
   },
-  HTMLText(node, parent) {
+  MarkoText(node, parent) {
     const parentBody = parent.body;
     const prev = parentBody[parentBody.indexOf(node) - 1];
-    const concatToPrev = prev && t.isHTMLPlaceholder(prev);
+    const concatToPrev = prev && t.isMarkoPlaceholder(prev);
     let { value } = node;
 
     if (concatToPrev) {
@@ -124,7 +124,7 @@ Object.assign(Printer.prototype, {
       this.token("\n---");
     }
   },
-  HTMLTag(node) {
+  MarkoTag(node) {
     const isDynamicTag = !t.isStringLiteral(node.name);
     const tagName = !isDynamicTag && node.name.value;
     const selfClosing = !node.body.length || SELF_CLOSING.includes(tagName);

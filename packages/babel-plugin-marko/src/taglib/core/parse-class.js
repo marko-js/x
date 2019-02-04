@@ -34,5 +34,5 @@ export default function(path) {
     );
   }
 
-  return withPreviousLocation(t.htmlClass(parsed.body), node);
+  return withPreviousLocation(t.markoClass(parsed.body), node);
 }

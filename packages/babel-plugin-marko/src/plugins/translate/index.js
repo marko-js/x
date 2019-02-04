@@ -1,24 +1,24 @@
 import * as t from "../../definitions";
 import normalizeTemplateLiteral from "../../util/normalize-template-string";
-import HTMLDocumentType from "./document-type";
-import HTMLDeclaration from "./declaration";
-import HTMLCDATA from "./cdata";
-import HTMLTag from "./tag";
-import HTMLText from "./text";
-import HTMLPlaceholder from "./placeholder";
-import HTMLScriptlet from "./scriptlet";
-import HTMLClass from "./html-class";
+import MarkoDocumentType from "./document-type";
+import MarkoDeclaration from "./declaration";
+import MarkoCDATA from "./cdata";
+import MarkoTag from "./tag";
+import MarkoText from "./text";
+import MarkoPlaceholder from "./placeholder";
+import MarkoScriptlet from "./scriptlet";
+import MarkoClass from "./html-class";
 
 export const visitor = {
-  HTMLDocumentType,
-  HTMLDeclaration,
-  HTMLCDATA,
-  HTMLTag,
-  HTMLText,
-  HTMLPlaceholder,
-  HTMLScriptlet,
-  HTMLClass,
-  HTMLComment(path) {
+  MarkoDocumentType,
+  MarkoDeclaration,
+  MarkoCDATA,
+  MarkoTag,
+  MarkoText,
+  MarkoPlaceholder,
+  MarkoScriptlet,
+  MarkoClass,
+  MarkoComment(path) {
     path.remove();
   },
   Program: {
