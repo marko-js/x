@@ -49,11 +49,6 @@ export class Hub {
     if (componentFile) {
       this.isImplicit = false;
       this.meta.component = componentFile;
-      this._componentClass = this.importDefault(
-        this.createNodePath(this.file.program, true),
-        this.resolveRelativePath(componentFile),
-        "marko_component"
-      );
     }
 
     if (componentBrowserFile) {

@@ -7,7 +7,16 @@ export const visitor = {
     const { hub } = path;
     const { options, meta, isImplicit, isSplit } = hub;
     const renderBlock = hub._renderBlock.node;
-    const componentClass = hub._componentClass;
+    const componentFile = hub.componentFiles.componentFile;
+    const componentClass =
+      hub._componentClass ||
+      (componentFile &&
+        hub.importDefault(
+          path,
+          hub.resolveRelativePath(componentFile),
+          "marko_component"
+        ));
+
     hub._renderBlock.remove();
 
     const componentTypeIdentifier = path.scope.generateUidIdentifier(
