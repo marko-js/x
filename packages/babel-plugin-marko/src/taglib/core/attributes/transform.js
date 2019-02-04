@@ -7,7 +7,7 @@ const EMPTY_ARRAY = [];
 const EVENT_REG = /^(on(?:ce)?)(-)?(.*)$/;
 
 export default function(path) {
-  const { hub, node } = path;
+  const { node } = path;
   const attributes = path.get("attributes");
   const isHTMLTag = node.tagDef && node.tagDef.html;
 
@@ -77,10 +77,6 @@ export default function(path) {
     if (attr.node && !attr.node.allowArguments && args && args.length) {
       throw attr.buildCodeFrameError("Unsupported arguments on attribute.");
     }
-  }
-
-  if (!node.key) {
-    node.key = hub.nextKey();
   }
 }
 

@@ -4,6 +4,10 @@ import * as t from "../definitions";
  * Applies custom transformers on tags.
  */
 export const visitor = {
+  Program(path) {
+    const [renderBlock] = path.pushContainer("body", t.blockStatement([]));
+    path.hub._renderBlock = renderBlock;
+  },
   MarkoTag(path) {
     const { hub, node } = path;
     const { lookup, macros } = hub;
@@ -15,7 +19,7 @@ export const visitor = {
 
     if (isDynamicTag) {
       tagName = undefined;
-    } else if (isAttributeTag) {
+    } else if (isAttributeTag && t.isMarkoTag(path.parent)) {
       tagName = `${path.parent.name.value}:${tagName.slice(1)}`;
     }
 

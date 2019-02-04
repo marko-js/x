@@ -10,17 +10,17 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   out.t("! ")
 
   if (input.colors.length) {
-    out.be("ul", {}, "1", component, 0, 0);
+    out.be("ul", {}, "2", component, 0, 0);
 
     for (const color of input.colors) {
-      out.be("li", {}, "3", component, 0, 0);
+      out.be("li", {}, "0", component, 0, 0);
       out.t(color);
       out.ee();
     }
 
     out.ee();
   } else {
-    out.be("div", {}, "5", component, 0, 0);
+    out.be("div", {}, "4", component, 0, 0);
     out.t("No colors!");
     out.ee();
   }

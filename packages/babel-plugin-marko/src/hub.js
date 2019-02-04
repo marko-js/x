@@ -26,7 +26,6 @@ export class Hub {
       tags: []
     };
     this._imports = Object.create(null);
-    this._renderBlock = t.blockStatement([]);
     this._componentClass = null;
     this._nextKey = 0;
 

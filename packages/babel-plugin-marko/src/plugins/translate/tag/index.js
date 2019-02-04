@@ -13,6 +13,7 @@ export default {
     const { hub, node } = path;
     const { options, macros } = hub;
     const { name, hasAttributeTag, tagDef = EMPTY_OBJECT } = node;
+    node.key = node.key || hub.nextKey();
 
     if (!t.isStringLiteral(name)) {
       assertNoAttributeTags();

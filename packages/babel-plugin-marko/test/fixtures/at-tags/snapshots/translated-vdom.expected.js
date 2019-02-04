@@ -16,7 +16,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
         out.t("Foo!");
       }
     }
-  }, out, "0")
+  }, out, "1")
 }, {
   ___type: _marko_componentType,
   ___implicit: true

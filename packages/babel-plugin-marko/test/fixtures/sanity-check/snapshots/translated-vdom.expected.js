@@ -10,7 +10,7 @@ function more() {
 function _thing(stuff, out) {
   out.be("div", {
     "x": stuff.x
-  }, "3", component, 0, 0);
+  }, "2", component, 0, 0);
   out.ee();
 }
 
@@ -47,14 +47,14 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   out.be("div", {
     "b": b,
     "c": c
-  }, "4", component, 0, 0)
+  }, "5", component, 0, 0)
   {
     var d = thing;
     let e = thing;
     out.be("div", {
       "d": d,
       "e": e
-    }, "5", component, 0, 0);
+    }, "4", component, 0, 0);
     out.ee();
   }
   out.ee()
@@ -96,7 +96,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
       out.be("div", {}, "12", component, 0, 0);
       out.ee();
     }
-  }, out, "11", ["click", "handleClick", false, [a, b, ...d]])
+  }, out, "13", ["click", "handleClick", false, [a, b, ...d]])
 
   _other_tag({
     "x": 1,
@@ -123,7 +123,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
       out.be("div", {}, "14", component, 0, 0);
       out.ee();
     }
-  }, out, "13")
+  }, out, "19")
 
   out.be("div", {
     "id": "a",
@@ -134,22 +134,22 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "c": "${d}",
     ...e,
     ...f()
-  }, "17", component, 0, 0)
+  }, "26", component, 0, 0)
   out.t(a)
 
   _htmlComment_tag({
     "renderBody": out => {
       out.t("abc");
     }
-  }, out, "18")
+  }, out, "20")
 
   out.be("div", {
     "c": 1
-  }, "19", component, 0, 0)
+  }, "21", component, 0, 0)
   out.ee()
   out.be("div", {
     "d": 1
-  }, "20", component, 0, 0)
+  }, "22", component, 0, 0)
   out.ee()
 
   if (x === a) {
@@ -164,13 +164,13 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   out.ee()
   out.be("div", {
     "b": 1
-  }, "24", component, 0, 0)
+  }, "27", component, 0, 0)
   out.ee()
-  out.be("div", {}, "25", component, 0, 0)
+  out.be("div", {}, "28", component, 0, 0)
   out.t("123 abc 123")
   out.ee()
   out.be("span", { ...abc
-  }, "26", component, 0, 0)
+  }, "29", component, 0, 0)
   out.ee()
 
   if (cond) {
@@ -182,7 +182,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     const i = _i;
     out.be("div", {
       "c": 1
-    }, "29", component, 0, 0);
+    }, "31", component, 0, 0);
     out.ee();
   }
 
@@ -190,7 +190,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     const val = obj[key];
     out.be("div", {
       "c": 1
-    }, "31", component, 0, 0);
+    }, "33", component, 0, 0);
     out.ee();
   }
 
@@ -210,7 +210,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   }
 
   if (!true) {
-    out.be("div", {}, "33", component, 0, 0);
+    out.be("div", {}, "36", component, 0, 0);
   }
 
   out.t("Hi")

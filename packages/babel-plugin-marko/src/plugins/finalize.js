@@ -4,11 +4,11 @@ import checksum from "../util/checksum";
 export const visitor = {
   // Creates the final render function.
   Program(path) {
-    const { node, hub } = path;
+    const { hub } = path;
     const { options, meta, isImplicit, isSplit } = hub;
-    const renderBlock = hub._renderBlock;
+    const renderBlock = hub._renderBlock.node;
     const componentClass = hub._componentClass;
-    node.body.splice(node.body.indexOf(renderBlock), 1);
+    hub._renderBlock.remove();
 
     const componentTypeIdentifier = path.scope.generateUidIdentifier(
       "marko_componentType"
@@ -37,7 +37,8 @@ export const visitor = {
       t.identifier("meta")
     );
     const componentId = checksum(hub.getClientPath(hub.filename));
-    node.body.push(
+    path.pushContainer(
+      "body",
       t.variableDeclaration("const", [
         t.variableDeclarator(
           templateIdentifier,
@@ -69,7 +70,8 @@ export const visitor = {
       );
     }
 
-    node.body.push(
+    path.pushContainer(
+      "body",
       t.assignmentExpression(
         "=",
         templateRendererMember,
@@ -89,7 +91,9 @@ export const visitor = {
         ])
       )
     );
-    node.body.push(
+
+    path.pushContainer(
+      "body",
       t.assignmentExpression(
         "=",
         t.memberExpression(templateIdentifier, t.identifier("Component")),
@@ -138,7 +142,10 @@ export const visitor = {
       );
     }
 
-    node.body.push(t.assignmentExpression("=", templateMetaMember, metaObject));
-    node.body.push(t.exportDefaultDeclaration(templateIdentifier));
+    path.pushContainer(
+      "body",
+      t.assignmentExpression("=", templateMetaMember, metaObject)
+    );
+    path.pushContainer("body", t.exportDefaultDeclaration(templateIdentifier));
   }
 };

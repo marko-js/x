@@ -16,11 +16,11 @@ const _marko_template = _t2(__filename),
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
   out.w("<!DOCTYPE html><html><head><title>Title of the document</title></head><body>")
 
-  _componentGlobals_tag({}, out, "4")
+  _componentGlobals_tag({}, out, "2")
 
   out.w("The content of the document......")
 
-  _initComponents_tag({}, out, "5")
+  _initComponents_tag({}, out, "3")
 
   out.w("</body></html>")
 }, {

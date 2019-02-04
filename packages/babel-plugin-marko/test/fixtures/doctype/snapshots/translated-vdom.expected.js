@@ -14,19 +14,19 @@ const _marko_template = _t2(__filename),
       _marko_componentType = "Fr76d7a7";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  out.be("html", {}, "0", component, 0, 0)
+  out.be("html", {}, "5", component, 0, 0)
   out.be("head", {}, "1", component, 0, 0)
-  out.be("title", {}, "2", component, 0, 0)
+  out.be("title", {}, "0", component, 0, 0)
   out.t("Title of the document")
   out.ee()
   out.ee()
-  out.be("body", {}, "3", component, 0, 0)
+  out.be("body", {}, "4", component, 0, 0)
 
-  _componentGlobals_tag({}, out, "4")
+  _componentGlobals_tag({}, out, "2")
 
   out.t("The content of the document......")
 
-  _initComponents_tag({}, out, "5")
+  _initComponents_tag({}, out, "3")
 
   out.ee()
   out.ee()
