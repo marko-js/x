@@ -25,9 +25,7 @@ export default function(path, attr, opts = EMPTY_OBJECT) {
     replacementAttrs.push(t.markoAttribute("bodyOnly", t.booleanLiteral(true)));
   }
 
-  const replacement = t.markoTag(name, undefined, undefined, replacementAttrs, [
-    node
-  ]);
+  const replacement = t.markoTag(name, replacementAttrs, [node]);
   replacement.key = normalizeTemplateLiteral(["#", ""], [keyIdentifier]);
 
   insertBeforeInRenderBody(

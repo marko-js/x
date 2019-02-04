@@ -127,10 +127,10 @@ export default {
   MarkoTag: {
     builder: [
       "name",
-      "arguments",
-      "params",
       "attributes",
       "body",
+      "params",
+      "arguments",
       "properties"
     ],
     aliases: ["Marko", "Statement"],
@@ -138,17 +138,6 @@ export default {
     fields: {
       name: {
         validate: assertNodeType("Expression")
-      },
-      arguments: {
-        validate: chain(
-          assertValueType("array"),
-          assertEach(assertNodeType("Expression", "SpreadElement"))
-        ),
-        default: []
-      },
-      params: {
-        ...functionCommon.params,
-        default: []
       },
       attributes: {
         validate: arrayOfType(["MarkoAttribute", "MarkoSpreadAttribute"]),
@@ -163,6 +152,17 @@ export default {
           "MarkoScriptlet",
           "MarkoComment"
         ]),
+        default: []
+      },
+      params: {
+        ...functionCommon.params,
+        default: []
+      },
+      arguments: {
+        validate: chain(
+          assertValueType("array"),
+          assertEach(assertNodeType("Expression", "SpreadElement"))
+        ),
         default: []
       },
       properties: {
