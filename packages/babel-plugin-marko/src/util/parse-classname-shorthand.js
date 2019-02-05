@@ -8,19 +8,57 @@ export default (hub, shorthands, attributes) => {
   // TODO: need to expose class shorthand locations in HTMLJSParser.
   // TODO: needs to handle dynamic class shorthands.
   const classAttr = attributes.find(({ name }) => name === "class");
-  const classes = shorthands.map(({ value }) => value.slice(1, -1)).join(" ");
+  const classParts = shorthands.map(({ rawParts }) => {
+    const nodes = rawParts.map(part =>
+      part.expression
+        ? hub.parseExpression(part.expression, part.pos)
+        : hub.createNode("stringLiteral", part.pos, part.endPos, part.text)
+    );
+
+    if (nodes.length === 1) {
+      return nodes[0];
+    }
+
+    return nodes.reduce((a, b) => t.binaryExpression("+", a, b));
+  });
+
+  let shorthandNode;
+  if (classParts.length === 1) {
+    shorthandNode = classParts[0];
+  } else if (classParts.every(node => t.isStringLiteral(node))) {
+    const combinedStartPos = shorthands[0].rawParts[0].pos;
+    const lastParts = shorthands[shorthands.length - 1].rawParts;
+    const combinedEndPos = lastParts[lastParts.length - 1].endPos;
+    shorthandNode = hub.createNode(
+      "stringLiteral",
+      combinedStartPos,
+      combinedEndPos,
+      classParts.map(node => node.value).join(" ")
+    );
+  } else {
+    shorthandNode = t.arrayExpression(classParts);
+  }
 
   if (classAttr) {
-    if (t.isStringLiteral(classAttr.value)) {
-      classAttr.value = t.stringLiteral(`${classes} ${classAttr.value.value}`);
+    if (t.isArrayExpression(classAttr.value)) {
+      if (t.isArrayExpression(shorthandNode)) {
+        classAttr.value.elements.unshift(...shorthandNode.elements);
+      } else {
+        classAttr.value.elements.unshift(shorthandNode);
+      }
+    } else if (
+      t.isStringLiteral(classAttr.value) &&
+      t.isStringLiteral(shorthandNode)
+    ) {
+      classAttr.value.value = `${shorthandNode.value} ${classAttr.value.value}`;
+    } else if (t.isArrayExpression(shorthandNode)) {
+      shorthandNode.elements.push(classAttr.value);
+      classAttr.value = shorthandNode;
     } else {
-      classAttr.value = t.arrayExpression([
-        t.stringLiteral(classes),
-        classAttr.value
-      ]);
+      classAttr.value = t.arrayExpression([shorthandNode, classAttr.value]);
     }
   } else {
-    attributes.unshift(t.markoAttribute("class", t.stringLiteral(classes)));
+    attributes.unshift(t.markoAttribute("class", shorthandNode));
   }
 
   return attributes;
