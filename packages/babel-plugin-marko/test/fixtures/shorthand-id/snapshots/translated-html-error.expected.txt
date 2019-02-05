@@ -1,0 +1,1 @@
+Property arguments[1] of CallExpression expected node to be of a type ["Expression","SpreadElement","JSXNamespacedName"] but instead got null
