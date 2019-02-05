@@ -4,6 +4,7 @@ import parseArguments from "./util/parse-arguments";
 import parseParams from "./util/parse-params";
 import parseIDShorthand from "./util/parse-id-shorthand";
 import parseClassnameShorthand from "./util/parse-classname-shorthand";
+import { getLocRange } from "./util/get-loc";
 import * as t from "./definitions";
 const EMPTY_OBJECT = {};
 const htmlTrimStart = t => t.replace(/^[\n\r]\s*/, "");
@@ -19,6 +20,7 @@ export function parse(hub) {
   const stack = [{ body }];
   let preservingWhitespaceUntil = preserveWhitespace;
   let wasSelfClosing = false;
+  let wasConcise = false;
   let onNext;
 
   createParser(
@@ -183,6 +185,7 @@ export function parse(hub) {
         const { tagDef } = node;
         const parseOptions = (tagDef && tagDef.parseOptions) || EMPTY_OBJECT;
         wasSelfClosing = event.selfClosed;
+        wasConcise = event.concise;
 
         if (parseOptions.rawOpenTag) {
           node.rawValue = parser
@@ -223,8 +226,19 @@ export function parse(hub) {
           preservingWhitespaceUntil = undefined;
         }
 
-        if (!pos) pos = parser.pos;
-        if (!endPos) endPos = pos;
+        if (!pos) {
+          pos = parser.pos;
+        }
+
+        if (!endPos) {
+          endPos = pos;
+
+          if (wasSelfClosing && !wasConcise) {
+            endPos += 2; // account for "/>"
+          }
+        }
+
+        Object.assign(node, getLocRange(code, node.start, endPos));
 
         if (tagName && !wasSelfClosing) {
           if (t.isStringLiteral(node.name)) {

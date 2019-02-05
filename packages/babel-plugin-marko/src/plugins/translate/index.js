@@ -7,7 +7,7 @@ import MarkoTag from "./tag";
 import MarkoText from "./text";
 import MarkoPlaceholder from "./placeholder";
 import MarkoScriptlet from "./scriptlet";
-import MarkoClass from "./html-class";
+import MarkoClass from "./class";
 
 export const visitor = {
   MarkoDocumentType,
