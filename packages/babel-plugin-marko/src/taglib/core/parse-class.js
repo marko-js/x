@@ -6,9 +6,19 @@ export default function(path) {
   const { rawValue: code, start } = node;
 
   if (hub.componentFiles.componentFile) {
-    throw path.buildCodeFrameError(
-      'A Marko file can either have an inline class, or an external "component.js", but not both.'
-    );
+    throw path
+      .get("name")
+      .buildCodeFrameError(
+        'A Marko file can either have an inline class, or an external "component.js", but not both.'
+      );
+  }
+
+  if (hub._componentClass) {
+    throw path
+      .get("name")
+      .buildCodeFrameError(
+        "A Marko component can only have one top level class."
+      );
   }
 
   const parsed = hub.parseExpression(code, start);
@@ -34,5 +44,6 @@ export default function(path) {
     );
   }
 
+  hub._componentClass = true;
   return withPreviousLocation(t.markoClass(parsed.body), node);
 }

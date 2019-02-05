@@ -54,7 +54,7 @@ export default {
     function assertNoAttributeTags() {
       if (hasAttributeTag) {
         throw hub.buildError(
-          hasAttributeTag,
+          hasAttributeTag.name,
           "@tags must be within a custom element."
         );
       }

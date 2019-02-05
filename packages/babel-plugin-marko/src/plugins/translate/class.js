@@ -8,12 +8,6 @@ export default function(path) {
     }
   } = path;
 
-  if (hub._componentClass || hub.componentFiles.componentFile) {
-    throw path.buildCodeFrameError(
-      "A Marko component can only have one top level class."
-    );
-  }
-
   const classProperties = [];
   let onCreateMethod = body.find(
     prop =>
