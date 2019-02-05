@@ -7,8 +7,8 @@ function _renderTree(node, out) {
     for (const child of node.children) {
       out.w("<li>");
 
-      _renderTree({ ...child
-      }, out);
+      _marko_dynamicTag(_renderTree, { ...child
+      }, out, __component, "0");
 
       out.w("</li>");
     }
@@ -17,7 +17,7 @@ function _renderTree(node, out) {
   }
 }
 
-import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers";
+import { x as _marko_escapeXml, d as _marko_dynamicTag } from "marko/src/runtime/html/helpers";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { t as _t } from "marko/src/runtime/html";
 
@@ -25,8 +25,8 @@ const _marko_template = _t(__filename),
       _marko_componentType = "9QKeN8cm";
 
 _marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  _renderTree({ ...input.node
-  }, out)
+  _marko_dynamicTag(_renderTree, { ...input.node
+  }, out, __component, "6")
 }, {
   ___type: _marko_componentType,
   ___implicit: true
