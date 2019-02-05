@@ -54,9 +54,9 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     }
   }, out, __component, "@x")
 
-  _thing({
+  _marko_dynamicTag(_thing, {
     "x": 1
-  }, out)
+  }, out, __component, "11")
 
   _other_tag({
     "renderBody": (out, a) => {
