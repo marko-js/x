@@ -2,7 +2,6 @@ import * as babelTypes from "@babel/types";
 import builder from "@babel/types/lib/builders/builder";
 import defineType from "@babel/types/lib/definitions/utils";
 import types from "./types";
-import toCamelCase from "./util/to-camel-case";
 
 const {
   TYPES,
@@ -26,8 +25,9 @@ for (const type of [
 // add marko validators & builders
 Object.keys(types).forEach(typeName => {
   babelTypes[`is${typeName}`] = node => isType(typeName, node.type);
-  babelTypes[typeName] = babelTypes[toCamelCase(typeName)] = (...args) =>
-    builder(typeName, ...args);
+  babelTypes[typeName] = babelTypes[
+    typeName[0].toLowerCase() + typeName.slice(1)
+  ] = (...args) => builder(typeName, ...args);
 });
 
 // export babel stuff

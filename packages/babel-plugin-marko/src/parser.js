@@ -14,8 +14,9 @@ const isNestedTag = node =>
   t.isStringLiteral(node.name) && node.name.value[0] === "@";
 
 export function parse(hub) {
-  const { code, filename, htmlParseOptions = {} } = hub;
+  const { filename, htmlParseOptions = {} } = hub;
   const { preserveWhitespace } = htmlParseOptions;
+  const code = hub.getCode();
   let { body } = hub.file.program;
   const stack = [{ body }];
   let preservingWhitespaceUntil = preserveWhitespace;
@@ -28,12 +29,14 @@ export function parse(hub) {
       onDocumentType({ value, pos, endPos }) {
         const node = hub.createNode("markoDocumentType", pos, endPos, value);
         body.push(node);
+        /* istanbul ignore next */
         onNext = onNext && onNext(node);
       },
 
       onDeclaration({ value, pos, endPos }) {
         const node = hub.createNode("markoDeclaration", pos, endPos, value);
         body.push(node);
+        /* istanbul ignore next */
         onNext = onNext && onNext(node);
       },
 

@@ -11,10 +11,10 @@ import { getLoc, getLocRange } from "./util/get-loc";
 import getComponentFiles from "./util/get-component-files";
 
 export class Hub {
-  constructor(filename, code, options = {}) {
+  constructor(filename, code, options) {
     options.output = options.output || "html";
 
-    this.code = code;
+    this._code = code;
     this.options = options;
     this.filename = filename;
     this.file = createFile(filename, code);
@@ -59,22 +59,16 @@ export class Hub {
   }
 
   getCode() {
-    return this.code;
+    return this._code;
   }
 
   buildError(node, msg) {
-    return codeFrameError(this.filename, this.code, msg, node.start, node.end);
+    return codeFrameError(this.filename, this._code, msg, node.start, node.end);
   }
 
-  createNodePath(node = this.file, withScope) {
+  createNodePath(node = this.file) {
     const nodePath = new NodePath(this, this.file);
     nodePath.node = node;
-
-    if (withScope) {
-      nodePath.scope = new Scope(nodePath);
-      nodePath.scope.init();
-    }
-
     return nodePath;
   }
 
@@ -163,7 +157,7 @@ export class Hub {
   createNode(type, start, end, ...args) {
     return {
       ...t[type](...args),
-      ...getLocRange(this.code, start, end)
+      ...getLocRange(this._code, start, end)
     };
   }
 
@@ -199,7 +193,7 @@ export class Hub {
         pos += start;
         throw codeFrameError(
           this.filename,
-          this.code,
+          this._code,
           message.replace(/ *\(\d+:\d+\)$/, ""),
           pos
         );

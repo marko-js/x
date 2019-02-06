@@ -9,7 +9,7 @@ const _marko_template = _t(__filename),
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w(`<div${_marko_attr("style", _marko_style_merge({
     color: "green"
-  }))}></div>`)
+  }))}></div><div style="color: green"></div>`)
 }, {
   ___type: _marko_componentType,
   ___implicit: true

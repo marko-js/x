@@ -1,0 +1,3 @@
+packages/babel-plugin-marko/test/fixtures/error-body-only-if-no-condition/template.marko(1,6): The "body-only-if(condition)" attribute requires a condition argument.
+> 1 | <div body-only-if/>
+    |      ^^^^^^^^^^^^

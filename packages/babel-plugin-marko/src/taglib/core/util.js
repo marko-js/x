@@ -8,6 +8,11 @@ export function toStatement(node) {
   return node;
 }
 
+export function isHTMLTag(path) {
+  const tagName = path.get("name");
+  return tagName.isStringLiteral() && tagName.node.value[0] !== "@";
+}
+
 export function assertIsRoot(path) {
   if (!t.isProgram(path.parent)) {
     throw path

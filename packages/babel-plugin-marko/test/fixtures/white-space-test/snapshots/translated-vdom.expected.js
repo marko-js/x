@@ -33,6 +33,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.t(" World")
   scriptletD();
   out.ee()
+  out.t(" Hello World! ")
+  out.t(a)
+  out.t(b)
+  out.be("div", null, "8", component, 0, 0)
+  out.ee()
 }, {
   ___type: _marko_componentType,
   ___implicit: true

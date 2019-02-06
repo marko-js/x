@@ -22,6 +22,17 @@ export default function(path) {
     handlers
   } = node;
 
+  path.get("attributes").forEach(attr => {
+    // Remove falsey attributes.
+    const { confident, value: computed } = attr.get("value").evaluate();
+
+    if (confident && attr.name !== "data-marko") {
+      if (computed == null || computed === false) {
+        attr.remove();
+      }
+    }
+  });
+
   const tagProperties = properties.slice();
   const isSelfClosing = SELF_CLOSING.indexOf(tagName) !== -1;
   const attrsObj = getAttrs(path, true);

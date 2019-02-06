@@ -40,7 +40,7 @@ export const visitor = {
 
     const transformers = [
       ...(tagDef ? Object.values(tagDef.transformers) : []),
-      ...(!isAttributeTag ? Object.values(lookup.getTag("*").transformers) : [])
+      ...Object.values(lookup.getTag("*").transformers)
     ].sort(comparePriority);
 
     for (const transformer of transformers) {
