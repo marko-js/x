@@ -9,8 +9,8 @@ export function toStatement(node) {
 }
 
 export function isHTMLTag(path) {
-  const tagName = path.get("name");
-  return tagName.isStringLiteral() && tagName.node.value[0] !== "@";
+  const tagDef = path.node.tagDef;
+  return tagDef && tagDef.html;
 }
 
 export function assertIsRoot(path) {
