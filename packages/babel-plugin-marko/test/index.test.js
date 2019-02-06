@@ -91,7 +91,7 @@ function snapshotTransform({ ext, dir, name, config, source, filename }) {
       throw err;
     }
 
-    snapshot(dir, `${name}-error.txt`, stripAnsi(err.message), err);
+    snapshot(dir, `${name}-error.txt`, stripCwd(stripAnsi(err.message)), err);
   }
 }
 
@@ -119,7 +119,15 @@ function snapshot(dir, file, data, originalError) {
         err.message
       }`;
 
-      throw originalError || err;
+      if (originalError) {
+        err.stack = originalError.stack;
+      }
+
+      throw err;
     }
   }
+}
+
+function stripCwd(message) {
+  return message.replace(process.cwd() + "/", "");
 }

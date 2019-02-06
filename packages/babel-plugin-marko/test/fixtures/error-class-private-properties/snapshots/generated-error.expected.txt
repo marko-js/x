@@ -1,4 +1,4 @@
-/Users/dpiercey/Development/github/x/packages/babel-plugin-marko/test/fixtures/error-class-private-properties/template.marko: Unknown PrivateName "#x"
+packages/babel-plugin-marko/test/fixtures/error-class-private-properties/template.marko: Unknown PrivateName "#x"
   1 | class {
 > 2 |   #x = 1;
     |   ^
