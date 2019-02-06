@@ -5,7 +5,7 @@ import { t as _t } from "marko/src/runtime/html";
 const _marko_template = _t(__filename),
       _marko_componentType = "HxdBTLNA";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   var b = thing;
   let c = thing;
   out.w(`<div${_marko_attr("b", b)}${_marko_attr("c", c)}>`)

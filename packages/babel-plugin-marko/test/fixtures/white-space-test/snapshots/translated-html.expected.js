@@ -4,7 +4,7 @@ import { t as _t } from "marko/src/runtime/html";
 const _marko_template = _t(__filename),
       _marko_componentType = "f5PlznI-";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w("<div><div>Hello <div> </div> World</div><div> Hello</div><pre>\n    This should  \n      be preserved\n  </pre><div><div>Hello </div></div></div><div>")
   scriptletA();
   scriptletB();

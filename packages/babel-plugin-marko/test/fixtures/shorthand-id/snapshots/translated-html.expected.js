@@ -5,7 +5,7 @@ import { t as _t } from "marko/src/runtime/html";
 const _marko_template = _t(__filename),
       _marko_componentType = "cFDIY1TL";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w(`<div id="shorthand"></div><div${_marko_attr("id", dynamic)}></div><div${_marko_attr("id", "partial-" + dynamic)}></div>`)
 }, {
   ___type: _marko_componentType,

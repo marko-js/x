@@ -9,17 +9,17 @@ import { t as _t2 } from "marko/src/runtime/vdom";
 const _marko_template = _t2(__filename),
       _marko_componentType = "SSsZKEJG";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("div", null, "0", component, 0, 0, {
-    "onclick": __component.d("click", "handleClick", [a, b, ...d], false)
+    "onclick": _component.d("click", "handleClick", [a, b, ...d], false)
   })
   out.ee()
   out.be("div", null, "1", component, 0, 0, {
-    "onDashed-cased-Event": __component.d("Dashed-cased-Event", "handle", false)
+    "onDashed-cased-Event": _component.d("Dashed-cased-Event", "handle", false)
   })
   out.ee()
   out.be("div", null, "2", component, 0, 0, {
-    "oncamelcasedevent": __component.d("camelcasedevent", "handle", false)
+    "oncamelcasedevent": _component.d("camelcasedevent", "handle", false)
   })
   out.ee()
 

@@ -4,7 +4,7 @@ import { t as _t } from "marko/src/runtime/vdom";
 const _marko_template = _t(__filename),
       _marko_componentType = "f5PlznI-";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("div", null, "6", component, 0, 0)
   out.be("div", null, "1", component, 0, 0)
   out.t("Hello ")

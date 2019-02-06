@@ -13,7 +13,7 @@ import { getAttrs } from "../util";
  * Translates the html streaming version of a standard html element.
  */
 export default function(path) {
-  const { node } = path;
+  const { hub, node } = path;
   const {
     name: { value: tagName },
     key,
@@ -56,7 +56,7 @@ export default function(path) {
             t.stringLiteral(`on${eventName}`),
             t.callExpression(
               t.memberExpression(
-                t.identifier("__component"),
+                hub._componentDefIdentifier,
                 t.identifier("d")
               ),
               delegateArgs

@@ -4,7 +4,7 @@ import { t as _t } from "marko/src/runtime/html";
 const _marko_template = _t(__filename),
       _marko_componentType = "OLzQeSa9";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w("Hello John &amp; Suzy Invalid Entity: &b ; Valid Numeric Entity: &#34; Valid Hexadecimal Entity: &#x00A2;")
 }, {
   ___type: _marko_componentType,

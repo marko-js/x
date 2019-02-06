@@ -31,7 +31,7 @@ import { t as _t2 } from "marko/src/runtime/vdom";
 const _marko_template = _t2(__filename),
       _marko_componentType = "8f1lFGb_";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("style", null, "0", component, 0, 0)
   out.t("\n  div {\n    color: ")
   out.t(x)
@@ -59,11 +59,11 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   }
   out.ee()
   out.be("div", null, "6", component, 0, 0, {
-    "onclick": __component.d("click", "handleClick", [a, b, ...d], false)
+    "onclick": _component.d("click", "handleClick", [a, b, ...d], false)
   })
   out.ee()
   out.be("div", {
-    "id": __component.elId("1")
+    "id": _component.elId("1")
   }, "7", component, 0, 0)
   out.ee()
   out.be("div", {
@@ -85,11 +85,11 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
       out.be("div", null, "10", component, 0, 0);
       out.ee();
     }
-  }, out, __component, "@x")
+  }, out, _component, "@x")
 
   _marko_dynamicTag(_thing, {
     "x": 1
-  }, out, __component, "11")
+  }, out, _component, "11")
 
   _other_tag({
     "renderBody": (out, a) => {

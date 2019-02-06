@@ -9,7 +9,7 @@ import { t as _t2 } from "marko/src/runtime/vdom";
 const _marko_template = _t2(__filename),
       _marko_componentType = "jk52ETtv";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   const _cols = [];
   const _items = [];
 
