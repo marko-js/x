@@ -1,3 +1,4 @@
+import { resolve } from "path";
 import SELF_CLOSING from "self-closing-tags";
 import * as t from "../../../../definitions";
 import write from "../../../../util/vdom-out-write";
@@ -8,18 +9,28 @@ import {
   assertNoArgs
 } from "../../../../taglib/core/util";
 import { getAttrs } from "../util";
+import * as FLAGS from "../../../../util/runtime-flags";
+
+const EMPTY_OBJECT = {};
+const SIMPLE_ATTRS = ["id", "class", "style"];
+const MAYBE_SVG = {
+  a: true,
+  script: true,
+  style: true
+};
 
 /**
  * Translates the html streaming version of a standard html element.
  */
 export default function(path) {
-  const { hub, node } = path;
+  const { hub, node, parent } = path;
   const {
     name: { value: tagName },
     key,
     body,
     properties,
-    handlers
+    handlers,
+    tagDef
   } = node;
 
   path.get("attributes").forEach(attr => {
@@ -42,8 +53,7 @@ export default function(path) {
     attrsObj.properties.length ? attrsObj : t.nullLiteral(),
     key,
     t.identifier("component"),
-    t.numericLiteral(0), // TODO flags.
-    t.numericLiteral(0)
+    t.numericLiteral(0) // TODO: child count
   ];
 
   assertNoParams(path);
@@ -77,6 +87,33 @@ export default function(path) {
       }
     );
   }
+
+  if (
+    attrsObj.properties.length &&
+    attrsObj.properties.every(n => isPropertyName(n, SIMPLE_ATTRS)) &&
+    !tagProperties.some(n => isPropertyName(n, ["noupdate"]))
+  ) {
+    node.runtimeFlags |= FLAGS.HAS_SIMPLE_ATTRS;
+  }
+
+  if (tagDef) {
+    const { htmlType, name, parseOptions = EMPTY_OBJECT } = tagDef;
+    if (htmlType === "custom-element") {
+      node.runtimeFlags |= FLAGS.IS_CUSTOM_ELEMENT;
+      if (parseOptions.import) { // TODO: the taglib should be updated to support this as a top level option.
+        hub.meta.deps.push(resolve(tagDef.dir, parseOptions.import));
+      }
+    } else if (
+      htmlType === "svg" ||
+      MAYBE_SVG[name] && t.isMarkoTag(parent) && parent.tagDef && parent.tagDef.htmlType === "svg"
+    ) {
+      node.runtimeFlags |= FLAGS.IS_SVG;
+    } else if (name === "textarea") {
+      node.runtimeFlags |= FLAGS.IS_TEXTAREA;
+    }
+  }
+
+  writeArgs.push(t.numericLiteral(node.runtimeFlags));
 
   if (tagProperties.length) {
     writeArgs.push(t.objectExpression(tagProperties));
@@ -120,4 +157,12 @@ export default function(path) {
       .concat(needsBlock ? t.blockStatement(body.map(toStatement)) : body)
       .concat(writeEndNode)
   );
+}
+
+function isPropertyName({ key }, names) {
+  if (t.isStringLiteral(key)) {
+    return names.includes(key.value);
+  } else if (t.isIdentifier(key)) {
+    return names.includes(key.name);
+  }
 }

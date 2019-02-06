@@ -1,3 +1,4 @@
+import { resolve } from "path";
 import SELF_CLOSING from "self-closing-tags";
 import * as t from "../../../../definitions";
 import write from "../../../../util/html-out-write";
@@ -9,6 +10,8 @@ import {
   assertNoParams,
   assertNoArgs
 } from "../../../../taglib/core/util";
+
+const EMPTY_OBJECT = {};
 
 /**
  * Translates the html streaming version of a standard html element.
@@ -22,9 +25,17 @@ export default function(path) {
     name: { value: tagName },
     body,
     properties,
-    handlers
+    handlers,
+    tagDef
   } = node;
   const tagProperties = properties.slice();
+
+  if (tagDef) {
+    const { parseOptions = EMPTY_OBJECT } = tagDef;
+    if (parseOptions.import) { // TODO: the taglib should be updated to support this as a top level option.
+      hub.meta.deps.push(resolve(tagDef.dir, parseOptions.import));
+    }
+  }
 
   if (handlers) {
     Object.entries(handlers).forEach(

@@ -11,7 +11,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       b: c,
       d
     }])
-  }, "0", component, 0, 0)
+  }, "0", component, 0, 4)
   out.ee()
 }, {
   ___type: _marko_componentType,
