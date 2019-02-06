@@ -6,6 +6,7 @@ import parseIDShorthand from "./util/parse-id-shorthand";
 import parseClassnameShorthand from "./util/parse-classname-shorthand";
 import { getLocRange } from "./util/get-loc";
 import * as t from "./definitions";
+
 const EMPTY_OBJECT = {};
 const htmlTrimStart = t => t.replace(/^[\n\r]\s*/, "");
 const htmlTrimEnd = t => t.replace(/[\n\r]\s*$/, "");

@@ -10,11 +10,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "style": _marko_style_merge({
       color: "green"
     })
-  }, "0", component, 0, 0)
+  }, "0", component, 0, 4)
   out.ee()
   out.be("div", {
     "style": "color: green"
-  }, "1", component, 0, 0)
+  }, "1", component, 0, 4)
   out.ee()
 }, {
   ___type: _marko_componentType,

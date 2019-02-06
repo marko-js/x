@@ -41,7 +41,6 @@
   "<style>": {
     "transformer": "./transform-style.js",
     "parse-options": {
-      "rootOnly": true,
       "rawOpenTag": true,
       "ignoreAttributes": true
     }

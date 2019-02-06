@@ -131,7 +131,8 @@ export default {
       "body",
       "params",
       "arguments",
-      "properties"
+      "properties",
+      "runtimeFlags"
     ],
     aliases: ["Marko", "Statement"],
     visitor: ["name", "arguments", "params", "attributes", "body"],
@@ -176,6 +177,10 @@ export default {
       rawValue: {
         validate: assertValueType("string"),
         optional: true
+      },
+      runtimeFlags: {
+        validate: assertValueType("number"),
+        default: 0
       }
     }
   }

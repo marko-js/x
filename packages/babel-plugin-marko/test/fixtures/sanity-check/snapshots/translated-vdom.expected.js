@@ -64,7 +64,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.ee()
   out.be("div", {
     "id": _component.elId("1")
-  }, "7", component, 0, 0)
+  }, "7", component, 0, 4)
   out.ee()
   out.be("div", {
     "class": _marko_class_merge(["a", {
@@ -74,7 +74,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "style": _marko_style_merge({
       a: "b"
     })
-  }, "8", component, 0, 0)
+  }, "8", component, 0, 4)
   out.ee()
   out.e("input", {
     "type": "text"
