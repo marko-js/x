@@ -9,7 +9,7 @@ import { t as _t2 } from "marko/src/runtime/html";
 const _marko_template = _t2(__filename),
       _marko_componentType = "pVNVWkgr";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   let _thing = null;
 
   if (x) {

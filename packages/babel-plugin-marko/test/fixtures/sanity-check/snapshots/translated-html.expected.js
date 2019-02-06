@@ -23,7 +23,7 @@ import { t as _t2 } from "marko/src/runtime/html";
 const _marko_template = _t2(__filename),
       _marko_componentType = "8f1lFGb_";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w(`<style>
   div {
     color: ${_marko_escapeStyle(x)};
@@ -40,8 +40,8 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     out.w(`<div${_marko_attr("d", d)}${_marko_attr("e", e)}></div>`);
   }
   out.w(`</div><div${_marko_attr("data-marko", {
-    "onclick": __component.d("click", "handleClick", [a, b, ...d], false)
-  })}></div><div${_marko_attr("id", __component.elId("1"))}></div><div${_marko_attr("class", _marko_class_merge(["a", {
+    "onclick": _component.d("click", "handleClick", [a, b, ...d], false)
+  })}></div><div${_marko_attr("id", _component.elId("1"))}></div><div${_marko_attr("class", _marko_class_merge(["a", {
     b: c,
     d
   }]))}${_marko_attr("style", _marko_style_merge({
@@ -52,11 +52,11 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
     "renderBody": out => {
       out.w("<div></div>");
     }
-  }, out, __component, "@x")
+  }, out, _component, "@x")
 
   _marko_dynamicTag(_thing, {
     "x": 1
-  }, out, __component, "11")
+  }, out, _component, "11")
 
   _other_tag({
     "renderBody": (out, a) => {

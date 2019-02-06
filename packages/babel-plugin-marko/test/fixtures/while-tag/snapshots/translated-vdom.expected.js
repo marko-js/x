@@ -4,7 +4,7 @@ import { t as _t } from "marko/src/runtime/vdom";
 const _marko_template = _t(__filename),
       _marko_componentType = "7_cIMGIq";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   let i = 0;
 
   while (i < 10) {

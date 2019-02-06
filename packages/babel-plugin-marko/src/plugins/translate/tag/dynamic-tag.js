@@ -28,7 +28,7 @@ export default function(path) {
       expression,
       foundAttrs.properties.length ? foundAttrs : t.nullLiteral(),
       t.identifier("out"),
-      t.identifier("__component"),
+      hub._componentDefIdentifier,
       key,
       ...buildEventHandlerArray(path)
     ]

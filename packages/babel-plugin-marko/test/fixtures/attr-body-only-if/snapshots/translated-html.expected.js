@@ -9,7 +9,7 @@ import { t as _t2 } from "marko/src/runtime/html";
 const _marko_template = _t2(__filename),
       _marko_componentType = "M5ooyXS3";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   const _dynamic_tag_renderBody = out => {
     out.w("<div>Hello World</div>");
   };
@@ -29,7 +29,7 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   }
 
   if (x) {
-    _marko_dynamicTag(_test_tag_renderBody, null, out, __component, "5")
+    _marko_dynamicTag(_test_tag_renderBody, null, out, _component, "5")
   } else {
     _test_tag({
       "renderBody": _test_tag_renderBody
@@ -37,11 +37,11 @@ _marko_template._ = _marko_renderer(function (input, out, __component, component
   }
 
   if (x) {
-    _marko_dynamicTag(_dynamic_tag_renderBody, null, out, __component, "6")
+    _marko_dynamicTag(_dynamic_tag_renderBody, null, out, _component, "6")
   } else {
     _marko_dynamicTag(test, {
       "renderBody": _dynamic_tag_renderBody
-    }, out, __component, "4");
+    }, out, _component, "4");
   }
 }, {
   ___type: _marko_componentType,

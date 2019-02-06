@@ -90,7 +90,7 @@ export const visitor = {
             [
               t.identifier("input"),
               t.identifier("out"),
-              t.identifier("__component"), // TODO: convert to generated var and store reference.
+              hub._componentDefIdentifier,
               t.identifier("component"),
               t.identifier("state")
             ],

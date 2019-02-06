@@ -13,7 +13,7 @@ import { t as _t2 } from "marko/src/runtime/vdom";
 const _marko_template = _t2(__filename),
       _marko_componentType = "Fr76d7a7";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("html", null, "5", component, 0, 0)
   out.be("head", null, "1", component, 0, 0)
   out.be("title", null, "0", component, 0, 0)

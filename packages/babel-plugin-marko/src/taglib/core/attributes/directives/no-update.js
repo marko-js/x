@@ -7,7 +7,7 @@ export default function(path, attr, opts = EMPTY_OBJECT) {
   attr.remove();
   const { hub, node } = path;
   const nextKeyMember = t.memberExpression(
-    t.identifier("__component"),
+    hub._componentDefIdentifier,
     t.identifier("___nextKey")
   );
   const nextKeyCall = t.callExpression(nextKeyMember, [

@@ -6,6 +6,9 @@ import * as t from "../definitions";
 export const visitor = {
   Program(path) {
     const [renderBlock] = path.pushContainer("body", t.blockStatement([]));
+    path.hub._componentDefIdentifier = path.scope.generateUidIdentifier(
+      "component"
+    );
     path.hub._renderBlock = renderBlock;
   },
   MarkoTag(path) {

@@ -13,14 +13,14 @@ import { t as _t2 } from "marko/src/runtime/html";
 const _marko_template = _t2(__filename),
       _marko_componentType = "FaQWPoit";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
-  const _noUpdateKey4 = __component.___nextKey("3");
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
+  const _noUpdateKey4 = _component.___nextKey("3");
 
-  const _noUpdateKey3 = __component.___nextKey("2");
+  const _noUpdateKey3 = _component.___nextKey("2");
 
-  const _noUpdateKey2 = __component.___nextKey("1");
+  const _noUpdateKey2 = _component.___nextKey("1");
 
-  const _noUpdateKey = __component.___nextKey("0");
+  const _noUpdateKey = _component.___nextKey("0");
 
   _noUpdate_tag({
     "cid": _noUpdateKey,

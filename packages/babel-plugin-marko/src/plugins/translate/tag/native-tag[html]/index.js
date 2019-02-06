@@ -17,7 +17,7 @@ export default function(path) {
   assertNoParams(path);
   assertNoArgs(path);
 
-  const { node } = path;
+  const { hub, node } = path;
   const {
     name: { value: tagName },
     body,
@@ -43,7 +43,7 @@ export default function(path) {
             t.stringLiteral(`on${eventName}`),
             t.callExpression(
               t.memberExpression(
-                t.identifier("__component"),
+                hub._componentDefIdentifier,
                 t.identifier("d")
               ),
               delegateArgs

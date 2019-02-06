@@ -6,7 +6,7 @@ import { t as _t } from "marko/src/runtime/html";
 const _marko_template = _t(__filename),
       _marko_componentType = "Q4DAGn8u";
 
-_marko_template._ = _marko_renderer(function (input, out, __component, component, state) {
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w(`<div${_marko_attr("style", _marko_style_merge({
     color: "green"
   }))}></div>`)
