@@ -5,8 +5,6 @@ export default (hub, shorthands, attributes) => {
     return attributes;
   }
 
-  // TODO: need to expose class shorthand locations in HTMLJSParser.
-  // TODO: needs to handle dynamic class shorthands.
   const classAttr = attributes.find(({ name }) => name === "class");
   const classParts = shorthands.map(({ rawParts }) => {
     const nodes = rawParts.map(part =>

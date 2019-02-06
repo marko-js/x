@@ -5,9 +5,6 @@ export default (hub, shorthand, attributes) => {
     return attributes;
   }
 
-  // TODO: need to expose id shorthand location in HTMLJSParser.
-  // TODO: needs to handle dynamic id shorthand.
-
   const idAttr = attributes.find(({ name }) => name === "id");
   if (idAttr) {
     throw hub.buildError(idAttr, "Cannot have shorthand id and id attribute.");

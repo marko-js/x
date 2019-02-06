@@ -26,7 +26,6 @@ export function getAttrs(path, skipRenderBody) {
 
   if (!skipRenderBody && childLen) {
     if (hasDynamicAttributeTags) {
-      // TODO: throw error if content mixed with @tags.
       insertBeforeInRenderBody(path, body);
     } else {
       properties.push(
