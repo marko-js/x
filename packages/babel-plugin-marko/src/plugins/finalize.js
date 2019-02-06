@@ -136,7 +136,7 @@ export const visitor = {
                 typeof file === "string" ? hub.resolveRelativePath(file) : file
               )
             ),
-            hub.code.length
+            hub.getCode().length
           )
         )
       );

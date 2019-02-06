@@ -12,6 +12,10 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     })
   }, "0", component, 0, 0)
   out.ee()
+  out.be("div", {
+    "style": "color: green"
+  }, "1", component, 0, 0)
+  out.ee()
 }, {
   ___type: _marko_componentType,
   ___implicit: true

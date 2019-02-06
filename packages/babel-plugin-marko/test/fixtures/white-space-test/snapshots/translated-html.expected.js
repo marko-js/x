@@ -1,3 +1,4 @@
+import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { t as _t } from "marko/src/runtime/html";
 
@@ -12,7 +13,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   scriptletC();
   out.w(" World")
   scriptletD();
-  out.w("</div>")
+  out.w(`</div> Hello World! ${_marko_escapeXml(a)}${_marko_escapeXml(b)}<div></div>`)
 }, {
   ___type: _marko_componentType,
   ___implicit: true

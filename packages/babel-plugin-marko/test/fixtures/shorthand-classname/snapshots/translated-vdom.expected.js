@@ -39,8 +39,12 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   }, "7", component, 0, 0)
   out.ee()
   out.be("div", {
-    "class": _marko_class_merge(["partially-" + dynamic1, "shorthand2", dynamic2])
+    "class": _marko_class_merge(["shorthand", dynamic1, dynamic2])
   }, "8", component, 0, 0)
+  out.ee()
+  out.be("div", {
+    "class": _marko_class_merge(["partially-" + dynamic1, "shorthand2", dynamic2])
+  }, "9", component, 0, 0)
   out.ee()
 }, {
   ___type: _marko_componentType,

@@ -2,7 +2,7 @@ import * as t from "../definitions";
 import parseArguments from "./parse-arguments";
 
 export default (hub, attributes, startPos) => {
-  const { code } = hub;
+  const code = hub.getCode();
   let attrEndPos = startPos;
 
   return attributes.map(attr => {

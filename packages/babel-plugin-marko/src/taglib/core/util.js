@@ -8,6 +8,11 @@ export function toStatement(node) {
   return node;
 }
 
+export function isHTMLTag(path) {
+  const tagDef = path.node.tagDef;
+  return tagDef && tagDef.html;
+}
+
 export function assertIsRoot(path) {
   if (!t.isProgram(path.parent)) {
     throw path

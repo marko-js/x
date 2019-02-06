@@ -85,12 +85,9 @@ Object.assign(Printer.prototype, {
       this.token(")");
     }
 
-    if (node.value) {
-      if (!t.isBooleanLiteral(node.value) || !node.value.value) {
-        this.token("=");
-
-        printWithParansIfNeeded.call(this, node.value, node);
-      }
+    if (!t.isBooleanLiteral(node.value) || !node.value.value) {
+      this.token("=");
+      printWithParansIfNeeded.call(this, node.value, node);
     }
   },
   MarkoSpreadAttribute(node) {
