@@ -71,13 +71,6 @@ Object.assign(Printer.prototype, {
     this.token(" ");
     this.print(node.body, node);
   },
-  MarkoStyle(node) {
-    this.token(
-      `style${node.language === "css" ? "" : `.${node.language}`} {${
-        node.value
-      }}`
-    );
-  },
   MarkoAttribute(node) {
     this.token(node.name);
 
@@ -134,19 +127,27 @@ Object.assign(Printer.prototype, {
     const selfClosing = !node.body.length || SELF_CLOSING.includes(tagName);
     const rawValue = node.rawValue;
 
+    if (
+      tagName === "style" &&
+      /^style(?:\.[^\s]+)?\s*\{[\s\S]*}$/.test(rawValue)
+    ) {
+      this.token(rawValue);
+      return;
+    }
+
     this.token("<");
 
     if (rawValue) {
       this.token(rawValue);
-    } else if (isDynamicTag) {
-      this.token("${");
-      this.print(node.name, node);
-      this.token("}");
     } else {
-      this.token(tagName);
-    }
+      if (isDynamicTag) {
+        this.token("${");
+        this.print(node.name, node);
+        this.token("}");
+      } else {
+        this.token(tagName);
+      }
 
-    if (!rawValue) {
       if (node.arguments.length) {
         this.token("(");
         this.printList(node.arguments, node);

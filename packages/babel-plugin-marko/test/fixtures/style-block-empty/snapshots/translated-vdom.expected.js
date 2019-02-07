@@ -7,7 +7,7 @@ const _marko_template = _t(__filename),
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("div", {
     "class": "test"
-  }, "0", component, 0, 4)
+  }, "1", component, 0, 4)
   out.ee()
 }, {
   ___type: _marko_componentType,

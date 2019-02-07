@@ -24,7 +24,7 @@ const _marko_template = _t2(__filename),
       _marko_componentType = "8f1lFGb_";
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.w(`<style>
+  out.w(`<style id="css">
   div {
     color: ${_marko_escapeStyle(x)};
   }
@@ -56,13 +56,13 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   _marko_dynamicTag(_thing, {
     "x": 1
-  }, out, _component, "11")
+  }, out, _component, "12")
 
   _other_tag({
     "renderBody": (out, a) => {
       out.w("<div></div>");
     }
-  }, out, "13", ["click", "handleClick", false, [a, b, ...d]])
+  }, out, "14", ["click", "handleClick", false, [a, b, ...d]])
 
   _other_tag({
     "x": 1,
@@ -86,7 +86,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": (out, b) => {
       out.w("<div></div>");
     }
-  }, out, "19")
+  }, out, "20")
 
   out.w(`<div id="a" class="b c" a="[object Object]" c="${d}"${_marko_attrs(e)}${_marko_attrs(f())}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`)
 
