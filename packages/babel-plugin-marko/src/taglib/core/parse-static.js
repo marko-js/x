@@ -10,5 +10,5 @@ export default function(path) {
     body = body[0].body;
   }
 
-  return t.MarkoScriptlet(body, true);
+  path.replaceWith(t.MarkoScriptlet(body, true));
 }

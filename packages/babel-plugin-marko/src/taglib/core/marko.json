@@ -39,7 +39,7 @@
     }
   },
   "<style>": {
-    "transformer": "./transform-style.js",
+    "node-factory": "./parse-style.js",
     "parse-options": {
       "rawOpenTag": true,
       "ignoreAttributes": true

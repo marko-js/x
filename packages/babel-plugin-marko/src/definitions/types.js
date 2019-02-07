@@ -86,6 +86,20 @@ export default {
     }
   },
 
+  MarkoStyle: {
+    builder: ["value", "language"],
+    aliases: ["Marko", "Statement"],
+    fields: {
+      value: {
+        validate: assertValueType("string")
+      },
+      language: {
+        validate: assertValueType("string"),
+        default: "css"
+      }
+    }
+  },
+
   MarkoAttribute: {
     builder: ["name", "value", "modifier", "arguments"],
     visitor: ["value"],

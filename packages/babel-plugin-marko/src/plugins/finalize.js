@@ -1,3 +1,4 @@
+import { basename } from "path";
 import * as t from "../definitions";
 import checksum from "../util/checksum";
 
@@ -8,6 +9,7 @@ export const visitor = {
     const { options, meta, isImplicit, isSplit } = hub;
     const renderBlock = hub._renderBlock.node;
     const componentFile = hub.componentFiles.componentFile;
+    const componentStyle = hub._componentStyle;
     const componentClass =
       hub._componentClass ||
       (componentFile &&
@@ -18,6 +20,16 @@ export const visitor = {
         ));
 
     hub._renderBlock.remove();
+
+    if (componentStyle) {
+      const base = basename(hub.filename);
+      meta.deps.push({
+        type: componentStyle.language,
+        code: componentStyle.value.trim(),
+        path: `./${base}`,
+        virtualPath: `./${base}.${componentStyle.language}`
+      });
+    }
 
     const componentTypeIdentifier = path.scope.generateUidIdentifier(
       "marko_componentType"

@@ -14,12 +14,12 @@ const htmlTrim = t => htmlTrimStart(htmlTrimEnd(t));
 const isNestedTag = node =>
   t.isStringLiteral(node.name) && node.name.value[0] === "@";
 
-export function parse(hub) {
+export function parse(fileNodePath) {
+  const { hub } = fileNodePath;
   const { filename, htmlParseOptions = {} } = hub;
   const { preserveWhitespace } = htmlParseOptions;
   const code = hub.getCode();
-  let { body } = hub.file.program;
-  const stack = [{ body }];
+  let currentTag = fileNodePath.get("program");
   let preservingWhitespaceUntil = preserveWhitespace;
   let wasSelfClosing = false;
   let wasConcise = false;
@@ -29,32 +29,33 @@ export function parse(hub) {
     {
       onDocumentType({ value, pos, endPos }) {
         const node = hub.createNode("markoDocumentType", pos, endPos, value);
-        body.push(node);
+        currentTag.pushContainer("body", node);
         /* istanbul ignore next */
         onNext = onNext && onNext(node);
       },
 
       onDeclaration({ value, pos, endPos }) {
         const node = hub.createNode("markoDeclaration", pos, endPos, value);
-        body.push(node);
+        currentTag.pushContainer("body", node);
         /* istanbul ignore next */
         onNext = onNext && onNext(node);
       },
 
       onComment({ value, pos, endPos }) {
         const node = hub.createNode("markoComment", pos, endPos, value);
-        body.push(node);
+        currentTag.pushContainer("body", node);
         onNext = onNext && onNext(node);
       },
 
       onCDATA({ value, pos, endPos }) {
         const node = hub.createNode("markoCDATA", pos, endPos, value);
-        body.push(node);
+        currentTag.pushContainer("body", node);
         onNext = onNext && onNext(node);
       },
 
       onText({ value }, { pos }) {
         const shouldTrim = !preservingWhitespaceUntil;
+        const { body } = currentTag.node;
 
         if (shouldTrim) {
           if (htmlTrim(value) === "") {
@@ -83,8 +84,8 @@ export function parse(hub) {
 
         const endPos = pos + value.length;
         const node = hub.createNode("markoText", pos, endPos, value);
-        const prevBody = body;
-        body.push(node);
+        const prevBody = currentTag.node.body;
+        currentTag.pushContainer("body", node);
         onNext && onNext(node);
         onNext =
           shouldTrim &&
@@ -110,7 +111,7 @@ export function parse(hub) {
             escape
           );
 
-          body.push(node);
+          currentTag.pushContainer("body", node);
           onNext = onNext && onNext(node);
         }
       },
@@ -124,7 +125,8 @@ export function parse(hub) {
         }
 
         // Scriptlets are ignored as content and don't call `onNext`.
-        body.push(
+        currentTag.pushContainer(
+          "body",
           hub.createNode(
             "markoScriptlet",
             pos,
@@ -164,7 +166,7 @@ export function parse(hub) {
           if (parseOptions) {
             event.setParseOptions(parseOptions);
 
-            if (parseOptions.rootOnly && stack.length !== 1) {
+            if (parseOptions.rootOnly && !currentTag.isProgram()) {
               throw hub.buildError(
                 { start: pos, end: endPos },
                 `"${tagName}" tags must be at the root of your Marko template.`
@@ -173,9 +175,7 @@ export function parse(hub) {
           }
         }
 
-        stack.push(node);
-        body.push(node);
-        body = node.body;
+        [currentTag] = currentTag.pushContainer("body", node);
 
         // @tags are not treated as content and do not call next.
         if (!isNestedTag(node)) {
@@ -185,7 +185,7 @@ export function parse(hub) {
 
       onOpenTag(event, parser) {
         const { pos, endPos, tagNameEndPos } = event;
-        const node = stack[stack.length - 1];
+        const node = currentTag.node;
         const { tagDef } = node;
         const parseOptions = (tagDef && tagDef.parseOptions) || EMPTY_OBJECT;
         wasSelfClosing = event.selfClosed;
@@ -195,7 +195,9 @@ export function parse(hub) {
           node.rawValue = parser
             .substring(pos, endPos)
             .replace(/^<|\/>$|>$/g, "");
-        } else {
+        }
+
+        if (!parseOptions.ignoreAttributes) {
           node.params = parseParams(hub, event.params);
           node.arguments = parseArguments(hub, event.argument);
           node.attributes = parseAttributes(
@@ -222,9 +224,10 @@ export function parse(hub) {
 
       onCloseTag(event, parser) {
         let { tagName, pos, endPos } = event;
-        const node = stack.pop();
+        const tag = currentTag;
+        const { node } = tag;
         const { tagDef } = node;
-        body = stack[stack.length - 1].body;
+        currentTag = currentTag.parentPath;
 
         if (preservingWhitespaceUntil === node) {
           preservingWhitespaceUntil = undefined;
@@ -263,11 +266,7 @@ export function parse(hub) {
         if (tagDef && tagDef.nodeFactoryPath) {
           const module = require(tagDef.nodeFactoryPath);
           const { default: fn = module } = module;
-          body.splice(
-            body.length - 1,
-            1,
-            ...[].concat(fn(hub.createNodePath(node)))
-          );
+          fn(tag);
         }
       },
 
@@ -289,6 +288,4 @@ export function parse(hub) {
       ...htmlParseOptions
     }
   ).parse(code, filename);
-
-  return hub.file;
 }

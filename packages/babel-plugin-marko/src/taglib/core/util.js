@@ -13,18 +13,6 @@ export function isHTMLTag(path) {
   return tagDef && tagDef.html;
 }
 
-export function assertIsRoot(path) {
-  if (!t.isProgram(path.parent)) {
-    throw path
-      .get("name")
-      .buildCodeFrameError(
-        `"${
-          path.node.name.value
-        }" tags must be at the root of your Marko template.`
-      );
-  }
-}
-
 export function assertAllowedAttributes(path, allowed) {
   const { node } = path;
   node.attributes.forEach((attr, i) => {

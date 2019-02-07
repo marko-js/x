@@ -8,6 +8,7 @@ import MarkoText from "./text";
 import MarkoPlaceholder from "./placeholder";
 import MarkoScriptlet from "./scriptlet";
 import MarkoClass from "./class";
+import MarkoStyle from "./style";
 
 export const visitor = {
   MarkoDocumentType,
@@ -18,6 +19,7 @@ export const visitor = {
   MarkoPlaceholder,
   MarkoScriptlet,
   MarkoClass,
+  MarkoStyle,
   MarkoComment(path) {
     path.remove();
   },
