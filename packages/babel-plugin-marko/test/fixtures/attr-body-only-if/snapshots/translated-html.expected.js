@@ -36,7 +36,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }, out, "2");
   }
 
-  if (x) {
+  if (a, b) {
     _marko_dynamicTag(_dynamic_tag_renderBody, null, out, _component, "6")
   } else {
     _marko_dynamicTag(test, {

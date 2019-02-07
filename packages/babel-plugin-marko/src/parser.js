@@ -247,24 +247,20 @@ export function parse(fileNodePath) {
 
         Object.assign(node, getLocRange(code, node.start, endPos));
 
-        if (tagName && !wasSelfClosing) {
-          if (t.isStringLiteral(node.name)) {
-            if (node.name.value !== tagName) {
-              throw hub.buildError(
-                { start: pos, end: endPos },
-                `Invalid closing tag ${tagName}.`
-              );
-            }
-          } else if (!wasSelfClosing && code.slice(pos, endPos) !== "</>") {
-            throw hub.buildError(
-              { start: pos, end: endPos },
-              `Invalid ending for dynamic tag ${tagName}.`
-            );
-          }
+        if (
+          !wasSelfClosing &&
+          !t.isStringLiteral(node.name) &&
+          code.slice(pos, endPos) !== "</>"
+        ) {
+          throw hub.buildError(
+            { start: pos, end: endPos },
+            `Invalid ending for dynamic tag, expected "</>".`
+          );
         }
 
         if (tagDef && tagDef.nodeFactoryPath) {
           const module = require(tagDef.nodeFactoryPath);
+          /* istanbul ignore next */
           const { default: fn = module } = module;
           fn(tag);
         }

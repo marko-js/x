@@ -21,26 +21,12 @@ export function buildIfStatement(path, args) {
   let nextPath = path.getNextSibling();
 
   // Provide the if statement to the next part of the if chain.
-  if (nextPath.node) {
-    let removePath;
+  if (nextPath.node && t.isMarkoTag(nextPath.node)) {
+    const { node } = nextPath;
+    const { name } = node;
 
-    // Remove empty whitespace between blocks.
-    if (t.isMarkoText(nextPath.node) && /^\s*$/.test(nextPath.node.value)) {
-      removePath = nextPath;
-      nextPath = nextPath.getNextSibling();
-    }
-
-    if (t.isMarkoTag(nextPath.node)) {
-      const { node } = nextPath;
-      const { name } = node;
-
-      if (name.value === "else") {
-        node.ifStatement = ifStatement;
-
-        if (removePath) {
-          removePath.remove();
-        }
-      }
+    if (name.value === "else") {
+      node.ifStatement = ifStatement;
     }
   }
 

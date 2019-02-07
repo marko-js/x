@@ -3,11 +3,6 @@ import path from "path";
 
 export default function getComponentFiles(filename) {
   const ext = path.extname(filename);
-
-  if (ext === ".js") {
-    return null;
-  }
-
   const dirname = path.dirname(filename);
   const dirFiles = fs.readdirSync(dirname).sort();
   const nameNoExt = path.basename(filename, ext);

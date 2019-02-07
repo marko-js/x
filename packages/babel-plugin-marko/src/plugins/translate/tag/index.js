@@ -16,7 +16,6 @@ export default {
     node.key = node.key || hub.nextKey();
 
     if (!t.isStringLiteral(name)) {
-      assertNoAttributeTags();
       dynamicTag(path);
       return;
     }

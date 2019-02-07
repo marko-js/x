@@ -14,9 +14,9 @@ const _marko_template = _t2(__filename),
       _marko_componentType = "FaQWPoit";
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  const _noUpdateKey4 = _component.___nextKey("3");
+  const _noUpdateKey5 = _component.___nextKey("4");
 
-  const _noUpdateKey3 = _component.___nextKey("2");
+  const _noUpdateKey4 = _component.___nextKey("3");
 
   const _noUpdateKey2 = _component.___nextKey("1");
 
@@ -27,11 +27,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, "4");
+          _hello_tag({}, out, "6");
 
           out.w("<div></div>");
         }
-      }, out, "6");
+      }, out, "8");
     }
   }, out, `#${_noUpdateKey}`)
 
@@ -41,42 +41,63 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, "7");
+          const _noUpdateKey3 = _component.___nextKey("2");
+
+          _noUpdate_tag({
+            "cid": _noUpdateKey3,
+            "if": (a, b),
+            "renderBody": out => {
+              _hello_tag({}, out, "9");
+            }
+          }, out, `#${_noUpdateKey3}`);
 
           out.w("<div></div>");
         }
-      }, out, "9");
+      }, out, "11");
     }
   }, out, `#${_noUpdateKey2}`)
 
   _noUpdate_tag({
-    "cid": _noUpdateKey3,
+    "cid": _noUpdateKey4,
     "bodyOnly": true,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, "10");
+          _hello_tag({}, out, "12");
 
           out.w("<div></div>");
         }
-      }, out, "12");
+      }, out, "14");
     }
-  }, out, `#${_noUpdateKey3}`)
+  }, out, `#${_noUpdateKey4}`)
 
   _noUpdate_tag({
-    "cid": _noUpdateKey4,
+    "cid": _noUpdateKey5,
     "if": x,
     "bodyOnly": true,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, "13");
+          const _noUpdateKey6 = _component.___nextKey("5");
+
+          _noUpdate_tag({
+            "cid": _noUpdateKey6,
+            "if": (a, b),
+            "bodyOnly": true,
+            "renderBody": out => {
+              _hello_tag({
+                "renderBody": out => {
+                  out.w("Again");
+                }
+              }, out, "15");
+            }
+          }, out, `#${_noUpdateKey6}`);
 
           out.w("<div></div>");
         }
-      }, out, "15");
+      }, out, "17");
     }
-  }, out, `#${_noUpdateKey4}`)
+  }, out, `#${_noUpdateKey5}`)
 }, {
   ___type: _marko_componentType,
   ___implicit: true
