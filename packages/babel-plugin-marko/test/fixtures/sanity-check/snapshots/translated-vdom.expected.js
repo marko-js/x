@@ -7,13 +7,6 @@ function more() {
   abc();
 }
 
-function _thing(stuff, out) {
-  out.be("div", {
-    "x": stuff.x
-  }, "3", component, 0, 0);
-  out.ee();
-}
-
 import { cl as _marko_class_merge } from "marko/src/runtime/html/helpers";
 import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
 import { d as _marko_dynamicTag, t as _t } from "marko/src/runtime/vdom/helpers";
@@ -34,22 +27,30 @@ const _marko_template = _t2(__filename),
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("style", {
     "id": "css"
-  }, "1", component, 0, 4)
-  out.t("\n  div {\n    color: ")
-  out.t(x)
-  out.t(";\n  }\n")
-  out.ee()
-  out.be("script", null, "2", component, 0, 0)
-  out.t("\n  var y = ")
-  out.t(x)
-  out.t(";\n")
-  out.ee()
+  }, "1", component, 0, 4);
+  out.t("\n  div {\n    color: ");
+  out.t(x);
+  out.t(";\n  }\n");
+  out.ee();
+  out.be("script", null, "2", component, 0, 0);
+  out.t("\n  var y = ");
+  out.t(x);
+  out.t(";\n");
+  out.ee();
+
+  function _thing(stuff, out) {
+    out.be("div", {
+      "x": stuff.x
+    }, "3", component, 0, 0);
+    out.ee();
+  }
+
   var b = thing;
   let c = thing;
   out.be("div", {
     "b": b,
     "c": c
-  }, "6", component, 0, 0)
+  }, "6", component, 0, 0);
   {
     var d = thing;
     let e = thing;
@@ -59,15 +60,15 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }, "5", component, 0, 0);
     out.ee();
   }
-  out.ee()
+  out.ee();
   out.be("div", null, "7", component, 0, 0, {
     "onclick": _component.d("click", "handleClick", [a, b, ...d], false)
-  })
-  out.ee()
+  });
+  out.ee();
   out.be("div", {
     "id": _component.elId("1")
-  }, "8", component, 0, 4)
-  out.ee()
+  }, "8", component, 0, 4);
+  out.ee();
   out.be("div", {
     "class": _marko_class_merge(["a", {
       b: c,
@@ -76,29 +77,29 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "style": _marko_style_merge({
       a: "b"
     })
-  }, "9", component, 0, 4)
-  out.ee()
+  }, "9", component, 0, 4);
+  out.ee();
   out.e("input", {
     "type": "text"
-  }, "10", component, 0, 0)
+  }, "10", component, 0, 0);
 
   _marko_dynamicTag(a, {
     "renderBody": out => {
       out.be("div", null, "11", component, 0, 0);
       out.ee();
     }
-  }, out, _component, "@x")
+  }, out, _component, "@x");
 
   _marko_dynamicTag(_thing, {
     "x": 1
-  }, out, _component, "12")
+  }, out, _component, "12");
 
   _other_tag({
     "renderBody": (out, a) => {
       out.be("div", null, "13", component, 0, 0);
       out.ee();
     }
-  }, out, "14", ["click", "handleClick", false, [a, b, ...d]])
+  }, out, "14", ["click", "handleClick", false, [a, b, ...d]]);
 
   _other_tag({
     "x": 1,
@@ -125,7 +126,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       out.be("div", null, "15", component, 0, 0);
       out.ee();
     }
-  }, out, "20")
+  }, out, "20");
 
   out.be("div", {
     "id": "a",
@@ -136,23 +137,23 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "c": "${d}",
     ...e,
     ...f()
-  }, "27", component, 0, 0)
-  out.t(a)
+  }, "27", component, 0, 0);
+  out.t(a);
 
   _htmlComment_tag({
     "renderBody": out => {
       out.t("abc");
     }
-  }, out, "21")
+  }, out, "21");
 
   out.be("div", {
     "c": 1
-  }, "22", component, 0, 0)
-  out.ee()
+  }, "22", component, 0, 0);
+  out.ee();
   out.be("div", {
     "d": 1
-  }, "23", component, 0, 0)
-  out.ee()
+  }, "23", component, 0, 0);
+  out.ee();
 
   if (x === a) {
     out.t("a ");
@@ -163,17 +164,17 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.t("c");
   }
 
-  out.ee()
+  out.ee();
   out.be("div", {
     "b": 1
-  }, "28", component, 0, 0)
-  out.ee()
-  out.be("div", null, "29", component, 0, 0)
-  out.t("123 abc 123")
-  out.ee()
+  }, "28", component, 0, 0);
+  out.ee();
+  out.be("div", null, "29", component, 0, 0);
+  out.t("123 abc 123");
+  out.ee();
   out.be("span", { ...abc
-  }, "30", component, 0, 0)
-  out.ee()
+  }, "30", component, 0, 0);
+  out.ee();
 
   if (cond) {
     out.t("Hello ");
@@ -211,25 +212,19 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }, out, `@${val.name}`);
   }
 
-  if (!true) {
-    out.be("div", null, "37", component, 0, 0);
-  }
-
-  out.t("Hi")
-
-  if (!true) {
-    out.ee();
-  }
+  if (!true) out.be("div", null, "37", component, 0, 0);
+  out.t("Hi");
+  if (!true) out.ee();
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
+});
 _marko_template.Component = _marko_defineComponent({
   onCreate() {
     this.stuff();
   }
 
-}, _marko_template._)
+}, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
   deps: [{
@@ -239,5 +234,5 @@ _marko_template.meta = {
     "virtualPath": "./template.marko.css"
   }],
   tags: ["./components/other/index.marko", "marko/src/taglibs/html/html-comment-tag.js"]
-}
+};
 export default _marko_template;

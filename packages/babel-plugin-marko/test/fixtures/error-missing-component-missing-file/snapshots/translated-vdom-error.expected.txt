@@ -1,3 +1,3 @@
-packages/babel-plugin-marko/test/fixtures/error-missing-component-missing-file/template.marko(1,2): Unable to find entry point for "thing" tag.
+packages/babel-plugin-marko/test/fixtures/error-missing-component-missing-file/template.marko(1,2): Unable to find entry point tag.
 > 1 | <thing/>
     |  ^^^^^

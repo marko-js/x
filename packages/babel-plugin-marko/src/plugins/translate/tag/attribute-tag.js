@@ -77,12 +77,18 @@ export default function(path) {
 
   if (isRepeated) {
     path.replaceWith(
-      t.callExpression(t.memberExpression(identifier, t.identifier("push")), [
-        getAttrs(path)
-      ])
+      t.expressionStatement(
+        t.callExpression(t.memberExpression(identifier, t.identifier("push")), [
+          getAttrs(path)
+        ])
+      )
     );
   } else {
-    path.replaceWith(t.assignmentExpression("=", identifier, getAttrs(path)));
+    path.replaceWith(
+      t.expressionStatement(
+        t.assignmentExpression("=", identifier, getAttrs(path))
+      )
+    );
   }
 }
 

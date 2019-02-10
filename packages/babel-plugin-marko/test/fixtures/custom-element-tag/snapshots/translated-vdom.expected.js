@@ -5,15 +5,15 @@ const _marko_template = _t(__filename),
       _marko_componentType = "TQAbtBLq";
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.be("hello", null, "0", component, 0, 16)
-  out.ee()
+  out.be("hello", null, "0", component, 0, 16);
+  out.ee();
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
   deps: ["./components/hello/init.js"]
-}
+};
 export default _marko_template;

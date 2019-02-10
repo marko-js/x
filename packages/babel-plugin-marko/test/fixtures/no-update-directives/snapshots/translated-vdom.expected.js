@@ -1,11 +1,11 @@
-import _hello from "./components/hello/index.marko";
+import _noUpdate from "marko/src/components/taglib/preserve-tag.js";
 import { t as _t } from "marko/src/runtime/vdom/helpers";
 
-const _hello_tag = _t(_hello);
-
-import _noUpdate from "marko/src/components/taglib/preserve-tag.js";
-
 const _noUpdate_tag = _t(_noUpdate);
+
+import _hello from "./components/hello/index.marko";
+
+const _hello_tag = _t(_hello);
 
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { t as _t2 } from "marko/src/runtime/vdom";
@@ -14,12 +14,6 @@ const _marko_template = _t2(__filename),
       _marko_componentType = "FaQWPoit";
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  const _noUpdateKey5 = _component.___nextKey("4");
-
-  const _noUpdateKey4 = _component.___nextKey("3");
-
-  const _noUpdateKey2 = _component.___nextKey("1");
-
   const _noUpdateKey = _component.___nextKey("0");
 
   _noUpdate_tag({
@@ -27,14 +21,16 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, "6");
+          _hello_tag({}, out, "1");
 
-          out.be("div", null, "7", component, 0, 0);
+          out.be("div", null, "2", component, 0, 0);
           out.ee();
         }
-      }, out, "8");
+      }, out, "3");
     }
-  }, out, `#${_noUpdateKey}`)
+  }, out, `#${_noUpdateKey}`);
+
+  const _noUpdateKey2 = _component.___nextKey("4");
 
   _noUpdate_tag({
     "cid": _noUpdateKey2,
@@ -42,22 +38,24 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          const _noUpdateKey3 = _component.___nextKey("2");
+          const _noUpdateKey3 = _component.___nextKey("5");
 
           _noUpdate_tag({
             "cid": _noUpdateKey3,
             "if": (a, b),
             "renderBody": out => {
-              _hello_tag({}, out, "9");
+              _hello_tag({}, out, "6");
             }
           }, out, `#${_noUpdateKey3}`);
 
-          out.be("div", null, "10", component, 0, 0);
+          out.be("div", null, "7", component, 0, 0);
           out.ee();
         }
-      }, out, "11");
+      }, out, "8");
     }
-  }, out, `#${_noUpdateKey2}`)
+  }, out, `#${_noUpdateKey2}`);
+
+  const _noUpdateKey4 = _component.___nextKey("9");
 
   _noUpdate_tag({
     "cid": _noUpdateKey4,
@@ -65,14 +63,16 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, "12");
+          _hello_tag({}, out, "10");
 
-          out.be("div", null, "13", component, 0, 0);
+          out.be("div", null, "11", component, 0, 0);
           out.ee();
         }
-      }, out, "14");
+      }, out, "12");
     }
-  }, out, `#${_noUpdateKey4}`)
+  }, out, `#${_noUpdateKey4}`);
+
+  const _noUpdateKey5 = _component.___nextKey("13");
 
   _noUpdate_tag({
     "cid": _noUpdateKey5,
@@ -81,7 +81,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          const _noUpdateKey6 = _component.___nextKey("5");
+          const _noUpdateKey6 = _component.___nextKey("14");
 
           _noUpdate_tag({
             "cid": _noUpdateKey6,
@@ -101,14 +101,14 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
         }
       }, out, "17");
     }
-  }, out, `#${_noUpdateKey5}`)
+  }, out, `#${_noUpdateKey5}`);
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
-  tags: ["./components/hello/index.marko", "marko/src/components/taglib/preserve-tag.js"]
-}
+  tags: ["marko/src/components/taglib/preserve-tag.js", "./components/hello/index.marko"]
+};
 export default _marko_template;

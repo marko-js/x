@@ -13,7 +13,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.t("World");
   }
 
-  out.be("div", null, "5", component, 0, 0)
+  out.be("div", null, "5", component, 0, 0);
 
   if (x) {
     out.t("A");
@@ -23,13 +23,13 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.t("C");
   }
 
-  out.ee()
+  out.ee();
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType
-}
+};
 export default _marko_template;

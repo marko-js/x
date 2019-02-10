@@ -5,8 +5,6 @@ import write from "../../../../util/html-out-write";
 import withPreviousLocation from "../../../../util/with-previous-location";
 import translateAttributes from "./attributes";
 import {
-  replaceInRenderBody,
-  toStatement,
   assertNoParams,
   assertNoArgs
 } from "../../../../taglib/core/util";
@@ -76,7 +74,7 @@ export default function(path) {
   );
 
   if (SELF_CLOSING.indexOf(tagName) !== -1) {
-    replaceInRenderBody(path, writeStartNode);
+    path.replaceWith(writeStartNode);
     return;
   }
 
@@ -87,11 +85,11 @@ export default function(path) {
     const negatedBodyOnlyIf = t.unaryExpression("!", bodyOnlyIf, true);
     writeStartNode = t.ifStatement(
       negatedBodyOnlyIf,
-      t.blockStatement([toStatement(writeStartNode)])
+      writeStartNode
     );
     writeEndNode = t.ifStatement(
       negatedBodyOnlyIf,
-      t.blockStatement([toStatement(writeEndNode)])
+      writeEndNode
     );
   }
 
@@ -105,10 +103,9 @@ export default function(path) {
     }
   }
 
-  replaceInRenderBody(
-    path,
+  path.replaceWithMultiple(
     [writeStartNode]
-      .concat(needsBlock ? t.blockStatement(body.map(toStatement)) : body)
+      .concat(needsBlock ? t.blockStatement(body) : body)
       .concat(writeEndNode)
   );
 }

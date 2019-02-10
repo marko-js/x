@@ -1,7 +1,7 @@
 import { buildIfStatement } from "./util";
-import { replaceInRenderBody, assertAllowedAttributes } from "../util";
+import { assertAllowedAttributes } from "../util";
 
 export default function(path) {
   assertAllowedAttributes(path, []);
-  replaceInRenderBody(path, buildIfStatement(path, path.node.arguments));
+  path.replaceWith(buildIfStatement(path, path.node.arguments));
 }

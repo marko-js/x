@@ -5,13 +5,13 @@ const _marko_template = _t(__filename),
       _marko_componentType = "ufpKo5n_";
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.w("<div d=\"0\" y=\"1\"></div>")
+  out.w("<div d=\"0\" y=\"1\"></div>");
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType
-}
+};
 export default _marko_template;

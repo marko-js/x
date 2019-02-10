@@ -8,6 +8,7 @@ import { getLocRange } from "./util/get-loc";
 import * as t from "./definitions";
 
 const EMPTY_OBJECT = {};
+const EMPTY_ARRAY = [];
 const htmlTrimStart = t => t.replace(/^[\n\r]\s*/, "");
 const htmlTrimEnd = t => t.replace(/[\n\r]\s*$/, "");
 const htmlTrim = t => htmlTrimStart(htmlTrimEnd(t));
@@ -139,7 +140,7 @@ export function parse(fileNodePath) {
       onOpenTagName(event) {
         const { tagName, pos, endPos } = event;
         const [, tagNameExpression] =
-          /^\$\{([\s\S]+)\}/.exec(tagName) || EMPTY_OBJECT;
+          /^\$\{([\s\S]+)\}/.exec(tagName) || EMPTY_ARRAY;
         const tagDef = !tagNameExpression && hub.lookup.getTag(tagName);
         const tagNameStartPos = pos + (event.concise ? 0 : 1); // Account for leading `<`.
         const node = hub.createNode(

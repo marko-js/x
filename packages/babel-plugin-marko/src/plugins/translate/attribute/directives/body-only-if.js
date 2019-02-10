@@ -1,6 +1,6 @@
-import { getArgOrSequence } from "../../util";
+import { getArgOrSequence } from "../../../../taglib/core/util";
 
-export default function(path, attr) {
+export default function(tag, attr) {
   const condition = getArgOrSequence(attr);
 
   if (!condition) {
@@ -9,6 +9,6 @@ export default function(path, attr) {
     );
   }
 
-  path.node.bodyOnlyIf = condition;
+  tag.node.bodyOnlyIf = condition;
   attr.remove();
 }

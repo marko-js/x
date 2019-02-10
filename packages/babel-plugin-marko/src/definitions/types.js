@@ -117,7 +117,7 @@ export default {
   },
 
   MarkoSpreadAttribute: {
-    aliases: ["Marko", "MarkoAttribute"],
+    aliases: ["Marko", "Expression"],
     builder: ["value"],
     visitor: ["value"],
     fields: {

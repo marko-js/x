@@ -13,13 +13,13 @@ const _marko_template = _t2(__filename),
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w(`<div${_marko_attr("style", _marko_style_merge({
     color: "green"
-  }))}></div><div style="color: green"></div>`)
+  }))}></div><div style="color: green"></div>`);
 
   _customTag_tag({
     "style": {
       color: "green"
     }
-  }, out, "2")
+  }, out, "2");
 
   _marko_dynamicTag(input.test, {
     "style": {
@@ -33,14 +33,14 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
         out.w("Hello");
       }
     }
-  }, out, _component, "4")
+  }, out, _component, "4");
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
   tags: ["./components/custom-tag.marko"]
-}
+};
 export default _marko_template;

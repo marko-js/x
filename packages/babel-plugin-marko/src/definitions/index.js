@@ -11,7 +11,8 @@ const {
   isType
 } = babelTypes;
 
-Object.keys(types).forEach(typeName => defineType(typeName, types[typeName]));
+export const MARKO_TYPES = Object.keys(types);
+MARKO_TYPES.forEach(typeName => defineType(typeName, types[typeName]));
 
 // Update TYPES
 for (const type of [
@@ -23,7 +24,7 @@ for (const type of [
 }
 
 // add marko validators & builders
-Object.keys(types).forEach(typeName => {
+MARKO_TYPES.forEach(typeName => {
   babelTypes[`is${typeName}`] = node => isType(typeName, node.type);
   babelTypes[typeName] = babelTypes[
     typeName[0].toLowerCase() + typeName.slice(1)

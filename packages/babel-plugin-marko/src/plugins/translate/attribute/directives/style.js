@@ -1,18 +1,18 @@
 import * as t from "../../../../definitions";
-import { isHTMLTag } from "../../util";
-export default function(path, attr) {
-  const { hub } = path;
+import { isHTMLTag } from "../../../../taglib/core/util";
+export default function(tag, attr) {
+  const { hub } = tag;
   const {
     node: { value }
   } = attr;
   if (t.isStringLiteral(value)) return;
-  if (!isHTMLTag(path)) return;
+  if (!isHTMLTag(tag)) return;
   attr
     .get("value")
     .replaceWith(
       t.callExpression(
         hub.importDefault(
-          path,
+          tag,
           "marko/src/runtime/vdom/helper-styleAttr",
           "marko_style_merge"
         ),

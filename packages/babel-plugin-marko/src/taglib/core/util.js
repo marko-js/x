@@ -1,13 +1,5 @@
 import * as t from "../../definitions";
 
-export function toStatement(node) {
-  if (t.isExpression(node)) {
-    return t.expressionStatement(node);
-  }
-
-  return node;
-}
-
 export function isHTMLTag(path) {
   const tagDef = path.node.tagDef;
   return tagDef && tagDef.html;
@@ -58,26 +50,5 @@ export function getArgOrSequence(path) {
     } else {
       return args[0];
     }
-  }
-}
-
-export function replaceInRenderBody(path, nodes) {
-  nodes = [].concat(nodes);
-
-  if (t.isProgram(path.parent)) {
-    path.hub._renderBlock.pushContainer("body", nodes);
-    path.remove();
-  } else {
-    path.replaceWithMultiple(nodes);
-  }
-}
-
-export function insertBeforeInRenderBody(path, nodes) {
-  nodes = [].concat(nodes);
-
-  if (t.isProgram(path.parent)) {
-    path.hub._renderBlock.unshiftContainer("body", nodes);
-  } else {
-    path.insertBefore(nodes);
   }
 }

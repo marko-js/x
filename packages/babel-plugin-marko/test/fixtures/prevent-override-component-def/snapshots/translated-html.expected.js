@@ -6,13 +6,13 @@ const _marko_template = _t(__filename),
 
 _marko_template._ = _marko_renderer(function (input, out, _component2, component, state) {
   const _component = "test";
-  out.w("<div></div>")
+  out.w("<div></div>");
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType
-}
+};
 export default _marko_template;

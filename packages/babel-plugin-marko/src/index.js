@@ -2,7 +2,7 @@ import { Hub } from "./hub";
 import { parse } from "./parser";
 import { visitor as transform } from "./plugins/transform";
 import { visitor as translate } from "./plugins/translate";
-import { visitor as finalize } from "./plugins/finalize";
+import { visitor as optimize } from "./plugins/optimize";
 import { NodePath } from "@babel/traverse";
 
 export default (api, options) => {
@@ -27,7 +27,7 @@ export default (api, options) => {
         nodePath.get("program").scope.crawl(); // Initialize bindings.
         nodePath.traverse(transform);
         nodePath.traverse(translate);
-        nodePath.traverse(finalize);
+        nodePath.traverse(optimize);
       }
 
       return hub.file;

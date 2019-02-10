@@ -1,7 +1,7 @@
 import * as t from "../../../../definitions";
 
-export default function(path, attr) {
-  const { hub } = path;
+export default function(tag, attr) {
+  const { hub } = tag;
   const value = attr.get("value");
   value.replaceWith(
     t.callExpression(

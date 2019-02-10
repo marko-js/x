@@ -13,42 +13,42 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "style": _marko_style_merge({
       c: 1
     })
-  }, "0", component, 0, 4)
-  out.ee()
+  }, "0", component, 0, 4);
+  out.ee();
   out.be("div", {
     "id": "a",
     "style": _marko_style_merge({
       c: 1
     })
-  }, "1", component, 0, 4)
-  out.ee()
+  }, "1", component, 0, 4);
+  out.ee();
   out.be("div", {
     "style": _marko_style_merge({
       c: 1
     })
-  }, "2", component, 0, 4)
-  out.ee()
+  }, "2", component, 0, 4);
+  out.ee();
   out.be("div", {
     "style": _marko_style_merge({
       c: 1
     })
   }, "3", component, 0, 0, {
     noupdate: ["style"]
-  })
-  out.ee()
+  });
+  out.ee();
   out.be("div", {
     "a": 1,
     "style": _marko_style_merge({
       c: 1
     })
-  }, "4", component, 0, 0)
-  out.ee()
+  }, "4", component, 0, 0);
+  out.ee();
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType
-}
+};
 export default _marko_template;

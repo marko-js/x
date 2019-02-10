@@ -13,7 +13,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.w("World");
   }
 
-  out.w("<div>")
+  out.w("<div>");
 
   if (x) {
     out.w("A");
@@ -23,13 +23,13 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.w("C");
   }
 
-  out.w("</div>")
+  out.w("</div>");
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType
-}
+};
 export default _marko_template;

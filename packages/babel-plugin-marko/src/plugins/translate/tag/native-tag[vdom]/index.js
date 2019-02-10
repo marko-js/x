@@ -3,8 +3,6 @@ import SELF_CLOSING from "self-closing-tags";
 import * as t from "../../../../definitions";
 import write from "../../../../util/vdom-out-write";
 import {
-  replaceInRenderBody,
-  toStatement,
   assertNoParams,
   assertNoArgs
 } from "../../../../taglib/core/util";
@@ -100,12 +98,16 @@ export default function(path) {
     const { htmlType, name, parseOptions = EMPTY_OBJECT } = tagDef;
     if (htmlType === "custom-element") {
       node.runtimeFlags |= FLAGS.IS_CUSTOM_ELEMENT;
-      if (parseOptions.import) { // TODO: the taglib should be updated to support this as a top level option.
+      if (parseOptions.import) {
+        // TODO: the taglib should be updated to support this as a top level option.
         hub.meta.deps.push(resolve(tagDef.dir, parseOptions.import));
       }
     } else if (
       htmlType === "svg" ||
-      MAYBE_SVG[name] && t.isMarkoTag(parent) && parent.tagDef && parent.tagDef.htmlType === "svg"
+      (MAYBE_SVG[name] &&
+        t.isMarkoTag(parent) &&
+        parent.tagDef &&
+        parent.tagDef.htmlType === "svg")
     ) {
       node.runtimeFlags |= FLAGS.IS_SVG;
     } else if (name === "textarea") {
@@ -122,7 +124,7 @@ export default function(path) {
   let writeStartNode = write(...writeArgs);
 
   if (isSelfClosing) {
-    replaceInRenderBody(path, writeStartNode);
+    path.replaceWith(writeStartNode);
     return;
   }
 
@@ -133,11 +135,11 @@ export default function(path) {
     const negatedBodyOnlyIf = t.unaryExpression("!", bodyOnlyIf, true);
     writeStartNode = t.ifStatement(
       negatedBodyOnlyIf,
-      t.blockStatement([toStatement(writeStartNode)])
+      writeStartNode
     );
     writeEndNode = t.ifStatement(
       negatedBodyOnlyIf,
-      t.blockStatement([toStatement(writeEndNode)])
+      writeEndNode
     );
   }
 
@@ -151,10 +153,9 @@ export default function(path) {
     }
   }
 
-  replaceInRenderBody(
-    path,
+  path.replaceWithMultiple(
     [writeStartNode]
-      .concat(needsBlock ? t.blockStatement(body.map(toStatement)) : body)
+      .concat(needsBlock ? t.blockStatement(body) : body)
       .concat(writeEndNode)
   );
 }

@@ -8,7 +8,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.be("svg", {
     "height": "100",
     "width": "100"
-  }, "4", component, 0, 1)
+  }, "4", component, 0, 1);
   out.e("circle", {
     "cx": "50",
     "cy": "50",
@@ -16,24 +16,24 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "stroke": "black",
     "stroke-width": "3",
     "fill": "red"
-  }, "0", component, 0, 1)
-  out.be("a", null, "1", component, 0, 1)
-  out.ee()
-  out.be("style", null, "2", component, 0, 1)
-  out.t("div { color: green }")
-  out.ee()
-  out.be("script", null, "3", component, 0, 1)
-  out.t("alert(\"Hello\");")
-  out.ee()
-  out.ee()
-  out.be("a", null, "5", component, 0, 0)
-  out.ee()
+  }, "0", component, 0, 1);
+  out.be("a", null, "1", component, 0, 1);
+  out.ee();
+  out.be("style", null, "2", component, 0, 1);
+  out.t("div { color: green }");
+  out.ee();
+  out.be("script", null, "3", component, 0, 1);
+  out.t("alert(\"Hello\");");
+  out.ee();
+  out.ee();
+  out.be("a", null, "5", component, 0, 0);
+  out.ee();
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType
-}
+};
 export default _marko_template;

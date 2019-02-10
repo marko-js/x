@@ -1,9 +1,5 @@
 import * as t from "../../../definitions";
-import {
-  replaceInRenderBody,
-  assertNoArgs,
-  insertBeforeInRenderBody
-} from "../../../taglib/core/util";
+import { assertNoArgs } from "../../../taglib/core/util";
 import { getAttrs, buildEventHandlerArray } from "./util";
 
 export default function(path) {
@@ -38,23 +34,22 @@ export default function(path) {
     const renderBodyIdentifier = path.scope.generateUidIdentifier(
       "dynamic_tag_renderBody"
     );
-    insertBeforeInRenderBody(
-      path,
+
+    path.insertBefore(
       t.variableDeclaration("const", [
         t.variableDeclarator(renderBodyIdentifier, renderBodyProp.value)
       ])
     );
 
     renderBodyProp.value = renderBodyIdentifier;
-    replaceInRenderBody(
-      path,
+    path.replaceWith(
       t.ifStatement(
         bodyOnlyIf,
-        t.blockStatement([t.markoTag(renderBodyIdentifier)]),
-        t.blockStatement([t.expressionStatement(dynamicTagRenderCall)])
+        t.markoTag(renderBodyIdentifier),
+        t.expressionStatement(dynamicTagRenderCall)
       )
     );
   } else {
-    replaceInRenderBody(path, dynamicTagRenderCall);
+    path.replaceWith(dynamicTagRenderCall);
   }
 }

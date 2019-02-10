@@ -1,6 +1,5 @@
 import write from "../../../util/html-out-write";
 import {
-  replaceInRenderBody,
   assertAllowedAttributes,
   assertNoParams,
   assertNoArgs
@@ -18,7 +17,7 @@ export default function(path) {
   assertNoArgs(path);
   assertAllowedAttributes(path, []);
 
-  replaceInRenderBody(path, [
+  path.replaceWithMultiple([
     write`<!--`,
     ...body,
     write`-->`

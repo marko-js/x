@@ -1,5 +1,4 @@
 import * as t from "../../../definitions";
-import { toStatement } from "../util";
 
 export function buildIfStatement(path, args) {
   const { node } = path;
@@ -15,7 +14,7 @@ export function buildIfStatement(path, args) {
 
   const ifStatement = t.ifStatement(
     args.length === 1 ? args[0] : t.sequenceExpression(args),
-    t.blockStatement(body.map(toStatement))
+    t.blockStatement(body)
   );
 
   let nextPath = path.getNextSibling();

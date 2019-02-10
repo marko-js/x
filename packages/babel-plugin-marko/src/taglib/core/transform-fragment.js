@@ -1,5 +1,4 @@
 import * as t from "../../definitions";
-import { replaceInRenderBody } from "./util";
 import normalizeTemplateLiteral from "../../util/normalize-template-string";
 
 export default function(path) {
@@ -33,5 +32,5 @@ export default function(path) {
     .filter(child => t.isMarkoTag(child))
     .forEach(child => (child.key = keyValue));
 
-  replaceInRenderBody(path, body);
+  path.replaceWithMultiple(body);
 }
