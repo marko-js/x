@@ -9,6 +9,4 @@ export default function translate(path) {
   if (ifAttr) {
     ifAttr.allowArguments = true;
   }
-
-  return node;
 }

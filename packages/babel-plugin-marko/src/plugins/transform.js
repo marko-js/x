@@ -5,11 +5,9 @@ import * as t from "../definitions";
  */
 export const visitor = {
   Program(path) {
-    const [renderBlock] = path.pushContainer("body", t.blockStatement([]));
     path.hub._componentDefIdentifier = path.scope.generateUidIdentifier(
       "component"
     );
-    path.hub._renderBlock = renderBlock;
   },
   MarkoTag(path) {
     const { hub, node } = path;
@@ -20,17 +18,18 @@ export const visitor = {
     const isAttributeTag = !isDynamicTag && tagName[0] === "@";
     const isTagDefOptional = isDynamicTag || isAttributeTag;
 
-    if (isDynamicTag) {
-      tagName = undefined;
-    } else if (isAttributeTag && t.isMarkoTag(path.parent)) {
-      tagName = `${path.parent.name.value}:${tagName.slice(1)}`;
-    }
-
     if (macros[tagName]) {
       return;
     }
 
-    const tagDef = (node.tagDef = tagName && lookup.getTag(tagName));
+    if (isDynamicTag) {
+      tagName = undefined;
+    } else if (isAttributeTag && t.isMarkoTag(path.parent)) {
+      // TODO: need to account for transparent parents
+      tagName = `${path.parent.name.value}:${tagName.slice(1)}`;
+    }
+
+    const tagDef = tagName && lookup.getTag(tagName);
 
     if (!isTagDefOptional && !tagDef) {
       throw path

@@ -77,12 +77,18 @@ export default function(path) {
 
   if (isRepeated) {
     path.replaceWith(
-      t.callExpression(t.memberExpression(identifier, t.identifier("push")), [
-        getAttrs(path)
-      ])
+      t.expressionStatement(
+        t.callExpression(t.memberExpression(identifier, t.identifier("push")), [
+          getAttrs(path)
+        ])
+      )
     );
   } else {
-    path.replaceWith(t.assignmentExpression("=", identifier, getAttrs(path)));
+    path.replaceWith(
+      t.expressionStatement(
+        t.assignmentExpression("=", identifier, getAttrs(path))
+      )
+    );
   }
 }
 
@@ -92,12 +98,16 @@ function getFullyResolvedTagName(path) {
   do {
     cur = path.node.name.value;
 
-    if (cur[0] !== "@") {
-      parts.push(cur);
-      break;
+    if (cur) {
+      if (cur[0] !== "@") {
+        parts.push(cur);
+      } else {
+        parts.push(cur.slice(1));
+        continue;
+      }
     }
 
-    parts.push(cur.slice(1));
+    break;
   } while ((path = findParentTag(path)));
 
   return parts.reverse().join(":");
@@ -114,21 +124,11 @@ function findParentTag(path) {
       break;
     }
 
-    const tagName = node.name;
-    if (!t.isStringLiteral(tagName)) {
-      cur = undefined;
-      break;
-    }
-
-    if (transparentTags.has(tagName.value)) {
+    if (transparentTags.has(node.name.value)) {
       cur = cur.parentPath;
       continue;
     }
 
     return cur;
   }
-}
-
-function appendNode(path, node) {
-  path.node.body.unshift(node);
 }

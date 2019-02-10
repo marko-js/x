@@ -16,20 +16,20 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "onDashed-cased-Event": _component.d("Dashed-cased-Event", "handle", false)
   })}></div><div${_marko_attr("data-marko", {
     "oncamelcasedevent": _component.d("camelcasedevent", "handle", false)
-  })}></div>`)
+  })}></div>`);
 
-  _customTag_tag({}, out, "3", ["thing", "handleThing", false, [a, b, ...d]])
+  _customTag_tag({}, out, "3", ["thing", "handleThing", false, [a, b, ...d]]);
 
-  _customTag_tag({}, out, "4", ["Dashed-cased-Event", "handle", false])
+  _customTag_tag({}, out, "4", ["Dashed-cased-Event", "handle", false]);
 
-  _customTag_tag({}, out, "5", ["camelcasedEvent", "handle", false])
+  _customTag_tag({}, out, "5", ["camelcasedEvent", "handle", false]);
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
   tags: ["./components/custom-tag.marko"]
-}
+};
 export default _marko_template;

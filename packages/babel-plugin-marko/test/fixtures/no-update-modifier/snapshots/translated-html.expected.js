@@ -8,13 +8,13 @@ const _marko_template = _t(__filename),
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w(`<input${_marko_attr("value", input.defaultValue)}${_marko_attr("data-marko", {
     noupdate: ["value"]
-  })}>`)
+  })}>`);
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType
-}
+};
 export default _marko_template;

@@ -1,9 +1,5 @@
 import * as t from "../../../definitions";
-import {
-  replaceInRenderBody,
-  assertNoArgs,
-  insertBeforeInRenderBody
-} from "../../../taglib/core/util";
+import { assertNoArgs } from "../../../taglib/core/util";
 import { getAttrs, buildEventHandlerArray } from "./util";
 
 // TODO: support transform and other entries.
@@ -13,8 +9,11 @@ const TAG_IDENTIFIER_LOOKUPS = new WeakMap();
 export default function(path, tagDef) {
   const { hub, node } = path;
   const { options, meta } = hub;
-  const { name } = tagDef;
-  const { key, bodyOnlyIf } = node;
+  const {
+    name: { value: name },
+    key,
+    bodyOnlyIf
+  } = node;
   const relativePath = resolveRelativePath(hub, tagDef);
 
   assertNoArgs(path);
@@ -22,7 +21,7 @@ export default function(path, tagDef) {
   if (!relativePath) {
     throw path
       .get("name")
-      .buildCodeFrameError(`Unable to find entry point for "${name}" tag.`);
+      .buildCodeFrameError(`Unable to find entry point tag.`);
   }
 
   let tagIdentifierLookup = TAG_IDENTIFIER_LOOKUPS.get(hub);
@@ -59,35 +58,35 @@ export default function(path, tagDef) {
   const renderBodyProp = foundAttrs.properties.find(
     prop => prop.key && prop.key.value === "renderBody"
   );
-  const customTagRenderCall = t.callExpression(tagIdentifier, [
-    foundAttrs,
-    t.identifier("out"),
-    key,
-    ...buildEventHandlerArray(path)
-  ]);
+  const customTagRenderCall = t.expressionStatement(
+    t.callExpression(tagIdentifier, [
+      foundAttrs,
+      t.identifier("out"),
+      key,
+      ...buildEventHandlerArray(path)
+    ])
+  );
 
   if (bodyOnlyIf && renderBodyProp) {
     const renderBodyIdentifier = path.scope.generateUidIdentifier(
       `${name}_tag_renderBody`
     );
-    insertBeforeInRenderBody(
-      path,
+    path.insertBefore(
       t.variableDeclaration("const", [
         t.variableDeclarator(renderBodyIdentifier, renderBodyProp.value)
       ])
     );
 
     renderBodyProp.value = renderBodyIdentifier;
-    replaceInRenderBody(
-      path,
+    path.replaceWith(
       t.ifStatement(
         bodyOnlyIf,
-        t.blockStatement([t.markoTag(renderBodyIdentifier)]),
-        t.blockStatement([t.expressionStatement(customTagRenderCall)])
+        t.markoTag(renderBodyIdentifier),
+        customTagRenderCall
       )
     );
   } else {
-    replaceInRenderBody(path, customTagRenderCall);
+    path.replaceWith(customTagRenderCall);
   }
 }
 

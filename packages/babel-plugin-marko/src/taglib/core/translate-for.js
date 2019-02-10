@@ -1,9 +1,5 @@
 import * as t from "../../definitions";
-import {
-  toStatement,
-  assertAllowedAttributes,
-  replaceInRenderBody
-} from "./util";
+import { assertAllowedAttributes } from "./util";
 
 export default function(path) {
   const { node } = path;
@@ -13,7 +9,7 @@ export default function(path) {
   const inAttr = findName(attributes, "in");
   const fromAttr = findName(attributes, "from");
   const toAttr = findName(attributes, "to");
-  const block = t.blockStatement(body.map(toStatement));
+  const block = t.blockStatement(body);
   let forNode;
   let allowedAttributes = ["by"];
 
@@ -113,7 +109,7 @@ export default function(path) {
   }
 
   assertAllowedAttributes(path, allowedAttributes);
-  replaceInRenderBody(path, forNode);
+  path.replaceWithMultiple([].concat(forNode));
 }
 
 function findName(arr, value) {

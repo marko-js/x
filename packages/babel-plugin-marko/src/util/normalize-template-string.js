@@ -38,10 +38,7 @@ export default function normalizeTemplateLiteral(quasis, expressions) {
   }
 
   // Do it.
-  return t.templateLiteral(
-    quasis.map(toTemplateElement),
-    expressions.map(toNode)
-  );
+  return t.templateLiteral(quasis.map(toTemplateElement), expressions);
 }
 
 function toTemplateElement(s) {
@@ -50,14 +47,6 @@ function toTemplateElement(s) {
 
 function fromTemplateElement(node) {
   return node.value.raw;
-}
-
-function toNode(s) {
-  if (typeof s === "string") {
-    return t.stringLiteral(s);
-  }
-
-  return s;
 }
 
 function isEmptyString(s) {

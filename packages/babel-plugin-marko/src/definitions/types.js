@@ -15,40 +15,44 @@ const valueFieldCommon = {
 
 export default {
   MarkoDocumentType: {
-    builder: ["value"],
     aliases: ["Marko", "Statement"],
+    builder: ["value"],
+    visitor: ["value"],
     fields: { ...valueFieldCommon }
   },
 
   MarkoDeclaration: {
-    builder: ["value"],
     aliases: ["Marko", "Statement"],
+    builder: ["value"],
+    visitor: ["value"],
     fields: { ...valueFieldCommon }
   },
 
   MarkoCDATA: {
-    builder: ["value"],
     aliases: ["Marko", "Statement"],
+    builder: ["value"],
+    visitor: ["value"],
     fields: { ...valueFieldCommon }
   },
 
   MarkoComment: {
-    builder: ["value"],
     aliases: ["Marko", "Statement"],
+    builder: ["value"],
+    visitor: ["value"],
     fields: { ...valueFieldCommon }
   },
 
   MarkoText: {
-    visitor: ["value"],
-    builder: ["value"],
     aliases: ["Marko", "Statement"],
+    builder: ["value"],
+    visitor: ["value"],
     fields: { ...valueFieldCommon }
   },
 
   MarkoPlaceholder: {
-    visitor: ["value"],
-    builder: ["value", "escape"],
     aliases: ["Marko", "Statement"],
+    builder: ["value", "escape"],
+    visitor: ["value"],
     fields: {
       value: {
         validate: assertNodeType("Expression")
@@ -61,9 +65,9 @@ export default {
   },
 
   MarkoScriptlet: {
-    visitor: ["body"],
-    builder: ["body", "static"],
     aliases: ["Marko", "Statement"],
+    builder: ["body", "static"],
+    visitor: ["body"],
     fields: {
       body: {
         validate: arrayOfType(["Statement"])
@@ -76,9 +80,9 @@ export default {
   },
 
   MarkoClass: {
+    aliases: ["Marko", "Statement"],
     builder: ["body"],
     visitor: ["body"],
-    aliases: ["Marko", "Statement"],
     fields: {
       body: {
         validate: assertNodeType("ClassBody")
@@ -87,9 +91,9 @@ export default {
   },
 
   MarkoAttribute: {
-    builder: ["name", "value", "modifier", "arguments"],
-    visitor: ["value"],
     aliases: ["Marko", "Expression"],
+    builder: ["name", "value", "modifier", "arguments"],
+    visitor: ["value", "arguments"],
     fields: {
       name: {
         validate: assertValueType("string")
@@ -113,9 +117,9 @@ export default {
   },
 
   MarkoSpreadAttribute: {
+    aliases: ["Marko", "Expression"],
     builder: ["value"],
     visitor: ["value"],
-    aliases: ["Marko", "MarkoAttribute"],
     fields: {
       value: {
         validate: assertNodeType("Expression"),
@@ -125,6 +129,7 @@ export default {
   },
 
   MarkoTag: {
+    aliases: ["Marko", "Statement"],
     builder: [
       "name",
       "attributes",
@@ -134,8 +139,7 @@ export default {
       "properties",
       "runtimeFlags"
     ],
-    aliases: ["Marko", "Statement"],
-    visitor: ["name", "arguments", "params", "attributes", "body"],
+    visitor: ["name", "attributes", "body", "params", "arguments"],
     fields: {
       name: {
         validate: assertNodeType("Expression")

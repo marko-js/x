@@ -45,5 +45,5 @@ export default function(path) {
   }
 
   hub._componentClass = true;
-  return withPreviousLocation(t.markoClass(parsed.body), node);
+  path.replaceWith(withPreviousLocation(t.markoClass(parsed.body), node));
 }

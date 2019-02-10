@@ -8,18 +8,19 @@ import { getLocRange } from "./util/get-loc";
 import * as t from "./definitions";
 
 const EMPTY_OBJECT = {};
+const EMPTY_ARRAY = [];
 const htmlTrimStart = t => t.replace(/^[\n\r]\s*/, "");
 const htmlTrimEnd = t => t.replace(/[\n\r]\s*$/, "");
 const htmlTrim = t => htmlTrimStart(htmlTrimEnd(t));
 const isNestedTag = node =>
   t.isStringLiteral(node.name) && node.name.value[0] === "@";
 
-export function parse(hub) {
+export function parse(fileNodePath) {
+  const { hub } = fileNodePath;
   const { filename, htmlParseOptions = {} } = hub;
   const { preserveWhitespace } = htmlParseOptions;
   const code = hub.getCode();
-  let { body } = hub.file.program;
-  const stack = [{ body }];
+  let currentTag = fileNodePath.get("program");
   let preservingWhitespaceUntil = preserveWhitespace;
   let wasSelfClosing = false;
   let wasConcise = false;
@@ -29,32 +30,33 @@ export function parse(hub) {
     {
       onDocumentType({ value, pos, endPos }) {
         const node = hub.createNode("markoDocumentType", pos, endPos, value);
-        body.push(node);
+        currentTag.pushContainer("body", node);
         /* istanbul ignore next */
         onNext = onNext && onNext(node);
       },
 
       onDeclaration({ value, pos, endPos }) {
         const node = hub.createNode("markoDeclaration", pos, endPos, value);
-        body.push(node);
+        currentTag.pushContainer("body", node);
         /* istanbul ignore next */
         onNext = onNext && onNext(node);
       },
 
       onComment({ value, pos, endPos }) {
         const node = hub.createNode("markoComment", pos, endPos, value);
-        body.push(node);
+        currentTag.pushContainer("body", node);
         onNext = onNext && onNext(node);
       },
 
       onCDATA({ value, pos, endPos }) {
         const node = hub.createNode("markoCDATA", pos, endPos, value);
-        body.push(node);
+        currentTag.pushContainer("body", node);
         onNext = onNext && onNext(node);
       },
 
       onText({ value }, { pos }) {
         const shouldTrim = !preservingWhitespaceUntil;
+        const { body } = currentTag.node;
 
         if (shouldTrim) {
           if (htmlTrim(value) === "") {
@@ -83,8 +85,8 @@ export function parse(hub) {
 
         const endPos = pos + value.length;
         const node = hub.createNode("markoText", pos, endPos, value);
-        const prevBody = body;
-        body.push(node);
+        const prevBody = currentTag.node.body;
+        currentTag.pushContainer("body", node);
         onNext && onNext(node);
         onNext =
           shouldTrim &&
@@ -110,7 +112,7 @@ export function parse(hub) {
             escape
           );
 
-          body.push(node);
+          currentTag.pushContainer("body", node);
           onNext = onNext && onNext(node);
         }
       },
@@ -124,7 +126,8 @@ export function parse(hub) {
         }
 
         // Scriptlets are ignored as content and don't call `onNext`.
-        body.push(
+        currentTag.pushContainer(
+          "body",
           hub.createNode(
             "markoScriptlet",
             pos,
@@ -137,7 +140,7 @@ export function parse(hub) {
       onOpenTagName(event) {
         const { tagName, pos, endPos } = event;
         const [, tagNameExpression] =
-          /^\$\{([\s\S]+)\}/.exec(tagName) || EMPTY_OBJECT;
+          /^\$\{([\s\S]+)\}/.exec(tagName) || EMPTY_ARRAY;
         const tagDef = !tagNameExpression && hub.lookup.getTag(tagName);
         const tagNameStartPos = pos + (event.concise ? 0 : 1); // Account for leading `<`.
         const node = hub.createNode(
@@ -164,7 +167,7 @@ export function parse(hub) {
           if (parseOptions) {
             event.setParseOptions(parseOptions);
 
-            if (parseOptions.rootOnly && stack.length !== 1) {
+            if (parseOptions.rootOnly && !currentTag.isProgram()) {
               throw hub.buildError(
                 { start: pos, end: endPos },
                 `"${tagName}" tags must be at the root of your Marko template.`
@@ -173,9 +176,7 @@ export function parse(hub) {
           }
         }
 
-        stack.push(node);
-        body.push(node);
-        body = node.body;
+        [currentTag] = currentTag.pushContainer("body", node);
 
         // @tags are not treated as content and do not call next.
         if (!isNestedTag(node)) {
@@ -185,48 +186,47 @@ export function parse(hub) {
 
       onOpenTag(event, parser) {
         const { pos, endPos, tagNameEndPos } = event;
-        const node = stack[stack.length - 1];
-        const { tagDef } = node;
+        const { tagDef } = currentTag.node;
         const parseOptions = (tagDef && tagDef.parseOptions) || EMPTY_OBJECT;
         wasSelfClosing = event.selfClosed;
         wasConcise = event.concise;
 
         if (parseOptions.rawOpenTag) {
-          node.rawValue = parser
-            .substring(pos, endPos)
-            .replace(/^<|\/>$|>$/g, "");
-        } else {
-          node.params = parseParams(hub, event.params);
-          node.arguments = parseArguments(hub, event.argument);
-          node.attributes = parseAttributes(
-            hub,
-            event.attributes,
-            tagNameEndPos
+          currentTag.set(
+            "rawValue",
+            parser.substring(pos, endPos).replace(/^<|\/>$|>$/g, "")
           );
-          node.attributes = parseIDShorthand(
-            hub,
-            event.shorthandId,
-            node.attributes
-          );
-          node.attributes = parseClassnameShorthand(
-            hub,
-            event.shorthandClassNames,
-            node.attributes
+        }
+
+        if (!parseOptions.ignoreAttributes) {
+          currentTag.set("params", parseParams(hub, event.params));
+          currentTag.set("arguments", parseArguments(hub, event.argument));
+          currentTag.set(
+            "attributes",
+            parseClassnameShorthand(
+              hub,
+              event.shorthandClassNames,
+              parseIDShorthand(
+                hub,
+                event.shorthandId,
+                parseAttributes(hub, event.attributes, tagNameEndPos)
+              )
+            )
           );
         }
 
         if (!preservingWhitespaceUntil && parseOptions.preserveWhitespace) {
-          preservingWhitespaceUntil = node;
+          preservingWhitespaceUntil = currentTag;
         }
       },
 
       onCloseTag(event, parser) {
-        let { tagName, pos, endPos } = event;
-        const node = stack.pop();
+        let { pos, endPos } = event;
+        const tag = currentTag;
+        const { node } = tag;
         const { tagDef } = node;
-        body = stack[stack.length - 1].body;
 
-        if (preservingWhitespaceUntil === node) {
+        if (preservingWhitespaceUntil === currentTag) {
           preservingWhitespaceUntil = undefined;
         }
 
@@ -244,31 +244,25 @@ export function parse(hub) {
 
         Object.assign(node, getLocRange(code, node.start, endPos));
 
-        if (tagName && !wasSelfClosing) {
-          if (t.isStringLiteral(node.name)) {
-            if (node.name.value !== tagName) {
-              throw hub.buildError(
-                { start: pos, end: endPos },
-                `Invalid closing tag ${tagName}.`
-              );
-            }
-          } else if (!wasSelfClosing && code.slice(pos, endPos) !== "</>") {
-            throw hub.buildError(
-              { start: pos, end: endPos },
-              `Invalid ending for dynamic tag ${tagName}.`
-            );
-          }
+        if (
+          !wasSelfClosing &&
+          !t.isStringLiteral(node.name) &&
+          code.slice(pos, endPos) !== "</>"
+        ) {
+          throw hub.buildError(
+            { start: pos, end: endPos },
+            `Invalid ending for dynamic tag, expected "</>".`
+          );
         }
 
         if (tagDef && tagDef.nodeFactoryPath) {
           const module = require(tagDef.nodeFactoryPath);
+          /* istanbul ignore next */
           const { default: fn = module } = module;
-          body.splice(
-            body.length - 1,
-            1,
-            ...[].concat(fn(hub.createNodePath(node)))
-          );
+          fn(tag);
         }
+
+        currentTag = currentTag.parentPath;
       },
 
       onfinish() {
@@ -289,6 +283,4 @@ export function parse(hub) {
       ...htmlParseOptions
     }
   ).parse(code, filename);
-
-  return hub.file;
 }

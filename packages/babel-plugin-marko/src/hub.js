@@ -2,7 +2,6 @@ import path from "path";
 import { getClientPath } from "lasso-modules-client/transport";
 import "./generators";
 import * as t from "./definitions";
-import { NodePath, Scope } from "@babel/traverse";
 import { parse, parseExpression } from "@babel/parser";
 import { buildLookup } from "./taglib";
 import createFile from "./util/create-file";
@@ -64,12 +63,6 @@ export class Hub {
 
   buildError(node, msg) {
     return codeFrameError(this.filename, this._code, msg, node.start, node.end);
-  }
-
-  createNodePath(node = this.file) {
-    const nodePath = new NodePath(this, this.file);
-    nodePath.node = node;
-    return nodePath;
   }
 
   getClientPath(file) {

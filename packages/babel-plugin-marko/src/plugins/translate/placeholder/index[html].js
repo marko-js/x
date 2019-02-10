@@ -1,7 +1,6 @@
 import * as t from "../../../definitions";
 import write from "../../../util/html-out-write";
 import withPreviousLocation from "../../../util/with-previous-location";
-import { replaceInRenderBody } from "../../../taglib/core/util";
 
 const EMPTY_OBJECT = {};
 const ESCAPE_TYPES = {
@@ -37,7 +36,7 @@ export default function(path) {
     );
   }
 
-  replaceInRenderBody(path, withPreviousLocation(write`${value}`, node));
+  path.replaceWith(withPreviousLocation(write`${value}`, node));
 }
 
 function findParentTagName(path) {

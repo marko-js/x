@@ -1,8 +1,4 @@
 import * as t from "../../../definitions";
-import {
-  toStatement,
-  insertBeforeInRenderBody
-} from "../../../taglib/core/util";
 
 export function getAttrs(path, skipRenderBody) {
   const { node } = path;
@@ -26,14 +22,14 @@ export function getAttrs(path, skipRenderBody) {
 
   if (!skipRenderBody && childLen) {
     if (hasDynamicAttributeTags) {
-      insertBeforeInRenderBody(path, body);
+      path.insertBefore(body);
     } else {
       properties.push(
         t.objectProperty(
           t.stringLiteral("renderBody"),
           t.arrowFunctionExpression(
             [t.identifier("out"), ...node.params],
-            t.blockStatement(body.map(toStatement))
+            t.blockStatement(body)
           )
         )
       );

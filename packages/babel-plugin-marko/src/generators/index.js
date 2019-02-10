@@ -139,15 +139,15 @@ Object.assign(Printer.prototype, {
 
     if (rawValue) {
       this.token(rawValue);
-    } else if (isDynamicTag) {
-      this.token("${");
-      this.print(node.name, node);
-      this.token("}");
     } else {
-      this.token(tagName);
-    }
+      if (isDynamicTag) {
+        this.token("${");
+        this.print(node.name, node);
+        this.token("}");
+      } else {
+        this.token(tagName);
+      }
 
-    if (!rawValue) {
       if (node.arguments.length) {
         this.token("(");
         this.printList(node.arguments, node);

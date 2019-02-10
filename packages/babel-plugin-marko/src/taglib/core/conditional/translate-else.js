@@ -1,6 +1,6 @@
 import * as t from "../../../definitions";
 import { buildIfStatement } from "./util";
-import { assertAllowedAttributes, toStatement } from "../util";
+import { assertAllowedAttributes } from "../util";
 
 export default function translate(path) {
   assertAllowedAttributes(path, ["if"]);
@@ -20,7 +20,7 @@ export default function translate(path) {
   if (ifAttr) {
     ifStatement.alternate = buildIfStatement(path, ifAttr.arguments);
   } else {
-    ifStatement.alternate = t.blockStatement(body.map(toStatement));
+    ifStatement.alternate = t.blockStatement(body);
   }
 
   path.remove();

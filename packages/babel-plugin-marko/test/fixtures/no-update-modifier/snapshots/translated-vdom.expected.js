@@ -10,13 +10,13 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "value": input.defaultValue
   }, "0", component, 0, 0, {
     noupdate: ["value"]
-  })
+  });
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType
-}
+};
 export default _marko_template;

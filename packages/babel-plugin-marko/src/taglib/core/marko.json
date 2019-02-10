@@ -39,10 +39,10 @@
     }
   },
   "<style>": {
-    "transformer": "./transform-style.js",
+    "node-factory": "./parse-style.js",
+    "code-generator": "./translate-style.js",
     "parse-options": {
-      "rawOpenTag": true,
-      "ignoreAttributes": true
+      "rawOpenTag": true
     }
   },
   "<macro>": {
@@ -102,7 +102,6 @@
     "transformer": "./transform-body.js"
   },
   "<*>": {
-    "transformer": "./attributes/transform.js",
     "@key": {
       "type": "string",
       "preserve-name": true,

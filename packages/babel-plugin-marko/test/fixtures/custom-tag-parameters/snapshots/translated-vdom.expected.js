@@ -22,14 +22,14 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       out.t(c);
       out.ee();
     }
-  }, out, "1")
+  }, out, "1");
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
   tags: ["./components/custom-tag.marko"]
-}
+};
 export default _marko_template;

@@ -8,14 +8,14 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.be("div", {
     "d": 0,
     "y": 1
-  }, "0", component, 0, 0)
-  out.ee()
+  }, "0", component, 0, 0);
+  out.ee();
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType
-}
+};
 export default _marko_template;

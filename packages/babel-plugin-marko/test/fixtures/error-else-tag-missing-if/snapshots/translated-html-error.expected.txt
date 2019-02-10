@@ -1,6 +1,5 @@
-packages/babel-plugin-marko/test/fixtures/error-else-tag-missing-if/template.marko(4,2): Invalid 'else' tag, expected preceding 'if' or 'else if' tag.
-  2 | </if>
-  3 | <div/>
-> 4 | <else if(y)>
+packages/babel-plugin-marko/test/fixtures/error-else-tag-missing-if/template.marko(1,2): Invalid 'else' tag, expected preceding 'if' or 'else if' tag.
+> 1 | <else>
     |  ^^^^
-  5 | </else>
+  2 |   Hello
+  3 | </else>

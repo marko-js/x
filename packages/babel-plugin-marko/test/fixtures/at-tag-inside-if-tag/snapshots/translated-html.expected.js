@@ -23,14 +23,14 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   _customTag_tag({
     "thing": _thing
-  }, out, "2")
+  }, out, "2");
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
   tags: ["./components/custom-tag/index.marko"]
-}
+};
 export default _marko_template;

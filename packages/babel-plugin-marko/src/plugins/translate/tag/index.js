@@ -12,11 +12,10 @@ export default {
   exit(path) {
     const { hub, node } = path;
     const { options, macros } = hub;
-    const { name, hasAttributeTag, tagDef = EMPTY_OBJECT } = node;
+    const { name, hasAttributeTag } = node;
     node.key = node.key || hub.nextKey();
 
     if (!t.isStringLiteral(name)) {
-      assertNoAttributeTags();
       dynamicTag(path);
       return;
     }
@@ -27,6 +26,9 @@ export default {
       attributeTag(path);
       return;
     }
+
+    const tagDef = hub.lookup.getTag(tagName) || EMPTY_OBJECT;
+    node.tagDef = tagDef;
 
     if (tagDef.codeGeneratorModulePath) {
       const module = require(tagDef.codeGeneratorModulePath);

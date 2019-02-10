@@ -5,12 +5,12 @@ const _marko_template = _t(__filename),
       _marko_componentType = "rBg9zhFf";
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.be("div", null, "0", component, 0, 0)
-  out.ee()
+  out.be("div", null, "0", component, 0, 0);
+  out.ee();
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
+});
 _marko_template.Component = _marko_defineComponent({
   onCreate() {
     this.x = 1
@@ -18,8 +18,8 @@ _marko_template.Component = _marko_defineComponent({
     this.stuff();
   }
 
-}, _marko_template._)
+}, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType
-}
+};
 export default _marko_template;

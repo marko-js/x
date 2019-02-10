@@ -15,14 +15,14 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       out.t("This is the body content");
     }
-  }, out, "0")
+  }, out, "0");
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-})
-_marko_template.Component = _marko_defineComponent(null, _marko_template._)
+});
+_marko_template.Component = _marko_defineComponent(null, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
   tags: ["./tags/test-body-function/renderer.js"]
-}
+};
 export default _marko_template;
