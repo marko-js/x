@@ -1,10 +1,9 @@
 import * as t from "../../../definitions";
-import { getAttrs } from "./util";
+import { getAttrs, getFullyResolvedTagName, findParentTag } from "./util";
 import { assertNoArgs } from "../../../taglib/core/util";
 
 const EMPTY_OBJECT = {};
 const parentIdentifierLookup = new WeakMap();
-const transparentTags = new Set(["for", "if", "else", "no-update"]);
 
 // TODO: optimize inline repeated @tags.
 
@@ -89,44 +88,5 @@ export default function(path) {
         t.assignmentExpression("=", identifier, getAttrs(path))
       )
     );
-  }
-}
-
-function getFullyResolvedTagName(path) {
-  const parts = [];
-  let cur;
-  do {
-    cur = path.node.name.value;
-
-    if (cur) {
-      if (cur[0] !== "@") {
-        parts.push(cur);
-      } else {
-        parts.push(cur.slice(1));
-        continue;
-      }
-    }
-
-    break;
-  } while ((path = findParentTag(path)));
-
-  return parts.reverse().join(":");
-}
-
-function findParentTag(path) {
-  let cur = path.parentPath;
-
-  while (cur.node) {
-    if (!cur.isMarkoTag()) {
-      cur = undefined;
-      break;
-    }
-
-    if (transparentTags.has(cur.get("name.value").node)) {
-      cur = cur.parentPath;
-      continue;
-    }
-
-    return cur;
   }
 }

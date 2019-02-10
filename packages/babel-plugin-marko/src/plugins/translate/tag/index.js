@@ -4,6 +4,7 @@ import nativeTagHTML from "./native-tag[html]";
 import nativeTagVDOM from "./native-tag[vdom]";
 import customTag from "./custom-tag";
 import macroTag from "./macro-tag";
+import { getFullyResolvedTagName } from "./util";
 
 const EMPTY_OBJECT = {};
 
@@ -23,13 +24,16 @@ export default {
     }
 
     const tagName = name.get("value").node;
+    const isAttributeTag = tagName[0] === "@";
 
-    if (tagName[0] === "@") {
-      attributeTag(path);
+    if (macros[tagName]) {
+      assertNoAttributeTags();
+      macroTag(path, macros[tagName]);
       return;
     }
 
-    const tagDef = hub.lookup.getTag(tagName) || EMPTY_OBJECT;
+    const tagDef =
+      hub.lookup.getTag(getFullyResolvedTagName(path)) || EMPTY_OBJECT;
     path.set("tagDef", tagDef);
 
     if (tagDef.codeGeneratorModulePath) {
@@ -42,7 +46,9 @@ export default {
       }
     }
 
-    if (tagDef.html) {
+    if (isAttributeTag) {
+      attributeTag(path);
+    } else if (tagDef.html) {
       assertNoAttributeTags();
       if (options.output === "html") {
         nativeTagHTML(path);

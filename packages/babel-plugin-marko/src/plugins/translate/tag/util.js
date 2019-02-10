@@ -1,4 +1,5 @@
 import * as t from "../../../definitions";
+const transparentTags = new Set(["for", "if", "else", "no-update"]);
 
 export function getAttrs(path, skipRenderBody) {
   const { node } = path;
@@ -65,4 +66,43 @@ export function buildEventHandlerArray(path) {
       )
     )
   ];
+}
+
+export function getFullyResolvedTagName(path) {
+  const parts = [];
+  let cur;
+  do {
+    cur = path.node.name.value;
+
+    if (cur) {
+      if (cur[0] !== "@") {
+        parts.push(cur);
+      } else {
+        parts.push(cur.slice(1));
+        continue;
+      }
+    }
+
+    break;
+  } while ((path = findParentTag(path)));
+
+  return parts.reverse().join(":");
+}
+
+export function findParentTag(path) {
+  let cur = path.parentPath;
+
+  while (cur.node) {
+    if (!cur.isMarkoTag()) {
+      cur = undefined;
+      break;
+    }
+
+    if (transparentTags.has(cur.get("name.value").node)) {
+      cur = cur.parentPath;
+      continue;
+    }
+
+    return cur;
+  }
 }

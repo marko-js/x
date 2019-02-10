@@ -1,3 +1,5 @@
+import { getFullyResolvedTagName } from "./translate/tag/util";
+
 /**
  * Applies custom transformers on tags.
  */
@@ -22,8 +24,7 @@ export const visitor = {
     if (isDynamicTag) {
       tagName = undefined;
     } else if (isAttributeTag && path.parentPath.isMarkoTag()) {
-      // TODO: need to account for transparent parents
-      tagName = `${path.parent.name.value}:${tagName.slice(1)}`;
+      tagName = getFullyResolvedTagName(path);
     }
 
     const tagDef = tagName && lookup.getTag(tagName);
