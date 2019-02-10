@@ -1,6 +1,6 @@
 import normalizeTemplateLiteral from "../../../../util/normalize-template-string";
 
-export default function(tag, attr) {
-  tag.node.key = normalizeTemplateLiteral(["@", ""], [attr.get("value").node]);
+export default function(tag, attr, value) {
+  tag.set("key", normalizeTemplateLiteral(["@", ""], [value.node]));
   attr.remove();
 }

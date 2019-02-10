@@ -246,7 +246,7 @@ export function parse(fileNodePath) {
 
         if (
           !wasSelfClosing &&
-          !t.isStringLiteral(node.name) &&
+          !currentTag.get("name").isStringLiteral() &&
           code.slice(pos, endPos) !== "</>"
         ) {
           throw hub.buildError(

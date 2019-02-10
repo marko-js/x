@@ -23,13 +23,14 @@ const MAYBE_SVG = {
 export default function(path) {
   const { hub, node, parent } = path;
   const {
-    name: { value: tagName },
+    name,
     key,
     body,
     properties,
     handlers,
     tagDef
   } = node;
+  const { value: tagName } = name;
 
   path.get("attributes").forEach(attr => {
     // Remove falsey attributes.
@@ -47,7 +48,7 @@ export default function(path) {
   const attrsObj = getAttrs(path, true);
   const writeArgs = [
     isSelfClosing ? "e" : "be",
-    node.name,
+    name,
     attrsObj.properties.length ? attrsObj : t.nullLiteral(),
     key,
     t.identifier("component"),

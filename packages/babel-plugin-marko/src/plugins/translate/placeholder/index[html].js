@@ -41,11 +41,11 @@ export default function(path) {
 
 function findParentTagName(path) {
   while ((path = path.parentPath)) {
-    if (t.isProgram(path.node)) {
+    if (path.isProgram()) {
       return;
     }
 
-    if (t.isMarkoTag(path.node)) {
+    if (path.isMarkoTag()) {
       const { tagDef = EMPTY_OBJECT } = path.node;
       return (
         tagDef.html &&

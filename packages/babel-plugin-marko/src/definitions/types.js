@@ -185,6 +185,10 @@ export default {
       runtimeFlags: {
         validate: assertValueType("number"),
         default: 0
+      },
+      key: {
+        validate: assertNodeType("Expression"),
+        optional: true
       }
     }
   }

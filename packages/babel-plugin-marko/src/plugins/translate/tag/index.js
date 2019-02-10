@@ -1,4 +1,3 @@
-import * as t from "../../../definitions";
 import dynamicTag from "./dynamic-tag";
 import attributeTag from "./attribute-tag";
 import nativeTagHTML from "./native-tag[html]";
@@ -10,17 +9,20 @@ const EMPTY_OBJECT = {};
 
 export default {
   exit(path) {
-    const { hub, node } = path;
+    const { hub } = path;
     const { options, macros } = hub;
-    const { name, hasAttributeTag } = node;
-    node.key = node.key || hub.nextKey();
+    const name = path.get("name");
 
-    if (!t.isStringLiteral(name)) {
+    if (!path.get("key").node) {
+      path.set("key", hub.nextKey());
+    }
+
+    if (!name.isStringLiteral()) {
       dynamicTag(path);
       return;
     }
 
-    const tagName = name.value;
+    const tagName = name.get("value").node;
 
     if (tagName[0] === "@") {
       attributeTag(path);
@@ -28,11 +30,12 @@ export default {
     }
 
     const tagDef = hub.lookup.getTag(tagName) || EMPTY_OBJECT;
-    node.tagDef = tagDef;
+    path.set("tagDef", tagDef);
 
     if (tagDef.codeGeneratorModulePath) {
       const module = require(tagDef.codeGeneratorModulePath);
       const { default: fn = module } = module;
+      const node = path.node;
       fn(path);
       if (path.node !== node) {
         return;
@@ -54,11 +57,11 @@ export default {
     }
 
     function assertNoAttributeTags() {
-      if (hasAttributeTag) {
-        throw hub.buildError(
-          hasAttributeTag.name,
-          "@tags must be within a custom element."
-        );
+      const exampleAttributeTag = path.get("exampleAttributeTag");
+      if (exampleAttributeTag.node) {
+        throw exampleAttributeTag
+          .get("name")
+          .buildCodeFrameError("@tags must be within a custom element.");
       }
     }
   }

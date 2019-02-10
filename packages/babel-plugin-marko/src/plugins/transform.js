@@ -1,5 +1,3 @@
-import * as t from "../definitions";
-
 /**
  * Applies custom transformers on tags.
  */
@@ -10,11 +8,10 @@ export const visitor = {
     );
   },
   MarkoTag(path) {
-    const { hub, node } = path;
+    const { hub } = path;
     const { lookup, macros } = hub;
-    const { name } = node;
-    let tagName = name.value;
-    const isDynamicTag = !t.isStringLiteral(name);
+    let tagName = path.get("name.value").node;
+    const isDynamicTag = !path.get("name").isStringLiteral();
     const isAttributeTag = !isDynamicTag && tagName[0] === "@";
     const isTagDefOptional = isDynamicTag || isAttributeTag;
 
@@ -24,7 +21,7 @@ export const visitor = {
 
     if (isDynamicTag) {
       tagName = undefined;
-    } else if (isAttributeTag && t.isMarkoTag(path.parent)) {
+    } else if (isAttributeTag && path.parentPath.isMarkoTag()) {
       // TODO: need to account for transparent parents
       tagName = `${path.parent.name.value}:${tagName.slice(1)}`;
     }
@@ -47,7 +44,7 @@ export const visitor = {
       const { default: fn = module } = module;
       const node = path.node;
       fn(path);
-      if (node !== path.node) break; // Stop if node is replaced.
+      if (path.node !== node) break; // Stop if node is replaced.
     }
   }
 };

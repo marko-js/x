@@ -1,13 +1,10 @@
 import * as t from "../../../../definitions";
 import { isHTMLTag } from "../../../../taglib/core/util";
-export default function(tag, attr) {
+export default function(tag, _, value) {
   const { hub } = tag;
-  const {
-    node: { value }
-  } = attr;
-  if (t.isStringLiteral(value)) return;
+  if (value.isStringLiteral()) return;
   if (!isHTMLTag(tag)) return;
-  attr.get("value").replaceWith(
+  value.replaceWith(
     t.callExpression(
       hub.importNamed(
         tag,
@@ -15,7 +12,7 @@ export default function(tag, attr) {
         "cl",
         "marko_class_merge"
       ),
-      [value]
+      [value.node]
     )
   );
 }

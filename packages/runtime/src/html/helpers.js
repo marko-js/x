@@ -27,7 +27,7 @@ export function dynamicTag(tagName, attrs, out) {
 }
 
 export function stringifyAttrs(attrs) {
-  const result = "";
+  let result = "";
 
   for (var key in attrs) {
     // Skip invalid attrs https://html.spec.whatwg.org/multipage/syntax.html#attributes-2

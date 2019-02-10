@@ -22,6 +22,8 @@ export function classAttr(input) {
 
     result = result.slice(1);
   }
+
+  return result;
 }
 
 const DASHED_NAMES = Object.create(null);
@@ -56,4 +58,6 @@ export function styleAttr(input) {
 
     result = result.slice(1);
   }
+
+  return result;
 }

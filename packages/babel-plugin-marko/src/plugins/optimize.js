@@ -1,4 +1,3 @@
-import * as t from "../definitions";
 import normalizeTemplateLiteral from "../util/normalize-template-string";
 
 export const visitor = {
@@ -9,7 +8,7 @@ export const visitor = {
     const removals = [];
 
     do {
-      const content = getOutContent(curPath.node);
+      const content = getOutContent(curPath);
       if (!content) break;
       if (curPath !== path) removals.push(curPath);
       quasis.push("");
@@ -26,16 +25,16 @@ export const visitor = {
   }
 };
 
-function getOutContent(node) {
-  if (t.isExpressionStatement(node)) {
-    return getOutContent(node.expression);
+function getOutContent(path) {
+  if (path.isExpressionStatement()) {
+    return getOutContent(path.get("expression"));
   }
 
   return (
-    t.isCallExpression(node) &&
-    t.isMemberExpression(node.callee) &&
-    node.callee.object.name === "out" &&
-    node.callee.property.name === "w" &&
-    node.arguments[0]
+    path.isCallExpression() &&
+    path.get("callee").isMemberExpression() &&
+    path.get("callee.object.name").node === "out" &&
+    path.get("callee.property.name").node === "w" &&
+    path.get("arguments.0").node
   );
 }

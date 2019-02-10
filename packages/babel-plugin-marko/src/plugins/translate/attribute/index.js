@@ -9,14 +9,16 @@ const EVENT_REG = /^(on(?:ce)?)(-)?(.*)$/;
 
 export default function(attr) {
   const tag = attr.parentPath;
-  const tagNode = tag.node;
-  const { name, value, modifier, arguments: args } = attr.node;
+  const value = attr.get("value");
+  const { name, modifier, arguments: args } = attr.node;
 
   if (modifier) {
     const modifierTranslate = modifiers[modifier];
     if (modifierTranslate) {
-      modifierTranslate(tag, attr);
-      if (tagNode !== tag.node) return;
+      modifierTranslate(tag, attr, value);
+      const tagNode = tag.node;
+      const attrNode = attr.node;
+      if (tag.node !== tagNode || attr.node !== attrNode) return;
     } else {
       throw attr.buildCodeFrameError(`Unsupported modifier "${modifier}".`);
     }
@@ -29,12 +31,10 @@ export default function(attr) {
       throw attr.buildCodeFrameError("Event handler is missing arguments.");
     }
 
-    if (value && value.value !== true) {
-      throw attr
-        .get("value")
-        .buildCodeFrameError(
-          `"${name}(handler, ...args)" does not accept a value.`
-        );
+    if (!value.isBooleanLiteral(true)) {
+      throw value.buildCodeFrameError(
+        `"${name}(handler, ...args)" does not accept a value.`
+      );
     }
 
     if (!isDash) {
@@ -51,7 +51,7 @@ export default function(attr) {
       }
     }
 
-    const handlers = (tagNode.handlers = tagNode.handlers || {});
+    const handlers = (tag.node.handlers = tag.node.handlers || {});
     if (handlers[eventName]) {
       throw attr.buildCodeFrameError(
         "Duplicate event handlers are not supported."
@@ -68,8 +68,10 @@ export default function(attr) {
 
   const directiveTranslate = directives[name];
   if (directiveTranslate) {
-    directiveTranslate(tag, attr);
-    if (tagNode !== tag.node) return;
+    directiveTranslate(tag, attr, value);
+    const tagNode = tag.node;
+    const attrNode = attr.node;
+    if (tag.node !== tagNode || attr.node !== attrNode) return;
   }
 
   if (attr.node && !attr.node.allowArguments && args && args.length) {

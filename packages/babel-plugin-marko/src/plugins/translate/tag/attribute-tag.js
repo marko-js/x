@@ -34,7 +34,7 @@ export default function(path) {
   const tagDef = lookup.getTag(fullTagName) || EMPTY_OBJECT;
   const { isRepeated, targetProperty = tagName.slice(1) } = tagDef;
   const isDynamic = isRepeated || parentPath !== path.parentPath;
-  parentPath.node.hasAttributeTag = node;
+  parentPath.node.exampleAttributeTag = node;
   parentPath.node.hasDynamicAttributeTags =
     isDynamic || node.hasDynamicAttributeTags;
 
@@ -117,14 +117,12 @@ function findParentTag(path) {
   let cur = path.parentPath;
 
   while (cur.node) {
-    const { node } = cur;
-
-    if (!t.isMarkoTag(node)) {
+    if (!cur.isMarkoTag()) {
       cur = undefined;
       break;
     }
 
-    if (transparentTags.has(node.name.value)) {
+    if (transparentTags.has(cur.get("name.value").node)) {
       cur = cur.parentPath;
       continue;
     }
