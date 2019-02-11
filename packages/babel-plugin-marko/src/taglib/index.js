@@ -20,11 +20,6 @@ export function buildLookup(dirname) {
     "marko/src/components/taglib/preserve-tag.js"
   );
 
-  lookupInstance.getTag("html-comment").renderer = resolveFrom(
-    dirname,
-    "marko/src/taglibs/html/html-comment-tag.js"
-  );
-
   lookupInstance.getTag("init-components").renderer = resolveFrom(
     dirname,
     "marko/src/components/taglib/init-components-tag.js"

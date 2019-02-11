@@ -79,8 +79,11 @@
     }
   },
   "<html-comment>": {
-    "code-generator": "./translate-html-comment/index.js",
-    "attribute-groups": ["html-attributes"]
+    "code-generator": "./translate-html-comment.js",
+    "attribute-groups": ["html-attributes"],
+    "parse-options": {
+      "state": "static-text"
+    }
   },
   "<fragment>": {
     "transformer": "./transform-fragment.js",

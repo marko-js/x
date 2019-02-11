@@ -5,7 +5,7 @@ const _marko_template = _t(__filename),
       _marko_componentType = "cmjBZ1aK";
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.w("<div><!--abc--></div>");
+  out.w("<div><!--abc--><!--[if lt IE 9]><script src=\"...\"></script><![endif]--></div>");
 }, {
   ___type: _marko_componentType,
   ___implicit: true

@@ -713,6 +713,7 @@
     "html": true,
     "attribute-groups": ["html-attributes"],
     "parse-options": {
+      "state": "parsed-text",
       "preserveWhitespace": true
     }
   },
@@ -773,6 +774,7 @@
     ],
     "attribute-groups": ["html-attributes"],
     "parse-options": {
+      "state": "parsed-text",
       "preserveWhitespace": true
     }
   },

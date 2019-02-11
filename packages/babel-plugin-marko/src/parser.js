@@ -191,6 +191,12 @@ export function parse(fileNodePath) {
         wasSelfClosing = event.selfClosed;
         wasConcise = event.concise;
 
+        if (parseOptions.state === "parsed-text") {
+          parser.enterParsedTextContentState();
+        } else if (parseOptions.state === "static-text") {
+          parser.enterStaticTextContentState();
+        }
+
         if (parseOptions.rawOpenTag) {
           currentTag.set(
             "rawValue",

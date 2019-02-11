@@ -14,10 +14,6 @@ import _other from "./components/other/index.marko";
 
 const _other_tag = _t(_other);
 
-import _htmlComment from "marko/src/taglibs/html/html-comment-tag.js";
-
-const _htmlComment_tag = _t(_htmlComment);
-
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { t as _t2 } from "marko/src/runtime/vdom";
 
@@ -139,13 +135,6 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     ...f()
   }, "27", component, 0, 0);
   out.t(a);
-
-  _htmlComment_tag({
-    "renderBody": out => {
-      out.t("abc");
-    }
-  }, out, "21");
-
   out.be("div", {
     "c": 1
   }, "22", component, 0, 0);
@@ -233,6 +222,6 @@ _marko_template.meta = {
     "path": "./template.marko",
     "virtualPath": "./template.marko.css"
   }],
-  tags: ["./components/other/index.marko", "marko/src/taglibs/html/html-comment-tag.js"]
+  tags: ["./components/other/index.marko"]
 };
 export default _marko_template;
