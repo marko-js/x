@@ -1,3 +1,4 @@
+import { extname } from "path";
 import { Hub } from "./hub";
 import { parse } from "./parser";
 import { visitor as transform } from "./plugins/transform";
@@ -6,8 +7,10 @@ import { visitor as optimize } from "./plugins/optimize";
 import { NodePath } from "@babel/traverse";
 
 export default (api, options) => {
+  api.assertVersion(7);
   const isProduction = api.env("production");
   return {
+    name: "marko",
     parserOverride(code, jsParseOptions) {
       const filename = jsParseOptions.sourceFileName;
       const hub = new Hub(filename, code, {
@@ -15,6 +18,12 @@ export default (api, options) => {
         jsParseOptions,
         isProduction
       });
+
+      // Only run on Marko files.
+      if (!(extname(filename) === ".marko" || options.allExtensions)) {
+        return hub.parse(code, 0);
+      }
+
       const nodePath = new NodePath(hub);
       nodePath.node = hub.file;
       parse(nodePath);

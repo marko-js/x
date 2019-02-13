@@ -48,8 +48,12 @@ export const visitor = {
             path,
             hub.resolveRelativePath(componentFile),
             "marko_component"
-          ));
+          )) ||
+        t.nullLiteral();
 
+      const componentIdentifier = path.scope.generateUidIdentifier(
+        "marko_component"
+      );
       const componentTypeIdentifier = path.scope.generateUidIdentifier(
         "marko_componentType"
       );
@@ -81,16 +85,17 @@ export const visitor = {
         "body",
         t.variableDeclaration("const", [
           t.variableDeclarator(
+            componentTypeIdentifier,
+            t.stringLiteral(componentId)
+          ),
+          t.variableDeclarator(
             templateIdentifier,
             t.callExpression(
               hub.importNamed(path, `marko/src/runtime/${options.output}`, "t"),
               [t.identifier("__filename")]
             )
           ),
-          t.variableDeclarator(
-            componentTypeIdentifier,
-            t.stringLiteral(componentId)
-          )
+          t.variableDeclarator(componentIdentifier, componentClass)
         ])
       );
 
@@ -128,7 +133,8 @@ export const visitor = {
                 ],
                 renderBlock.node
               ),
-              t.objectExpression(templateRenderOptionsProps)
+              t.objectExpression(templateRenderOptionsProps),
+              componentIdentifier
             ])
           )
         )
@@ -142,7 +148,7 @@ export const visitor = {
             "=",
             t.memberExpression(templateIdentifier, t.identifier("Component")),
             t.callExpression(defineComponentIdentifier, [
-              componentClass || t.nullLiteral(),
+              componentIdentifier,
               templateRendererMember
             ])
           )
