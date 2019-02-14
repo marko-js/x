@@ -2,11 +2,12 @@ import * as t from "../../../definitions";
 
 export function buildIfStatement(path, args) {
   if (!args || !args.length) {
-    throw path
-      .get("name")
-      .buildCodeFrameError(
-        "Invalid '<if>' tag, expected arguments like '<if(test)>'."
-      );
+    const name = path.get("name");
+    throw name.buildCodeFrameError(
+      `Invalid '<${name.node.value}>' tag, expected arguments like '<${
+        name.node.value
+      }(test)>'.`
+    );
   }
 
   const ifStatement = t.ifStatement(
@@ -18,7 +19,11 @@ export function buildIfStatement(path, args) {
 
   // Provide the if statement to the next part of the if chain.
   if (nextPath.isMarkoTag()) {
-    if (nextPath.get("name").isStringLiteral({ value: "else" })) {
+    const nextTagName = nextPath.get("name");
+    if (
+      nextTagName.isStringLiteral({ value: "else" }) ||
+      nextTagName.isStringLiteral({ value: "else-if" })
+    ) {
       nextPath.node.ifStatement = ifStatement;
     }
   }

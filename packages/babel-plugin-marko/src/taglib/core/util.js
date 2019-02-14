@@ -18,6 +18,10 @@ export function assertAllowedAttributes(path, allowed) {
   });
 }
 
+export function assertNoAttributes(path) {
+  assertAllowedAttributes(path, []);
+}
+
 export function assertNoParams(path) {
   const { hub } = path;
   const params = path.get("params");

@@ -1,7 +1,7 @@
 import { buildIfStatement } from "./util";
-import { assertAllowedAttributes } from "../util";
+import { assertNoAttributes } from "../util";
 
 export default function(path) {
-  assertAllowedAttributes(path, []);
+  assertNoAttributes(path);
   path.replaceWith(buildIfStatement(path, path.node.arguments));
 }

@@ -54,13 +54,13 @@
     "@name": "string"
   },
   "<if>": {
-    "code-generator": "./conditional/translate-if.js",
-    "@if": "expression"
+    "code-generator": "./conditional/translate-if.js"
+  },
+  "<else-if>": {
+    "code-generator": "./conditional/translate-else-if.js"
   },
   "<else>": {
-    "node-factory": "./conditional/parse-else.js",
-    "code-generator": "./conditional/translate-else.js",
-    "@if": "expression"
+    "code-generator": "./conditional/translate-else.js"
   },
   "<for>": {
     "code-generator": "./translate-for.js",
