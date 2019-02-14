@@ -17,8 +17,14 @@ const _other_tag = _t(_other);
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { t as _t2 } from "marko/src/runtime/vdom";
 
-const _marko_template = _t2(__filename),
-      _marko_componentType = "8f1lFGb_";
+const _marko_componentType = "8f1lFGb_",
+      _marko_template = _t2(__filename),
+      _marko_component = {
+  onCreate() {
+    this.stuff();
+  }
+
+};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("style", {
@@ -207,13 +213,8 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-});
-_marko_template.Component = _marko_defineComponent({
-  onCreate() {
-    this.stuff();
-  }
-
-}, _marko_template._);
+}, _marko_component);
+_marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
   deps: [{

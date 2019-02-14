@@ -10,8 +10,9 @@ const _hello_tag = _t(_hello);
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { t as _t2 } from "marko/src/runtime/html";
 
-const _marko_template = _t2(__filename),
-      _marko_componentType = "FaQWPoit";
+const _marko_componentType = "FaQWPoit",
+      _marko_template = _t2(__filename),
+      _marko_component = null;
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   const _noUpdateKey = _component.___nextKey("0");
@@ -101,8 +102,8 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-});
-_marko_template.Component = _marko_defineComponent(null, _marko_template._);
+}, _marko_component);
+_marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
   tags: ["marko/src/components/taglib/preserve-tag.js", "./components/hello/index.marko"]

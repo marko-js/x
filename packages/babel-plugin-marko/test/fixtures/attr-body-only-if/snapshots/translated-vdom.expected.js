@@ -6,8 +6,9 @@ const _test_tag = _t(_test);
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
 import { t as _t2 } from "marko/src/runtime/vdom";
 
-const _marko_template = _t2(__filename),
-      _marko_componentType = "M5ooyXS3";
+const _marko_componentType = "M5ooyXS3",
+      _marko_template = _t2(__filename),
+      _marko_component = null;
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   if (!x) out.be("div", null, "0", component, 0, 0);
@@ -36,8 +37,8 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 }, {
   ___type: _marko_componentType,
   ___implicit: true
-});
-_marko_template.Component = _marko_defineComponent(null, _marko_template._);
+}, _marko_component);
+_marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
   tags: ["./components/test.marko"]
