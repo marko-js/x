@@ -7,7 +7,7 @@ const _marko_componentType = "i58_DLy_",
       _marko_component = null;
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.be("div", null, "2", component, 0, 0);
+  out.be("div", null, "2", component, null, 0);
   out.e("input", {
     "value": input.defaultValue
   }, "0", component, 0, 0, {

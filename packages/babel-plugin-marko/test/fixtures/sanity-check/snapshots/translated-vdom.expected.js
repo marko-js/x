@@ -29,12 +29,12 @@ const _marko_componentType = "8f1lFGb_",
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("style", {
     "id": "css"
-  }, "1", component, 0, 4);
+  }, "1", component, null, 4);
   out.t("\n  div {\n    color: ");
   out.t(x);
   out.t(";\n  }\n");
   out.ee();
-  out.be("script", null, "2", component, 0, 0);
+  out.be("script", null, "2", component, null, 0);
   out.t("\n  var y = ");
   out.t(x);
   out.t(";\n");
@@ -52,7 +52,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.be("div", {
     "b": b,
     "c": c
-  }, "6", component, 0, 0);
+  }, "6", component, null, 0);
   {
     var d = thing;
     let e = thing;
@@ -139,7 +139,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "c": "${d}",
     ...e,
     ...f()
-  }, "27", component, 0, 0);
+  }, "27", component, null, 0);
   out.t(a);
   out.be("div", {
     "c": 1
@@ -164,7 +164,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "b": 1
   }, "28", component, 0, 0);
   out.ee();
-  out.be("div", null, "29", component, 0, 0);
+  out.be("div", null, "29", component, null, 0);
   out.t("123 abc 123");
   out.ee();
   out.be("span", { ...abc
@@ -207,7 +207,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }, out, `@${val.name}`);
   }
 
-  if (!true) out.be("div", null, "37", component, 0, 0);
+  if (!true) out.be("div", null, "37", component, null, 0);
   out.t("Hi");
   if (!true) out.ee();
 }, {

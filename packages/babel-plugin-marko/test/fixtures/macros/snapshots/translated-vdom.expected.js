@@ -13,10 +13,10 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.t(" Children: ");
 
     if (node.children) {
-      out.be("ul", null, "3", component, 0, 0);
+      out.be("ul", null, "3", component, null, 0);
 
       for (const child of node.children) {
-        out.be("li", null, "1", component, 0, 0);
+        out.be("li", null, "1", component, null, 0);
 
         _marko_dynamicTag(_renderTree, { ...child
         }, out, _component, "0");

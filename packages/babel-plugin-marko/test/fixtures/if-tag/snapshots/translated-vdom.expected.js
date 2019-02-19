@@ -14,7 +14,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.t("World");
   }
 
-  out.be("div", null, "5", component, 0, 0);
+  out.be("div", null, "5", component, null, 0);
 
   if (x) {
     out.t("A");

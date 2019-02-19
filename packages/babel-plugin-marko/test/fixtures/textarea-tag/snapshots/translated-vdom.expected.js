@@ -6,7 +6,7 @@ const _marko_componentType = "oZK15ZeF",
       _marko_component = null;
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.be("textarea", null, "0", component, 0, 2);
+  out.be("textarea", null, "0", component, null, 2);
   out.t("\n  hello world\n");
   out.ee();
 }, {

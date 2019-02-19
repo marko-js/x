@@ -6,7 +6,7 @@ const _marko_componentType = "49meNcug",
       _marko_component = null;
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.be("div", null, "0", component, 0, 0);
+  out.be("div", null, "0", component, null, 0);
   out.t("Here is a CDATA section: ");
   out.t(" < > & ");
   out.t(" with all kinds of unescaped text.");

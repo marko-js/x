@@ -9,7 +9,7 @@ const _marko_componentType = "QHrSVmWi",
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("div", {
     "class": "test"
-  }, "0", component, 0, 0, {
+  }, "0", component, null, 0, {
     noupdate: ["class"]
   });
   out.t("Hello ");

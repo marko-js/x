@@ -50,7 +50,7 @@ export default function(path) {
     attrsObj.properties.length ? attrsObj : t.nullLiteral(),
     key,
     t.identifier("component"),
-    t.numericLiteral(0) // TODO: child count
+    body.length ? t.nullLiteral() : t.numericLiteral(0)
   ];
 
   assertNoParams(path);

@@ -15,13 +15,13 @@ const _marko_componentType = "Fr76d7a7",
       _marko_component = null;
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.be("html", null, "5", component, 0, 0);
-  out.be("head", null, "1", component, 0, 0);
-  out.be("title", null, "0", component, 0, 0);
+  out.be("html", null, "5", component, null, 0);
+  out.be("head", null, "1", component, null, 0);
+  out.be("title", null, "0", component, null, 0);
   out.t("Title of the document");
   out.ee();
   out.ee();
-  out.be("body", null, "4", component, 0, 0);
+  out.be("body", null, "4", component, null, 0);
 
   _componentGlobals_tag({}, out, "2");
 

@@ -6,8 +6,8 @@ const _marko_componentType = "wx7UfmNS",
       _marko_component = null;
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.be("contact-info", null, "1", component, 0, 0);
-  out.be("name", null, "0", component, 0, 0);
+  out.be("contact-info", null, "1", component, null, 0);
+  out.be("name", null, "0", component, null, 0);
   out.t("Hello World");
   out.ee();
   out.ee();

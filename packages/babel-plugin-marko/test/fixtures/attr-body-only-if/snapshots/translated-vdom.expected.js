@@ -11,12 +11,12 @@ const _marko_componentType = "M5ooyXS3",
       _marko_component = null;
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  if (!x) out.be("div", null, "0", component, 0, 0);
+  if (!x) out.be("div", null, "0", component, null, 0);
   out.t("Hello");
   if (!x) out.ee();
 
   const _test_tag_renderBody = out => {
-    out.be("div", null, "1", component, 0, 0);
+    out.be("div", null, "1", component, null, 0);
     out.t("Hello");
     out.ee();
   };
@@ -26,7 +26,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   }, out, "2");
 
   const _dynamic_tag_renderBody = out => {
-    out.be("div", null, "4", component, 0, 0);
+    out.be("div", null, "4", component, null, 0);
     out.t("Hello World");
     out.ee();
   };
