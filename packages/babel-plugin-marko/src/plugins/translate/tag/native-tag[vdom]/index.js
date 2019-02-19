@@ -36,10 +36,8 @@ export default function(path) {
     // Remove falsey attributes.
     const { confident, value: computed } = attr.get("value").evaluate();
 
-    if (confident && attr.name !== "data-marko") {
-      if (computed == null || computed === false) {
-        attr.remove();
-      }
+    if (confident && (computed == null || computed === false)) {
+      attr.remove();
     }
   });
 

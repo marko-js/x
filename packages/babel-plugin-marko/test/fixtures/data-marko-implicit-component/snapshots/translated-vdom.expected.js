@@ -1,15 +1,20 @@
-import { a as _marko_attr } from "marko/src/runtime/html/helpers";
+import "marko/src/runtime/vdom/preserve-attrs";
 import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
-import { t as _t } from "marko/src/runtime/html";
+import { t as _t } from "marko/src/runtime/vdom";
 
-const _marko_componentType = "AwMFg6kF",
+const _marko_componentType = "QHrSVmWi",
       _marko_template = _t(__filename),
       _marko_component = null;
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.w(`<input${_marko_attr("value", input.defaultValue)}${_marko_attr("data-marko", {
-    noupdate: ["value"]
-  }, false)}>`);
+  out.be("div", {
+    "class": "test"
+  }, "0", component, 0, 0, {
+    noupdate: ["class"]
+  });
+  out.t("Hello ");
+  out.t(input.name);
+  out.ee();
 }, {
   ___type: _marko_componentType,
   ___implicit: true

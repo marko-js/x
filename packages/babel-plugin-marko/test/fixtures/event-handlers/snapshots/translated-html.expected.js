@@ -13,11 +13,11 @@ const _marko_componentType = "SSsZKEJG",
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w(`<div${_marko_attr("data-marko", {
     "onclick": _component.d("click", "handleClick", [a, b, ...d], false)
-  })}></div><div${_marko_attr("data-marko", {
+  }, false)}></div><div${_marko_attr("data-marko", {
     "onDashed-cased-Event": _component.d("Dashed-cased-Event", "handle", false)
-  })}></div><div${_marko_attr("data-marko", {
+  }, false)}></div><div${_marko_attr("data-marko", {
     "oncamelcasedevent": _component.d("camelcasedevent", "handle", false)
-  })}></div>`);
+  }, false)}></div>`);
 
   _customTag_tag({}, out, "3", ["thing", "handleThing", false, [a, b, ...d]]);
 

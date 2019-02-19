@@ -48,7 +48,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   }
   out.w(`</div><div${_marko_attr("data-marko", {
     "onclick": _component.d("click", "handleClick", [a, b, ...d], false)
-  })}></div><div${_marko_attr("id", _component.elId("1"))}></div><div${_marko_attr("class", _marko_class_merge(["a", {
+  }, false)}></div><div${_marko_attr("id", _component.elId("1"))}></div><div${_marko_attr("class", _marko_class_merge(["a", {
     b: c,
     d
   }]))}${_marko_attr("style", _marko_style_merge({

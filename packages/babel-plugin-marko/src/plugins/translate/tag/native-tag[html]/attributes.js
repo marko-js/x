@@ -47,8 +47,14 @@ export default function(attrs) {
         curString += `="${computed}"`;
       }
     } else {
+      const args = [t.stringLiteral(name), value];
       quasis.push(curString);
       curString = "";
+
+      if (name === "data-marko") {
+        args.push(t.booleanLiteral(false));
+      }
+
       expressions.push(
         t.callExpression(
           hub.importNamed(
@@ -57,7 +63,7 @@ export default function(attrs) {
             "a",
             "marko_attr"
           ),
-          [t.stringLiteral(name), value]
+          args
         )
       );
     }

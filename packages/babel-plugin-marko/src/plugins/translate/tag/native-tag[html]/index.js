@@ -63,8 +63,7 @@ export default function(path) {
     );
   }
 
-  if (tagProperties.length) {
-    // TODO: prevent escaping this with the attr helper.
+  if (hub.isImplicit && tagProperties.length) {
     path.pushContainer("attributes", t.markoAttribute("data-marko", t.objectExpression(tagProperties)));
   }
 

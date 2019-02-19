@@ -18,7 +18,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     c: 1
   }))}${_marko_attr("data-marko", {
     noupdate: ["style"]
-  })}></div><div a="1"${_marko_attr("style", _marko_style_merge({
+  }, false)}></div><div a="1"${_marko_attr("style", _marko_style_merge({
     c: 1
   }))}></div>`);
 }, {
