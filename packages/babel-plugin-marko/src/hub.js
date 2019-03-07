@@ -20,7 +20,7 @@ export class Hub {
     this.lookup = buildLookup(path.dirname(filename));
     this.componentFiles = getComponentFiles(filename);
     this.macros = Object.create(null);
-    this.meta = {
+    this.meta = this.file.markoMeta = {
       deps: [],
       tags: []
     };

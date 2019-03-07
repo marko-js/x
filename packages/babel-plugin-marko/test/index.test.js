@@ -74,7 +74,7 @@ fs.readdirSync(fixturesDir).forEach(folder => {
 
 function snapshotTransform({ ext, dir, name, config, source, filename }) {
   try {
-    const { code } = transform(source, {
+    const result = transform(source, {
       ast: true,
       code: true,
       babelrc: false,
@@ -85,7 +85,7 @@ function snapshotTransform({ ext, dir, name, config, source, filename }) {
       plugins: ["@babel/plugin-proposal-class-properties", [plugin, config]]
     });
 
-    snapshot(dir, `${name}.${ext}`, code);
+    snapshot(dir, `${name}.${ext}`, result.code);
   } catch (err) {
     if (err.snapshot) {
       throw err;

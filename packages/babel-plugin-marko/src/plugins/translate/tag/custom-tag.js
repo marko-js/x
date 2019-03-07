@@ -51,6 +51,7 @@ export default function(path, tagDef) {
         )
       ])
     );
+
     meta.tags.push(relativePath);
   }
 

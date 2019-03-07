@@ -40,6 +40,10 @@ export default (api, options) => {
       }
 
       return hub.file;
+    },
+    post(file) {
+      // Attach marko metadata to babel metadata.
+      file.metadata.marko = file.ast.markoMeta;
     }
   };
 };
