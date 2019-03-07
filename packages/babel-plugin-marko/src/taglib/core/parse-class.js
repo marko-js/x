@@ -39,7 +39,7 @@ export default function(path) {
   );
   if (constructorProp) {
     throw hub.buildError(
-      constructorProp,
+      constructorProp.key,
       "The constructor method should not be used for a component, use onCreate instead."
     );
   }
