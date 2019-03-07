@@ -15,6 +15,16 @@ export function buildLookup(dirname) {
   // create lookup and load specific tags from old compiler.
   const lookupInstance = lookup.buildLookup(dirname);
 
+  lookupInstance.getTag("await").renderer = resolveFrom(
+    dirname,
+    "marko/src/taglibs/core/await/renderer.js"
+  );
+
+  lookupInstance.getTag("await-reorderer").renderer = resolveFrom(
+    dirname,
+    "marko/src/taglibs/core/await/reorderer-renderer.js"
+  );
+
   lookupInstance.getTag("no-update").renderer = resolveFrom(
     dirname,
     "marko/src/components/taglib/preserve-tag.js"
