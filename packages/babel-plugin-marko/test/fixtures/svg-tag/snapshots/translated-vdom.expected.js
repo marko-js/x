@@ -9,7 +9,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.be("svg", {
     "height": "100",
     "width": "100"
-  }, "4", component, null, 1);
+  }, "5", component, null, 1);
   out.e("circle", {
     "cx": "50",
     "cy": "50",
@@ -26,8 +26,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.be("script", null, "3", component, null, 1);
   out.t("alert(\"Hello\");");
   out.ee();
+  out.be("title", null, "4", component, null, 1);
+  out.t("Test");
   out.ee();
-  out.be("a", null, "5", component, 0, 0);
+  out.ee();
+  out.be("a", null, "6", component, 0, 0);
   out.ee();
 }, {
   ___type: _marko_componentType,

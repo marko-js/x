@@ -14,7 +14,8 @@ const SIMPLE_ATTRS = ["id", "class", "style"];
 const MAYBE_SVG = {
   a: true,
   script: true,
-  style: true
+  style: true,
+  title: true
 };
 
 /**
