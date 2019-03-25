@@ -25,6 +25,10 @@ export const visitor = {
   },
   Program: {
     enter(path) {
+      if (path.hub.isModuleCode) {
+        return path.skip();
+      }
+
       // Move non static content into the renderBody.
       const [renderBlock] = path.pushContainer("body", t.blockStatement([]));
       path

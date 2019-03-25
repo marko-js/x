@@ -27,6 +27,7 @@ export class Hub {
     this._imports = Object.create(null);
     this._componentClass = null;
     this._nextKey = 0;
+    this.isModuleCode = false;
 
     const {
       styleFile,

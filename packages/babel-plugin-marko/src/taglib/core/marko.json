@@ -147,6 +147,16 @@
       }
     ]
   },
+  "<module-code>": {
+    "node-factory": "./parse-module-code",
+    "parse-options": {
+      "rootOnly": true,
+      "rawOpenTag": true,
+      "openTagOnly": true,
+      "ignoreAttributes": true,
+      "relaxRequireCommas": true
+    }
+  },
   "<*>": {
     "@key": {
       "type": "string",
