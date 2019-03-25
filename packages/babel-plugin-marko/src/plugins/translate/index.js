@@ -25,7 +25,9 @@ export const visitor = {
   },
   Program: {
     enter(path) {
-      if (path.hub.isModuleCode) {
+      if (path.hub.moduleCode) {
+        path.get("body").forEach(bodyItemPath => bodyItemPath.remove());
+        path.hub.moduleCode.forEach(node => path.pushContainer("body", node));
         return path.skip();
       }
 

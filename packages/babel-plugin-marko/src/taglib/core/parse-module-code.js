@@ -13,15 +13,5 @@ export default function parse(path) {
   const fn = eval(rawValue.slice(startOffset));
   const source = fn(relativeRequire);
   const program = hub.parse(source, start + startOffset);
-  const programPath = path.parentPath;
-
-  if (programPath.node.body.length > 1) {
-    throw path.buildCodeFrameError(
-      "<module-code> tag should exist only by itself"
-    );
-  }
-
-  program.body.forEach(node => path.insertBefore(node));
-  path.remove();
-  hub.isModuleCode = true;
+  hub.moduleCode = program.body;
 }
