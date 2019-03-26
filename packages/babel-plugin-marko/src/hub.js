@@ -8,6 +8,7 @@ import createFile from "./util/create-file";
 import codeFrameError from "./util/code-frame-error";
 import { getLoc, getLocRange } from "./util/get-loc";
 import getComponentFiles from "./util/get-component-files";
+import checksum from "./util/checksum";
 
 export class Hub {
   constructor(filename, code, options) {
@@ -21,6 +22,7 @@ export class Hub {
     this.componentFiles = getComponentFiles(filename);
     this.macros = Object.create(null);
     this.meta = this.file.markoMeta = {
+      id: checksum(this.getClientPath(this.filename)),
       deps: [],
       tags: []
     };

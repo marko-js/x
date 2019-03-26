@@ -1,5 +1,4 @@
 import * as t from "../../definitions";
-import checksum from "../../util/checksum";
 import MarkoDocumentType from "./document-type";
 import MarkoDeclaration from "./declaration";
 import MarkoCDATA from "./cdata";
@@ -86,7 +85,7 @@ export const visitor = {
         templateIdentifier,
         t.identifier("meta")
       );
-      const componentId = checksum(hub.getClientPath(hub.filename));
+      const componentId = meta.id;
       path.pushContainer(
         "body",
         t.variableDeclaration("const", [

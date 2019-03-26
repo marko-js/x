@@ -23,13 +23,13 @@ export default function getComponentFiles(filename) {
 
   for (const file of dirFiles) {
     if (!styleFile && styleMatch.test(file)) {
-      styleFile = file;
+      styleFile = `./${file}`;
     } else if (!packageFile && packageMatch.test(file)) {
-      packageFile = file;
+      packageFile = `./${file}`;
     } else if (!componentFile && componentMatch.test(file)) {
-      componentFile = file;
+      componentFile = `./${file}`;
     } else if (!componentBrowserFile && splitComponentMatch.test(file)) {
-      componentBrowserFile = file;
+      componentBrowserFile = `./${file}`;
     }
   }
 
