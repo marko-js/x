@@ -1,6 +1,6 @@
 import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
 import "marko/src/runtime/vdom/preserve-attrs";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
 import { t as _t } from "marko/src/runtime/vdom";
 
 const _marko_componentType = "G7Zu4cGH",

@@ -13,7 +13,7 @@ import _other from "./components/other/index.marko";
 
 const _other_tag = _t(_other);
 
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/vdom";
 
 const _marko_componentType = "8f1lFGb_",

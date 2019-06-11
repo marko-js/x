@@ -3,7 +3,7 @@ import { t as _t } from "marko/src/runtime/vdom/helpers";
 
 const _testHello_tag = _t(_testHello);
 
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/vdom";
 
 const _marko_componentType = "J6ObXtms",

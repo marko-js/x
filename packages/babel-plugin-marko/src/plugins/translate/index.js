@@ -67,13 +67,13 @@ export const visitor = {
       );
       const rendererIdentifier = hub.importNamed(
         path,
-        "marko/src/components/helpers",
+        "marko/src/runtime/components/helpers",
         "r",
         "marko_renderer"
       );
       const defineComponentIdentifier = hub.importNamed(
         path,
-        "marko/src/components/helpers",
+        "marko/src/runtime/components/helpers",
         "c",
         "marko_defineComponent"
       );

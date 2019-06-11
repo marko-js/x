@@ -85,65 +85,65 @@ export class Hub {
     file = remapProductionMarkoBuild(path, file);
     const { _imports } = this;
     let importDeclaration = _imports[file];
-    let specifiers;
 
     if (!importDeclaration) {
-      importDeclaration = _imports[file] = t.importDeclaration(
-        [],
-        t.stringLiteral(file)
-      );
-      specifiers = importDeclaration.specifiers;
-      this.file.program.body.push(importDeclaration);
-    } else {
-      specifiers = _imports[file].specifiers;
+      const programPath = getProgram(path);
+      importDeclaration = _imports[file] = programPath.pushContainer(
+        "body",
+        t.importDeclaration([], t.stringLiteral(file))
+      )[0];
     }
 
     if (!nameHint) {
       return;
     }
 
+    const specifiers = importDeclaration.get("specifiers");
     const specifier = specifiers.find(specifier =>
-      t.isImportDefaultSpecifier(specifier)
+      specifier.isImportDefaultSpecifier()
     );
 
     if (!specifier) {
       const identifier = path.scope.generateUidIdentifier(nameHint);
-      specifiers.push(t.importDefaultSpecifier(identifier));
+      importDeclaration.pushContainer(
+        "specifiers",
+        t.importDefaultSpecifier(identifier)
+      );
       return identifier;
     }
 
-    return specifier.local;
+    return t.identifier(specifier.node.local.name);
   }
 
   importNamed(path, file, name, nameHint = name) {
     file = remapProductionMarkoBuild(path, file);
     const { _imports } = this;
     let importDeclaration = _imports[file];
-    let specifiers;
 
     if (!importDeclaration) {
-      importDeclaration = _imports[file] = t.importDeclaration(
-        [],
-        t.stringLiteral(file)
-      );
-      specifiers = importDeclaration.specifiers;
-      this.file.program.body.push(importDeclaration);
-    } else {
-      specifiers = _imports[file].specifiers;
+      const programPath = getProgram(path);
+      importDeclaration = _imports[file] = programPath.pushContainer(
+        "body",
+        t.importDeclaration([], t.stringLiteral(file))
+      )[0];
     }
 
+    const specifiers = importDeclaration.get("specifiers");
     const specifier = specifiers.find(
       specifier =>
-        t.isImportSpecifier(specifier) && specifier.imported.name === name
+        specifier.isImportSpecifier() && specifier.node.imported.name === name
     );
 
     if (!specifier) {
       const identifier = path.scope.generateUidIdentifier(nameHint);
-      specifiers.push(t.importSpecifier(identifier, t.identifier(name)));
+      importDeclaration.pushContainer(
+        "specifiers",
+        t.importSpecifier(identifier, t.identifier(name))
+      );
       return identifier;
     }
 
-    return specifier.local;
+    return t.identifier(specifier.node.local.name);
   }
 
   addStaticNode(node) {
@@ -179,9 +179,6 @@ export class Hub {
     str = str.padStart(length, " ");
 
     try {
-      if (!isExpression) {
-        debugger;
-      }
       return isExpression
         ? parseExpression(str, opts)
         : parse(str, opts).program;
@@ -211,4 +208,12 @@ function remapProductionMarkoBuild(path, file) {
   } = path;
   if (!isProduction) return file;
   return file.replace(/^marko\/src\//, "marko/dist/");
+}
+
+function getProgram(path) {
+  if (path.isProgram()) {
+    return path;
+  }
+
+  return path.findParent(parent => parent.isProgram());
 }

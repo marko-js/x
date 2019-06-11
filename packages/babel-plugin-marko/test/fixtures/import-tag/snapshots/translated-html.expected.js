@@ -1,6 +1,6 @@
 import bar, { f as foo } from "./bar";
 import "./foo";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
 import { t as _t } from "marko/src/runtime/html";
 
 const _marko_componentType = "bMwM8SrD",

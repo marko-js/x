@@ -7,7 +7,7 @@ import _hello from "./components/hello/index.marko";
 
 const _hello_tag = _t(_hello);
 
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/html";
 
 const _marko_componentType = "FaQWPoit",

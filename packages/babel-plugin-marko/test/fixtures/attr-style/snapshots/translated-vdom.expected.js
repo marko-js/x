@@ -4,7 +4,7 @@ import { t as _t, d as _marko_dynamicTag } from "marko/src/runtime/vdom/helpers"
 
 const _customTag_tag = _t(_customTag);
 
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/vdom";
 
 const _marko_componentType = "Q4DAGn8u",

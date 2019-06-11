@@ -11,7 +11,7 @@ import _awaitReorderer from "marko/src/core-tags/core/await/reorderer-renderer.j
 
 const _awaitReorderer_tag = _t(_awaitReorderer);
 
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/html";
 
 const _marko_componentType = "Fr76d7a7",

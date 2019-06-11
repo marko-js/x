@@ -1,5 +1,5 @@
 import { x as _marko_escapeXml, d as _marko_dynamicTag } from "marko/src/runtime/html/helpers";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
 import { t as _t } from "marko/src/runtime/html";
 
 const _marko_componentType = "9QKeN8cm",
