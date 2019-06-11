@@ -1,4 +1,4 @@
-import _noUpdate from "marko/src/components/taglib/preserve-tag.js";
+import _noUpdate from "marko/src/core-tags/components/preserve-tag.js";
 import { t as _t } from "marko/src/runtime/html/helpers";
 
 const _noUpdate_tag = _t(_noUpdate);
@@ -106,6 +106,6 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 _marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
-  tags: ["marko/src/components/taglib/preserve-tag.js", "./components/hello/index.marko"]
+  tags: ["marko/src/core-tags/components/preserve-tag.js", "./components/hello/index.marko"]
 };
 export default _marko_template;

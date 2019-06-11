@@ -1,8 +1,7 @@
 import fs from "fs";
 import path from "path";
 import resolveFrom from "resolve-from";
-import loader from "marko/src/compiler/taglib-loader";
-import lookup from "marko/src/compiler/taglib-lookup";
+import { loader, lookup } from "marko/src/taglib";
 
 ["core", "html", "svg"].forEach(name => {
   const file = path.join(__dirname, name, "marko.json");
@@ -17,27 +16,27 @@ export function buildLookup(dirname) {
 
   lookupInstance.getTag("await").renderer = resolveFrom(
     dirname,
-    "marko/src/taglibs/core/await/renderer.js"
+    "marko/src/core-tags/core/await/renderer.js"
   );
 
   lookupInstance.getTag("await-reorderer").renderer = resolveFrom(
     dirname,
-    "marko/src/taglibs/core/await/reorderer-renderer.js"
+    "marko/src/core-tags/core/await/reorderer-renderer.js"
   );
 
   lookupInstance.getTag("no-update").renderer = resolveFrom(
     dirname,
-    "marko/src/components/taglib/preserve-tag.js"
+    "marko/src/core-tags/components/preserve-tag.js"
   );
 
   lookupInstance.getTag("init-components").renderer = resolveFrom(
     dirname,
-    "marko/src/components/taglib/init-components-tag.js"
+    "marko/src/core-tags/components/init-components-tag.js"
   );
 
   lookupInstance.getTag("component-globals").renderer = resolveFrom(
     dirname,
-    "marko/src/components/taglib/component-globals-tag.js"
+    "marko/src/core-tags/components/component-globals-tag.js"
   );
   return lookupInstance;
 }

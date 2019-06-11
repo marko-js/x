@@ -1,5 +1,4 @@
 import a from "b";
-export { a };
 doThings();
 andStuff();
 

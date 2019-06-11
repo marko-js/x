@@ -179,6 +179,9 @@ export class Hub {
     str = str.padStart(length, " ");
 
     try {
+      if (!isExpression) {
+        debugger;
+      }
       return isExpression
         ? parseExpression(str, opts)
         : parse(str, opts).program;

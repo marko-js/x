@@ -1,5 +1,5 @@
 import { x as _marko_escapeXml, t as _t } from "marko/src/runtime/html/helpers";
-import _await from "marko/src/taglibs/core/await/renderer.js";
+import _await from "marko/src/core-tags/core/await/renderer.js";
 
 const _await_tag = _t(_await);
 
@@ -27,6 +27,6 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 _marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
-  tags: ["marko/src/taglibs/core/await/renderer.js"]
+  tags: ["marko/src/core-tags/core/await/renderer.js"]
 };
 export default _marko_template;
