@@ -13,11 +13,11 @@ import _other from "./components/other/index.marko";
 
 const _other_tag = _t(_other);
 
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/vdom";
 
-const _marko_componentType = "8f1lFGb_",
-      _marko_template = _t2(__filename),
+const _marko_template = _t2(__filename),
+      _marko_componentType = _marko_registerComponent("8f1lFGb_", () => _marko_template),
       _marko_component = {
   onCreate() {
     this.stuff();
@@ -28,7 +28,7 @@ const _marko_componentType = "8f1lFGb_",
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("style", {
     "id": "css"
-  }, "1", component, null, 4);
+  }, "1", component, null, 1);
   out.t("\n  div {\n    color: ");
   out.t(x);
   out.t(";\n  }\n");
@@ -68,7 +68,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.ee();
   out.be("div", {
     "id": _component.elId("1")
-  }, "8", component, 0, 4);
+  }, "8", component, 0, 1);
   out.ee();
   out.be("div", {
     "class": _marko_class_merge(["a", {
@@ -78,7 +78,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "style": _marko_style_merge({
       a: "b"
     })
-  }, "9", component, 0, 4);
+  }, "9", component, 0, 1);
   out.ee();
   out.e("input", {
     "type": "text"

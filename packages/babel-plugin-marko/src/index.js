@@ -26,6 +26,7 @@ export default (api, options) => {
 
       const nodePath = new NodePath(hub);
       nodePath.node = hub.file;
+      hub.program = nodePath.get("program");
       parse(nodePath);
 
       // TODO: this package should be split into 3:

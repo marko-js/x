@@ -1,8 +1,8 @@
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t } from "marko/src/runtime/html";
 
-const _marko_componentType = "ei0Mhp4E",
-      _marko_template = _t(__filename),
+const _marko_template = _t(__filename),
+      _marko_componentType = _marko_registerComponent("ei0Mhp4E", () => _marko_template),
       _marko_component = {
   onCreate() {
     this.x = 1

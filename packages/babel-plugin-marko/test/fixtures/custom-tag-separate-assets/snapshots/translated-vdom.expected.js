@@ -1,9 +1,9 @@
 import _marko_component from "./template.component.js";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t } from "marko/src/runtime/vdom";
 
-const _marko_componentType = "VBJ9cK7S",
-      _marko_template = _t(__filename),
+const _marko_template = _t(__filename),
+      _marko_componentType = _marko_registerComponent("VBJ9cK7S", () => _marko_template),
       _marko_component2 = _marko_component;
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {

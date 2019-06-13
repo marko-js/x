@@ -1,11 +1,11 @@
 import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
 import "marko/src/runtime/vdom/preserve-attrs";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t } from "marko/src/runtime/vdom";
 
-const _marko_componentType = "G7Zu4cGH",
-      _marko_template = _t(__filename),
-      _marko_component = null;
+const _marko_template = _t(__filename),
+      _marko_componentType = _marko_registerComponent("G7Zu4cGH", () => _marko_template),
+      _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("div", {
@@ -14,20 +14,20 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "style": _marko_style_merge({
       c: 1
     })
-  }, "0", component, 0, 4);
+  }, "0", component, 0, 1);
   out.ee();
   out.be("div", {
     "id": "a",
     "style": _marko_style_merge({
       c: 1
     })
-  }, "1", component, 0, 4);
+  }, "1", component, 0, 1);
   out.ee();
   out.be("div", {
     "style": _marko_style_merge({
       c: 1
     })
-  }, "2", component, 0, 4);
+  }, "2", component, 0, 1);
   out.ee();
   out.be("div", {
     "style": _marko_style_merge({

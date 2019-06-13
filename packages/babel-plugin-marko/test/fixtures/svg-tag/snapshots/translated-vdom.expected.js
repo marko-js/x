@@ -1,15 +1,15 @@
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t } from "marko/src/runtime/vdom";
 
-const _marko_componentType = "Dw11N4il",
-      _marko_template = _t(__filename),
-      _marko_component = null;
+const _marko_template = _t(__filename),
+      _marko_componentType = _marko_registerComponent("Dw11N4il", () => _marko_template),
+      _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("svg", {
     "height": "100",
     "width": "100"
-  }, "5", component, null, 1);
+  }, "5", component, null, 0);
   out.e("circle", {
     "cx": "50",
     "cy": "50",
@@ -17,16 +17,16 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "stroke": "black",
     "stroke-width": "3",
     "fill": "red"
-  }, "0", component, 0, 1);
-  out.be("a", null, "1", component, 0, 1);
+  }, "0", component, 0, 0);
+  out.be("a", null, "1", component, 0, 0);
   out.ee();
-  out.be("style", null, "2", component, null, 1);
+  out.be("style", null, "2", component, null, 0);
   out.t("div { color: green }");
   out.ee();
-  out.be("script", null, "3", component, null, 1);
+  out.be("script", null, "3", component, null, 0);
   out.t("alert(\"Hello\");");
   out.ee();
-  out.be("title", null, "4", component, null, 1);
+  out.be("title", null, "4", component, null, 0);
   out.t("Test");
   out.ee();
   out.ee();

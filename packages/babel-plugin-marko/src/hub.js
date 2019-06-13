@@ -9,6 +9,7 @@ import codeFrameError from "./util/code-frame-error";
 import { getLoc, getLocRange } from "./util/get-loc";
 import getComponentFiles from "./util/get-component-files";
 import checksum from "./util/checksum";
+import normalizeTemplateLiteral from "./util/normalize-template-string";
 
 export class Hub {
   constructor(filename, code, options) {
@@ -87,8 +88,7 @@ export class Hub {
     let importDeclaration = _imports[file];
 
     if (!importDeclaration) {
-      const programPath = getProgram(path);
-      importDeclaration = _imports[file] = programPath.pushContainer(
+      importDeclaration = _imports[file] = this.program.pushContainer(
         "body",
         t.importDeclaration([], t.stringLiteral(file))
       )[0];
@@ -121,8 +121,7 @@ export class Hub {
     let importDeclaration = _imports[file];
 
     if (!importDeclaration) {
-      const programPath = getProgram(path);
-      importDeclaration = _imports[file] = programPath.pushContainer(
+      importDeclaration = _imports[file] = this.program.pushContainer(
         "body",
         t.importDeclaration([], t.stringLiteral(file))
       )[0];
@@ -147,7 +146,7 @@ export class Hub {
   }
 
   addStaticNode(node) {
-    this.file.program.body.push(node);
+    this.program.pushContainer("body", node);
   }
 
   createNode(type, start, end, ...args) {
@@ -161,6 +160,22 @@ export class Hub {
     return Object.assign(t.stringLiteral(String(this._nextKey++)), {
       _autoKey: true
     });
+  }
+
+  resolveKey(path) {
+    const parentLoopKeys = getParentLoopKeys(path);
+    if (!hasUserDefinedKey(path)) {
+      const autoKey = path.get("key").node || this.nextKey();
+      path.set(
+        "key",
+        parentLoopKeys.length
+          ? normalizeTemplateLiteral(
+              ["", "[", ...parentLoopKeys.slice(1).map(() => "]["), "]"],
+              [autoKey, ...parentLoopKeys]
+            )
+          : autoKey
+      );
+    }
   }
 
   parse(str, start) {
@@ -200,6 +215,11 @@ export class Hub {
   }
 }
 
+function hasUserDefinedKey(path) {
+  const key = path.get("key").node;
+  return key && !key._autoKey;
+}
+
 function remapProductionMarkoBuild(path, file) {
   const {
     hub: {
@@ -210,10 +230,48 @@ function remapProductionMarkoBuild(path, file) {
   return file.replace(/^marko\/src\//, "marko/dist/");
 }
 
-function getProgram(path) {
-  if (path.isProgram()) {
-    return path;
+function getParentLoopKeys(path) {
+  return path
+    .getAncestry()
+    .filter(parent => {
+      if (parent.isMarkoTag()) {
+        const tagName = parent.get("name.value").node;
+        if (tagName === "for" || tagName === "while") {
+          return true;
+        }
+      }
+    })
+    .map(getLoopKey)
+    .filter(Boolean)
+    .reverse();
+}
+
+function getLoopKey(path) {
+  if (path.get("checkedKey").node) {
+    const existingIdentifier = path.get("loopKey").node;
+    return existingIdentifier && t.identifier(existingIdentifier.name);
   }
 
-  return path.findParent(parent => parent.isProgram());
+  const loopBody = path.get("body");
+  const childElements = loopBody.filter(childPath => childPath.isMarkoTag());
+  const [firstElement] = childElements;
+  const allKeyed = childElements.every(hasUserDefinedKey);
+  path.set("checkedKey", true);
+
+  if (allKeyed || !hasUserDefinedKey(firstElement)) {
+    return;
+  }
+
+  const firstElementKey = firstElement.get("key").node;
+  const keyIdentifier = path.scope.generateUidIdentifier("loopKey");
+  firstElement.set("key", keyIdentifier);
+  firstElement.insertBefore(
+    t.variableDeclaration("const", [
+      t.variableDeclarator(keyIdentifier, firstElementKey)
+    ])
+  );
+
+  path.set("loopKey", keyIdentifier);
+
+  return keyIdentifier;
 }

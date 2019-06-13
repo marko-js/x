@@ -1,10 +1,10 @@
 import "marko/src/runtime/vdom/preserve-attrs";
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t } from "marko/src/runtime/vdom";
 
-const _marko_componentType = "i58_DLy_",
-      _marko_template = _t(__filename),
-      _marko_component = null;
+const _marko_template = _t(__filename),
+      _marko_componentType = _marko_registerComponent("i58_DLy_", () => _marko_template),
+      _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("div", null, "2", component, null, 0);

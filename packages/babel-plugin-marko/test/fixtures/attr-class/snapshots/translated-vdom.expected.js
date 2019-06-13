@@ -4,12 +4,12 @@ import { t as _t, d as _marko_dynamicTag } from "marko/src/runtime/vdom/helpers"
 
 const _customTag_tag = _t(_customTag);
 
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/vdom";
 
-const _marko_componentType = "N6_faHEU",
-      _marko_template = _t2(__filename),
-      _marko_component = null;
+const _marko_template = _t2(__filename),
+      _marko_componentType = _marko_registerComponent("N6_faHEU", () => _marko_template),
+      _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("div", {
@@ -17,11 +17,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       b: c,
       d
     }])
-  }, "0", component, 0, 4);
+  }, "0", component, 0, 1);
   out.ee();
   out.be("div", {
     "class": "a b c"
-  }, "1", component, 0, 4);
+  }, "1", component, 0, 1);
   out.ee();
 
   _customTag_tag({
