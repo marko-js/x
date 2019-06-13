@@ -1,22 +1,22 @@
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t } from "marko/src/runtime/vdom";
 
-const _marko_componentType = "cFDIY1TL",
-      _marko_template = _t(__filename),
-      _marko_component = null;
+const _marko_template = _t(__filename),
+      _marko_componentType = _marko_registerComponent("cFDIY1TL", () => _marko_template),
+      _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("div", {
     "id": "shorthand"
-  }, "0", component, 0, 4);
+  }, "0", component, 0, 1);
   out.ee();
   out.be("div", {
     "id": dynamic
-  }, "1", component, 0, 4);
+  }, "1", component, 0, 1);
   out.ee();
   out.be("div", {
     "id": "partial-" + dynamic
-  }, "2", component, 0, 4);
+  }, "2", component, 0, 1);
   out.ee();
 }, {
   ___type: _marko_componentType,

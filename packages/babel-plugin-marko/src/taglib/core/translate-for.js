@@ -79,15 +79,15 @@ export default function(path) {
     allowedAttributes.push("from", "to", "step");
 
     const stepAttr = findName(attributes, "step");
-    const [keyParam] = node.params;
+    const [indexParam] = node.params;
     const indexName = path.scope.generateUidIdentifier(
-      keyParam ? keyParam.name : "i"
+      indexParam ? indexParam.name : "i"
     );
 
-    if (keyParam) {
+    if (indexParam) {
       block.body.unshift(
         t.variableDeclaration("const", [
-          t.variableDeclarator(keyParam, indexName)
+          t.variableDeclarator(indexParam, indexName)
         ])
       );
     }

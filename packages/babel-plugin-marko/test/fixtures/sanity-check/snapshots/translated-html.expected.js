@@ -12,11 +12,11 @@ import _other from "./components/other/index.marko";
 
 const _other_tag = _t(_other);
 
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/html";
 
-const _marko_componentType = "8f1lFGb_",
-      _marko_template = _t2(__filename),
+const _marko_template = _t2(__filename),
+      _marko_componentType = _marko_registerComponent("8f1lFGb_", () => _marko_template),
       _marko_component = {
   onCreate() {
     this.stuff();

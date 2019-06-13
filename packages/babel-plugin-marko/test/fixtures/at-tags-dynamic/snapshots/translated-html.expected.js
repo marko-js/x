@@ -3,12 +3,12 @@ import _hello from "./components/hello/index.marko";
 
 const _hello_tag = _t(_hello);
 
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/html";
 
-const _marko_componentType = "jk52ETtv",
-      _marko_template = _t2(__filename),
-      _marko_component = null;
+const _marko_template = _t2(__filename),
+      _marko_componentType = _marko_registerComponent("jk52ETtv", () => _marko_template),
+      _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   const _cols = [];

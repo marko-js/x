@@ -14,9 +14,7 @@ export default {
     const { options, macros } = hub;
     const name = path.get("name");
 
-    if (!path.get("key").node) {
-      path.set("key", hub.nextKey());
-    }
+    hub.resolveKey(path);
 
     if (!name.isStringLiteral()) {
       dynamicTag(path);

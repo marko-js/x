@@ -3,12 +3,12 @@ import _await from "marko/src/core-tags/core/await/renderer.js";
 
 const _await_tag = _t(_await);
 
-import { r as _marko_renderer, c as _marko_defineComponent } from "marko/src/runtime/components/helpers";
+import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/html";
 
-const _marko_componentType = "soLLeMUj",
-      _marko_template = _t2(__filename),
-      _marko_component = null;
+const _marko_template = _t2(__filename),
+      _marko_componentType = _marko_registerComponent("soLLeMUj", () => _marko_template),
+      _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   _await_tag({
