@@ -6,8 +6,8 @@ const _marko_template = _t(__filename),
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.be("contact-info", null, "1", component, null, 0);
-  out.be("name", null, "0", component, null, 0);
+  out.be("contact-info", null, "0", component, null, 0);
+  out.be("name", null, "1", component, null, 0);
   out.t("Hello World");
   out.ee();
   out.ee();

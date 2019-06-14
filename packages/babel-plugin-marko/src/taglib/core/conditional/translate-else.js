@@ -1,7 +1,7 @@
 import * as t from "../../../definitions";
 import { assertNoArgs, assertNoAttributes } from "../util";
 
-export default function translate(path) {
+export function exit(path) {
   assertNoArgs(path);
   assertNoAttributes(path);
 

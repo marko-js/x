@@ -1,7 +1,7 @@
 import { assertNoArgs, assertNoParams, assertNoAttributes } from "./util";
 import write from "../../util/html-out-write";
 
-export default function(path) {
+export function enter(path) {
   const { hub } = path;
   assertNoArgs(path);
   assertNoParams(path);

@@ -17,7 +17,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
         out.w("<li>");
 
         _marko_dynamicTag(_renderTree, { ...child
-        }, out, _component, "0");
+        }, out, _component, "5");
 
         out.w("</li>");
       }

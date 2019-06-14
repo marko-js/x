@@ -42,7 +42,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   function _thing(stuff, out) {
     out.be("div", {
       "x": stuff.x
-    }, "3", component, 0, 0);
+    }, "4", component, 0, 0);
     out.ee();
   }
 
@@ -51,14 +51,14 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.be("div", {
     "b": b,
     "c": c
-  }, "6", component, null, 0);
+  }, "5", component, null, 0);
   {
     var d = thing;
     let e = thing;
     out.be("div", {
       "d": d,
       "e": e
-    }, "5", component, 0, 0);
+    }, "6", component, 0, 0);
     out.ee();
   }
   out.ee();
@@ -86,18 +86,18 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   _marko_dynamicTag(a, {
     "renderBody": out => {
-      out.be("div", null, "11", component, 0, 0);
+      out.be("div", null, "12", component, 0, 0);
       out.ee();
     }
   }, out, _component, "@x");
 
   _marko_dynamicTag(_thing, {
     "x": 1
-  }, out, _component, "12");
+  }, out, _component, "13");
 
   _other_tag({
     "renderBody": (out, a) => {
-      out.be("div", null, "13", component, 0, 0);
+      out.be("div", null, "15", component, 0, 0);
       out.ee();
     }
   }, out, "14", ["click", "handleClick", false, [a, b, ...d]]);
@@ -114,20 +114,20 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       "d": {
         "d": 1,
         "renderBody": out => {
-          out.be("div", null, "17", component, 0, 0);
+          out.be("div", null, "21", component, 0, 0);
           out.ee();
         }
       },
       "renderBody": out => {
-        out.be("div", null, "16", component, 0, 0);
+        out.be("div", null, "19", component, 0, 0);
         out.ee();
       }
     },
     "renderBody": (out, b) => {
-      out.be("div", null, "15", component, 0, 0);
+      out.be("div", null, "17", component, 0, 0);
       out.ee();
     }
-  }, out, "20");
+  }, out, "16");
 
   out.be("div", {
     "id": "a",
@@ -138,15 +138,15 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "c": "${d}",
     ...e,
     ...f()
-  }, "27", component, null, 0);
+  }, "22", component, null, 0);
   out.t(a);
   out.be("div", {
     "c": 1
-  }, "22", component, 0, 0);
+  }, "23", component, 0, 0);
   out.ee();
   out.be("div", {
     "d": 1
-  }, "23", component, 0, 0);
+  }, "24", component, 0, 0);
   out.ee();
 
   if (x === a) {
@@ -179,7 +179,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     const i = _i;
     out.be("div", {
       "c": 1
-    }, "32", component, 0, 0);
+    }, "33", component, 0, 0);
     out.ee();
   }
 
@@ -187,7 +187,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     const val = obj[key];
     out.be("div", {
       "c": 1
-    }, "34", component, 0, 0);
+    }, "35", component, 0, 0);
     out.ee();
   }
 
