@@ -36,6 +36,16 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }
   }
 
+  let i = 10;
+
+  while (i--) {
+    _items.push({
+      "renderBody": out => {
+        out.t(i);
+      }
+    });
+  }
+
   for (const col of input.table) {
     const _rows = [];
 

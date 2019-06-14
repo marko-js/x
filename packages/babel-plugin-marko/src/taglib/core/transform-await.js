@@ -1,6 +1,6 @@
 import * as t from "../../definitions";
 
-export default function(path) {
+export function exit(path) {
   const args = path.get("arguments");
 
   if (!args.length) {
