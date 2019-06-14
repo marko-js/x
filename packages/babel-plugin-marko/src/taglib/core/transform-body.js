@@ -1,6 +1,6 @@
 import * as t from "../../definitions";
 
-export default function(path) {
+export function exit(path) {
   const body = path.get("body");
   const firstChild = body[0];
   const lastChild = body[body.length - 1];

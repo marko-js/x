@@ -1,7 +1,7 @@
 import * as t from "../../definitions";
 import normalizeTemplateLiteral from "../../util/normalize-template-string";
 
-export default function(path) {
+export function exit(path) {
   const namePath = path.get("name");
   const attributes = path.get("attributes");
   const { body } = path.node;

@@ -1,4 +1,5 @@
 import { getFullyResolvedTagName } from "./translate/tag/util";
+const TRANSFORMER_CACHE = {};
 
 /**
  * Applies custom transformers on tags.
@@ -9,46 +10,68 @@ export const visitor = {
       "component"
     );
   },
-  MarkoTag(path) {
-    const { hub } = path;
-    const { lookup, macros } = hub;
-    let tagName = path.get("name.value").node;
-    const isDynamicTag = !path.get("name").isStringLiteral();
-    const isAttributeTag = !isDynamicTag && tagName[0] === "@";
-    const isTagDefOptional = isDynamicTag || isAttributeTag;
-
-    if (macros[tagName]) {
-      return;
-    }
-
-    if (isDynamicTag) {
-      tagName = undefined;
-    } else if (isAttributeTag && path.parentPath.isMarkoTag()) {
-      tagName = getFullyResolvedTagName(path);
-    }
-
-    const tagDef = tagName && lookup.getTag(tagName);
-
-    if (!isTagDefOptional && !tagDef) {
-      throw path
-        .get("name")
-        .buildCodeFrameError(`Could not find custom tag "${tagName}".`);
-    }
-
-    const transformers = [
-      ...(tagDef ? Object.values(tagDef.transformers) : []),
-      ...Object.values(lookup.getTag("*").transformers)
-    ].sort(comparePriority);
-
-    for (const transformer of transformers) {
-      const module = require(transformer.path);
-      const { default: fn = module } = module;
-      const node = path.node;
-      fn(path);
-      if (path.node !== node) break; // Stop if node is replaced.
+  MarkoTag: {
+    enter(path) {
+      const transformers = getTransformersForTag(path);
+      for (const transformer of transformers) {
+        if (transformer.enter) {
+          const { node } = path;
+          transformer.enter(path);
+          if (path.node !== node) break; // Stop if node is replaced.
+        }
+      }
+    },
+    exit(path) {
+      const transformers = getTransformersForTag(path);
+      for (const transformer of transformers) {
+        if (transformer.exit) {
+          const { node } = path;
+          transformer.exit(path);
+          if (path.node !== node) break; // Stop if node is replaced.
+        }
+      }
     }
   }
 };
+
+function getTransformersForTag(path) {
+  const { hub } = path;
+  const { lookup, macros } = hub;
+  let tagName = path.get("name.value").node;
+  const isDynamicTag = !path.get("name").isStringLiteral();
+  const isAttributeTag = !isDynamicTag && tagName[0] === "@";
+
+  if (macros[tagName] || isDynamicTag) {
+    return [];
+  }
+
+  if (isAttributeTag && path.parentPath.isMarkoTag()) {
+    tagName = getFullyResolvedTagName(path);
+  }
+
+  let transformers = TRANSFORMER_CACHE[tagName];
+
+  if (!transformers) {
+    const tagDef = lookup.getTag(tagName);
+
+    if (!isAttributeTag && !tagDef) {
+      throw path
+        .get("name")
+        .buildCodeFrameError(
+          `Could not find definition for the "<${tagName}>" tag.`
+        );
+    }
+
+    transformers = TRANSFORMER_CACHE[tagName] = [
+      ...(tagDef ? Object.values(tagDef.transformers) : []),
+      ...Object.values(lookup.getTag("*").transformers)
+    ]
+      .sort(comparePriority)
+      .map(({ path }) => require(path));
+  }
+
+  return transformers;
+}
 
 function comparePriority(a, b) {
   a = a.priority;

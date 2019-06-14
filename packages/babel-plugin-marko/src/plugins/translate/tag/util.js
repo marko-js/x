@@ -1,5 +1,5 @@
 import * as t from "../../../definitions";
-const transparentTags = new Set(["for", "if", "else", "no-update"]);
+const transparentTags = new Set(["for", "while", "if", "else", "no-update"]);
 
 export function getAttrs(path, skipRenderBody) {
   const { node } = path;

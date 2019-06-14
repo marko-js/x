@@ -1,4 +1,4 @@
-export default function(path) {
+export function enter(path) {
   const {
     hub: { macros },
     node

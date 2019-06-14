@@ -8,6 +8,11 @@
                 <@item style={ color }>bar</@item>
             </else>
         </for>
+
+        $ let i = 10;
+        <while(i--)>
+            <@item>${i}</@item>
+        </while>
     </@list>
 
     <for|col| of=input.table>
