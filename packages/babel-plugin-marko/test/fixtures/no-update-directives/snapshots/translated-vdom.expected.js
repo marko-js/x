@@ -1,11 +1,11 @@
-import _noUpdate from "marko/src/core-tags/components/preserve-tag.js";
+import _hello from "./components/hello/index.marko";
 import { t as _t } from "marko/src/runtime/vdom/helpers";
 
-const _noUpdate_tag = _t(_noUpdate);
-
-import _hello from "./components/hello/index.marko";
-
 const _hello_tag = _t(_hello);
+
+import _noUpdate from "marko/src/core-tags/components/preserve-tag.js";
+
+const _noUpdate_tag = _t(_noUpdate);
 
 import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/vdom";
@@ -27,11 +27,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
           out.be("div", null, "2", component, 0, 0);
           out.ee();
         }
-      }, out, "3");
+      }, out, "0");
     }
   }, out, `#${_noUpdateKey}`);
 
-  const _noUpdateKey2 = _component.___nextKey("4");
+  const _noUpdateKey2 = _component.___nextKey("3");
 
   _noUpdate_tag({
     "cid": _noUpdateKey2,
@@ -39,24 +39,24 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          const _noUpdateKey3 = _component.___nextKey("5");
+          const _noUpdateKey3 = _component.___nextKey("4");
 
           _noUpdate_tag({
             "cid": _noUpdateKey3,
             "if": (a, b),
             "renderBody": out => {
-              _hello_tag({}, out, "6");
+              _hello_tag({}, out, "4");
             }
           }, out, `#${_noUpdateKey3}`);
 
-          out.be("div", null, "7", component, 0, 0);
+          out.be("div", null, "5", component, 0, 0);
           out.ee();
         }
-      }, out, "8");
+      }, out, "3");
     }
   }, out, `#${_noUpdateKey2}`);
 
-  const _noUpdateKey4 = _component.___nextKey("9");
+  const _noUpdateKey4 = _component.___nextKey("6");
 
   _noUpdate_tag({
     "cid": _noUpdateKey4,
@@ -64,16 +64,16 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, "10");
+          _hello_tag({}, out, "7");
 
-          out.be("div", null, "11", component, 0, 0);
+          out.be("div", null, "8", component, 0, 0);
           out.ee();
         }
-      }, out, "12");
+      }, out, "6");
     }
   }, out, `#${_noUpdateKey4}`);
 
-  const _noUpdateKey5 = _component.___nextKey("13");
+  const _noUpdateKey5 = _component.___nextKey("9");
 
   _noUpdate_tag({
     "cid": _noUpdateKey5,
@@ -82,7 +82,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          const _noUpdateKey6 = _component.___nextKey("14");
+          const _noUpdateKey6 = _component.___nextKey("10");
 
           _noUpdate_tag({
             "cid": _noUpdateKey6,
@@ -93,14 +93,14 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
                 "renderBody": out => {
                   out.t("Again");
                 }
-              }, out, "15");
+              }, out, "10");
             }
           }, out, `#${_noUpdateKey6}`);
 
-          out.be("div", null, "16", component, 0, 0);
+          out.be("div", null, "11", component, 0, 0);
           out.ee();
         }
-      }, out, "17");
+      }, out, "9");
     }
   }, out, `#${_noUpdateKey5}`);
 }, {
@@ -110,6 +110,6 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 _marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
-  tags: ["marko/src/core-tags/components/preserve-tag.js", "./components/hello/index.marko"]
+  tags: ["./components/hello/index.marko", "marko/src/core-tags/components/preserve-tag.js"]
 };
 export default _marko_template;

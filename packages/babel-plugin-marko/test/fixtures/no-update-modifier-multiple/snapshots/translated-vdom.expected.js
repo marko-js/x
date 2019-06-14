@@ -7,17 +7,17 @@ const _marko_template = _t(__filename),
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.be("div", null, "2", component, null, 0);
+  out.be("div", null, "0", component, null, 0);
   out.e("input", {
     "value": input.defaultValue
-  }, "0", component, 0, 0, {
+  }, "1", component, 0, 0, {
     noupdate: ["value"]
   });
   out.e("input", {
     "type": "checkbox",
     "value": input.defaultValue,
     "checked": input.checked
-  }, "1", component, 0, 0, {
+  }, "2", component, 0, 0, {
     noupdate: ["value", "checked"]
   });
   out.ee();

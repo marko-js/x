@@ -23,7 +23,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       out.t("Body content");
     }
-  }, out, _component, "2");
+  }, out, _component, "0");
 }, {
   ___type: _marko_componentType,
   ___implicit: true

@@ -1,7 +1,7 @@
 import * as t from "../../definitions";
 import { assertAllowedAttributes } from "./util";
 
-export default function(path) {
+export function exit(path) {
   const { node } = path;
   const { attributes, body } = node;
   const namePath = path.get("name");

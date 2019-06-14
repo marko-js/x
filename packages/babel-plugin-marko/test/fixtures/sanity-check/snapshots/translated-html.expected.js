@@ -62,7 +62,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   _marko_dynamicTag(_thing, {
     "x": 1
-  }, out, _component, "12");
+  }, out, _component, "13");
 
   _other_tag({
     "renderBody": (out, a) => {
@@ -92,7 +92,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": (out, b) => {
       out.w("<div></div>");
     }
-  }, out, "20");
+  }, out, "16");
 
   out.w(`<div id="a" class="b c" a="[object Object]" c="${d}"${_marko_attrs(e)}${_marko_attrs(f())}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`);
 

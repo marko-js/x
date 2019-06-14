@@ -16,24 +16,24 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   if (!x) out.ee();
 
   const _test_tag_renderBody = out => {
-    out.be("div", null, "1", component, null, 0);
+    out.be("div", null, "2", component, null, 0);
     out.t("Hello");
     out.ee();
   };
 
   if (x) _marko_dynamicTag(_test_tag_renderBody, null, out, _component, "3");else _test_tag({
     "renderBody": _test_tag_renderBody
-  }, out, "2");
+  }, out, "1");
 
   const _dynamic_tag_renderBody = out => {
-    out.be("div", null, "4", component, null, 0);
+    out.be("div", null, "5", component, null, 0);
     out.t("Hello World");
     out.ee();
   };
 
   if (a, b) _marko_dynamicTag(_dynamic_tag_renderBody, null, out, _component, "6");else _marko_dynamicTag(test, {
     "renderBody": _dynamic_tag_renderBody
-  }, out, _component, "5");
+  }, out, _component, "4");
 }, {
   ___type: _marko_componentType,
   ___implicit: true

@@ -19,21 +19,21 @@ const _marko_template = _t2(__filename),
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.be("html", null, "6", component, null, 0);
+  out.be("html", null, "0", component, null, 0);
   out.be("head", null, "1", component, null, 0);
-  out.be("title", null, "0", component, null, 0);
+  out.be("title", null, "2", component, null, 0);
   out.t("Title of the document");
   out.ee();
   out.ee();
-  out.be("body", null, "5", component, null, 0);
+  out.be("body", null, "3", component, null, 0);
 
-  _componentGlobals_tag({}, out, "2");
+  _componentGlobals_tag({}, out, "4");
 
   out.t("The content of the document......");
 
-  _initComponents_tag({}, out, "3");
+  _initComponents_tag({}, out, "5");
 
-  _awaitReorderer_tag({}, out, "4");
+  _awaitReorderer_tag({}, out, "6");
 
   out.ee();
   out.ee();

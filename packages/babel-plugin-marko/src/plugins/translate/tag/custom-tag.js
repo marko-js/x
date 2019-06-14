@@ -21,7 +21,7 @@ export default function(path, tagDef) {
   if (!relativePath) {
     throw path
       .get("name")
-      .buildCodeFrameError(`Unable to find entry point tag.`);
+      .buildCodeFrameError("Unable to find entry point for custom tag.");
   }
 
   let tagIdentifierLookup = TAG_IDENTIFIER_LOOKUPS.get(hub);

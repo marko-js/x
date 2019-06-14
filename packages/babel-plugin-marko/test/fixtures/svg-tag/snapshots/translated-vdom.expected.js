@@ -9,7 +9,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.be("svg", {
     "height": "100",
     "width": "100"
-  }, "5", component, null, 0);
+  }, "0", component, null, 0);
   out.e("circle", {
     "cx": "50",
     "cy": "50",
@@ -17,16 +17,16 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "stroke": "black",
     "stroke-width": "3",
     "fill": "red"
-  }, "0", component, 0, 0);
-  out.be("a", null, "1", component, 0, 0);
+  }, "1", component, 0, 0);
+  out.be("a", null, "2", component, 0, 0);
   out.ee();
-  out.be("style", null, "2", component, null, 0);
+  out.be("style", null, "3", component, null, 0);
   out.t("div { color: green }");
   out.ee();
-  out.be("script", null, "3", component, null, 0);
+  out.be("script", null, "4", component, null, 0);
   out.t("alert(\"Hello\");");
   out.ee();
-  out.be("title", null, "4", component, null, 0);
+  out.be("title", null, "5", component, null, 0);
   out.t("Test");
   out.ee();
   out.ee();

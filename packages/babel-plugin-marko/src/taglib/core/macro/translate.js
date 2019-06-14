@@ -1,7 +1,7 @@
 import * as t from "../../../definitions";
 import withPreviousLocation from "../../../util/with-previous-location";
 
-export default function(path) {
+export function exit(path) {
   const { node } = path;
   const { _macroId: id, body } = node;
   const params = node.params.concat(t.identifier("out"));

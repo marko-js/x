@@ -1,6 +1,6 @@
 import * as t from "../../definitions";
 
-export default function(path) {
+export function exit(path) {
   const { node, hub } = path;
   const { rawValue, start, body } = node;
   const [whileNode] = hub.parse(rawValue + ";", start).body;

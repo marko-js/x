@@ -28,24 +28,20 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   for (const val of arr) {
     let i = _i3++;
-    const _loopKey = `@${i}`;
     out.w(`<div>${_marko_escapeXml(i)}: ${_marko_escapeXml(val)}</div><div></div><div></div>`);
   }
 
   for (const key in obj) {
     const val = obj[key];
-    const _loopKey2 = `@${key}`;
     out.w(`<div>${_marko_escapeXml(key)}: ${_marko_escapeXml(val)}</div><div></div><div></div>`);
   }
 
   for (let _i5 = 0; _i5 <= 10; _i5 += 2) {
     const i = _i5;
-    const _loopKey3 = `@${i}`;
     out.w(`<div>${_marko_escapeXml(i)}</div><div></div><div></div>`);
 
     for (let _i4 = 0; _i4 <= 10; _i4 += 2) {
       const i = _i4;
-      const _loopKey4 = `@${i}`;
       out.w(`<div>${_marko_escapeXml(i)}</div><div></div><div></div>`);
     }
   }

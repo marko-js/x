@@ -21,13 +21,13 @@ const _marko_template = _t2(__filename),
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w("<!DOCTYPE html><html><head><title>Title of the document</title></head><body>");
 
-  _componentGlobals_tag({}, out, "2");
+  _componentGlobals_tag({}, out, "4");
 
   out.w("The content of the document......");
 
-  _initComponents_tag({}, out, "3");
+  _initComponents_tag({}, out, "5");
 
-  _awaitReorderer_tag({}, out, "4");
+  _awaitReorderer_tag({}, out, "6");
 
   out.w("</body></html>");
 }, {

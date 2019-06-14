@@ -13,7 +13,6 @@ export default function(tag, attr, opts = EMPTY_OBJECT) {
     node.key || hub.nextKey()
   ]);
   const keyIdentifier = tag.scope.generateUidIdentifier("noUpdateKey");
-  const name = t.stringLiteral("no-update");
   const replacementAttrs = [t.markoAttribute("cid", keyIdentifier)];
 
   if (opts.if) {
@@ -24,7 +23,11 @@ export default function(tag, attr, opts = EMPTY_OBJECT) {
     replacementAttrs.push(t.markoAttribute("bodyOnly", t.booleanLiteral(true)));
   }
 
-  const replacement = t.markoTag(name, replacementAttrs, [node]);
+  const replacement = t.markoTag(
+    t.stringLiteral("no-update"),
+    replacementAttrs,
+    [node]
+  );
   replacement.key = normalizeTemplateLiteral(["#", ""], [keyIdentifier]);
 
   tag.insertBefore(
@@ -33,5 +36,5 @@ export default function(tag, attr, opts = EMPTY_OBJECT) {
     ])
   );
 
-  tag.replaceWith(replacement);
+  tag.replaceWith(replacement)[0].visit();
 }

@@ -1,6 +1,6 @@
 import { basename } from "path";
 
-export default function(path) {
+export function exit(path) {
   const { hub, node } = path;
   const { _styleType: type, _styleCode: code } = node;
 

@@ -1,7 +1,7 @@
 import { buildIfStatement } from "./util";
 import { assertNoAttributes } from "../util";
 
-export default function translate(path) {
+export function exit(path) {
   assertNoAttributes(path);
 
   const { ifStatement, arguments: args } = path.node;
