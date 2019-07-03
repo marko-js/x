@@ -1,5 +1,8 @@
 import * as t from "../../../../definitions";
 import normalizeTemplateString from "../../../../util/normalize-template-string";
+import { xa as escapeXmlAttr } from "marko/src/runtime/html/helpers";
+
+const basicTypes = ["string", "number", "boolean"];
 
 export default function(attrs) {
   if (!attrs.length) {
@@ -36,7 +39,7 @@ export default function(attrs) {
 
     const { confident, value: computed } = attr.get("value").evaluate();
 
-    if (confident && name !== "data-marko") {
+    if (confident && name !== "data-marko" && basicTypes.includes(typeof computed)) {
       if (computed == null || computed === false) {
         continue;
       }
@@ -44,7 +47,7 @@ export default function(attrs) {
       curString += ` ${name}`;
 
       if (computed !== true) {
-        curString += `="${computed}"`;
+        curString += `="${escapeXmlAttr(computed)}"`;
       }
     } else {
       const args = [t.stringLiteral(name), value];
