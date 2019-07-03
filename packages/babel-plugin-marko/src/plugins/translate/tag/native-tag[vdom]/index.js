@@ -2,10 +2,7 @@ import { resolve } from "path";
 import SELF_CLOSING from "self-closing-tags";
 import * as t from "../../../../definitions";
 import write from "../../../../util/vdom-out-write";
-import {
-  assertNoParams,
-  assertNoArgs
-} from "../../../../taglib/core/util";
+import { assertNoParams, assertNoArgs } from "../../../../taglib/core/util";
 import { getAttrs } from "../util";
 import * as FLAGS from "../../../../util/runtime-flags";
 
@@ -23,14 +20,7 @@ const MAYBE_SVG = {
  */
 export default function(path) {
   const { hub, node, parent } = path;
-  const {
-    name,
-    key,
-    body,
-    properties,
-    handlers,
-    tagDef
-  } = node;
+  const { name, key, body, properties, handlers, tagDef } = node;
   const { value: tagName } = name;
 
   path.get("attributes").forEach(attr => {
@@ -133,14 +123,8 @@ export default function(path) {
   const { bodyOnlyIf } = path.node;
   if (bodyOnlyIf) {
     const negatedBodyOnlyIf = t.unaryExpression("!", bodyOnlyIf, true);
-    writeStartNode = t.ifStatement(
-      negatedBodyOnlyIf,
-      writeStartNode
-    );
-    writeEndNode = t.ifStatement(
-      negatedBodyOnlyIf,
-      writeEndNode
-    );
+    writeStartNode = t.ifStatement(negatedBodyOnlyIf, writeStartNode);
+    writeEndNode = t.ifStatement(negatedBodyOnlyIf, writeEndNode);
   }
 
   let needsBlock;

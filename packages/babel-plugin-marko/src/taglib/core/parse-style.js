@@ -10,21 +10,27 @@ export default function(path) {
   }
 
   if (!path.parentPath.isProgram()) {
-    throw path.get("name").buildCodeFrameError(
-      "Style blocks must be at the root of your Marko template."
-    );
+    throw path
+      .get("name")
+      .buildCodeFrameError(
+        "Style blocks must be at the root of your Marko template."
+      );
   }
 
   if (hub.componentFiles.styleFile) {
-    throw path.get("name").buildCodeFrameError(
-      'A Marko file can either have an inline style block, or an external "style.ext" file, but not both.'
-    );
+    throw path
+      .get("name")
+      .buildCodeFrameError(
+        'A Marko file can either have an inline style block, or an external "style.ext" file, but not both.'
+      );
   }
 
   if (STYLE_FOUND.has(hub)) {
-    throw path.get("name").buildCodeFrameError(
-      "A Marko file can only contain a single inline style block."
-    );
+    throw path
+      .get("name")
+      .buildCodeFrameError(
+        "A Marko file can only contain a single inline style block."
+      );
   }
 
   const [, type = "css", code] = matchedBlock;

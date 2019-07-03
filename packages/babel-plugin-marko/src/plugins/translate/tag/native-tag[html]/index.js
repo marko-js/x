@@ -4,10 +4,7 @@ import * as t from "../../../../definitions";
 import write from "../../../../util/html-out-write";
 import withPreviousLocation from "../../../../util/with-previous-location";
 import translateAttributes from "./attributes";
-import {
-  assertNoParams,
-  assertNoArgs
-} from "../../../../taglib/core/util";
+import { assertNoParams, assertNoArgs } from "../../../../taglib/core/util";
 
 const EMPTY_OBJECT = {};
 
@@ -30,7 +27,8 @@ export default function(path) {
 
   if (tagDef) {
     const { parseOptions = EMPTY_OBJECT } = tagDef;
-    if (parseOptions.import) { // TODO: the taglib should be updated to support this as a top level option.
+    if (parseOptions.import) {
+      // TODO: the taglib should be updated to support this as a top level option.
       hub.meta.deps.push(resolve(tagDef.dir, parseOptions.import));
     }
   }
@@ -64,7 +62,10 @@ export default function(path) {
   }
 
   if (hub.isImplicit && tagProperties.length) {
-    path.pushContainer("attributes", t.markoAttribute("data-marko", t.objectExpression(tagProperties)));
+    path.pushContainer(
+      "attributes",
+      t.markoAttribute("data-marko", t.objectExpression(tagProperties))
+    );
   }
 
   let writeStartNode = withPreviousLocation(
@@ -82,14 +83,8 @@ export default function(path) {
   const { bodyOnlyIf } = path.node;
   if (bodyOnlyIf) {
     const negatedBodyOnlyIf = t.unaryExpression("!", bodyOnlyIf, true);
-    writeStartNode = t.ifStatement(
-      negatedBodyOnlyIf,
-      writeStartNode
-    );
-    writeEndNode = t.ifStatement(
-      negatedBodyOnlyIf,
-      writeEndNode
-    );
+    writeStartNode = t.ifStatement(negatedBodyOnlyIf, writeStartNode);
+    writeEndNode = t.ifStatement(negatedBodyOnlyIf, writeEndNode);
   }
 
   let needsBlock;

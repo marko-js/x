@@ -5,8 +5,10 @@ import write from "../../../util/html-out-write";
 export default function(path) {
   const { node } = path;
 
-  path.replaceWith(withPreviousLocation(
-    write`<![CDATA[${t.stringLiteral(node.value)}]]>`,
-    node
-  ));
+  path.replaceWith(
+    withPreviousLocation(
+      write`<![CDATA[${t.stringLiteral(node.value)}]]>`,
+      node
+    )
+  );
 }

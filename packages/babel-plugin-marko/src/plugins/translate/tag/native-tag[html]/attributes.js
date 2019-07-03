@@ -39,7 +39,11 @@ export default function(attrs) {
 
     const { confident, value: computed } = attr.get("value").evaluate();
 
-    if (confident && name !== "data-marko" && basicTypes.includes(typeof computed)) {
+    if (
+      confident &&
+      name !== "data-marko" &&
+      basicTypes.includes(typeof computed)
+    ) {
       if (computed == null || computed === false) {
         continue;
       }
