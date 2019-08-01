@@ -4,7 +4,7 @@ import { parse } from "./parser";
 import { visitor as migrate } from "./plugins/migrate";
 import { visitor as transform } from "./plugins/transform";
 import { visitor as translate } from "./plugins/translate";
-import { NodePath } from "@babel/traverse";
+import { NodePath, visitors } from "@babel/traverse";
 
 export default (api, options) => {
   api.assertVersion(7);
@@ -36,9 +36,26 @@ export default (api, options) => {
       // 4. babel-plugin-translate-marko (runs final translations)
       if (!options._parseOnly) {
         nodePath.get("program").scope.crawl(); // Initialize bindings.
-        nodePath.traverse(migrate);
+        const rootMigrators = Object.values(hub.lookup.taglibsById)
+          .map(taglib => taglib.getMigrator())
+          .filter(m => m)
+          .map(m => m.default || m)
+          .map(m => m(api, options));
+        nodePath.traverse(
+          rootMigrators.length
+            ? visitors.merge(rootMigrators.concat(migrate))
+            : migrate
+        );
         if (!options._migrateOnly) {
-          nodePath.traverse(transform);
+          const rootTransformers = hub.lookup.merged.transformers
+            .map(t => require(t.path))
+            .map(t => t.default || t)
+            .map(t => t(api, options));
+          nodePath.traverse(
+            rootTransformers.length
+              ? visitors.merge(rootTransformers.concat(transform))
+              : transform
+          );
           nodePath.traverse(translate);
         }
       }
