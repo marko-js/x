@@ -94,7 +94,9 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }
   }, out, "16");
 
-  out.w(`<div id="a" class="b c" a="[object Object]" c="${d}"${_marko_attrs(e)}${_marko_attrs(f())}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`);
+  out.w(`<div id="a" class="b c"${_marko_attr("a", {
+    a: 1
+  })} c="${d}"${_marko_attrs(e)}${_marko_attrs(f())}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`);
 
   if (x === a) {
     out.w(`a ${_marko_escapeXml(b)}`);
