@@ -1,4 +1,4 @@
-import { getFullyResolvedTagName } from "./translate/tag/util";
+import tagDefForPath from "../util/tagdef-for-path";
 const TRANSFORMER_CACHE = {};
 
 /**
@@ -36,31 +36,13 @@ export const visitor = {
 
 function getTransformersForTag(path) {
   const { hub } = path;
-  const { lookup, macros } = hub;
+  const { lookup } = hub;
   let tagName = path.get("name.value").node;
-  const isDynamicTag = !path.get("name").isStringLiteral();
-  const isAttributeTag = !isDynamicTag && tagName[0] === "@";
-
-  if (macros[tagName] || isDynamicTag) {
-    return [];
-  }
-
-  if (isAttributeTag && path.parentPath.isMarkoTag()) {
-    tagName = getFullyResolvedTagName(path);
-  }
 
   let transformers = TRANSFORMER_CACHE[tagName];
 
   if (!transformers) {
-    const tagDef = lookup.getTag(tagName);
-
-    if (!isAttributeTag && !tagDef) {
-      throw path
-        .get("name")
-        .buildCodeFrameError(
-          `Could not find definition for the "<${tagName}>" tag.`
-        );
-    }
+    const tagDef = tagDefForPath(path);
 
     transformers = TRANSFORMER_CACHE[tagName] = [
       ...(tagDef ? Object.values(tagDef.transformers) : []),
@@ -74,16 +56,8 @@ function getTransformersForTag(path) {
 }
 
 function comparePriority(a, b) {
-  a = a.priority;
-  b = b.priority;
-
-  if (a == null) {
-    a = Number.MAX_VALUE;
-  }
-
-  if (b == null) {
-    b = Number.MAX_VALUE;
-  }
+  a = a.priority || 0;
+  b = b.priority || 0;
 
   return a - b;
 }

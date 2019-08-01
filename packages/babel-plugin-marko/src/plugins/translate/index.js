@@ -8,6 +8,7 @@ import MarkoText from "./text";
 import MarkoPlaceholder from "./placeholder";
 import MarkoScriptlet from "./scriptlet";
 import MarkoClass from "./class";
+import { visitor as optimize } from "./optimize";
 
 export const visitor = {
   MarkoDocumentType,
@@ -221,6 +222,8 @@ export const visitor = {
         "body",
         t.exportDefaultDeclaration(templateIdentifier)
       );
+
+      path.traverse(optimize);
     }
   }
 };

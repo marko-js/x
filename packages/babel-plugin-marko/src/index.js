@@ -1,9 +1,9 @@
 import { extname } from "path";
 import { Hub } from "./hub";
 import { parse } from "./parser";
+import { visitor as migrate } from "./plugins/migrate";
 import { visitor as transform } from "./plugins/transform";
 import { visitor as translate } from "./plugins/translate";
-import { visitor as optimize } from "./plugins/optimize";
 import { NodePath } from "@babel/traverse";
 
 export default (api, options) => {
@@ -29,15 +29,18 @@ export default (api, options) => {
       hub.program = nodePath.get("program");
       parse(nodePath);
 
-      // TODO: this package should be split into 3:
+      // TODO: this package should be split into 4:
       // 1. babel-syntax-marko (removes the need for the _parseOnly option)
-      // 2. babel-plugin-transform-marko (only runs transformers without converting Marko nodes to js)
-      // 3. babel-plugin-translate-marko (runs final translations)
+      // 2. babel-plugin-transform-marko (removes the need for the _migrateOnly option)
+      // 3. babel-plugin-transform-marko (only runs transformers without converting Marko nodes to js)
+      // 4. babel-plugin-translate-marko (runs final translations)
       if (!options._parseOnly) {
         nodePath.get("program").scope.crawl(); // Initialize bindings.
-        nodePath.traverse(transform);
-        nodePath.traverse(translate);
-        nodePath.traverse(optimize);
+        nodePath.traverse(migrate);
+        if (!options._migrateOnly) {
+          nodePath.traverse(transform);
+          nodePath.traverse(translate);
+        }
       }
 
       return hub.file;

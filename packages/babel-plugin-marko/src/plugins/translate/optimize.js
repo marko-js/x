@@ -1,4 +1,4 @@
-import normalizeTemplateLiteral from "../util/normalize-template-string";
+import normalizeTemplateLiteral from "../../util/normalize-template-string";
 
 export const visitor = {
   ExpressionStatement(path) {
