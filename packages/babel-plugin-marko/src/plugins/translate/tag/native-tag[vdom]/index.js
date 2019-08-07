@@ -34,7 +34,7 @@ export default function(path) {
 
   const tagProperties = properties.slice();
   const isSelfClosing = SELF_CLOSING.indexOf(tagName) !== -1;
-  const attrsObj = getAttrs(path, true);
+  const attrsObj = getAttrs(path, true, true);
   const writeArgs = [
     isSelfClosing ? "e" : "be",
     name,

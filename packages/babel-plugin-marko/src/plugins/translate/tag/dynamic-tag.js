@@ -9,7 +9,7 @@ export default function(path) {
 
   assertNoArgs(path);
 
-  const foundAttrs = getAttrs(path);
+  const foundAttrs = getAttrs(path, true);
   const renderBodyProp = foundAttrs.properties.find(
     prop => prop.key && prop.key.value === "renderBody"
   );

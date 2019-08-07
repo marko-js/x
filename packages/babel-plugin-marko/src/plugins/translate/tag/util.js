@@ -1,7 +1,7 @@
 import * as t from "../../../definitions";
 const transparentTags = new Set(["for", "while", "if", "else", "no-update"]);
 
-export function getAttrs(path, skipRenderBody) {
+export function getAttrs(path, noCamel, skipRenderBody) {
   const { node } = path;
   const {
     attributes,
@@ -22,7 +22,10 @@ export function getAttrs(path, skipRenderBody) {
   for (let i = 0; i < attrsLen; i++) {
     const { name, value } = attributes[i];
     properties[i] = name
-      ? t.objectProperty(t.stringLiteral(name), value)
+      ? t.objectProperty(
+          t.stringLiteral(noCamel ? name : camelCase(name)),
+          value
+        )
       : t.spreadElement(value);
   }
 
@@ -115,4 +118,8 @@ export function findParentTag(path) {
 
     return cur;
   }
+}
+
+function camelCase(string) {
+  return string.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
 }
