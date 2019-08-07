@@ -45,7 +45,7 @@ export default function(path) {
     path.replaceWith(
       t.ifStatement(
         bodyOnlyIf,
-        t.markoTag(renderBodyIdentifier),
+        t.markoTag(renderBodyIdentifier, [], t.markoTagBody()),
         t.expressionStatement(dynamicTagRenderCall)
       )
     );

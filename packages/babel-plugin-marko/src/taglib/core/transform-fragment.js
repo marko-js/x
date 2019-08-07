@@ -4,7 +4,9 @@ import normalizeTemplateLiteral from "../../util/normalize-template-string";
 export function exit(path) {
   const namePath = path.get("name");
   const attributes = path.get("attributes");
-  const { body } = path.node;
+  const {
+    body: { body }
+  } = path.node;
   const keyAttr = attributes.find(attr => attr.node.name === "key");
 
   if (!keyAttr) {

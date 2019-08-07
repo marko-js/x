@@ -128,6 +128,25 @@ export default {
     }
   },
 
+  MarkoTagBody: {
+    aliases: ["Marko", "Block", "BlockParent", "Scope", "Scopable"],
+    builder: ["body"],
+    visitor: ["body"],
+    fields: {
+      body: {
+        validate: arrayOfType([
+          "MarkoTag",
+          "MarkoCDATA",
+          "MarkoText",
+          "MarkoPlaceholder",
+          "MarkoScriptlet",
+          "MarkoComment"
+        ]),
+        default: []
+      }
+    }
+  },
+
   MarkoTag: {
     aliases: ["Marko", "Statement"],
     builder: [
@@ -149,15 +168,7 @@ export default {
         default: []
       },
       body: {
-        validate: arrayOfType([
-          "MarkoTag",
-          "MarkoCDATA",
-          "MarkoText",
-          "MarkoPlaceholder",
-          "MarkoScriptlet",
-          "MarkoComment"
-        ]),
-        default: []
+        validate: assertNodeType("MarkoTagBody")
       },
       params: {
         ...functionCommon.params,

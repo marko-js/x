@@ -252,7 +252,7 @@ function getLoopKey(path) {
     return existingIdentifier && t.identifier(existingIdentifier.name);
   }
 
-  const loopBody = path.get("body");
+  const loopBody = path.get("body.body");
   const childElements = loopBody.filter(childPath => childPath.isMarkoTag());
   const [firstElement] = childElements;
   const allKeyed = childElements.every(hasUserDefinedKey);

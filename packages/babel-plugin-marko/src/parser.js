@@ -20,7 +20,10 @@ export function parse(fileNodePath) {
   const { filename, htmlParseOptions = {} } = hub;
   const { preserveWhitespace } = htmlParseOptions;
   const code = hub.getCode();
-  let currentTag = fileNodePath.get("program");
+  const getTagBody = () =>
+    currentTag.get(currentTag.isFile() ? "program" : "body");
+  const pushTagBody = node => getTagBody().pushContainer("body", node);
+  let currentTag = fileNodePath;
   let preservingWhitespaceUntil = preserveWhitespace;
   let wasSelfClosing = false;
   let wasConcise = false;
@@ -30,33 +33,33 @@ export function parse(fileNodePath) {
     {
       onDocumentType({ value, pos, endPos }) {
         const node = hub.createNode("markoDocumentType", pos, endPos, value);
-        currentTag.pushContainer("body", node);
+        pushTagBody(node);
         /* istanbul ignore next */
         onNext = onNext && onNext(node);
       },
 
       onDeclaration({ value, pos, endPos }) {
         const node = hub.createNode("markoDeclaration", pos, endPos, value);
-        currentTag.pushContainer("body", node);
+        pushTagBody(node);
         /* istanbul ignore next */
         onNext = onNext && onNext(node);
       },
 
       onComment({ value, pos, endPos }) {
         const node = hub.createNode("markoComment", pos, endPos, value);
-        currentTag.pushContainer("body", node);
+        pushTagBody(node);
         onNext = onNext && onNext(node);
       },
 
       onCDATA({ value, pos, endPos }) {
         const node = hub.createNode("markoCDATA", pos, endPos, value);
-        currentTag.pushContainer("body", node);
+        pushTagBody(node);
         onNext = onNext && onNext(node);
       },
 
       onText({ value }, { pos }) {
         const shouldTrim = !preservingWhitespaceUntil;
-        const { body } = currentTag.node;
+        const { body } = getTagBody().node;
 
         if (shouldTrim) {
           if (htmlTrim(value) === "") {
@@ -85,8 +88,8 @@ export function parse(fileNodePath) {
 
         const endPos = pos + value.length;
         const node = hub.createNode("markoText", pos, endPos, value);
-        const prevBody = currentTag.node.body;
-        currentTag.pushContainer("body", node);
+        const prevBody = getTagBody().node.body;
+        pushTagBody(node);
         onNext && onNext(node);
         onNext =
           shouldTrim &&
@@ -112,7 +115,7 @@ export function parse(fileNodePath) {
             escape
           );
 
-          currentTag.pushContainer("body", node);
+          pushTagBody(node);
           onNext = onNext && onNext(node);
         }
       },
@@ -126,8 +129,7 @@ export function parse(fileNodePath) {
         }
 
         // Scriptlets are ignored as content and don't call `onNext`.
-        currentTag.pushContainer(
-          "body",
+        pushTagBody(
           hub.createNode(
             "markoScriptlet",
             pos,
@@ -157,7 +159,9 @@ export function parse(fileNodePath) {
                 tagNameStartPos,
                 tagNameStartPos + tagName.length,
                 tagName
-              )
+              ),
+          [],
+          t.markoTagBody()
         );
 
         if (tagDef) {
@@ -167,7 +171,7 @@ export function parse(fileNodePath) {
           if (parseOptions) {
             event.setParseOptions(parseOptions);
 
-            if (parseOptions.rootOnly && !currentTag.isProgram()) {
+            if (parseOptions.rootOnly && !currentTag.isFile()) {
               throw hub.buildError(
                 { start: pos, end: endPos },
                 `"${tagName}" tags must be at the root of your Marko template.`
@@ -176,7 +180,7 @@ export function parse(fileNodePath) {
           }
         }
 
-        [currentTag] = currentTag.pushContainer("body", node);
+        [currentTag] = pushTagBody(node);
 
         // @tags are not treated as content and do not call next.
         if (!isNestedTag(node)) {
@@ -268,7 +272,7 @@ export function parse(fileNodePath) {
           fn(tag);
         }
 
-        currentTag = currentTag.parentPath;
+        currentTag = currentTag.parentPath.parentPath;
       },
 
       onfinish() {

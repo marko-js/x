@@ -84,7 +84,7 @@ export default function(path, tagDef) {
     path.replaceWith(
       t.ifStatement(
         bodyOnlyIf,
-        t.markoTag(renderBodyIdentifier),
+        t.markoTag(renderBodyIdentifier, [], t.markoTagBody()),
         customTagRenderCall
       )
     );

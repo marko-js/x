@@ -5,7 +5,10 @@ export function exit(path) {
   assertNoArgs(path);
   assertNoAttributes(path);
 
-  const { ifStatement, body } = path.node;
+  const {
+    ifStatement,
+    body: { body }
+  } = path.node;
 
   if (!ifStatement) {
     throw path

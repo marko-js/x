@@ -124,7 +124,8 @@ Object.assign(Printer.prototype, {
   MarkoTag(node) {
     const isDynamicTag = !t.isStringLiteral(node.name);
     const tagName = !isDynamicTag && node.name.value;
-    const selfClosing = !node.body.length || SELF_CLOSING.includes(tagName);
+    const selfClosing =
+      !node.body.body.length || SELF_CLOSING.includes(tagName);
     const rawValue = node.rawValue;
 
     if (
@@ -171,7 +172,7 @@ Object.assign(Printer.prototype, {
     } else {
       this.token(">");
       this.newline();
-      this.printSequence(node.body, node, { indent: true });
+      this.printSequence(node.body.body, node.body, { indent: true });
       this.token("</");
       if (!isDynamicTag) {
         this.token(tagName);

@@ -26,7 +26,7 @@ export default function(tag, attr, opts = EMPTY_OBJECT) {
   const replacement = t.markoTag(
     t.stringLiteral("no-update"),
     replacementAttrs,
-    [node]
+    t.markoTagBody([node])
   );
   replacement.key = normalizeTemplateLiteral(["#", ""], [keyIdentifier]);
 

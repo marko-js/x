@@ -1,5 +1,4 @@
 import tagDefForPath from "../util/tagdef-for-path";
-const TRANSFORMER_CACHE = {};
 
 /**
  * Applies custom transformers on tags.
@@ -37,19 +36,23 @@ export const visitor = {
 function getTransformersForTag(path) {
   const { hub } = path;
   const { lookup } = hub;
-  let tagName = path.get("name.value").node;
+  const tagName = path.get("name.value").node;
+  const TRANSFORMER_CACHE = (lookup.TRANSFORMER_CACHE =
+    lookup.TRANSFORMER_CACHE || {});
 
   let transformers = TRANSFORMER_CACHE[tagName];
 
   if (!transformers) {
     const tagDef = tagDefForPath(path);
 
-    transformers = TRANSFORMER_CACHE[tagName] = [
-      ...(tagDef ? Object.values(tagDef.transformers) : []),
-      ...Object.values(lookup.getTag("*").transformers)
-    ]
-      .sort(comparePriority)
-      .map(({ path }) => require(path));
+    transformers = TRANSFORMER_CACHE[tagName] = tagDef
+      ? [
+          ...(tagDef ? Object.values(tagDef.transformers) : []),
+          ...Object.values(lookup.getTag("*").transformers)
+        ]
+          .sort(comparePriority)
+          .map(({ path }) => require(path))
+      : [];
   }
 
   return transformers;

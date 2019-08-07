@@ -1,5 +1,4 @@
 import tagDefForPath from "../util/tagdef-for-path";
-const MIGRATOR_CACHE = {};
 
 /**
  * Applies custom migrators on tags.
@@ -32,12 +31,13 @@ export const visitor = {
 function getMigratorsForTag(path) {
   const { hub } = path;
   const { lookup } = hub;
-  let tagName = path.get("name.value").node;
+  const tagName = path.get("name.value").node;
+  const MIGRATOR_CACHE = (lookup.MIGRATOR_CACHE = lookup.MIGRATOR_CACHE || {});
 
   let migrators = MIGRATOR_CACHE[tagName];
 
   if (!migrators) {
-    const tagDef = tagDefForPath(path, true);
+    const tagDef = tagDefForPath(path);
 
     migrators = MIGRATOR_CACHE[tagName] = [
       ...(tagDef ? tagDef.migratorPaths : []),

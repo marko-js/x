@@ -8,7 +8,7 @@ export function enter(path) {
   assertNoAttributes(path);
 
   if (hub.options.output === "html") {
-    path.replaceWithMultiple([write`<!--`, ...path.node.body, write`-->`]);
+    path.replaceWithMultiple([write`<!--`, ...path.node.body.body, write`-->`]);
   } else {
     path.remove();
   }

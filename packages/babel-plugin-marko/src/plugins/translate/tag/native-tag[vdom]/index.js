@@ -20,7 +20,7 @@ const MAYBE_SVG = {
  */
 export default function(path) {
   const { hub, node, parent } = path;
-  const { name, key, body, properties, handlers, tagDef } = node;
+  const { name, key, body: { body }, properties, handlers, tagDef } = node;
   const { value: tagName } = name;
 
   path.get("attributes").forEach(attr => {

@@ -1,10 +1,16 @@
 import * as t from "../../definitions";
 
 export function exit(path) {
-  const body = path.get("body");
+  const body = path.get("body.body");
   const firstChild = body[0];
   const lastChild = body[body.length - 1];
-  firstChild.insertBefore(t.markoTag(t.stringLiteral("component-globals")));
-  lastChild.insertAfter(t.markoTag(t.stringLiteral("await-reorderer")));
-  lastChild.insertAfter(t.markoTag(t.stringLiteral("init-components")));
+  firstChild.insertBefore(
+    t.markoTag(t.stringLiteral("component-globals"), [], t.markoTagBody())
+  );
+  lastChild.insertAfter(
+    t.markoTag(t.stringLiteral("await-reorderer"), [], t.markoTagBody())
+  );
+  lastChild.insertAfter(
+    t.markoTag(t.stringLiteral("init-components"), [], t.markoTagBody())
+  );
 }

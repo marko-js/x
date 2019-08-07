@@ -12,7 +12,7 @@ export function exit(path) {
     t.markoTag(
       t.stringLiteral("span"),
       path.get("attributes").map(p => p.node),
-      path.get("body").map(p => p.node),
+      t.markoTagBody(path.get("body.body").map(p => p.node)),
       path.get("params").map(p => p.node),
       path.get("arguments").map(p => p.node)
     )

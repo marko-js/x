@@ -32,7 +32,7 @@ export default function(path) {
   const parentAttributes = parentPath.get("attributes");
   const tagDef = lookup.getTag(fullTagName) || EMPTY_OBJECT;
   const { isRepeated, targetProperty = tagName.slice(1) } = tagDef;
-  const isDynamic = isRepeated || parentPath !== path.parentPath;
+  const isDynamic = isRepeated || parentPath !== path.parentPath.parentPath;
   parentPath.node.exampleAttributeTag = node;
   parentPath.node.hasDynamicAttributeTags =
     isDynamic || node.hasDynamicAttributeTags;
@@ -59,15 +59,17 @@ export default function(path) {
   if (!identifier) {
     identifier = path.scope.generateUidIdentifier(targetProperty);
     parentIdentifierLookup.set(parentPath, identifier);
-    parentPath.unshiftContainer(
-      "body",
-      t.variableDeclaration(isRepeated ? "const" : "let", [
-        t.variableDeclarator(
-          identifier,
-          isRepeated ? t.arrayExpression([]) : t.nullLiteral()
-        )
-      ])
-    );
+    parentPath
+      .get("body")
+      .unshiftContainer(
+        "body",
+        t.variableDeclaration(isRepeated ? "const" : "let", [
+          t.variableDeclarator(
+            identifier,
+            isRepeated ? t.arrayExpression([]) : t.nullLiteral()
+          )
+        ])
+      );
     parentPath.pushContainer(
       "attributes",
       t.markoAttribute(targetProperty, identifier)

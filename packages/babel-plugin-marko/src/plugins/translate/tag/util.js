@@ -3,7 +3,12 @@ const transparentTags = new Set(["for", "while", "if", "else", "no-update"]);
 
 export function getAttrs(path, skipRenderBody) {
   const { node } = path;
-  const { attributes, attributeTags, body, hasDynamicAttributeTags } = node;
+  const {
+    attributes,
+    attributeTags,
+    body: { body },
+    hasDynamicAttributeTags
+  } = node;
   const attrsLen = attributes.length;
   const childLen = body.length;
   const hasRenderBody = !skipRenderBody && childLen;
@@ -93,6 +98,11 @@ export function findParentTag(path) {
   let cur = path.parentPath;
 
   while (cur.node) {
+    if (cur.isMarkoTagBody()) {
+      cur = cur.parentPath;
+      continue;
+    }
+
     if (!cur.isMarkoTag()) {
       cur = undefined;
       break;

@@ -18,7 +18,7 @@ export default function(path) {
   const { hub, node } = path;
   const {
     name: { value: tagName },
-    body,
+    body: { body },
     properties,
     handlers,
     tagDef
