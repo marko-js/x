@@ -19,17 +19,17 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.w("<div>Hello</div>");
   };
 
-  if (x) _marko_dynamicTag(_test_tag_renderBody, null, out, _component, "3");else _test_tag({
+  if (x) _marko_dynamicTag(out, _test_tag_renderBody, null, null, null, null, _component, "3");else _test_tag({
     "renderBody": _test_tag_renderBody
   }, out, "1");
 
-  const _dynamic_tag_renderBody = out => {
+  _marko_dynamicTag(out, test, () => ({
+    "renderBody": out => {
+      out.w("<div>Hello World</div>");
+    }
+  }), out => {
     out.w("<div>Hello World</div>");
-  };
-
-  if (a, b) _marko_dynamicTag(_dynamic_tag_renderBody, null, out, _component, "6");else _marko_dynamicTag(test, {
-    "renderBody": _dynamic_tag_renderBody
-  }, out, _component, "4");
+  }, null, null, _component, "4");
 }, {
   ___type: _marko_componentType,
   ___implicit: true

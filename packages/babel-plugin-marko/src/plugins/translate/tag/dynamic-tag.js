@@ -1,13 +1,10 @@
 import * as t from "../../../definitions";
-import { assertNoArgs } from "../../../taglib/core/util";
 import { getAttrs, buildEventHandlerArray } from "./util";
 
 export default function(path) {
   const { node, hub } = path;
   const { options } = hub;
-  const { name: expression, key, bodyOnlyIf } = node;
-
-  assertNoArgs(path);
+  const { name: tagNameExpression, key, arguments: args } = node;
 
   const foundAttrs = getAttrs(path, true);
   const renderBodyProp = foundAttrs.properties.find(
@@ -21,35 +18,19 @@ export default function(path) {
       "marko_dynamicTag"
     ),
     [
-      expression,
-      foundAttrs.properties.length ? foundAttrs : t.nullLiteral(),
       t.identifier("out"),
+      tagNameExpression,
+      foundAttrs.properties.length
+        ? t.arrowFunctionExpression([], foundAttrs)
+        : t.nullLiteral(),
+      renderBodyProp ? renderBodyProp.value : t.nullLiteral(),
+      args.length ? t.arrayExpression(args) : t.nullLiteral(),
+      t.nullLiteral(), // props
       hub._componentDefIdentifier,
       key,
       ...buildEventHandlerArray(path)
     ]
   );
 
-  if (bodyOnlyIf && renderBodyProp) {
-    const renderBodyIdentifier = path.scope.generateUidIdentifier(
-      "dynamic_tag_renderBody"
-    );
-
-    path.insertBefore(
-      t.variableDeclaration("const", [
-        t.variableDeclarator(renderBodyIdentifier, renderBodyProp.value)
-      ])
-    );
-
-    renderBodyProp.value = renderBodyIdentifier;
-    path.replaceWith(
-      t.ifStatement(
-        bodyOnlyIf,
-        t.markoTag(renderBodyIdentifier, [], t.markoTagBody()),
-        t.expressionStatement(dynamicTagRenderCall)
-      )
-    );
-  } else {
-    path.replaceWith(dynamicTagRenderCall);
-  }
+  path.replaceWith(dynamicTagRenderCall);
 }

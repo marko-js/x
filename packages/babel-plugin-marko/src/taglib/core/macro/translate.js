@@ -7,7 +7,7 @@ export function exit(path) {
     _macroId: id,
     body: { body }
   } = node;
-  const params = node.params.concat(t.identifier("out"));
+  const params = [t.identifier("out")].concat(node.params);
   const block = t.blockStatement(body);
   path.replaceWith(
     withPreviousLocation(t.functionDeclaration(id, params, block), node)

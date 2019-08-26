@@ -31,7 +31,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }]
   }, out, "2");
 
-  _marko_dynamicTag(input.test, {
+  _marko_dynamicTag(out, input.test, () => ({
     "class": ["a", {
       b: c,
       d
@@ -45,7 +45,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
         out.t("Hello");
       }
     }
-  }, out, _component, "3");
+  }), null, null, null, _component, "3");
 }, {
   ___type: _marko_componentType,
   ___implicit: true

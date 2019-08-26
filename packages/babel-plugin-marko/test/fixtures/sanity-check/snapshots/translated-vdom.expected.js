@@ -39,7 +39,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.t(";\n");
   out.ee();
 
-  function _thing(stuff, out) {
+  function _thing(out, stuff) {
     out.be("div", {
       "x": stuff.x
     }, "4", component, 0, 0);
@@ -84,16 +84,19 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "type": "text"
   }, "10", component, 0, 0);
 
-  _marko_dynamicTag(a, {
+  _marko_dynamicTag(out, a, () => ({
     "renderBody": out => {
       out.be("div", null, "12", component, 0, 0);
       out.ee();
     }
-  }, out, _component, "@x");
+  }), out => {
+    out.be("div", null, "12", component, 0, 0);
+    out.ee();
+  }, null, null, _component, "@x");
 
-  _marko_dynamicTag(_thing, {
+  _marko_dynamicTag(out, _thing, () => ({
     "x": 1
-  }, out, _component, "13");
+  }), null, null, null, _component, "13");
 
   _other_tag({
     "renderBody": (out, a) => {

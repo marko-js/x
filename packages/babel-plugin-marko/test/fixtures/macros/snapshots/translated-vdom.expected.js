@@ -7,7 +7,7 @@ const _marko_template = _t(__filename),
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  function _renderTree(node, out) {
+  function _renderTree(out, node) {
     out.t("Name: ");
     out.t(node.name);
     out.t(" Children: ");
@@ -18,8 +18,8 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       for (const child of node.children) {
         out.be("li", null, "4", component, null, 0);
 
-        _marko_dynamicTag(_renderTree, { ...child
-        }, out, _component, "5");
+        _marko_dynamicTag(out, _renderTree, () => ({ ...child
+        }), null, null, null, _component, "5");
 
         out.ee();
       }
@@ -28,8 +28,8 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }
   }
 
-  _marko_dynamicTag(_renderTree, { ...input.node
-  }, out, _component, "6");
+  _marko_dynamicTag(out, _renderTree, () => ({ ...input.node
+  }), null, null, null, _component, "6");
 }, {
   ___type: _marko_componentType,
   ___implicit: true

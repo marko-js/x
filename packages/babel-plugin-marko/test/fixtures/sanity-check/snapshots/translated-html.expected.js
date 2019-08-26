@@ -33,7 +33,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   var y = ${_marko_escapeScript(x)};
 </script>`);
 
-  function _thing(stuff, out) {
+  function _thing(out, stuff) {
     out.w(`<div${_marko_attr("x", stuff.x)}></div>`);
   }
 
@@ -54,15 +54,17 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     a: "b"
   }))}></div><input type="text">`);
 
-  _marko_dynamicTag(a, {
+  _marko_dynamicTag(out, a, () => ({
     "renderBody": out => {
       out.w("<div></div>");
     }
-  }, out, _component, "@x");
+  }), out => {
+    out.w("<div></div>");
+  }, null, null, _component, "@x");
 
-  _marko_dynamicTag(_thing, {
+  _marko_dynamicTag(out, _thing, () => ({
     "x": 1
-  }, out, _component, "13");
+  }), null, null, null, _component, "13");
 
   _other_tag({
     "renderBody": (out, a) => {
