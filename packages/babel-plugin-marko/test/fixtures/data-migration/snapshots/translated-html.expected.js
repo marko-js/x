@@ -16,7 +16,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": (out, data) => {
       out.w(`Hello ${_marko_escapeXml(data.name)}`);
     }
-  }, out, "0");
+  }, out, _component, "0");
 
   out.w(`<div>Hello ${_marko_escapeXml(input.name)}<span>`);
 

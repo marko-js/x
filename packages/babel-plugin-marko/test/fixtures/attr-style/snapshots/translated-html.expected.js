@@ -20,7 +20,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "style": {
       color: "green"
     }
-  }, out, "2");
+  }, out, _component, "2");
 
   _marko_dynamicTag(out, input.test, () => ({
     "style": {

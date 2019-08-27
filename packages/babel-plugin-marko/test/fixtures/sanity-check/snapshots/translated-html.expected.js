@@ -45,9 +45,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     let e = thing;
     out.w(`<div${_marko_attr("d", d)}${_marko_attr("e", e)}></div>`);
   }
-  out.w(`</div><div${_marko_attr("data-marko", {
-    "onclick": _component.d("click", "handleClick", [a, b, ...d], false)
-  }, false)}></div><div${_marko_attr("id", _component.elId("1"))}></div><div${_marko_attr("class", _marko_class_merge(["a", {
+  out.w(`</div><div></div><div${_marko_attr("id", _component.elId("1"))}></div><div${_marko_attr("class", _marko_class_merge(["a", {
     b: c,
     d
   }]))}${_marko_attr("style", _marko_style_merge({
@@ -70,7 +68,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": (out, a) => {
       out.w("<div></div>");
     }
-  }, out, "14", ["click", "handleClick", false, [a, b, ...d]]);
+  }, out, _component, "14", ["click", "handleClick", false, [a, b, ...d]]);
 
   _other_tag({
     "x": 1,
@@ -94,7 +92,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": (out, b) => {
       out.w("<div></div>");
     }
-  }, out, "16");
+  }, out, _component, "16");
 
   out.w(`<div id="a" class="b c"${_marko_attr("a", {
     a: 1
@@ -133,15 +131,14 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
     _other_tag({
       "d": 2
-    }, out, `@${val.name}`);
+    }, out, _component, `@${val.name}`);
   }
 
   if (!true) out.w("<div>");
   out.w("Hi");
   if (!true) out.w("</div>");
 }, {
-  ___type: _marko_componentType,
-  ___implicit: true
+  ___type: _marko_componentType
 }, _marko_component);
 _marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
 _marko_template.meta = {

@@ -22,13 +22,13 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, "1");
+          _hello_tag({}, out, _component, "1");
 
           out.w("<div></div>");
         }
-      }, out, "0");
+      }, out, _component, "0");
     }
-  }, out, `#${_noUpdateKey}`);
+  }, out, _component, `#${_noUpdateKey}`);
 
   const _noUpdateKey2 = _component.___nextKey("3");
 
@@ -44,15 +44,15 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
             "cid": _noUpdateKey3,
             "if": (a, b),
             "renderBody": out => {
-              _hello_tag({}, out, "4");
+              _hello_tag({}, out, _component, "4");
             }
-          }, out, `#${_noUpdateKey3}`);
+          }, out, _component, `#${_noUpdateKey3}`);
 
           out.w("<div></div>");
         }
-      }, out, "3");
+      }, out, _component, "3");
     }
-  }, out, `#${_noUpdateKey2}`);
+  }, out, _component, `#${_noUpdateKey2}`);
 
   const _noUpdateKey4 = _component.___nextKey("6");
 
@@ -62,13 +62,13 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, "7");
+          _hello_tag({}, out, _component, "7");
 
           out.w("<div></div>");
         }
-      }, out, "6");
+      }, out, _component, "6");
     }
-  }, out, `#${_noUpdateKey4}`);
+  }, out, _component, `#${_noUpdateKey4}`);
 
   const _noUpdateKey5 = _component.___nextKey("9");
 
@@ -90,15 +90,15 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
                 "renderBody": out => {
                   out.w("Again");
                 }
-              }, out, "10");
+              }, out, _component, "10");
             }
-          }, out, `#${_noUpdateKey6}`);
+          }, out, _component, `#${_noUpdateKey6}`);
 
           out.w("<div></div>");
         }
-      }, out, "9");
+      }, out, _component, "9");
     }
-  }, out, `#${_noUpdateKey5}`);
+  }, out, _component, `#${_noUpdateKey5}`);
 }, {
   ___type: _marko_componentType,
   ___implicit: true

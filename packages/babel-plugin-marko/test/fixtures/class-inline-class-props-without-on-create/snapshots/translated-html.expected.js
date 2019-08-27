@@ -14,8 +14,7 @@ const _marko_template = _t(__filename),
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w("<div></div>");
 }, {
-  ___type: _marko_componentType,
-  ___implicit: true
+  ___type: _marko_componentType
 }, _marko_component);
 _marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
 _marko_template.meta = {

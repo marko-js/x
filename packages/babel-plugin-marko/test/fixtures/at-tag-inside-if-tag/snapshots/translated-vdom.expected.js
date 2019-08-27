@@ -24,7 +24,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   _customTag_tag({
     "thing": _thing
-  }, out, "0");
+  }, out, _component, "0");
 }, {
   ___type: _marko_componentType,
   ___implicit: true

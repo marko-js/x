@@ -15,8 +15,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.be("div", null, "0", component, 0, 0);
   out.ee();
 }, {
-  ___type: _marko_componentType,
-  ___implicit: true
+  ___type: _marko_componentType
 }, _marko_component);
 _marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
 _marko_template.meta = {

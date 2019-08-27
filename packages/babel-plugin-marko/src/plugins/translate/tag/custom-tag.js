@@ -65,6 +65,7 @@ export default function(path, tagDef) {
     t.callExpression(tagIdentifier, [
       foundAttrs,
       t.identifier("out"),
+      hub._componentDefIdentifier,
       key,
       ...buildEventHandlerArray(path)
     ])

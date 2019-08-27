@@ -13,7 +13,7 @@ const _marko_template = _t2(__filename),
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   _testHello_tag({
     "name": "World"
-  }, out, "0");
+  }, out, _component, "0");
 }, {
   ___type: _marko_componentType,
   ___implicit: true

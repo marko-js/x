@@ -21,7 +21,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   if (x) _marko_dynamicTag(out, _test_tag_renderBody, null, null, null, null, _component, "3");else _test_tag({
     "renderBody": _test_tag_renderBody
-  }, out, "1");
+  }, out, _component, "1");
 
   _marko_dynamicTag(out, test, () => ({
     "renderBody": out => {

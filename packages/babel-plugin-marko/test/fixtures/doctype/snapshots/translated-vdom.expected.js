@@ -27,13 +27,13 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.ee();
   out.be("body", null, "3", component, null, 0);
 
-  _componentGlobals_tag({}, out, "4");
+  _componentGlobals_tag({}, out, _component, "4");
 
   out.t("The content of the document......");
 
-  _initComponents_tag({}, out, "5");
+  _initComponents_tag({}, out, _component, "5");
 
-  _awaitReorderer_tag({}, out, "6");
+  _awaitReorderer_tag({}, out, _component, "6");
 
   out.ee();
   out.ee();

@@ -14,7 +14,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   _customTagData_tag({
     "name": "Frank".toUpperCase(),
     "age": 32
-  }, out, "0");
+  }, out, _component, "0");
 }, {
   ___type: _marko_componentType,
   ___implicit: true
