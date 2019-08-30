@@ -20,7 +20,7 @@ export const visitor = {
     if (expressions.length > 1) {
       path
         .get("expression.arguments.0")
-        .replaceWith(normalizeTemplateLiteral(quasis, expressions));
+        .replaceWith(normalizeTemplateLiteral(quasis, ...expressions));
     }
   }
 };

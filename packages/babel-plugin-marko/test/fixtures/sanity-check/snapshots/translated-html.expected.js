@@ -25,13 +25,7 @@ const _marko_template = _t2(__filename),
 };
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.w(`<style id="css">
-  div {
-    color: ${_marko_escapeStyle(x)};
-  }
-</style><script>
-  var y = ${_marko_escapeScript(x)};
-</script>`);
+  out.w(`<style id="css">\n  div {\n    color: ${_marko_escapeStyle(x)};\n  }\n</style><script>\n  var y = ${_marko_escapeScript(x)};\n</script>`);
 
   function _thing(out, stuff) {
     out.w(`<div${_marko_attr("x", stuff.x)}></div>`);
@@ -96,7 +90,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   out.w(`<div id="a" class="b c"${_marko_attr("a", {
     a: 1
-  })} c="${d}"${_marko_attrs(e)}${_marko_attrs(f())}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`);
+  })} c="\${d}"${_marko_attrs(e)}${_marko_attrs(f())}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`);
 
   if (x === a) {
     out.w(`a ${_marko_escapeXml(b)}`);

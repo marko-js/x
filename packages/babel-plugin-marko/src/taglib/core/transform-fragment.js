@@ -25,10 +25,7 @@ export function exit(path) {
     throw namePath.buildCodeFrameError('"fragment" tag must have children.');
   }
 
-  const keyValue = normalizeTemplateLiteral(
-    ["@", ""],
-    [keyAttr.get("value").node]
-  );
+  const keyValue = normalizeTemplateLiteral`@${keyAttr.get("value").node}`;
 
   body
     .filter(child => t.isMarkoTag(child))

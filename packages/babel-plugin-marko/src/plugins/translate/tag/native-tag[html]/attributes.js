@@ -78,5 +78,5 @@ export default function(attrs) {
 
   quasis.push(curString);
 
-  return normalizeTemplateString(quasis, expressions);
+  return normalizeTemplateString(quasis, ...expressions);
 }

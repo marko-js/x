@@ -28,7 +28,7 @@ export default function(tag, attr, opts = EMPTY_OBJECT) {
     replacementAttrs,
     t.markoTagBody([node])
   );
-  replacement.key = normalizeTemplateLiteral(["#", ""], [keyIdentifier]);
+  replacement.key = normalizeTemplateLiteral`#${keyIdentifier}`;
 
   tag.insertBefore(
     t.variableDeclaration("const", [

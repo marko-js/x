@@ -2,7 +2,7 @@ import * as t from "../definitions";
 import normalizeTemplateString from "./normalize-template-string";
 
 export default function write(strings, ...expressions) {
-  const template = normalizeTemplateString(strings.slice(), expressions);
+  const template = normalizeTemplateString(strings, ...expressions);
 
   if (template) {
     return t.expressionStatement(

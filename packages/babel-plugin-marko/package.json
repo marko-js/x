@@ -13,6 +13,7 @@
     "@babel/types": "^7.4.4",
     "@babel/parser": "^7.4.5",
     "htmljs-parser": "^2.6.7",
+    "jsesc": "^2.5.2",
     "lasso-modules-client": "^2.0.5",
     "marko": "4.17.5",
     "resolve-from": "^5.0.0",

@@ -1,25 +1,28 @@
+import jsesc from "jsesc";
 import * as t from "../definitions";
 
-export default function normalizeTemplateLiteral(quasis, expressions) {
+export default function normalizeTemplateLiteral(quasis, ...expressions) {
+  quasis = quasis.map(q => (t.isTemplateElement(q) ? q.value.cooked : q));
+
   for (let i = expressions.length; i--; ) {
     let v = expressions[i];
     if (t.isTemplateLiteral(v)) {
-      quasis[i] += v.quasis[0].value.raw;
-      quasis[i + 1] = v.quasis[v.quasis.length - 1].value.raw + quasis[i + 1];
+      quasis[i] += v.quasis[0].value.cooked;
+      quasis[i + 1] =
+        v.quasis[v.quasis.length - 1].value.cooked + (quasis[i + 1] || "");
       quasis.splice(
         i + 1,
         0,
-        ...v.quasis.slice(1, -1).map(fromTemplateElement)
+        ...v.quasis.slice(1, -1).map(q => q.value.cooked)
       );
       expressions.splice(i, 1, ...v.expressions);
       i += v.expressions.length;
-      continue;
+    } else if (t.isStringLiteral(v) || typeof v === "string") {
+      const value = t.isStringLiteral(v) ? v.value : v;
+      quasis[i] += value + quasis[i + 1];
+      expressions.splice(i, 1);
+      quasis.splice(i + 1, 1);
     }
-    if (!(i in quasis)) continue;
-    if (t.isStringLiteral(v)) v = v.value;
-    if (typeof v !== "string") continue;
-    expressions.splice(i, 1);
-    quasis.splice(i, 2, quasis[i] + v + (quasis[i + 1] || ""));
   }
 
   if (!expressions.length) {
@@ -38,17 +41,16 @@ export default function normalizeTemplateLiteral(quasis, expressions) {
   }
 
   // Do it.
-  return t.templateLiteral(quasis.map(toTemplateElement), expressions);
+  return t.templateLiteral(quasis.map(getTemplateElement), expressions);
 }
 
-function toTemplateElement(s) {
-  return t.templateElement({ cooked: s, raw: s });
+function getTemplateElement(s = "") {
+  return t.templateElement({
+    cooked: s,
+    raw: jsesc(s, { quotes: "backtick" })
+  });
 }
 
-function fromTemplateElement(node) {
-  return node.value.raw;
-}
-
-function isEmptyString(s) {
+function isEmptyString(s = "") {
   return s === "";
 }

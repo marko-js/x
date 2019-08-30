@@ -169,10 +169,10 @@ export class Hub {
       path.set(
         "key",
         parentLoopKeys.length
-          ? normalizeTemplateLiteral(
-              ["", "[", ...parentLoopKeys.slice(1).map(() => "]["), "]"],
-              [autoKey, ...parentLoopKeys]
-            )
+          ? normalizeTemplateLiteral`${autoKey}${normalizeTemplateLiteral(
+              ["[", ...parentLoopKeys.slice(1).map(() => "]["), "]"],
+              ...parentLoopKeys
+            )}`
           : autoKey
       );
     }
