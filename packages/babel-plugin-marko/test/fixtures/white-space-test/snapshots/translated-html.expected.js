@@ -12,7 +12,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   scriptletB();
   out.w("Hello ");
   scriptletC();
-  out.w(" World");
+  out.w("World");
   scriptletD();
   out.w(`</div> Hello World! ${_marko_escapeXml(a)}${_marko_escapeXml(b)}<div></div>`);
 }, {

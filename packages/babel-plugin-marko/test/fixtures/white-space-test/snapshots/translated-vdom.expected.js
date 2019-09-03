@@ -31,7 +31,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   scriptletB();
   out.t("Hello ");
   scriptletC();
-  out.t(" World");
+  out.t("World");
   scriptletD();
   out.ee();
   out.t(" Hello World! ");

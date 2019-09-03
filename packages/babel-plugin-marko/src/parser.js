@@ -72,7 +72,11 @@ export function parse(fileNodePath) {
           while (prevIndex > 0) {
             prev = body[--prevIndex];
 
-            if (t.isMarkoScriptlet(prev) || isNestedTag(prev)) {
+            if (
+              t.isMarkoComment(prev) ||
+              t.isMarkoScriptlet(prev) ||
+              isNestedTag(prev)
+            ) {
               prev = undefined;
             } else {
               break;
@@ -82,6 +86,13 @@ export function parse(fileNodePath) {
           if (!prev) {
             const originalValue = value;
             value = htmlTrimStart(value);
+            pos += originalValue.indexOf(value);
+          } else if (
+            t.isMarkoText(prev) &&
+            /\s/.test(prev.value[prev.value.length - 1])
+          ) {
+            const originalValue = value;
+            value = value.replace(/^\s+/, "");
             pos += originalValue.indexOf(value);
           }
         }
