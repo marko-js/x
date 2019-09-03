@@ -301,6 +301,7 @@ export function parse(fileNodePath) {
           hub.lookup.getTag(name) || EMPTY_OBJECT;
         return parseOptions.openTagOnly;
       },
+      ignoreNonstandardStringPlaceholders: true,
       ...htmlParseOptions
     }
   ).parse(code, filename);

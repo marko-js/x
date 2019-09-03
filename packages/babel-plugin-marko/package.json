@@ -12,7 +12,7 @@
     "@babel/traverse": "^7.4.5",
     "@babel/types": "^7.4.4",
     "@babel/parser": "^7.4.5",
-    "htmljs-parser": "^2.6.7",
+    "htmljs-parser": "^2.7.0",
     "jsesc": "^2.5.2",
     "lasso-modules-client": "^2.0.5",
     "marko": "4.17.5",
