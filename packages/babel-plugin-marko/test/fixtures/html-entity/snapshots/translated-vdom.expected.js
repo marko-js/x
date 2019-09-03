@@ -2,11 +2,13 @@ import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registe
 import { t as _t } from "marko/src/runtime/vdom";
 
 const _marko_template = _t(__filename),
-      _marko_componentType = _marko_registerComponent("OLzQeSa9", () => _marko_template),
+      _marko_componentType = _marko_registerComponent("2x8iJklg", () => _marko_template),
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.t("Hello John & Suzy Invalid Entity: &b ; Valid Numeric Entity: \" Valid Hexadecimal Entity: \xA2");
+  out.be("div", null, "0", component, null, 0);
+  out.t("<div>");
+  out.ee();
 }, {
   ___type: _marko_componentType,
   ___implicit: true
