@@ -86,6 +86,7 @@ export function exit(path) {
     const indexName = path.scope.generateUidIdentifier(
       indexParam ? indexParam.name : "i"
     );
+    const operator = stepAttr.value.operator !== "-" ? "<=" : ">=";
 
     if (indexParam) {
       block.body.unshift(
@@ -99,7 +100,7 @@ export function exit(path) {
       t.variableDeclaration("let", [
         t.variableDeclarator(indexName, fromAttr.value)
       ]),
-      t.binaryExpression("<=", indexName, toAttr.value),
+      t.binaryExpression(operator, indexName, toAttr.value),
       stepAttr
         ? t.assignmentExpression("+=", indexName, stepAttr.value)
         : t.updateExpression("++", indexName),
