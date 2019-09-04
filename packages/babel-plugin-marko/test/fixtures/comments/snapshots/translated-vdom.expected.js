@@ -6,7 +6,8 @@ const _marko_template = _t(__filename),
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.be("div", null, "0", component, 0, 0);
+  out.be("div", null, "0", component, null, 0);
+  out.w("<!--[if lt IE 9]><script src=\"...\"></script><![endif]-->");
   out.ee();
 }, {
   ___type: _marko_componentType,
