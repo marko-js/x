@@ -44,9 +44,10 @@ export function exit(path) {
       block
     );
   } else if (ofAttr) {
+    let ofAttrValue = ofAttr.value;
     allowedAttributes.push("of");
 
-    const [valParam, keyParam] = node.params;
+    const [valParam, keyParam, loopParam] = node.params;
 
     if (!valParam) {
       throw namePath.buildCodeFrameError(
@@ -66,15 +67,34 @@ export function exit(path) {
 
       block.body.unshift(
         t.variableDeclaration("let", [
-          t.variableDeclarator(keyParam, t.updateExpression("++", indexName))
+          t.variableDeclarator(
+            keyParam,
+            t.updateExpression("++", indexName, true)
+          )
         ])
       );
+    }
+
+    if (loopParam) {
+      ofAttrValue = loopParam;
+      forNode.push(
+        t.variableDeclaration("const", [
+          t.variableDeclarator(loopParam, ofAttr.value)
+        ])
+      );
+
+      // forNode.push(
+      //   t.forOfStatement(
+      //     t.variableDeclaration("const", [loopParam]),
+      //     loopParam.value,
+      //   )
+      // );
     }
 
     forNode.push(
       t.forOfStatement(
         t.variableDeclaration("const", [t.variableDeclarator(valParam)]),
-        ofAttr.value,
+        ofAttrValue,
         block
       )
     );
