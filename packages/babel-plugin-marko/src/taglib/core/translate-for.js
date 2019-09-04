@@ -82,13 +82,6 @@ export function exit(path) {
           t.variableDeclarator(loopParam, ofAttr.value)
         ])
       );
-
-      // forNode.push(
-      //   t.forOfStatement(
-      //     t.variableDeclaration("const", [loopParam]),
-      //     loopParam.value,
-      //   )
-      // );
     }
 
     forNode.push(
