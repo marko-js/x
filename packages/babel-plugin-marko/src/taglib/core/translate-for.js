@@ -44,9 +44,10 @@ export function exit(path) {
       block
     );
   } else if (ofAttr) {
+    let ofAttrValue = ofAttr.value;
     allowedAttributes.push("of");
 
-    const [valParam, keyParam] = node.params;
+    const [valParam, keyParam, loopParam] = node.params;
 
     if (!valParam) {
       throw namePath.buildCodeFrameError(
@@ -60,7 +61,7 @@ export function exit(path) {
       const indexName = path.scope.generateUidIdentifier(keyParam.name);
       forNode.push(
         t.variableDeclaration("let", [
-          t.variableDeclarator(indexName, t.numericLiteral(-1))
+          t.variableDeclarator(indexName, t.numericLiteral(0))
         ])
       );
 
@@ -71,10 +72,19 @@ export function exit(path) {
       );
     }
 
+    if (loopParam) {
+      ofAttrValue = loopParam;
+      forNode.push(
+        t.variableDeclaration("const", [
+          t.variableDeclarator(loopParam, ofAttr.value)
+        ])
+      );
+    }
+
     forNode.push(
       t.forOfStatement(
         t.variableDeclaration("const", [t.variableDeclarator(valParam)]),
-        ofAttr.value,
+        ofAttrValue,
         block
       )
     );
@@ -86,6 +96,7 @@ export function exit(path) {
     const indexName = path.scope.generateUidIdentifier(
       indexParam ? indexParam.name : "i"
     );
+    const operator = stepAttr.value.operator !== "-" ? "<=" : ">=";
 
     if (indexParam) {
       block.body.unshift(
@@ -99,7 +110,7 @@ export function exit(path) {
       t.variableDeclaration("let", [
         t.variableDeclarator(indexName, fromAttr.value)
       ]),
-      t.binaryExpression("<=", indexName, toAttr.value),
+      t.binaryExpression(operator, indexName, toAttr.value),
       stepAttr
         ? t.assignmentExpression("+=", indexName, stepAttr.value)
         : t.updateExpression("++", indexName),

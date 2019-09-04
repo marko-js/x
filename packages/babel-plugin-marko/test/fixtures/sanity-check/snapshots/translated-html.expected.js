@@ -116,7 +116,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.w("<div c=\"1\"></div>");
   }
 
-  let _i2 = -1;
+  let _i2 = 0;
 
   for (const val of arr) {
     let i = _i2++;

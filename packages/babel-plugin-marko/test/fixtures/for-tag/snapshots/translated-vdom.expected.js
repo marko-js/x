@@ -6,7 +6,7 @@ const _marko_template = _t(__filename),
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  let _i = -1;
+  let _i = 0;
 
   for (const val of arr) {
     let i = _i++;
@@ -45,7 +45,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.ee();
   }
 
-  let _i3 = -1;
+  let _i3 = 0;
 
   for (const val of arr) {
     let i = _i3++;
@@ -60,6 +60,18 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.ee();
   }
 
+  let _i4 = 0;
+  const list = arr;
+
+  for (const val of list) {
+    let i = _i4++;
+    out.be("div", null, `@${i}`, component, null, 0);
+    out.t(list.length);
+    out.t(": ");
+    out.t(val);
+    out.ee();
+  }
+
   for (const key in obj) {
     const val = obj[key];
     out.be("div", null, `@${key}`, component, null, 0);
@@ -67,32 +79,43 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.t(": ");
     out.t(val);
     out.ee();
-    out.be("div", null, "18", component, 0, 0);
+    out.be("div", null, "20", component, 0, 0);
     out.ee();
     out.be("div", null, `@other-${key}`, component, 0, 0);
     out.ee();
   }
 
-  for (let _i5 = 0; _i5 <= 10; _i5 += 2) {
-    const i = _i5;
+  for (let _i6 = 0; _i6 <= 10; _i6 += 2) {
+    const i = _i6;
     out.be("div", null, `@${i}`, component, null, 0);
     out.t(i);
     out.ee();
-    out.be("div", null, "22", component, 0, 0);
+    out.be("div", null, "24", component, 0, 0);
     out.ee();
     out.be("div", null, `@other-${i}`, component, 0, 0);
     out.ee();
 
-    for (let _i4 = 0; _i4 <= 10; _i4 += 2) {
-      const i = _i4;
+    for (let _i5 = 0; _i5 <= 10; _i5 += 2) {
+      const i = _i5;
       out.be("div", null, `@${i}`, component, null, 0);
       out.t(i);
       out.ee();
-      out.be("div", null, "26", component, 0, 0);
+      out.be("div", null, "28", component, 0, 0);
       out.ee();
       out.be("div", null, `@other-${i}`, component, 0, 0);
       out.ee();
     }
+  }
+
+  for (let _i7 = 10; _i7 >= 0; _i7 += -2) {
+    const i = _i7;
+    out.be("div", null, `@${i}`, component, null, 0);
+    out.t(i);
+    out.ee();
+    out.be("div", null, "32", component, 0, 0);
+    out.ee();
+    out.be("div", null, `@other-${i}`, component, 0, 0);
+    out.ee();
   }
 }, {
   ___type: _marko_componentType,

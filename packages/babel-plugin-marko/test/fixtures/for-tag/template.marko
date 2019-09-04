@@ -24,6 +24,10 @@
   <div key=`other-${i}`/>
 </for>
 
+<for|val, i, list| of=arr>
+  <div key=i>${list.length}: ${val}</div>
+</for>
+
 <for|key, val| in=obj>
   <div key=key>${key}: ${val}</div>
   <div/>
@@ -39,4 +43,10 @@
   <div/>
   <div key=`other-${i}`/>
 </for>
+</for>
+
+<for|i| from=10 to=0 step=-2>
+  <div key=i>${i}</div>
+  <div/>
+  <div key=`other-${i}`/>
 </for>
