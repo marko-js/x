@@ -6,10 +6,10 @@ const _marko_template = _t(__filename),
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  let _i = -1;
+  let _i = 0;
 
   for (const val of arr) {
-    let i = ++_i;
+    let i = _i++;
     out.be("div", null, "1", component, null, 0);
     out.t(i);
     out.t(": ");
@@ -45,10 +45,10 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.ee();
   }
 
-  let _i3 = -1;
+  let _i3 = 0;
 
   for (const val of arr) {
-    let i = ++_i3;
+    let i = _i3++;
     out.be("div", null, `@${i}`, component, null, 0);
     out.t(i);
     out.t(": ");
@@ -60,11 +60,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.ee();
   }
 
-  let _i4 = -1;
+  let _i4 = 0;
   const list = arr;
 
   for (const val of list) {
-    let i = ++_i4;
+    let i = _i4++;
     out.be("div", null, `@${i}`, component, null, 0);
     out.t(list.length);
     out.t(": ");

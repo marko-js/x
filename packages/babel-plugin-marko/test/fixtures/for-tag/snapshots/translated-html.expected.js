@@ -7,10 +7,10 @@ const _marko_template = _t(__filename),
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  let _i = -1;
+  let _i = 0;
 
   for (const val of arr) {
-    let i = ++_i;
+    let i = _i++;
     out.w(`<div>${_marko_escapeXml(i)}: ${_marko_escapeXml(val)}</div><div></div><div></div>`);
   }
 
@@ -24,18 +24,18 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.w(`<div>${_marko_escapeXml(i)}</div><div></div><div></div>`);
   }
 
-  let _i3 = -1;
+  let _i3 = 0;
 
   for (const val of arr) {
-    let i = ++_i3;
+    let i = _i3++;
     out.w(`<div>${_marko_escapeXml(i)}: ${_marko_escapeXml(val)}</div><div></div><div></div>`);
   }
 
-  let _i4 = -1;
+  let _i4 = 0;
   const list = arr;
 
   for (const val of list) {
-    let i = ++_i4;
+    let i = _i4++;
     out.w(`<div>${_marko_escapeXml(list.length)}: ${_marko_escapeXml(val)}</div>`);
   }
 

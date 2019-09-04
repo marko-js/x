@@ -61,16 +61,13 @@ export function exit(path) {
       const indexName = path.scope.generateUidIdentifier(keyParam.name);
       forNode.push(
         t.variableDeclaration("let", [
-          t.variableDeclarator(indexName, t.numericLiteral(-1))
+          t.variableDeclarator(indexName, t.numericLiteral(0))
         ])
       );
 
       block.body.unshift(
         t.variableDeclaration("let", [
-          t.variableDeclarator(
-            keyParam,
-            t.updateExpression("++", indexName, true)
-          )
+          t.variableDeclarator(keyParam, t.updateExpression("++", indexName))
         ])
       );
     }
