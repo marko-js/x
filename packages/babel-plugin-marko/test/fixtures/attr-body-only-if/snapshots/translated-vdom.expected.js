@@ -1,3 +1,6 @@
+const _marko_template = _t2(__filename);
+
+export default _marko_template;
 import _test from "./components/test.marko";
 import { t as _t, d as _marko_dynamicTag } from "marko/src/runtime/vdom/helpers";
 
@@ -6,8 +9,7 @@ const _test_tag = _t(_test);
 import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/vdom";
 
-const _marko_template = _t2(__filename),
-      _marko_componentType = _marko_registerComponent("M5ooyXS3", () => _marko_template),
+const _marko_componentType = _marko_registerComponent("M5ooyXS3", () => _marko_template),
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
@@ -45,4 +47,3 @@ _marko_template.meta = {
   id: _marko_componentType,
   tags: ["./components/test.marko"]
 };
-export default _marko_template;

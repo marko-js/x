@@ -1,3 +1,6 @@
+const _marko_template = _t2(__filename);
+
+export default _marko_template;
 import a from "b";
 doThings();
 andStuff();
@@ -15,8 +18,7 @@ const _other_tag = _t(_other);
 import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/html";
 
-const _marko_template = _t2(__filename),
-      _marko_componentType = _marko_registerComponent("8f1lFGb_", () => _marko_template),
+const _marko_componentType = _marko_registerComponent("8f1lFGb_", () => _marko_template),
       _marko_component = {
   onCreate() {
     this.stuff();
@@ -145,4 +147,3 @@ _marko_template.meta = {
   }],
   tags: ["./components/other/index.marko"]
 };
-export default _marko_template;

@@ -1,3 +1,6 @@
+const _marko_template = _t2(__filename);
+
+export default _marko_template;
 import _customTagData from "./custom-tag-data-tag.js";
 import { t as _t } from "marko/src/runtime/html/helpers";
 
@@ -6,8 +9,7 @@ const _customTagData_tag = _t(_customTagData);
 import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t2 } from "marko/src/runtime/html";
 
-const _marko_template = _t2(__filename),
-      _marko_componentType = _marko_registerComponent("9G-EElad", () => _marko_template),
+const _marko_componentType = _marko_registerComponent("9G-EElad", () => _marko_template),
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
@@ -24,4 +26,3 @@ _marko_template.meta = {
   id: _marko_componentType,
   tags: ["./custom-tag-data-tag.js"]
 };
-export default _marko_template;

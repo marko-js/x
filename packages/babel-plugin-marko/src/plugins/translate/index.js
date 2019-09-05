@@ -87,7 +87,11 @@ export const visitor = {
         t.identifier("meta")
       );
       const componentId = meta.id;
-      path.pushContainer(
+      path.unshiftContainer(
+        "body",
+        t.exportDefaultDeclaration(templateIdentifier)
+      );
+      path.unshiftContainer(
         "body",
         t.variableDeclaration("const", [
           t.variableDeclarator(
@@ -96,7 +100,12 @@ export const visitor = {
               hub.importNamed(path, `marko/src/runtime/${options.output}`, "t"),
               [t.identifier("__filename")]
             )
-          ),
+          )
+        ])
+      );
+      path.pushContainer(
+        "body",
+        t.variableDeclaration("const", [
           t.variableDeclarator(
             componentTypeIdentifier,
             t.callExpression(
@@ -217,10 +226,6 @@ export const visitor = {
         t.expressionStatement(
           t.assignmentExpression("=", templateMetaMember, metaObject)
         )
-      );
-      path.pushContainer(
-        "body",
-        t.exportDefaultDeclaration(templateIdentifier)
       );
 
       path.traverse(optimize);
