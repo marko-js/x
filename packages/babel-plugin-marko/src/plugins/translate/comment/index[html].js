@@ -1,6 +1,6 @@
-import * as t from "../../definitions";
-import withPreviousLocation from "../../util/with-previous-location";
-import write from "../../util/html-out-write";
+import * as t from "../../../definitions";
+import withPreviousLocation from "../../../util/with-previous-location";
+import write from "../../../util/html-out-write";
 const ieConditionalCommentRegExp = /^\[if [^]*?<!\[endif\]$/;
 
 export default function(path) {
