@@ -80,7 +80,6 @@
   },
   "<html-comment>": {
     "code-generator": "./translate-html-comment.js",
-    "attribute-groups": ["html-attributes"],
     "parse-options": {
       "state": "static-text"
     }
