@@ -11,18 +11,18 @@ const _marko_componentType = _marko_registerComponent("G7Zu4cGH", () => _marko_t
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("div", {
-    "class": "b",
-    "id": "a",
     "style": _marko_style_merge({
       c: 1
-    })
+    }),
+    "id": "a",
+    "class": "b"
   }, "0", component, 0, 1);
   out.ee();
   out.be("div", {
-    "id": "a",
     "style": _marko_style_merge({
       c: 1
-    })
+    }),
+    "id": "a"
   }, "1", component, 0, 1);
   out.ee();
   out.be("div", {

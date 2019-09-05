@@ -40,9 +40,9 @@ export default (hub, shorthands, attributes) => {
   if (classAttr) {
     if (t.isArrayExpression(classAttr.value)) {
       if (t.isArrayExpression(shorthandNode)) {
-        classAttr.value.elements.unshift(...shorthandNode.elements);
+        classAttr.value.elements.push(...shorthandNode.elements);
       } else {
-        classAttr.value.elements.unshift(shorthandNode);
+        classAttr.value.elements.push(shorthandNode);
       }
     } else if (
       t.isStringLiteral(classAttr.value) &&
@@ -56,7 +56,7 @@ export default (hub, shorthands, attributes) => {
       classAttr.value = t.arrayExpression([shorthandNode, classAttr.value]);
     }
   } else {
-    attributes.unshift(t.markoAttribute("class", shorthandNode));
+    attributes.push(t.markoAttribute("class", shorthandNode));
   }
 
   return attributes;

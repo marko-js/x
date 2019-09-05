@@ -135,14 +135,14 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   }, out, _component, "16");
 
   out.be("div", {
-    "id": "a",
     "class": "b c",
     "a": {
       a: 1
     },
     "c": "${d}",
     ...e,
-    ...f()
+    ...f(),
+    "id": "a"
   }, "22", component, null, 0);
   out.t(a);
   out.be("div", {

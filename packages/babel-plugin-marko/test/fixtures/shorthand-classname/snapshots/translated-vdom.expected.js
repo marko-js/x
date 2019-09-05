@@ -38,11 +38,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   }, "6", component, 0, 1);
   out.ee();
   out.be("div", {
-    "class": _marko_class_merge([dynamic1, "shorthand2", dynamic2, dynamic3])
+    "class": _marko_class_merge([dynamic2, dynamic3, dynamic1, "shorthand2"])
   }, "7", component, 0, 1);
   out.ee();
   out.be("div", {
-    "class": _marko_class_merge(["shorthand", dynamic1, dynamic2])
+    "class": _marko_class_merge([dynamic1, dynamic2, "shorthand"])
   }, "8", component, 0, 1);
   out.ee();
   out.be("div", {
