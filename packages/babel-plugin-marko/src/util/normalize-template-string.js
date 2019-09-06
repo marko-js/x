@@ -41,8 +41,7 @@ export default function normalizeTemplateLiteral(quasis, ...expressions) {
   }
 
   // Do it.
-  const v = t.templateLiteral(quasis.map(getTemplateElement), expressions);
-  return v;
+  return t.templateLiteral(quasis.map(getTemplateElement), expressions);
 }
 
 function getTemplateElement(s = "") {

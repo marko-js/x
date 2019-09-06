@@ -26,7 +26,6 @@ export default function(path, attrs) {
     if (!name) {
       quasis.push(curString);
       curString = "";
-      console.log(attr.type)
       hasSpread = hasSpread || attr.type === 'MarkoSpreadAttribute';
       attrsObject.properties.push(t.spreadElement(value));
       continue;
