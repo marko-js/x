@@ -90,9 +90,16 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }
   }, out, _component, "16");
 
-  out.w(`<div class="b c"${_marko_attr("a", {
-    a: 1
-  })} c="\${d}"${_marko_attrs(e)}${_marko_attrs(f())} id="a">${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`);
+  out.w(`<div${_marko_attrs({
+    "class": "b c",
+    "a": {
+      a: 1
+    },
+    "c": "${d}",
+    ...e,
+    ...f(),
+    "id": "a"
+  })}>${_marko_escapeXml(a)}<!--abc--><div c="1"></div><div d="1"></div>`);
 
   if (x === a) {
     out.w(`a ${_marko_escapeXml(b)}`);
@@ -102,7 +109,8 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.w("c");
   }
 
-  out.w(`</div><div b="1"></div><div>123 abc 123</div><span${_marko_attrs(abc)}></span>`);
+  out.w(`</div><div b="1"></div><div>123 abc 123</div><span${_marko_attrs({ ...abc
+  })}></span>`);
 
   if (cond) {
     out.w(`Hello ${_marko_escapeXml(planet)}`);

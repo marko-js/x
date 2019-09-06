@@ -5,7 +5,7 @@ export default (hub, attributes, startPos) => {
   const code = hub.getCode();
   let attrEndPos = startPos;
 
-  return attributes.map(attr => {
+  const newAttributes = attributes.map(attr => {
     const attrStartPos = code.indexOf(attr.name, attrEndPos);
 
     if (attr.name.slice(0, 3) === "...") {
@@ -57,4 +57,5 @@ export default (hub, attributes, startPos) => {
       parseArguments(hub, attr.argument)
     );
   });
+  return newAttributes;
 };
