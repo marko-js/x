@@ -8,7 +8,7 @@ const _marko_componentType = _marko_registerComponent("cmjBZ1aK", () => _marko_t
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.w("<div><!--abc--><!--[if lt IE 9]><script src=\"...\"></script><![endif]--></div>");
+  out.w("<div><!--abc--><!--[if lt IE 9]><script src=\"...\"></script><![endif]--><!--[if lt IE 9]><script src=\"...\"></script><![endif]--></div>");
 }, {
   ___type: _marko_componentType,
   ___implicit: true
