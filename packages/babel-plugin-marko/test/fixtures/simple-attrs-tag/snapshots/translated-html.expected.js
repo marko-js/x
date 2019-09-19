@@ -10,11 +10,11 @@ const _marko_componentType = _marko_registerComponent("G7Zu4cGH", () => _marko_t
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.w(`<div class="b" id="a"${_marko_attr("style", _marko_style_merge({
+  out.w(`<div${_marko_attr("style", _marko_style_merge({
     c: 1
-  }))}></div><div id="a"${_marko_attr("style", _marko_style_merge({
+  }))} id="a" class="b"></div><div${_marko_attr("style", _marko_style_merge({
     c: 1
-  }))}></div><div${_marko_attr("style", _marko_style_merge({
+  }))} id="a"></div><div${_marko_attr("style", _marko_style_merge({
     c: 1
   }))}></div><div${_marko_attr("style", _marko_style_merge({
     c: 1

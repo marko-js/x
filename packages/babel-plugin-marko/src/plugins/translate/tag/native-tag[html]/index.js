@@ -69,7 +69,7 @@ export default function(path) {
   }
 
   let writeStartNode = withPreviousLocation(
-    write`<${tagName}${translateAttributes(path.get("attributes"))}>`,
+    write`<${tagName}${translateAttributes(path, path.get("attributes"))}>`,
     node
   );
 

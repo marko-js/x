@@ -4,7 +4,7 @@ import { xa as escapeXmlAttr } from "marko/src/runtime/html/helpers";
 
 const basicTypes = ["string", "number", "boolean"];
 
-export default function(attrs) {
+export default function(path, attrs) {
   if (!attrs.length) {
     return t.stringLiteral("");
   }
@@ -12,6 +12,9 @@ export default function(attrs) {
   const quasis = [];
   const expressions = [];
   let curString = "";
+
+  let attrsObject = t.objectExpression([]);
+  let hasSpread = false;
 
   for (let i = 0; i < attrs.length; i++) {
     const attr = attrs[i];
@@ -23,17 +26,8 @@ export default function(attrs) {
     if (!name) {
       quasis.push(curString);
       curString = "";
-      expressions.push(
-        t.callExpression(
-          hub.importNamed(
-            attr,
-            "marko/src/runtime/html/helpers",
-            "as",
-            "marko_attrs"
-          ),
-          [value]
-        )
-      );
+      hasSpread = hasSpread || attr.type === 'MarkoSpreadAttribute';
+      attrsObject.properties.push(t.spreadElement(value));
       continue;
     }
 
@@ -49,10 +43,12 @@ export default function(attrs) {
       }
 
       curString += ` ${name}`;
+      let computedValue = computed;
 
       if (computed !== true) {
         curString += `="${escapeXmlAttr(computed)}"`;
       }
+      attrsObject.properties.push(t.objectProperty(t.stringLiteral(name), t.stringLiteral(escapeXmlAttr(computed))));
     } else {
       const args = [t.stringLiteral(name), value];
       quasis.push(curString);
@@ -61,6 +57,8 @@ export default function(attrs) {
       if (name === "data-marko") {
         args.push(t.booleanLiteral(false));
       }
+
+      attrsObject.properties.push(t.objectProperty(t.stringLiteral(name), value));
 
       expressions.push(
         t.callExpression(
@@ -75,8 +73,18 @@ export default function(attrs) {
       );
     }
   }
-
   quasis.push(curString);
-
-  return normalizeTemplateString(quasis, ...expressions);
+  if (hasSpread) {
+    return t.callExpression(
+      path.hub.importNamed(
+            path,
+            "marko/src/runtime/html/helpers",
+            "as",
+            "marko_attrs"
+          ),
+          [attrsObject]
+      );
+  } else {
+    return normalizeTemplateString(quasis, ...expressions);
+  }
 }

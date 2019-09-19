@@ -16,7 +16,7 @@ export default (hub, shorthand, attributes) => {
       : hub.createNode("stringLiteral", part.pos, part.endPos, part.text)
   );
 
-  attributes.unshift(
+  attributes.push(
     t.markoAttribute(
       "id",
       idParts.length === 1
