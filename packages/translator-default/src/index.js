@@ -10,7 +10,7 @@ import MarkoComment from "./comment";
 import MarkoScriptlet from "./scriptlet";
 import MarkoClass from "./class";
 import { visitor as optimize } from "./optimize";
-import "./core-tags";
+import "./taglib";
 import getComponentFiles from "./util/get-component-files";
 
 export const visitor = {

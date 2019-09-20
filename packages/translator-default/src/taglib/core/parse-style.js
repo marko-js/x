@@ -1,4 +1,4 @@
-import getComponentFiles from "../util/get-component-files";
+import getComponentFiles from "../../util/get-component-files";
 
 const STYLE_REG = /^style(?:\.([^\s]+))?\s*\{([\s\S]*)}$/;
 const STYLE_FOUND = new WeakSet();

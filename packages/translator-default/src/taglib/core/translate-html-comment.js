@@ -3,7 +3,7 @@ import {
   assertNoParams,
   assertNoAttributes
 } from "@marko/babel-utils";
-import write from "../util/html-out-write";
+import write from "../../util/html-out-write";
 
 export function enter(path) {
   const { hub } = path;

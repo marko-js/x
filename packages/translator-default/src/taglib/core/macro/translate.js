@@ -1,5 +1,5 @@
 import { types as t } from "@marko/babel-types";
-import withPreviousLocation from "../../util/with-previous-location";
+import withPreviousLocation from "../../../util/with-previous-location";
 
 export function exit(path) {
   const { node } = path;

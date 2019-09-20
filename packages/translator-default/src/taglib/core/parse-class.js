@@ -1,6 +1,6 @@
 import { types as t } from "@marko/babel-types";
-import withPreviousLocation from "../util/with-previous-location";
-import getComponentFiles from "../util/get-component-files";
+import withPreviousLocation from "../../util/with-previous-location";
+import getComponentFiles from "../../util/get-component-files";
 
 const SEEN_INLINE_CLASS = new WeakSet();
 
