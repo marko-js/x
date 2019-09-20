@@ -5,6 +5,7 @@ import nativeTagHTML from "./native-tag[html]";
 import nativeTagVDOM from "./native-tag[vdom]";
 import customTag from "./custom-tag";
 import macroTag from "./macro-tag";
+import { getKeyManager } from "../util/key-manager";
 
 const EMPTY_OBJECT = {};
 
@@ -32,7 +33,7 @@ export default {
     }
 
     path.set("tagDef", tagDef);
-    hub.resolveKey(path);
+    getKeyManager(path).resolveKey(path);
   },
   exit(path) {
     const { hub } = path;

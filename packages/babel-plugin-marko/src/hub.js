@@ -26,7 +26,6 @@ export class Hub {
     };
     this._imports = Object.create(null);
     this._componentClass = null;
-    this._nextKey = 0;
     this.moduleCode = undefined;
 
     const {
@@ -153,28 +152,6 @@ export class Hub {
     };
   }
 
-  nextKey() {
-    return Object.assign(t.stringLiteral(String(this._nextKey++)), {
-      _autoKey: true
-    });
-  }
-
-  resolveKey(path) {
-    const parentLoopKeys = getParentLoopKeys(path);
-    if (!hasUserDefinedKey(path)) {
-      const autoKey = path.get("key").node || this.nextKey();
-      path.set(
-        "key",
-        parentLoopKeys.length
-          ? normalizeTemplateString`${autoKey}${normalizeTemplateString(
-              ["[", ...parentLoopKeys.slice(1).map(() => "]["), "]"],
-              ...parentLoopKeys
-            )}`
-          : autoKey
-      );
-    }
-  }
-
   parse(str, start) {
     return this._tryParseJS(false, str, start);
   }
@@ -212,11 +189,6 @@ export class Hub {
   }
 }
 
-function hasUserDefinedKey(path) {
-  const key = path.get("key").node;
-  return key && !key._autoKey;
-}
-
 function remapProductionMarkoBuild(path, file) {
   const {
     hub: {
@@ -225,50 +197,4 @@ function remapProductionMarkoBuild(path, file) {
   } = path;
   if (!isProduction) return file;
   return file.replace(/^marko\/src\//, "marko/dist/");
-}
-
-function getParentLoopKeys(path) {
-  return path
-    .getAncestry()
-    .filter(parent => {
-      if (parent.isMarkoTag()) {
-        const tagName = parent.get("name.value").node;
-        if (tagName === "for" || tagName === "while") {
-          return true;
-        }
-      }
-    })
-    .map(getLoopKey)
-    .filter(Boolean)
-    .reverse();
-}
-
-function getLoopKey(path) {
-  if (path.get("checkedKey").node) {
-    const existingIdentifier = path.get("loopKey").node;
-    return existingIdentifier && t.identifier(existingIdentifier.name);
-  }
-
-  const loopBody = path.get("body.body");
-  const childElements = loopBody.filter(childPath => childPath.isMarkoTag());
-  const [firstElement] = childElements;
-  const allKeyed = childElements.every(hasUserDefinedKey);
-  path.set("checkedKey", true);
-
-  if (allKeyed || !hasUserDefinedKey(firstElement)) {
-    return;
-  }
-
-  const firstElementKey = firstElement.get("key").node;
-  const keyIdentifier = path.scope.generateUidIdentifier("loopKey");
-  firstElement.set("key", keyIdentifier);
-  firstElement.insertBefore(
-    t.variableDeclaration("const", [
-      t.variableDeclarator(keyIdentifier, firstElementKey)
-    ])
-  );
-
-  path.set("loopKey", keyIdentifier);
-
-  return keyIdentifier;
 }

@@ -1,5 +1,6 @@
 import { types as t } from "@marko/babel-types";
 import { normalizeTemplateString } from "@marko/babel-utils";
+import { getKeyManager } from "../../util/key-manager";
 const EMPTY_OBJECT = {};
 
 export default function(tag, attr, opts = EMPTY_OBJECT) {
@@ -10,7 +11,7 @@ export default function(tag, attr, opts = EMPTY_OBJECT) {
     t.identifier("___nextKey")
   );
   const nextKeyCall = t.callExpression(nextKeyMember, [
-    node.key || hub.nextKey()
+    node.key || getKeyManager(tag).nextKey()
   ]);
   const keyIdentifier = tag.scope.generateUidIdentifier("noUpdateKey");
   const replacementAttrs = [t.markoAttribute("cid", keyIdentifier)];
