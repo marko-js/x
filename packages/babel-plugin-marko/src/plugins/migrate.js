@@ -1,4 +1,4 @@
-import tagDefForPath from "../util/tagdef-for-path";
+import { getTagDef } from "@marko/babel-utils";
 
 /**
  * Applies custom migrators on tags.
@@ -37,7 +37,7 @@ function getMigratorsForTag(path) {
   let migrators = MIGRATOR_CACHE[tagName];
 
   if (!migrators) {
-    const tagDef = tagDefForPath(path);
+    const tagDef = getTagDef(path);
 
     migrators = MIGRATOR_CACHE[tagName] = [
       ...(tagDef ? tagDef.migratorPaths : []),

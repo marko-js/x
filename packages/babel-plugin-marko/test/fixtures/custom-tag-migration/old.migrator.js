@@ -1,4 +1,4 @@
-import * as t from "../../../src/definitions";
+import { types as t } from "@marko/babel-types";
 
 export function enter(path) {
   const oldAttr = path

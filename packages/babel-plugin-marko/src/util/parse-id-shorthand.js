@@ -1,4 +1,4 @@
-import * as t from "../definitions";
+import { types as t } from "@marko/babel-types";
 
 export default (hub, shorthand, attributes) => {
   if (!shorthand) {

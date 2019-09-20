@@ -5,7 +5,7 @@ import parseParams from "./util/parse-params";
 import parseIDShorthand from "./util/parse-id-shorthand";
 import parseClassnameShorthand from "./util/parse-classname-shorthand";
 import { getLocRange } from "./util/get-loc";
-import * as t from "./definitions";
+import { types as t } from "@marko/babel-types";
 
 const EMPTY_OBJECT = {};
 const EMPTY_ARRAY = [];

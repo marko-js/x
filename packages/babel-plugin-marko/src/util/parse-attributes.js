@@ -1,4 +1,4 @@
-import * as t from "../definitions";
+import { types as t } from "@marko/babel-types";
 import parseArguments from "./parse-arguments";
 
 export default (hub, attributes, startPos) => {

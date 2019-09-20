@@ -4,9 +4,6 @@
     "include": [
       "packages/*/src/**/*.js"
     ],
-    "exclude": [
-      "packages/runtime"
-    ],
     "instrument": false,
     "reporter": [
       "lcov",

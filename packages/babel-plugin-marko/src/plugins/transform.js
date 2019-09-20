@@ -1,4 +1,4 @@
-import tagDefForPath from "../util/tagdef-for-path";
+import { getTagDef } from "@marko/babel-utils";
 
 /**
  * Applies custom transformers on tags.
@@ -43,7 +43,7 @@ function getTransformersForTag(path) {
   let transformers = TRANSFORMER_CACHE[tagName];
 
   if (!transformers) {
-    const tagDef = tagDefForPath(path);
+    const tagDef = getTagDef(path);
 
     transformers = TRANSFORMER_CACHE[tagName] = tagDef
       ? [

@@ -3,12 +3,16 @@ import { Hub } from "./hub";
 import { parse } from "./parser";
 import { visitor as migrate } from "./plugins/migrate";
 import { visitor as transform } from "./plugins/transform";
-import { visitor as translate } from "./plugins/translate";
 import { NodePath, visitors } from "@babel/traverse";
 
 export default (api, options) => {
   api.assertVersion(7);
+  options.output = options.output || "html";
+  options.translator = options.translator || "default";
+
   const isProduction = api.env("production");
+  const translator = require(`@marko/translator-${options.translator}`);
+
   return {
     name: "marko",
     parserOverride(code, jsParseOptions) {
@@ -56,7 +60,8 @@ export default (api, options) => {
               ? visitors.merge(rootTransformers.concat(transform))
               : transform
           );
-          nodePath.traverse(translate);
+
+          nodePath.traverse(translator.visitor);
         }
       }
 

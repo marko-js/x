@@ -1,7 +1,6 @@
 import path from "path";
+import { types as t } from "@marko/babel-types";
 import { getClientPath } from "lasso-modules-client/transport";
-import "./generators";
-import * as t from "./definitions";
 import { parse, parseExpression } from "@babel/parser";
 import { buildLookup } from "./taglib";
 import createFile from "./util/create-file";
@@ -9,12 +8,10 @@ import codeFrameError from "./util/code-frame-error";
 import { getLoc, getLocRange } from "./util/get-loc";
 import getComponentFiles from "./util/get-component-files";
 import checksum from "./util/checksum";
-import normalizeTemplateLiteral from "./util/normalize-template-string";
+import { normalizeTemplateString } from "@marko/babel-utils";
 
 export class Hub {
   constructor(filename, code, options) {
-    options.output = options.output || "html";
-
     this._code = code;
     this.options = options;
     this.filename = filename;
@@ -169,7 +166,7 @@ export class Hub {
       path.set(
         "key",
         parentLoopKeys.length
-          ? normalizeTemplateLiteral`${autoKey}${normalizeTemplateLiteral(
+          ? normalizeTemplateString`${autoKey}${normalizeTemplateString(
               ["[", ...parentLoopKeys.slice(1).map(() => "]["), "]"],
               ...parentLoopKeys
             )}`
