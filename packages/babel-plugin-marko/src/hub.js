@@ -6,10 +6,7 @@ import { buildLookup } from "./taglib";
 import createFile from "./util/create-file";
 import codeFrameError from "./util/code-frame-error";
 import { getLoc, getLocRange } from "./util/get-loc";
-import getComponentFiles from "./util/get-component-files";
 import checksum from "./util/checksum";
-import { normalizeTemplateString } from "@marko/babel-utils";
-
 export class Hub {
   constructor(filename, code, options) {
     this._code = code;
@@ -17,7 +14,6 @@ export class Hub {
     this.filename = filename;
     this.file = createFile(filename, code);
     this.lookup = buildLookup(path.dirname(filename));
-    this.componentFiles = getComponentFiles(filename);
     this.macros = Object.create(null);
     this.meta = this.file.markoMeta = {
       id: checksum(this.getClientPath(this.filename)),
@@ -25,36 +21,6 @@ export class Hub {
       tags: []
     };
     this._imports = Object.create(null);
-    this._componentClass = null;
-    this.moduleCode = undefined;
-
-    const {
-      styleFile,
-      packageFile,
-      componentFile,
-      componentBrowserFile
-    } = this.componentFiles;
-
-    if (styleFile) {
-      this.meta.deps.push(styleFile);
-    }
-
-    if (packageFile) {
-      this.meta.deps.push(packageFile);
-    }
-
-    this.isImplicit = true;
-
-    if (componentFile) {
-      this.isImplicit = false;
-      this.meta.component = componentFile;
-    }
-
-    if (componentBrowserFile) {
-      this.isImplicit = false;
-      this.isSplit = true;
-      this.meta.component = componentBrowserFile;
-    }
   }
 
   getCode() {

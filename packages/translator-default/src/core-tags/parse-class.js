@@ -1,11 +1,14 @@
 import { types as t } from "@marko/babel-types";
 import withPreviousLocation from "../util/with-previous-location";
+import getComponentFiles from "../util/get-component-files";
+
+const SEEN_INLINE_CLASS = new WeakSet();
 
 export default function(path) {
   const { node, hub } = path;
   const { rawValue: code, start } = node;
 
-  if (hub.componentFiles.componentFile) {
+  if (getComponentFiles(path).componentFile) {
     throw path
       .get("name")
       .buildCodeFrameError(
@@ -13,7 +16,7 @@ export default function(path) {
       );
   }
 
-  if (hub._componentClass) {
+  if (SEEN_INLINE_CLASS.has(hub)) {
     throw path
       .get("name")
       .buildCodeFrameError(
@@ -44,7 +47,6 @@ export default function(path) {
     );
   }
 
-  hub._componentClass = true;
-  hub.isImplicit = false;
+  SEEN_INLINE_CLASS.add(hub);
   path.replaceWith(withPreviousLocation(t.markoClass(parsed.body), node));
 }

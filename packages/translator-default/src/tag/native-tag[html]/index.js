@@ -5,6 +5,7 @@ import write from "../../util/html-out-write";
 import withPreviousLocation from "../../util/with-previous-location";
 import translateAttributes from "./attributes";
 import { assertNoParams, assertNoArgs } from "@marko/babel-utils";
+import getComponentFiles from "../../util/get-component-files";
 
 const EMPTY_OBJECT = {};
 
@@ -61,7 +62,8 @@ export default function(path) {
     );
   }
 
-  if (hub.isImplicit && tagProperties.length) {
+  const isImplicit = !hub.inlineComponentClass && !getComponentFiles(path).componentFile;
+  if (isImplicit && tagProperties.length) {
     path.pushContainer(
       "attributes",
       t.markoAttribute("data-marko", t.objectExpression(tagProperties))

@@ -53,6 +53,6 @@ export default function(path) {
     onCreateMethod.body.body.unshift(...classProperties);
   }
 
-  hub._componentClass = t.objectExpression(objectProperties);
+  hub.inlineComponentClass = t.objectExpression(objectProperties);
   path.remove();
 }

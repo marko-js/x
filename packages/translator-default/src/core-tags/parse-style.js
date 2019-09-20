@@ -1,3 +1,5 @@
+import getComponentFiles from "../util/get-component-files";
+
 const STYLE_REG = /^style(?:\.([^\s]+))?\s*\{([\s\S]*)}$/;
 const STYLE_FOUND = new WeakSet();
 
@@ -17,7 +19,7 @@ export default function(path) {
       );
   }
 
-  if (hub.componentFiles.styleFile) {
+  if (getComponentFiles(path).styleFile) {
     throw path
       .get("name")
       .buildCodeFrameError(

@@ -1,7 +1,14 @@
 import fs from "fs";
 import path from "path";
 
-export default function getComponentFiles(filename) {
+const CACHE = new WeakMap();
+
+export default function getComponentFiles({ hub }) {
+  if (CACHE.has(hub)) {
+    return CACHE.get(hub);
+  }
+
+  const { filename } = hub;
   const ext = path.extname(filename);
   const dirname = path.dirname(filename);
   const dirFiles = fs.readdirSync(dirname).sort();

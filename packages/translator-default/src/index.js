@@ -11,6 +11,7 @@ import MarkoScriptlet from "./scriptlet";
 import MarkoClass from "./class";
 import { visitor as optimize } from "./optimize";
 import "./core-tags";
+import getComponentFiles from "./util/get-component-files";
 
 export const visitor = {
   MarkoDocumentType,
@@ -25,9 +26,11 @@ export const visitor = {
   MarkoComment,
   Program: {
     enter(path) {
-      if (path.hub.moduleCode) {
+      const { hub } = path;
+
+      if (hub.moduleCode) {
         path.get("body").forEach(bodyItemPath => bodyItemPath.remove());
-        path.hub.moduleCode.forEach(node => path.pushContainer("body", node));
+        hub.moduleCode.forEach(node => path.pushContainer("body", node));
         return path.skip();
       }
 
@@ -40,15 +43,43 @@ export const visitor = {
           renderBlock.pushContainer("body", childPath.node);
           childPath.remove();
         });
-      path.hub._renderBlock = renderBlock;
+
+      hub._renderBlock = renderBlock;
     },
     exit(path) {
       const { hub } = path;
-      const { options, meta, isImplicit, isSplit } = hub;
+      const { options, meta, inlineComponentClass } = hub;
+      const {
+        styleFile,
+        packageFile,
+        componentFile,
+        componentBrowserFile
+      } = getComponentFiles(path);
+      let isSplit = false;
+      let isImplicit = !inlineComponentClass;
+
+      if (packageFile) {
+        meta.deps.unshift(packageFile);
+      }
+
+      if (styleFile) {
+        meta.deps.unshift(styleFile);
+      }
+
+      if (componentFile) {
+        isImplicit = false;
+        meta.component = componentFile;
+      }
+
+      if (componentBrowserFile) {
+        isImplicit = false;
+        isSplit = true;
+        meta.component = componentBrowserFile;
+      }
+
       const renderBlock = hub._renderBlock;
-      const componentFile = hub.componentFiles.componentFile;
       const componentClass =
-        hub._componentClass ||
+        inlineComponentClass ||
         (componentFile &&
           hub.importDefault(
             path,
