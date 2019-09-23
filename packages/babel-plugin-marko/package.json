@@ -25,6 +25,9 @@
     "self-closing-tags": "^1.0.1",
     "strip-ansi": "^5.2.0"
   },
+  "devDependencies": {
+    "@marko/translator-fluurt": "^1.0.0"
+  },
   "files": [
     "dist"
   ],

@@ -1,0 +1,12 @@
+{
+  "@list <list>": {
+    "@items <item>[]": {
+      "@*": "expression"
+    }
+  },
+  "@cols <col>[]": {
+    "@rows <row>[]": {
+      "@*": "expression"
+    }
+  }
+}
