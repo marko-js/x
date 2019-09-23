@@ -6,71 +6,86 @@ import stripAnsi from "strip-ansi";
 import plugin from "../src";
 import { transform } from "@babel/core";
 
-const fixturesDir = path.join(__dirname, "fixtures");
-const OUTPUT_TYPES = ["html", "vdom"];
+const OUTPUT_TYPES = ["html", "dom"];
+const packagesDir = path.join(__dirname, "../../");
 
-fs.readdirSync(fixturesDir).forEach(folder => {
-  if (/^[._]/.test(folder)) {
-    return;
-  }
+fs.readdirSync(packagesDir)
+  .map(dir => /^translator-(.*)|/.exec(dir)[1])
+  .filter(Boolean)
+  .forEach(translator => {
+    const fixturesDir = path.join(
+      packagesDir,
+      `translator-${translator}`,
+      "test",
+      "fixtures"
+    );
 
-  const fixtureDir = path.join(fixturesDir, folder);
-  const snapshotDir = path.join(fixtureDir, "snapshots");
-  const testConfigFile = path.join(fixtureDir, "test.js");
-  const testConfig = fs.existsSync(testConfigFile)
-    ? require(testConfigFile)
-    : {};
-  const fails = testConfig.fails || {};
-  const filename = path.join(
-    fixtureDir,
-    testConfig.templateFile || "template.marko"
-  );
-  const source = fs.readFileSync(filename);
-
-  if (!fs.existsSync(snapshotDir)) {
-    fs.mkdirSync(snapshotDir);
-  }
-
-  describe(folder, () => {
-    describe("translate", () => {
-      OUTPUT_TYPES.forEach(type => {
-        const translateFailDesc = fails.translate && fails.translate[type];
-        const translateTestFn = translateFailDesc ? it.fails : it;
-        const translateMochaTest = translateTestFn(type, () => {
-          snapshotTransform({
-            ext: "js",
-            dir: snapshotDir,
-            name: `translated-${type}`,
-            source,
-            filename,
-            config: { output: type }
-          });
-        });
-
-        if (translateFailDesc) {
-          translateMochaTest.description = translateFailDesc;
+    describe(`translator: ${translator}`, () => {
+      fs.readdirSync(fixturesDir).forEach(folder => {
+        if (/^[._]/.test(folder)) {
+          return;
         }
+
+        const fixtureDir = path.join(fixturesDir, folder);
+        const snapshotDir = path.join(fixtureDir, "snapshots");
+        const testConfigFile = path.join(fixtureDir, "test.js");
+        const testConfig = fs.existsSync(testConfigFile)
+          ? require(testConfigFile)
+          : {};
+        const fails = testConfig.fails || {};
+        const filename = path.join(
+          fixtureDir,
+          testConfig.templateFile || "template.marko"
+        );
+        const source = fs.readFileSync(filename);
+
+        if (!fs.existsSync(snapshotDir)) {
+          fs.mkdirSync(snapshotDir);
+        }
+
+        describe(folder, () => {
+          describe("output", () => {
+            OUTPUT_TYPES.forEach(type => {
+              const translateFailDesc =
+                fails.translate && fails.translate[type];
+              const translateTestFn = translateFailDesc ? it.fails : it;
+              const translateMochaTest = translateTestFn(type, () => {
+                snapshotTransform({
+                  ext: "js",
+                  dir: snapshotDir,
+                  name: `translated-${type}`,
+                  source,
+                  filename,
+                  config: { translator, output: type }
+                });
+              });
+
+              if (translateFailDesc) {
+                translateMochaTest.description = translateFailDesc;
+              }
+            });
+          });
+
+          const generateFailDesc = fails.generate;
+          const generateTestFn = generateFailDesc ? it.fails : it;
+          const generateMochaTest = generateTestFn("generate", () => {
+            snapshotTransform({
+              ext: "marko",
+              dir: snapshotDir,
+              name: `generated`,
+              source,
+              filename,
+              config: { _parseOnly: true }
+            });
+          });
+
+          if (generateFailDesc) {
+            generateMochaTest.description = generateFailDesc;
+          }
+        });
       });
     });
-
-    const generateFailDesc = fails.generate;
-    const generateTestFn = generateFailDesc ? it.fails : it;
-    const generateMochaTest = generateTestFn("generate", () => {
-      snapshotTransform({
-        ext: "marko",
-        dir: snapshotDir,
-        name: `generated`,
-        source,
-        filename,
-        config: { _parseOnly: true }
-      });
-    });
-
-    if (generateFailDesc) {
-      generateMochaTest.description = generateFailDesc;
-    }
   });
-});
 
 function snapshotTransform({ ext, dir, name, config, source, filename }) {
   try {

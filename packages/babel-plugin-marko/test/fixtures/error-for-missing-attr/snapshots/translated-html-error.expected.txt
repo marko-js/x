@@ -1,5 +1,0 @@
-packages/babel-plugin-marko/test/fixtures/error-for-missing-attr/template.marko(1,2): Invalid 'for' tag, missing an 'of', 'in' or 'to' attribute.
-> 1 | <for|x|>
-    |  ^^^
-  2 |   <div/>
-  3 | </for>

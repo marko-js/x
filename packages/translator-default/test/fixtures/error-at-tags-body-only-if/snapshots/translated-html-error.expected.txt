@@ -1,0 +1,7 @@
+packages/translator-default/test/fixtures/error-at-tags-body-only-if/template.marko(2,6): @tags do not support the "body-only-if" attribute.
+  1 | <some-tag>
+> 2 |     <@header class="my-header" body-only-if(true)>
+    |      ^^^^^^^
+  3 |         Header content
+  4 |     </@header>
+  5 | </some-tag>
