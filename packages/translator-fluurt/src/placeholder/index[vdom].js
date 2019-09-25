@@ -5,7 +5,7 @@ export default function(path) {
 
   if (!path.get("escape").node) {
     throw path.buildCodeFrameError(
-      "Unescaped text is not currently supported by the fluurt runtime."
+      "TODO: Unescaped text is not currently supported by the fluurt runtime."
     );
   }
 
@@ -13,9 +13,11 @@ export default function(path) {
   const computed = getComputedExpression(value);
 
   path.replaceWith(
-    t.callExpression(
-      hub.importNamed(path, "fluurt", computed ? "dynamicText" : "text"),
-      [computed || value.node]
+    t.expressionStatement(
+      t.callExpression(
+        hub.importNamed(path, "fluurt", computed ? "dynamicText" : "text"),
+        [computed || value.node]
+      )
     )
   );
 }

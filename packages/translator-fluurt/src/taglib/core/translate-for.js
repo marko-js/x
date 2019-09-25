@@ -37,7 +37,7 @@ export function exit(path) {
   if (inAttr) {
     assertAllowedAttributes(path, ["in", "by"]);
     throw inAttr.buildCodeFrameError(
-      "The 'in' attribute is not currently supported on the for loop in fluurt."
+      "TODO: The 'in' attribute is not currently supported on the for loop in fluurt."
     );
   }
 
@@ -46,7 +46,7 @@ export function exit(path) {
   if (fromAttr || toAttr) {
     assertAllowedAttributes(path, ["from", "to", "step", "by"]);
     throw inAttr.buildCodeFrameError(
-      "The 'from' and 'to' attributes are not currently supported on the for loop in fluurt."
+      "TODO: The 'from' and 'to' attributes are not currently supported on the for loop in fluurt."
     );
   }
 

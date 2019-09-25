@@ -40,7 +40,7 @@ export default function(path) {
 
         if (!name) {
           throw attr.buildCodeFrameError(
-            "Dynamic attributes are not yet supported in fluurt."
+            "TODO: Dynamic attributes are not yet supported on native elements in fluurt."
           );
         }
 

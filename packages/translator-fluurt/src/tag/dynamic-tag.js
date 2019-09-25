@@ -35,14 +35,5 @@ export default function(path) {
     )
   );
 
-  const dynamicTagArgs = replacement.get("expression.arguments");
-  normalizePropsObject(dynamicTagArgs[1]);
-
-  if (body) {
-    const renderBody = dynamicTagArgs[2];
-    const computedRenderBody = getComputedExpression(renderBody);
-    if (computedRenderBody) {
-      renderBody.replaceWith(computedRenderBody);
-    }
-  }
+  normalizePropsObject(replacement.get("expression.arguments")[1]);
 }

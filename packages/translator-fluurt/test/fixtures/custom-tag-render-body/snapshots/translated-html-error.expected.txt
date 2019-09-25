@@ -1,0 +1,5 @@
+packages/translator-fluurt/test/fixtures/custom-tag-render-body/template.marko(1,2): Unable to find entry point for custom tag <test-body-function>.
+> 1 | <test-body-function name="World">
+    |  ^^^^^^^^^^^^^^^^^^
+  2 |     This is the body content
+  3 | </test-body-function>

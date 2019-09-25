@@ -37,7 +37,10 @@ export function getAttrs(path, noCamel, skipRenderBody) {
       properties.push(
         t.objectProperty(
           t.stringLiteral("renderBody"),
-          t.arrowFunctionExpression(node.params, body)
+          t.arrowFunctionExpression(
+            node.params,
+            childLen === 1 ? body[0] : t.blockStatement(body)
+          )
         )
       );
     }
@@ -51,9 +54,13 @@ export function normalizePropsObject(path) {
   const hasSpreadAttributes = props.some(prop => prop.isSpreadElement());
 
   if (hasSpreadAttributes) {
-    const computedProps = getComputedExpression(path);
-    if (computedProps) {
-      path.replaceWith(computedProps);
+    if (props.length === 1) {
+      path.replaceWith(props[0].get("argument").node);
+    } else {
+      const computedProps = getComputedExpression(path);
+      if (computedProps) {
+        path.replaceWith(computedProps);
+      }
     }
   } else {
     props.forEach(prop => {

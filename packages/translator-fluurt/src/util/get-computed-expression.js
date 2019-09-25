@@ -22,12 +22,21 @@ export default path => {
   // TODO: look into path.willMaybeExecuteBefore for reducing `get` calls
   path.traverse({
     Identifier(identifier) {
+      const { parentPath } = identifier;
+
       if (
-        identifier.parentPath.isMemberExpression() &&
-        identifier.key === "property" &&
-        getBindingInRenderer(identifier.parentPath)
+        identifier.listKey === "params" ||
+        (parentPath.isObjectProperty() && !parentPath.get("computed").node)
       ) {
-        pathsToWrap.push(identifier.parentPath);
+        return;
+      }
+
+      if (
+        parentPath.isMemberExpression() &&
+        identifier.key === "property" &&
+        getBindingInRenderer(parentPath)
+      ) {
+        pathsToWrap.push(parentPath);
         return;
       }
 
