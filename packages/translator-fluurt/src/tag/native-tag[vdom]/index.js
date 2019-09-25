@@ -1,5 +1,6 @@
 import { types as t } from "@marko/babel-types";
 import { assertNoParams, assertNoArgs } from "@marko/babel-utils";
+import normalizeComputedExpression from "../../util/normalize-computed-expression";
 
 const EVENT_REG = /^(on(?:ce)?)(.*)$/;
 const EMPTY_ARRAY = [];
@@ -27,11 +28,12 @@ export default function(path) {
     ...path
       .get("attributes")
       .map(attr => {
-        const { name, arguments: args, value } = attr.node;
-        const { confident, value: computed } = attr.get("value").evaluate();
+        const value = attr.get("value");
+        const { name, arguments: args } = attr.node;
+        const { confident, value: evaluated } = value.evaluate();
 
         // Remove falsey attributes.
-        if (confident && (computed == null || computed === false)) {
+        if (confident && (evaluated == null || evaluated === false)) {
           attr.remove();
           return;
         }
@@ -42,6 +44,7 @@ export default function(path) {
           );
         }
 
+        const isAttrValueComputed = normalizeComputedExpression(value);
         const [, eventType, eventName] = EVENT_REG.exec(name) || EMPTY_ARRAY;
 
         if (eventType) {
@@ -52,34 +55,23 @@ export default function(path) {
             );
           }
 
-          // TODO: don't use dynamicOn for inline functions?
+          // TODO: don't use dynamicOn for inline functions? (is it even worth have a non dynamic on?)
           return t.callExpression(
             hub.importNamed(
               path,
               "fluurt",
               eventType === "on" ? "dynamicOn" : "once"
             ),
-            [t.stringLiteral(eventName), value]
+            [t.stringLiteral(eventName), value.node]
           );
         }
 
-        if (confident) {
-          return t.callExpression(hub.importNamed(path, "fluurt", "attr"), [
-            t.stringLiteral(name),
-            t.stringLiteral(String(computed))
-          ]);
+        if (path.get("name").node === "class") {
+          debugger;
         }
-
-        // Add regular attributes.
-        // TODO: optimize away computed when possible.
         return t.callExpression(
-          hub.importNamed(path, "fluurt", "dynamicAttr"),
-          [
-            t.stringLiteral(name),
-            t.callExpression(hub.importNamed(path, "fluurt", "compute"), [
-              t.arrowFunctionExpression([], value)
-            ])
-          ]
+          hub.importNamed(path, "fluurt", isAttrValueComputed ? "dynamicAttr" : "attr"),
+          [t.stringLiteral(name), value.node]
         );
       })
       .filter(Boolean),
