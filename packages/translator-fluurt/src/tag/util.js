@@ -35,12 +35,11 @@ export function getAttrs(path, noCamel, skipRenderBody) {
       path.insertBefore(body);
     } else {
       properties.push(
-        t.objectProperty(
+        t.objectMethod(
+          "method",
           t.identifier("renderBody"),
-          t.arrowFunctionExpression(
-            node.params,
-            childLen === 1 ? body[0] : t.blockStatement(body)
-          )
+          node.params,
+          t.blockStatement(body)
         )
       );
     }

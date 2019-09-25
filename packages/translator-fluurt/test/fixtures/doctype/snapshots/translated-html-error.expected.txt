@@ -1,0 +1,5 @@
+packages/translator-fluurt/test/fixtures/doctype/template.marko(11,NaN): Unable to find entry point for custom tag <component-globals>.
+   9 | </body>
+  10 | 
+> 11 | </html>
+     | ^

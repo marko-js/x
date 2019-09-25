@@ -22,18 +22,29 @@ export default {
     }
 
     const computedTagName = getComputedExpression(tagNameExpression);
+    const dynamicTagArgs = [
+      computedTagName || tagNameExpression.node,
+      getAttrs(path, true, true)
+    ];
+
+    if (body) {
+      dynamicTagArgs.push(
+        t.arrowFunctionExpression(
+          node.params || [],
+          body.length === 1
+            ? t.isExpressionStatement(body[0])
+              ? body[0].expression
+              : body[0]
+            : t.blockStatement(body)
+        )
+      );
+    }
     const [replacement] = path.replaceWith(
       t.expressionStatement(
-        t.callExpression(hub.importNamed(path, "fluurt", "dynamicTag"), [
-          computedTagName || tagNameExpression.node,
-          getAttrs(path, true, true),
-          body
-            ? t.arrowFunctionExpression(
-                node.params || [],
-                body.length === 1 ? body[0] : t.blockStatement(body)
-              )
-            : undefined
-        ])
+        t.callExpression(
+          hub.importNamed(path, "fluurt", "dynamicTag"),
+          dynamicTagArgs
+        )
       )
     );
 

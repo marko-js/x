@@ -1,23 +1,12 @@
-const _marko_template = _t(__filename);
+export default (input => {
+  _beginEl("contact-info");
 
-export default _marko_template;
-import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
-import { t as _t } from "marko/src/runtime/dom";
+  _beginEl("name");
 
-const _marko_componentType = _marko_registerComponent("zgOM2DB9", () => _marko_template),
-      _marko_component = {};
+  _text("Hello World");
 
-_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.be("contact-info", null, "0", component, null, 0);
-  out.be("name", null, "1", component, null, 0);
-  out.t("Hello World");
-  out.ee();
-  out.ee();
-}, {
-  ___type: _marko_componentType,
-  ___implicit: true
-}, _marko_component);
-_marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
-_marko_template.meta = {
-  id: _marko_componentType
-};
+  _endEl();
+
+  _endEl();
+});
+import { text as _text, beginEl as _beginEl, endEl as _endEl } from "fluurt";
