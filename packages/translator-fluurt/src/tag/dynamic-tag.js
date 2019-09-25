@@ -1,6 +1,6 @@
 import { types as t } from "@marko/babel-types";
 import { getAttrs } from "./util";
-import normalizeComputedExpression from "../util/normalize-computed-expression";
+import getComputedExpression from "../util/get-computed-expression";
 
 export default function(path) {
   const { node, hub } = path;
@@ -19,13 +19,13 @@ export default function(path) {
     );
   }
 
-  normalizeComputedExpression(tagNameExpression);
+  const computedTagName = getComputedExpression(tagNameExpression);
 
   // TODO: optimize compute
   path.replaceWith(
     t.expressionStatement(
       t.callExpression(hub.importNamed(path, "fluurt", "dynamicTag"), [
-        tagNameExpression,
+        computedTagName || tagNameExpression,
         getAttrs(path, true), // TODO: these attrs need to be signals or computed
         body
           ? t.arrowFunctionExpression(

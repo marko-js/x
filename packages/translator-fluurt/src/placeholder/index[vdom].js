@@ -1,5 +1,5 @@
 import { types as t } from "@marko/babel-types";
-import normalizeComputedExpression from "../util/normalize-computed-expression";
+import getComputedExpression from "../util/get-computed-expression";
 export default function(path) {
   const { hub } = path;
 
@@ -10,12 +10,12 @@ export default function(path) {
   }
 
   const value = path.get("value");
-  const isComputed = normalizeComputedExpression(value);
+  const computed = getComputedExpression(value);
 
   path.replaceWith(
     t.callExpression(
-      hub.importNamed(path, "fluurt", isComputed ? "dynamicText" : "text"),
-      [value.node]
+      hub.importNamed(path, "fluurt", computed ? "dynamicText" : "text"),
+      [computed || value.node]
     )
   );
 }

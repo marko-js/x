@@ -1,6 +1,6 @@
 import { types as t } from "@marko/babel-types";
 import { assertNoParams, assertNoArgs } from "@marko/babel-utils";
-import normalizeComputedExpression from "../../util/normalize-computed-expression";
+import getComputedExpression from "../../util/get-computed-expression";
 
 const EVENT_REG = /^(on(?:ce)?)(.*)$/;
 const EMPTY_ARRAY = [];
@@ -44,7 +44,7 @@ export default function(path) {
           );
         }
 
-        const isAttrValueComputed = normalizeComputedExpression(value);
+        const attrValueComputed = getComputedExpression(value);
         const [, eventType, eventName] = EVENT_REG.exec(name) || EMPTY_ARRAY;
 
         if (eventType) {
@@ -66,12 +66,9 @@ export default function(path) {
           );
         }
 
-        if (path.get("name").node === "class") {
-          debugger;
-        }
         return t.callExpression(
-          hub.importNamed(path, "fluurt", isAttrValueComputed ? "dynamicAttr" : "attr"),
-          [t.stringLiteral(name), value.node]
+          hub.importNamed(path, "fluurt", attrValueComputed ? "dynamicAttr" : "attr"),
+          [t.stringLiteral(name), attrValueComputed || value.node]
         );
       })
       .filter(Boolean),

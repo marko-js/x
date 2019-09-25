@@ -15,6 +15,8 @@ export default (input => {
 
   _dynamicAttr("g", _compute(() => _get(_get(_get(input.a).b).c) + d))
 
+  _attr("h", Math.abc.ok())
+
   _endEl()
 });
 import { beginEl as _beginEl, attr as _attr, get as _get, compute as _compute, dynamicAttr as _dynamicAttr, endEl as _endEl } from "fluurt";

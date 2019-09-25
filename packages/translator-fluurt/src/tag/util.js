@@ -1,4 +1,5 @@
 import { types as t } from "@marko/babel-types";
+import normalizeComputedExpression from "../util/get-computed-expression";
 
 // TODO: this will need to return ComputedSignals
 export function getAttrs(path, noCamel, skipRenderBody) {
@@ -9,6 +10,7 @@ export function getAttrs(path, noCamel, skipRenderBody) {
     body: { body },
     hasDynamicAttributeTags
   } = node;
+  let i;
   const attrsLen = attributes.length;
   const childLen = body.length;
   const hasRenderBody = !skipRenderBody && childLen;
@@ -19,7 +21,7 @@ export function getAttrs(path, noCamel, skipRenderBody) {
 
   const properties = new Array(attrsLen);
 
-  for (let i = 0; i < attrsLen; i++) {
+  for (i = 0; i < attrsLen; i++) {
     const { name, value } = attributes[i];
     properties[i] = name
       ? t.objectProperty(
@@ -42,7 +44,18 @@ export function getAttrs(path, noCamel, skipRenderBody) {
     }
   }
 
-  return t.objectExpression(properties);
+  const object = t.objectExpression(properties);
+
+  if (properties.some(prop => t.isSpreadElement(prop))) {
+    return normalizeComputedExpression(object);
+  }
+
+  for (i = properties.length; i--; ) {
+    const prop = properties[i];
+    prop.value = normalizeComputedExpression(prop.value);
+  }
+
+  return object;
 }
 
 function camelCase(string) {

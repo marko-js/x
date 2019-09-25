@@ -12,8 +12,6 @@ export default path => {
     return false;
   }
 
-  debugger;
-
   const pathsToWrap = [];
 
   // TODO: look into path.willMaybeExecuteBefore for reducing `get` calls
@@ -38,26 +36,17 @@ export default path => {
 
   if (pathsToWrap.length !== 0) {
     pathsToWrap.forEach(wrapWithGetCall);
-    path.replaceWith(
-      t.callExpression(hub.importNamed(path, "fluurt", "compute"), [
-        t.arrowFunctionExpression([], path.node)
-      ])
-    );
-
-    return true;
+    return t.callExpression(hub.importNamed(path, "fluurt", "compute"), [
+      t.arrowFunctionExpression([], path.node)
+    ]);
   }
-
-  return false;
 };
 
 function wrapWithGetCall(expression) {
-  const [replacement] = expression.replaceWith(
-    t.callExpression(expression.hub.importNamed(expression, "fluurt", "get"), [
-      expression.node
-    ])
+  expression.container[expression.key] = t.callExpression(
+    expression.hub.importNamed(expression, "fluurt", "get"),
+    [expression.node]
   );
-
-  replacement.skip();
 }
 
 function getFirstIdentifierInMemberExpression(memberExpression) {
