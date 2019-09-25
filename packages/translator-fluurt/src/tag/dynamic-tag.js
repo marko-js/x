@@ -1,5 +1,5 @@
 import { types as t } from "@marko/babel-types";
-import { getAttrs } from "./util";
+import { getAttrs, normalizePropsObject } from "./util";
 import getComputedExpression from "../util/get-computed-expression";
 
 export default function(path) {
@@ -8,10 +8,10 @@ export default function(path) {
     arguments: args,
     body: { body }
   } = node;
-  const tagNameExpression = path.get("name");
+  let tagNameExpression = path.get("name");
 
   if (args && args.length) {
-    tagNameExpression.replaceWith(
+    [tagNameExpression] = tagNameExpression.replaceWith(
       t.callExpression(t.memberExpression(tagNameExpression.node, "bind"), [
         tagNameExpression.node,
         ...args
@@ -20,13 +20,11 @@ export default function(path) {
   }
 
   const computedTagName = getComputedExpression(tagNameExpression);
-
-  // TODO: optimize compute
-  path.replaceWith(
+  const [replacement] = path.replaceWith(
     t.expressionStatement(
       t.callExpression(hub.importNamed(path, "fluurt", "dynamicTag"), [
-        computedTagName || tagNameExpression,
-        getAttrs(path, true), // TODO: these attrs need to be signals or computed
+        computedTagName || tagNameExpression.node,
+        getAttrs(path, true),
         body
           ? t.arrowFunctionExpression(
               node.params || [],
@@ -36,4 +34,15 @@ export default function(path) {
       ])
     )
   );
+
+  const dynamicTagArgs = replacement.get("expression.arguments");
+  normalizePropsObject(dynamicTagArgs[1]);
+
+  if (body) {
+    const renderBody = dynamicTagArgs[2];
+    const computedRenderBody = getComputedExpression(renderBody);
+    if (computedRenderBody) {
+      renderBody.replaceWith(computedRenderBody);
+    }
+  }
 }

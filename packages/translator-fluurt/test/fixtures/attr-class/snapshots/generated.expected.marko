@@ -1,20 +1,16 @@
+<div class="a b c"/>
+<div class=["a", input.x]/>
 <div class=["a", {
   b: c,
   d
 }]/>
-<div class="a b c"/>
+<custom-tag class="a b c"/>
+<custom-tag class=["a", input.x]/>
 <custom-tag class=["a", {
   b: c,
   d
 }]/>
-<${input.test} class=["a", {
-  b: c,
-  d
-}]>
-  <@test class=["a", {
-    b: c,
-    d
-  }]>
-    Hello
-  </@test>
-</>
+<!-- TODO -->
+<!-- <${input.test} class=["a", { b: c, d }]>
+  <@test class=["a", { b: c, d }]>Hello</@test>
+</> -->

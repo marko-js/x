@@ -1,6 +1,6 @@
 import { types as t } from "@marko/babel-types";
 import { assertNoArgs } from "@marko/babel-utils";
-import { getAttrs } from "./util";
+import { getAttrs, normalizePropsObject } from "./util";
 
 const TAG_FILE_ENTRIES = ["template"];
 
@@ -21,13 +21,15 @@ export default function(path, tagDef) {
       );
   }
 
-  path.replaceWith(
+  const [replacement] = path.replaceWith(
     t.expressionStatement(
       t.callExpression(hub.importDefault(path, relativePath, `${name}_tag`), [
         getAttrs(path)
       ])
     )
   );
+
+  normalizePropsObject(replacement.get("expression.arguments")[0]);
 }
 
 function resolveRelativePath(hub, tagDef) {

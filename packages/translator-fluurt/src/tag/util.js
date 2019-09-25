@@ -1,5 +1,5 @@
 import { types as t } from "@marko/babel-types";
-import normalizeComputedExpression from "../util/get-computed-expression";
+import getComputedExpression from "../util/get-computed-expression";
 
 // TODO: this will need to return ComputedSignals
 export function getAttrs(path, noCamel, skipRenderBody) {
@@ -10,7 +10,6 @@ export function getAttrs(path, noCamel, skipRenderBody) {
     body: { body },
     hasDynamicAttributeTags
   } = node;
-  let i;
   const attrsLen = attributes.length;
   const childLen = body.length;
   const hasRenderBody = !skipRenderBody && childLen;
@@ -21,7 +20,7 @@ export function getAttrs(path, noCamel, skipRenderBody) {
 
   const properties = new Array(attrsLen);
 
-  for (i = 0; i < attrsLen; i++) {
+  for (let i = 0; i < attrsLen; i++) {
     const { name, value } = attributes[i];
     properties[i] = name
       ? t.objectProperty(
@@ -44,18 +43,27 @@ export function getAttrs(path, noCamel, skipRenderBody) {
     }
   }
 
-  const object = t.objectExpression(properties);
+  return t.objectExpression(properties);
+}
 
-  if (properties.some(prop => t.isSpreadElement(prop))) {
-    return normalizeComputedExpression(object);
+export function normalizePropsObject(path) {
+  const props = path.get("properties");
+  const hasSpreadAttributes = props.some(prop => prop.isSpreadElement());
+
+  if (hasSpreadAttributes) {
+    const computedProps = getComputedExpression(path);
+    if (computedProps) {
+      path.replaceWith(computedProps);
+    }
+  } else {
+    props.forEach(prop => {
+      const propValue = prop.get("value");
+      const computedPropValue = getComputedExpression(propValue);
+      if (computedPropValue) {
+        propValue.replaceWith(computedPropValue);
+      }
+    });
   }
-
-  for (i = properties.length; i--; ) {
-    const prop = properties[i];
-    prop.value = normalizeComputedExpression(prop.value);
-  }
-
-  return object;
 }
 
 function camelCase(string) {

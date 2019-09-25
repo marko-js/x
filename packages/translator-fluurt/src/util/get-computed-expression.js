@@ -4,7 +4,12 @@ export default path => {
   const { hub } = path;
 
   if (
-    path.isLiteral() ||
+    path.isNullLiteral() ||
+    path.isStringLiteral() ||
+    path.isBooleanLiteral() ||
+    path.isNumericLiteral() ||
+    path.isBigIntLiteral() ||
+    path.isRegExpLiteral() ||
     path.isIdentifier() ||
     (path.isMemberExpression() &&
       isRendererParamBinding(getBindingInRenderer(path)))
@@ -40,6 +45,8 @@ export default path => {
       t.arrowFunctionExpression([], path.node)
     ]);
   }
+
+  return false;
 };
 
 function wrapWithGetCall(expression) {
