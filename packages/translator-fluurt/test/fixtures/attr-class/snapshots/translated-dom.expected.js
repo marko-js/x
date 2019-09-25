@@ -1,24 +1,24 @@
 export default (input => {
-  _beginEl("div")
+  _beginEl("div");
 
-  _attr("class", "a b c")
+  _attr("class", "a b c");
 
-  _endEl()
+  _endEl();
 
-  _beginEl("div")
+  _beginEl("div");
 
-  _dynamicAttr("class", _compute(() => _classAttr(["a", _get(input.x)])))
+  _dynamicAttr("class", _compute(() => _classAttr(["a", _get(input.x)])));
 
-  _endEl()
+  _endEl();
 
-  _beginEl("div")
+  _beginEl("div");
 
   _attr("class", _classAttr(["a", {
     b: c,
     d
-  }]))
+  }]));
 
-  _endEl()
+  _endEl();
 
   _customTag_tag({
     "class": "a b c"

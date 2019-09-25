@@ -30,6 +30,15 @@ export function assertNoParams(path) {
   }
 }
 
+export function assertNoAttributeTags(path) {
+  const exampleAttributeTag = path.get("exampleAttributeTag");
+  if (exampleAttributeTag.node) {
+    throw exampleAttributeTag
+      .get("name")
+      .buildCodeFrameError("@tags must be within a custom element.");
+  }
+}
+
 export function assertNoArgs(path) {
   const { hub } = path;
   const args = path.get("arguments");

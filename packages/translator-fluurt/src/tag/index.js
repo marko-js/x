@@ -10,84 +10,94 @@ const EMPTY_OBJECT = {};
 
 export default {
   enter(path) {
-    const { hub } = path;
-    const { macros } = hub;
+    const { hub, node } = path;
+    const { options, macros } = hub;
     const name = path.get("name");
     const tagName = name.get("value").node;
-    const canHaveTagDef = name.isStringLiteral() && !macros[tagName];
-    const tagDef =
-      (canHaveTagDef && hub.lookup.getTag(getFullyResolvedTagName(path))) ||
-      EMPTY_OBJECT;
-
-    if (tagDef.codeGeneratorModulePath) {
-      tagDef.codeGenerator = require(tagDef.codeGeneratorModulePath);
-    }
-
-    if (tagDef.codeGenerator && tagDef.codeGenerator.enter) {
-      const { node } = path;
-      tagDef.codeGenerator.enter(path);
-      if (path.node !== node) {
-        return;
-      }
-    }
-
-    path.set("tagDef", tagDef);
-  },
-  exit(path) {
-    const { hub } = path;
-    const { macros, options } = hub;
-    const name = path.get("name");
+    const isAttributeTag = tagName && tagName[0] === "@";
 
     if (!name.isStringLiteral()) {
-      dynamicTag(path);
+      enter(dynamicTag, path);
       return;
     }
 
-    const tagName = name.get("value").node;
-    const isAttributeTag = tagName[0] === "@";
-
     if (isAttributeTag) {
-      attributeTag(path);
+      enter(attributeTag, path);
       return;
     }
 
     if (macros[tagName]) {
-      assertNoAttributeTags();
-      macroTag(path, macros[tagName]);
+      enter(macroTag, path, macros[tagName]);
       return;
     }
 
-    const tagDef = path.get("tagDef").node;
-    const { codeGenerator } = tagDef;
+    const tagDef =
+      hub.lookup.getTag(getFullyResolvedTagName(path)) || EMPTY_OBJECT;
+    path.set("tagDef", tagDef);
 
-    if (codeGenerator && codeGenerator.exit) {
-      const { node } = path;
-      tagDef.codeGenerator.exit(path);
+    if (tagDef.codeGeneratorModulePath) {
+      tagDef.codeGenerator = require(tagDef.codeGeneratorModulePath);
+      enter(tagDef.codeGenerator, path);
       if (path.node !== node) {
         return;
       }
-    }
-
-    if (tagDef.html) {
-      assertNoAttributeTags();
+    } else if (tagDef.html) {
       if (options.output === "html") {
-        nativeTagHTML(path);
+        enter(nativeTagHTML, path);
       } else {
-        nativeTagVDOM(path);
+        enter(nativeTagVDOM, path);
       }
+    } else {
+      enter(customTag, path, tagDef);
+    }
+  },
+  exit(path) {
+    const { hub, node } = path;
+    const { options, macros } = hub;
+    const tagDef = path.get("tagDef").node;
+    const name = path.get("name");
+    const tagName = name.get("value").node;
+    const isAttributeTag = tagName && tagName[0] === "@";
 
+    if (!name.isStringLiteral()) {
+      exit(dynamicTag, path);
       return;
     }
 
-    customTag(path, tagDef);
+    if (isAttributeTag) {
+      exit(attributeTag, path);
+      return;
+    }
 
-    function assertNoAttributeTags() {
-      const exampleAttributeTag = path.get("exampleAttributeTag");
-      if (exampleAttributeTag.node) {
-        throw exampleAttributeTag
-          .get("name")
-          .buildCodeFrameError("@tags must be within a custom element.");
+    if (macros[tagName]) {
+      exit(macroTag, path, macros[tagName]);
+      return;
+    }
+
+    if (tagDef.codeGenerator) {
+      exit(tagDef.codeGenerator, path);
+      if (path.node !== node) {
+        return;
       }
+    } else if (tagDef.html) {
+      if (options.output === "html") {
+        exit(nativeTagHTML, path);
+      } else {
+        exit(nativeTagVDOM, path);
+      }
+    } else {
+      exit(customTag, path, tagDef);
     }
   }
 };
+
+function enter(plugin, ...args) {
+  const fn = plugin && (plugin.enter || plugin);
+  if (typeof fn === "function") {
+    fn(...args);
+  }
+}
+
+function exit(plugin, ...args) {
+  plugin.exit && plugin.exit(...args);
+}

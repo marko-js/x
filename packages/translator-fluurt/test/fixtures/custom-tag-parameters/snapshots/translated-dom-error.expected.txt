@@ -1,1 +1,0 @@
-Property body[0] of BlockStatement expected node to be of a type ["Statement"] but instead got "CallExpression"

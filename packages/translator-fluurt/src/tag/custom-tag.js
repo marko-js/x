@@ -4,33 +4,35 @@ import { getAttrs, normalizePropsObject } from "./util";
 
 const TAG_FILE_ENTRIES = ["template"];
 
-export default function(path, tagDef) {
-  const { hub, node } = path;
-  const {
-    name: { value: name }
-  } = node;
-  const relativePath = resolveRelativePath(hub, tagDef);
+export default {
+  exit(path, tagDef) {
+    const { hub, node } = path;
+    const {
+      name: { value: name }
+    } = node;
+    const relativePath = resolveRelativePath(hub, tagDef);
 
-  assertNoArgs(path);
+    assertNoArgs(path);
 
-  if (!relativePath) {
-    throw path
-      .get("name")
-      .buildCodeFrameError(
-        `Unable to find entry point for custom tag <${name}>.`
-      );
+    if (!relativePath) {
+      throw path
+        .get("name")
+        .buildCodeFrameError(
+          `Unable to find entry point for custom tag <${name}>.`
+        );
+    }
+
+    const [replacement] = path.replaceWith(
+      t.expressionStatement(
+        t.callExpression(hub.importDefault(path, relativePath, `${name}_tag`), [
+          getAttrs(path)
+        ])
+      )
+    );
+
+    normalizePropsObject(replacement.get("expression.arguments")[0]);
   }
-
-  const [replacement] = path.replaceWith(
-    t.expressionStatement(
-      t.callExpression(hub.importDefault(path, relativePath, `${name}_tag`), [
-        getAttrs(path)
-      ])
-    )
-  );
-
-  normalizePropsObject(replacement.get("expression.arguments")[0]);
-}
+};
 
 function resolveRelativePath(hub, tagDef) {
   for (const entry of TAG_FILE_ENTRIES) {

@@ -36,7 +36,7 @@ export function getAttrs(path, noCamel, skipRenderBody) {
     } else {
       properties.push(
         t.objectProperty(
-          t.stringLiteral("renderBody"),
+          t.identifier("renderBody"),
           t.arrowFunctionExpression(
             node.params,
             childLen === 1 ? body[0] : t.blockStatement(body)
@@ -65,9 +65,19 @@ export function normalizePropsObject(path) {
   } else {
     props.forEach(prop => {
       const propValue = prop.get("value");
-      const computedPropValue = getComputedExpression(propValue);
-      if (computedPropValue) {
-        propValue.replaceWith(computedPropValue);
+
+      if (propValue.isObjectExpression()) {
+        normalizePropsObject(propValue);
+      } else {
+        const key = prop.get("key");
+        if (key.isIdentifier() && key.get("name").node === "renderBody") {
+          return;
+        }
+
+        const computedPropValue = getComputedExpression(propValue);
+        if (computedPropValue) {
+          propValue.replaceWith(computedPropValue);
+        }
       }
     });
   }

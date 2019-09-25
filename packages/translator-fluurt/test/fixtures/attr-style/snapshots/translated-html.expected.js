@@ -22,10 +22,10 @@ export default (input => {
   });
 
   _customTag_tag({
-    "style": _compute(() => ({
+    "style": {
       color: "green",
-      background: _get(input.background)
-    }))
+      background: input.background
+    }
   });
 
   _dynamicTag(input.test, {
@@ -39,12 +39,12 @@ export default (input => {
   }, () => {});
 
   _dynamicTag(input.test, {
-    "style": _compute(() => ({
+    "style": {
       color: "green",
-      background: _get(input.background)
-    }))
+      background: input.background
+    }
   }, () => {});
 });
-import _styleAttr, { get as _get, compute as _compute, dynamicTag as _dynamicTag } from "fluurt";
+import _styleAttr, { dynamicTag as _dynamicTag } from "fluurt";
 import { a as _marko_attr } from "marko/src/runtime/html/helpers";
 import _customTag_tag from "./components/custom-tag.marko";

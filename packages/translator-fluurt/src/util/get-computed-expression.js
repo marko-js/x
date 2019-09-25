@@ -2,19 +2,24 @@ import { types as t } from "@marko/babel-types";
 
 export default path => {
   const { hub } = path;
-
   if (
+    hub.options.output === "html" ||
     path.isNullLiteral() ||
     path.isStringLiteral() ||
     path.isBooleanLiteral() ||
     path.isNumericLiteral() ||
     path.isBigIntLiteral() ||
-    path.isRegExpLiteral() ||
+    path.isRegExpLiteral()
+  ) {
+    return false;
+  }
+
+  if (
     path.isIdentifier() ||
     (path.isMemberExpression() &&
       isRendererParamBinding(getBindingInRenderer(path)))
   ) {
-    return false;
+    return path.node;
   }
 
   const pathsToWrap = [];
@@ -31,31 +36,32 @@ export default path => {
         return;
       }
 
-      if (
-        parentPath.isMemberExpression() &&
-        identifier.key === "property" &&
-        getBindingInRenderer(parentPath)
-      ) {
-        pathsToWrap.push(parentPath);
+      if (parentPath.isMemberExpression()) {
+        if (identifier.key === "property" && getBindingInRenderer(parentPath)) {
+          pathsToWrap.push(parentPath);
+        }
+
         return;
       }
 
       const binding = getBindingInRenderer(identifier);
 
-      if (binding && !isRendererParamBinding(binding)) {
-        pathsToWrap.push(identifier);
+      if (!binding || isRendererParamBinding(binding)) {
+        return;
       }
+
+      pathsToWrap.push(identifier);
     }
   });
 
-  if (pathsToWrap.length !== 0) {
-    pathsToWrap.forEach(wrapWithGetCall);
-    return t.callExpression(hub.importNamed(path, "fluurt", "compute"), [
-      t.arrowFunctionExpression([], path.node)
-    ]);
+  if (pathsToWrap.length === 0) {
+    return false;
   }
 
-  return false;
+  pathsToWrap.forEach(wrapWithGetCall);
+  return t.callExpression(hub.importNamed(path, "fluurt", "compute"), [
+    t.arrowFunctionExpression([], path.node)
+  ]);
 };
 
 function wrapWithGetCall(expression) {

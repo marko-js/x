@@ -14,7 +14,7 @@ export default (input => {
   });
 
   _customTag_tag({
-    "class": _compute(() => ["a", _get(input.x)])
+    "class": ["a", input.x]
   });
 
   _customTag_tag({
@@ -24,6 +24,6 @@ export default (input => {
     }]
   });
 });
-import { classAttr as _classAttr, get as _get, compute as _compute } from "fluurt";
+import { classAttr as _classAttr } from "fluurt";
 import { a as _marko_attr } from "marko/src/runtime/html/helpers";
 import _customTag_tag from "./components/custom-tag.marko";

@@ -1,6 +1,6 @@
 export default (input => {
-  _beginEl("div")
+  _beginEl("div");
 
-  _endEl()
+  _endEl();
 });
 import { beginEl as _beginEl, endEl as _endEl } from "fluurt";
