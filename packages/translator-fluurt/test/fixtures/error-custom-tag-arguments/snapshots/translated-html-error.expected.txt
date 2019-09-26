@@ -1,3 +1,0 @@
-packages/translator-fluurt/test/fixtures/error-custom-tag-arguments/template.marko(1,13): Tag does not support arguments.
-> 1 | <custom-tag(a, b, { c })/>
-    |             ^^^^^^^^^^^

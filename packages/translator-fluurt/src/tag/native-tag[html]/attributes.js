@@ -2,7 +2,7 @@ import { types as t } from "@marko/babel-types";
 import { normalizeTemplateString } from "@marko/babel-utils";
 import { xa as escapeXmlAttr } from "marko/src/runtime/html/helpers";
 
-const EVENT_REG = /^(on(?:ce)?)(.*)$/;
+const EVENT_REG = /^(on(?:ce)?)([A-Z].*)$/;
 const basicTypes = ["string", "number", "boolean"];
 
 export default function(path, attrs) {

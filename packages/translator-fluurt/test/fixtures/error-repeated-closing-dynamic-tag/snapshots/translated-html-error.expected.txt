@@ -1,5 +1,0 @@
-packages/translator-default/test/fixtures/error-repeated-closing-dynamic-tag/template.marko(3,1): Invalid ending for dynamic tag, expected "</>".
-  1 | <${input.x}>
-  2 |   Hello
-> 3 | </${input.x}>
-    | ^^^^^^^^^^^^^

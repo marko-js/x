@@ -6,7 +6,7 @@ import {
 } from "@marko/babel-utils";
 import getComputedExpression from "../../util/get-computed-expression";
 
-const EVENT_REG = /^(on(?:ce)?)(.*)$/;
+const EVENT_REG = /^(on(?:ce)?)([A-Z].*)$/;
 const EMPTY_ARRAY = [];
 
 /**
@@ -58,7 +58,7 @@ export default {
 
             if (eventType) {
               // Add event handlers.
-              if (args) {
+              if (args && args.length) {
                 throw attr.buildCodeFrameError(
                   "Event handler is does not support arguments, please pass in a function as the value."
                 );
@@ -71,7 +71,7 @@ export default {
                   "fluurt",
                   eventType === "on" ? "dynamicOn" : "once"
                 ),
-                [t.stringLiteral(eventName), value.node]
+                [t.stringLiteral(eventName.toLowerCase()), value.node]
               );
             }
 

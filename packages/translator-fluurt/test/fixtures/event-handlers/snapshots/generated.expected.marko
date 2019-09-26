@@ -1,6 +1,6 @@
-<div on-click("handleClick", a, b, ...d)/>
-<div on-Dashed-cased-Event("handle")/>
-<div onCamelcasedEvent("handle")/>
-<custom-tag on-thing("handleThing", a, b, ...d)/>
-<custom-tag on-Dashed-cased-Event("handle")/>
-<custom-tag onCamelcasedEvent("handle")/>
+<div onClick=ev => {
+  console.log(ev);
+}/>
+<custom-tag onThing=ev => {
+  console.log(ev);
+}/>

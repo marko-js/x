@@ -1,5 +1,5 @@
 export default function(path) {
-  throw path.hub.buildCodeFrameError(
+  throw path.buildCodeFrameError(
     "TODO: CDATA is not yet supported by the fluurt runtime."
   );
 }

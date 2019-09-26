@@ -1,3 +1,0 @@
-packages/translator-default/test/fixtures/error-fragment-tag-missing-content/template.marko(1,2): "fragment" tag must have children.
-> 1 | <fragment key=1/>
-    |  ^^^^^^^^

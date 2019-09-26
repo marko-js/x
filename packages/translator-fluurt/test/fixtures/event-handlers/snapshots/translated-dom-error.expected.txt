@@ -1,0 +1,5 @@
+packages/translator-fluurt/test/fixtures/event-handlers/template.marko(1,6): Event handler is does not support arguments, please pass in a function as the value.
+> 1 | <div on-click=(ev => { console.log(ev) })/>
+    |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | 
+  3 | <custom-tag on-thing=(ev => { console.log(ev) })/>
