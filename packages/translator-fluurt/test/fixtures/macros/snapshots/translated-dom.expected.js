@@ -1,42 +1,28 @@
-const _marko_template = _t(__filename);
+export default (input => {
+  function _renderTree(node) {
+    _text("Name: ");
 
-export default _marko_template;
-import { d as _marko_dynamicTag } from "marko/src/runtime/dom/helpers";
-import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
-import { t as _t } from "marko/src/runtime/dom";
+    _dynamicText(_compute(() => node.name));
 
-const _marko_componentType = _marko_registerComponent("hLnr707b", () => _marko_template),
-      _marko_component = {};
+    _text(" Children: ");
 
-_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  function _renderTree(out, node) {
-    out.t("Name: ");
-    out.t(node.name);
-    out.t(" Children: ");
+    const _ifBranch = () => {
+      _beginEl("ul");
 
-    if (node.children) {
-      out.be("ul", null, "2", component, null, 0);
+      _loop(_compute(() => node.children), child => {
+        _beginEl("li");
 
-      for (const child of node.children) {
-        out.be("li", null, "4", component, null, 0);
+        _dynamicTag(_renderTree, child);
 
-        _marko_dynamicTag(out, _renderTree, () => ({ ...child
-        }), null, null, null, _component, "5");
+        _endEl();
+      });
 
-        out.ee();
-      }
+      _endEl();
+    };
 
-      out.ee();
-    }
+    _conditional(_compute(() => _get(node.children) && _ifBranch));
   }
 
-  _marko_dynamicTag(out, _renderTree, () => ({ ...input.node
-  }), null, null, null, _component, "6");
-}, {
-  ___type: _marko_componentType,
-  ___implicit: true
-}, _marko_component);
-_marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
-_marko_template.meta = {
-  id: _marko_componentType
-};
+  _dynamicTag(_renderTree, input.node);
+});
+import { text as _text, get as _get, compute as _compute, dynamicText as _dynamicText, dynamicTag as _dynamicTag, beginEl as _beginEl, endEl as _endEl, loop as _loop, conditional as _conditional } from "fluurt";

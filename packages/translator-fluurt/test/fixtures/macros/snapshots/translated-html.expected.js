@@ -1,40 +1,27 @@
-const _marko_template = _t(__filename);
+export default (input => {
+  function _renderTree(node) {
+    out.w("Name: ");
+    out.w(_marko_escapeXml(node.name));
+    out.w(" Children: ");
 
-export default _marko_template;
-import { x as _marko_escapeXml, d as _marko_dynamicTag } from "marko/src/runtime/html/helpers";
-import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
-import { t as _t } from "marko/src/runtime/html";
-
-const _marko_componentType = _marko_registerComponent("hLnr707b", () => _marko_template),
-      _marko_component = {};
-
-_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  function _renderTree(out, node) {
-    out.w(`Name: ${_marko_escapeXml(node.name)} Children: `);
-
-    if (node.children) {
+    const _ifBranch = () => {
       out.w("<ul>");
 
-      for (const child of node.children) {
+      _loop(node.children, child => {
         out.w("<li>");
 
-        _marko_dynamicTag(out, _renderTree, () => ({ ...child
-        }), null, null, null, _component, "5");
+        _dynamicTag(_renderTree, child);
 
         out.w("</li>");
-      }
+      });
 
       out.w("</ul>");
-    }
+    };
+
+    _conditional(node.children && _ifBranch);
   }
 
-  _marko_dynamicTag(out, _renderTree, () => ({ ...input.node
-  }), null, null, null, _component, "6");
-}, {
-  ___type: _marko_componentType,
-  ___implicit: true
-}, _marko_component);
-_marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
-_marko_template.meta = {
-  id: _marko_componentType
-};
+  _dynamicTag(_renderTree, input.node);
+});
+import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers";
+import { dynamicTag as _dynamicTag, loop as _loop, conditional as _conditional } from "fluurt";

@@ -1,37 +1,32 @@
-const _marko_template = _t(__filename);
+export default (input => {
+  _text("Hello ");
 
-export default _marko_template;
-import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
-import { t as _t } from "marko/src/runtime/dom";
+  _dynamicText(input.name);
 
-const _marko_componentType = _marko_registerComponent("Kc_RlNKk", () => _marko_template),
-      _marko_component = {};
+  _text("! ");
 
-_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.t("Hello ");
-  out.t(input.name);
-  out.t("! ");
+  const _ifBranch = () => {
+    _beginEl("ul");
 
-  if (input.colors.length) {
-    out.be("ul", null, "1", component, null, 0);
+    _loop(input.colors, color => {
+      _beginEl("li");
 
-    for (const color of input.colors) {
-      out.be("li", null, "3", component, null, 0);
-      out.t(color);
-      out.ee();
-    }
+      _dynamicText(color);
 
-    out.ee();
-  } else {
-    out.be("div", null, "5", component, null, 0);
-    out.t("No colors!");
-    out.ee();
-  }
-}, {
-  ___type: _marko_componentType,
-  ___implicit: true
-}, _marko_component);
-_marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
-_marko_template.meta = {
-  id: _marko_componentType
-};
+      _endEl();
+    });
+
+    _endEl();
+  };
+
+  const _ifBranch2 = () => {
+    _beginEl("div");
+
+    _text("No colors!");
+
+    _endEl();
+  };
+
+  _conditional(_compute(() => _get(_get(input.colors).length) ? _ifBranch : _ifBranch2));
+});
+import { text as _text, dynamicText as _dynamicText, beginEl as _beginEl, endEl as _endEl, loop as _loop, conditional as _conditional, get as _get, compute as _compute } from "fluurt";

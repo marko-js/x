@@ -27,7 +27,7 @@ export default {
       getAttrs(path, true, true)
     ];
 
-    if (body) {
+    if (body && body.length) {
       dynamicTagArgs.push(
         t.arrowFunctionExpression(
           node.params || [],
