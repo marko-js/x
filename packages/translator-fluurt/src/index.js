@@ -8,7 +8,7 @@ import MarkoText from "./text";
 import MarkoPlaceholder from "./placeholder";
 import MarkoComment from "./comment";
 import MarkoScriptlet from "./scriptlet";
-import "./taglib";
+export { default as taglibs } from "./taglib";
 
 export const visitor = {
   MarkoDocumentType,

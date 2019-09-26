@@ -76,7 +76,7 @@ fs.readdirSync(packagesDir)
               name: `generated`,
               source,
               filename,
-              config: { _parseOnly: true }
+              config: { translator, _parseOnly: true }
             });
           });
 

@@ -48,7 +48,9 @@ function getTransformersForTag(path) {
     transformers = TRANSFORMER_CACHE[tagName] = tagDef
       ? [
           ...(tagDef ? Object.values(tagDef.transformers) : []),
-          ...Object.values(lookup.getTag("*").transformers)
+          ...Object.values(
+            (lookup.getTag("*") || { transformers: [] }).transformers
+          )
         ]
           .sort(comparePriority)
           .map(({ path }) => require(path))

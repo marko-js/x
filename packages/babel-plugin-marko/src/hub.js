@@ -2,7 +2,6 @@ import path from "path";
 import { types as t } from "@marko/babel-types";
 import { getClientPath } from "lasso-modules-client/transport";
 import { parse, parseExpression } from "@babel/parser";
-import { buildLookup } from "./taglib";
 import createFile from "./util/create-file";
 import codeFrameError from "./util/code-frame-error";
 import { getLoc, getLocRange } from "./util/get-loc";
@@ -13,7 +12,7 @@ export class Hub {
     this.options = options;
     this.filename = filename;
     this.file = createFile(filename, code);
-    this.lookup = buildLookup(path.dirname(filename));
+    this.lookup = this.options.lookup;
     this.macros = Object.create(null);
     this.meta = this.file.markoMeta = {
       id: checksum(this.getClientPath(this.filename)),

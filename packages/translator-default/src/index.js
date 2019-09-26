@@ -10,8 +10,9 @@ import MarkoComment from "./comment";
 import MarkoScriptlet from "./scriptlet";
 import MarkoClass from "./class";
 import { visitor as optimize } from "./optimize";
-import "./taglib";
 import getComponentFiles from "./util/get-component-files";
+
+export { default as taglibs } from "./taglib";
 
 export const visitor = {
   MarkoDocumentType,

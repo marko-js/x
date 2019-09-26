@@ -1,16 +1,34 @@
-import fs from "fs";
 import path from "path";
-// import resolveFrom from "resolve-from";
-import { loader, lookup } from "marko/src/taglib";
+import { loader, finder } from "marko/src/taglib";
+import TaglibLookup from "marko/src/taglib/taglib-lookup/TaglibLookup";
 
-["html", "svg"].forEach(name => {
-  const file = path.join(__dirname, name, "marko.json");
-  const lib = loader.createTaglib(file);
-  loader.loadTaglibFromProps(lib, JSON.parse(fs.readFileSync(file, "utf-8")));
-  lookup.registerTaglib(lib);
-});
+const lookupCache = Object.create(null);
+const coreTaglibs = ["html", "svg"].map(name =>
+  loader.loadTaglibFromFile(path.join(__dirname, name, "marko.json"))
+);
 
-export function buildLookup(dirname) {
-  // create lookup and load specific tags from old compiler.
-  return lookup.buildLookup(dirname);
+export function buildLookup(dirname, translatorTaglibs) {
+  const taglibsForDir = finder.find(
+    dirname,
+    coreTaglibs.concat(translatorTaglibs)
+  );
+
+  const cacheKey = taglibsForDir.map(it => it.id).join();
+  let lookup = lookupCache[cacheKey];
+
+  if (!lookup) {
+    lookup = lookupCache[cacheKey] = new TaglibLookup();
+    for (const taglib of taglibsForDir) {
+      lookup.addTaglib(taglib);
+      if (taglib.imports) {
+        for (const importedTaglib of taglib.imports) {
+          if (!lookup.hasTaglib(importedTaglib)) {
+            lookup.addTaglib(importedTaglib);
+          }
+        }
+      }
+    }
+  }
+
+  return lookup;
 }

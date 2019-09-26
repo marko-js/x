@@ -1,17 +1,23 @@
 import { types as t } from "@marko/babel-types";
 import { assertAllowedAttributes } from "@marko/babel-utils";
+import getComputedExpression from "../../util/get-computed-expression";
 
 export function exit(path) {
-  const { node } = path;
+  const { hub, node } = path;
   const {
-    attributes,
     body: { body }
   } = node;
   const namePath = path.get("name");
-  const byAttr = findName(attributes, "by");
 
-  const ofAttr = findName(attributes, "of");
+  if (!body || !body.length) {
+    throw namePath.buildCodeFrameError(
+      "Invalid 'for' tag, missing body content."
+    );
+  }
+
+  const ofAttr = getAttrValue(path, "of");
   if (ofAttr) {
+    const byAttr = getAttrValue(path, "by");
     assertAllowedAttributes(path, ["of", "by"]);
 
     if (!(node.params && node.params.length)) {
@@ -20,31 +26,34 @@ export function exit(path) {
       );
     }
 
-    forNode = [];
+    const callArgs = [
+      getComputedExpression(ofAttr) || ofAttr.node,
+      t.arrowFunctionExpression(node.params, t.blockStatement(body))
+    ];
+
+    if (byAttr) {
+      callArgs.push(getComputedExpression(byAttr) || byAttr.node);
+    }
 
     path.replaceWith(
-      t.callExpression(hub.importNamed(path, "fluurt", "loop"), [
-        ofAttr.value,
-        t.arrowFunctionExpression(node.params, body),
-        byAttr
-      ])
+      t.callExpression(hub.importNamed(path, "fluurt", "loop"), callArgs)
     );
 
     return;
   }
 
-  const inAttr = findName(attributes, "in");
+  const inAttr = getAttrValue(path, "in");
   if (inAttr) {
-    assertAllowedAttributes(path, ["in", "by"]);
+    assertAllowedAttributes(path, ["in"]);
     throw inAttr.buildCodeFrameError(
       "TODO: The 'in' attribute is not currently supported on the for loop in fluurt."
     );
   }
 
-  const fromAttr = findName(attributes, "from");
-  const toAttr = findName(attributes, "to");
+  const fromAttr = getAttrValue(path, "from");
+  const toAttr = getAttrValue(path, "to");
   if (fromAttr || toAttr) {
-    assertAllowedAttributes(path, ["from", "to", "step", "by"]);
+    assertAllowedAttributes(path, ["from", "to", "step"]);
     throw inAttr.buildCodeFrameError(
       "TODO: The 'from' and 'to' attributes are not currently supported on the for loop in fluurt."
     );
@@ -55,6 +64,9 @@ export function exit(path) {
   );
 }
 
-function findName(arr, value) {
-  return arr.find(obj => obj.name === value);
+function getAttrValue(path, name) {
+  const attr = path
+    .get("attributes")
+    .find(obj => obj.get("name").node === name);
+  return attr && attr.get("value");
 }

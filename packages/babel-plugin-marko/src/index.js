@@ -1,9 +1,10 @@
-import { extname } from "path";
+import { extname, dirname } from "path";
 import { Hub } from "./hub";
 import { parse } from "./parser";
 import { visitor as migrate } from "./plugins/migrate";
 import { visitor as transform } from "./plugins/transform";
 import { NodePath, visitors } from "@babel/traverse";
+import { buildLookup } from "./taglib";
 
 export default (api, options) => {
   api.assertVersion(7);
@@ -20,7 +21,8 @@ export default (api, options) => {
       const hub = new Hub(filename, code, {
         ...options,
         jsParseOptions,
-        isProduction
+        isProduction,
+        lookup: buildLookup(dirname(filename), translator.taglibs)
       });
 
       // Only run on Marko files.
