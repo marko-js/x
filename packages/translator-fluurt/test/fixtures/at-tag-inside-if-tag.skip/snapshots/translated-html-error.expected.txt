@@ -1,7 +1,0 @@
-packages/translator-fluurt/test/fixtures/at-tag-inside-if-tag.skip/template.marko(3,5): TODO: Nested @tags are not currently supported in fluurt.
-  1 | <custom-tag>
-  2 |   <if(x)>
-> 3 |     <@thing x=1>Hello</@thing>
-    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 |   </if>
-  5 | </custom-tag>

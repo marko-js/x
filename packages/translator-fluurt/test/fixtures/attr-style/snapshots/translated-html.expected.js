@@ -30,20 +30,20 @@ export default (input => {
 
   _dynamicTag(input.test, {
     "style": "color: green"
-  }, () => {});
+  });
 
   _dynamicTag(input.test, {
     "style": {
       color: "green"
     }
-  }, () => {});
+  });
 
   _dynamicTag(input.test, {
     "style": {
       color: "green",
       background: input.background
     }
-  }, () => {});
+  });
 });
 import _styleAttr, { dynamicTag as _dynamicTag } from "fluurt";
 import { a as _marko_attr } from "marko/src/runtime/html/helpers";

@@ -1,8 +1,8 @@
 export default (input => {
   _customTag_tag({
-    renderBody: (a, b, {
+    renderBody(a, b, {
       c
-    }) => {
+    }) {
       out.w("<div>");
       out.w(_marko_escapeXml(a));
       out.w(" ");
@@ -11,6 +11,7 @@ export default (input => {
       out.w(_marko_escapeXml(c + input.d));
       out.w("</div>");
     }
+
   });
 });
 import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers";

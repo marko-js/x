@@ -1,8 +1,8 @@
 export default (input => {
   _customTag_tag({
-    renderBody: (a, b, {
+    renderBody(a, b, {
       c
-    }) => {
+    }) {
       _beginEl("div");
 
       _dynamicText(a);
@@ -17,6 +17,7 @@ export default (input => {
 
       _endEl();
     }
+
   });
 });
 import { dynamicText as _dynamicText, text as _text, get as _get, compute as _compute, beginEl as _beginEl, endEl as _endEl } from "fluurt";

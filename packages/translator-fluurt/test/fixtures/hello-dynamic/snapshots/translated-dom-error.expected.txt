@@ -1,0 +1,3 @@
+packages/translator-fluurt/test/fixtures/hello-dynamic/template.marko(1,31): TODO: Unescaped text is not currently supported by the fluurt runtime.
+> 1 | -- Hello ${input.name}! Hello $!{input.name}! Hello $!{input.missing}!
+    |                               ^^^^^^^^^^^^^^
