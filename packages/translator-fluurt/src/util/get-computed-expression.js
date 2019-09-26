@@ -22,8 +22,6 @@ export default path => {
     return path.node;
   }
 
-  debugger;
-
   const pathsToWrap = [];
 
   // TODO: look into path.willMaybeExecuteBefore for reducing `get` calls
@@ -61,6 +59,11 @@ export default path => {
   }
 
   pathsToWrap.forEach(wrapWithGetCall);
+
+  if (path.isFunction()) {
+    return false;
+  }
+
   return t.callExpression(hub.importNamed(path, "fluurt", "compute"), [
     t.arrowFunctionExpression([], path.node)
   ]);

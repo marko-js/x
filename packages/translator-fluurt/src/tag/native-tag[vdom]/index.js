@@ -64,14 +64,20 @@ export default {
                 );
               }
 
-              // TODO: don't use dynamicOn for inline functions? (is it even worth have a non dynamic on?)
               return t.callExpression(
                 hub.importNamed(
                   path,
                   "fluurt",
-                  eventType === "on" ? "dynamicOn" : "once"
+                  eventType === "on"
+                    ? attrValueComputed
+                      ? "dynamicOn"
+                      : "on"
+                    : "once"
                 ),
-                [t.stringLiteral(eventName.toLowerCase()), value.node]
+                [
+                  t.stringLiteral(eventName.toLowerCase()),
+                  attrValueComputed || value.node
+                ]
               );
             }
 
