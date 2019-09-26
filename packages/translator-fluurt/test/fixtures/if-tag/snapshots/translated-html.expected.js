@@ -1,37 +1,38 @@
-const _marko_template = _t(__filename);
-
-export default _marko_template;
-import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
-import { t as _t } from "marko/src/runtime/html";
-
-const _marko_componentType = _marko_registerComponent("4cOAJiam", () => _marko_template),
-      _marko_component = {};
-
-_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  if (a + b) {
+export default (input => {
+  const _ifBranch = () => {
     out.w("Hello");
-  }
+  };
 
-  if (a, b) {
+  _conditional(a + b && _ifBranch);
+
+  const _if2Branch = () => {
     out.w("World");
-  }
+  };
+
+  _conditional((a, b) && _if2Branch);
 
   out.w("<div>");
+  {
+    const _if3Branch = () => {
+      out.w("A");
+    };
 
-  if (x) {
-    out.w("A");
-  } else if (y) {
-    out.w("B");
-  } else {
-    out.w("C");
+    const _if3Branch2 = () => {
+      out.w("B");
+    };
+
+    const _if3Branch3 = () => {
+      out.w("C");
+    };
+
+    _conditional(x ? _if3Branch : y ? _if3Branch2 : _if3Branch3);
   }
-
   out.w("</div>");
-}, {
-  ___type: _marko_componentType,
-  ___implicit: true
-}, _marko_component);
-_marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
-_marko_template.meta = {
-  id: _marko_componentType
-};
+
+  const _if4Branch = () => {
+    out.w("Hi Again");
+  };
+
+  _conditional(input.x && _if4Branch);
+});
+import { conditional as _conditional } from "fluurt";

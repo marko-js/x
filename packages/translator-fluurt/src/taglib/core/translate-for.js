@@ -39,6 +39,9 @@ export function exit(path) {
       t.callExpression(hub.importNamed(path, "fluurt", "loop"), callArgs)
     );
 
+    // TODO: technically if we detected that nothing is computed, we could
+    // output a regular for loop.
+
     return;
   }
 
