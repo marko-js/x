@@ -5,6 +5,7 @@ import {
   assertNoAttributeTags
 } from "@marko/babel-utils";
 import getComputedExpression from "../../util/get-computed-expression";
+import { getAttrs, normalizePropsObject } from "../util";
 
 const EVENT_REG = /^(on(?:ce)?)([A-Z].*)$/;
 const EMPTY_ARRAY = [];
@@ -29,42 +30,52 @@ export default {
         (it.kind === "const" || it.kind === "let")
     );
 
-    path.replaceWithMultiple(
-      [
-        // TODO: use el when there are no attrs or children.
-        t.callExpression(hub.importNamed(path, "fluurt", "beginEl"), [name]),
-        ...path
-          .get("attributes")
-          .map(attr => {
-            const value = attr.get("value");
-            const { name, arguments: args } = attr.node;
-            const { confident, value: evaluated } = value.evaluate();
+    path.insertBefore(
+      t.expressionStatement(
+        t.callExpression(hub.importNamed(path, "fluurt", "beginEl"), [name])
+      )
+    );
 
-            // Remove falsey attributes.
-            if (confident && (evaluated == null || evaluated === false)) {
-              attr.remove();
-              return;
-            }
+    const attributes = path.get("attributes");
+    const hasSpreadAttributes = attributes.some(attr =>
+      attr.isMarkoSpreadAttribute()
+    );
 
-            if (!name) {
-              throw attr.buildCodeFrameError(
-                "TODO: Dynamic attributes are not yet supported on native elements in fluurt."
-              );
-            }
+    if (hasSpreadAttributes) {
+      const [dynamicAttrsPath] = path.insertBefore(
+        t.expressionStatement(
+          t.callExpression(hub.importNamed(path, "fluurt", "dynamicAttrs"), [
+            getAttrs(path, true, true)
+          ])
+        )
+      );
 
-            const attrValueComputed = getComputedExpression(value);
-            const [, eventType, eventName] =
-              EVENT_REG.exec(name) || EMPTY_ARRAY;
+      normalizePropsObject(dynamicAttrsPath.get("expression.arguments")[0]);
+    } else {
+      attributes.forEach(attr => {
+        const value = attr.get("value");
+        const { name, arguments: args } = attr.node;
+        const { confident, value: evaluated } = value.evaluate();
 
-            if (eventType) {
-              // Add event handlers.
-              if (args && args.length) {
-                throw attr.buildCodeFrameError(
-                  "Event handler is does not support arguments, please pass in a function as the value."
-                );
-              }
+        // Remove falsey attributes.
+        if (confident && (evaluated == null || evaluated === false)) {
+          return;
+        }
 
-              return t.callExpression(
+        const attrValueComputed = getComputedExpression(value);
+        const [, eventType, eventName] = EVENT_REG.exec(name) || EMPTY_ARRAY;
+
+        if (eventType) {
+          // Add event handlers.
+          if (args && args.length) {
+            throw attr.buildCodeFrameError(
+              "Event handler is does not support arguments, please pass in a function as the value."
+            );
+          }
+
+          path.insertBefore(
+            t.expressionStatement(
+              t.callExpression(
                 hub.importNamed(
                   path,
                   "fluurt",
@@ -78,22 +89,36 @@ export default {
                   t.stringLiteral(eventName.toLowerCase()),
                   attrValueComputed || value.node
                 ]
-              );
-            }
+              )
+            )
+          );
+        } else {
+          path.insertBefore(
+            t.expressionStatement(
+              t.callExpression(
+                hub.importNamed(
+                  path,
+                  "fluurt",
+                  attrValueComputed ? "dynamicAttr" : "attr"
+                ),
+                [t.stringLiteral(name), attrValueComputed || value.node]
+              )
+            )
+          );
+        }
+      });
+    }
 
-            return t.callExpression(
-              hub.importNamed(
-                path,
-                "fluurt",
-                attrValueComputed ? "dynamicAttr" : "attr"
-              ),
-              [t.stringLiteral(name), attrValueComputed || value.node]
-            );
-          })
-          .filter(Boolean),
-        ...(needsBlock ? [t.blockStatement(body)] : body),
+    if (body && body.length) {
+      path.insertBefore(needsBlock ? t.blockStatement(body) : body);
+    }
+
+    path.insertBefore(
+      t.expressionStatement(
         t.callExpression(hub.importNamed(path, "fluurt", "endEl"), [])
-      ].map(node => (t.isExpression(node) ? t.expressionStatement(node) : node))
+      )
     );
+
+    path.remove();
   }
 };

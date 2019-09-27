@@ -1,7 +1,6 @@
 import { types as t } from "@marko/babel-types";
 import getComputedExpression from "../util/get-computed-expression";
 
-// TODO: this will need to return ComputedSignals
 export function getAttrs(path, noCamel, skipRenderBody) {
   const { node } = path;
   const {
