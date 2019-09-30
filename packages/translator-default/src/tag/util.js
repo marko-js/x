@@ -1,4 +1,6 @@
 import { types as t } from "@marko/babel-types";
+import { escapeXmlAttr } from "marko/src/runtime/html/escape";
+import { getTagDef } from "@marko/babel-utils";
 
 export function getAttrs(path, noCamel, skipRenderBody) {
   const { node } = path;
@@ -17,9 +19,13 @@ export function getAttrs(path, noCamel, skipRenderBody) {
   }
 
   const properties = new Array(attrsLen);
+  const tagDef = getTagDef(path) || {};
+  const tagDefAttributes = tagDef.attributes || {};
+  const foundProperties = {};
 
   for (let i = 0; i < attrsLen; i++) {
     const { name, value } = attributes[i];
+    foundProperties[name] = true;
     properties[i] = name
       ? t.objectProperty(
           t.stringLiteral(noCamel ? name : camelCase(name)),
@@ -39,6 +45,19 @@ export function getAttrs(path, noCamel, skipRenderBody) {
             [t.identifier("out"), ...node.params],
             t.blockStatement(body)
           )
+        )
+      );
+    }
+  }
+
+  // Default parameters
+  for (let i of Object.keys(tagDefAttributes)) {
+    let attr = tagDefAttributes[i];
+    if (attr && !foundProperties[i] && attr.defaultValue) {
+      properties.push(
+        t.objectProperty(
+          t.stringLiteral(attr.name),
+          t.stringLiteral(escapeXmlAttr(attr.defaultValue))
         )
       );
     }
