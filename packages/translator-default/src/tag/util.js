@@ -2,6 +2,15 @@ import { types as t } from "@marko/babel-types";
 import { escapeXmlAttr } from "marko/src/runtime/html/escape";
 import { getTagDef } from "@marko/babel-utils";
 
+function getPropertyKey(name, noCamel, tagDefAttributes) {
+  const currentTagDef = tagDefAttributes[name] || {};
+  let currentKey = name;
+  if (currentTagDef.targetProperty) {
+    currentKey = currentTagDef.targetProperty;
+  }
+  return noCamel ? currentKey : camelCase(currentKey);
+}
+
 export function getAttrs(path, noCamel, skipRenderBody) {
   const { node } = path;
   const {
@@ -28,7 +37,7 @@ export function getAttrs(path, noCamel, skipRenderBody) {
     foundProperties[name] = true;
     properties[i] = name
       ? t.objectProperty(
-          t.stringLiteral(noCamel ? name : camelCase(name)),
+          t.stringLiteral(getPropertyKey(name, noCamel, tagDefAttributes)),
           value
         )
       : t.spreadElement(value);
