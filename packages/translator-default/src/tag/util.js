@@ -2,11 +2,11 @@ import { types as t } from "@marko/babel-types";
 import { escapeXmlAttr } from "marko/src/runtime/html/escape";
 import { getTagDef } from "@marko/babel-utils";
 
-function getPropertyKey(name, noCamel, tagDefAttributes) {
-  const currentTagDef = tagDefAttributes[name] || {};
+function getPropertyKey(name, noCamel, tagDef) {
+  const attribute = tagDef.getAttribute(name);
   let currentKey = name;
-  if (currentTagDef.targetProperty) {
-    currentKey = currentTagDef.targetProperty;
+  if (attribute.targetProperty && !attribute.dynamicAttribute) {
+    currentKey = attribute.targetProperty;
   }
   return noCamel ? currentKey : camelCase(currentKey);
 }
@@ -28,8 +28,7 @@ export function getAttrs(path, noCamel, skipRenderBody) {
   }
 
   const properties = new Array(attrsLen);
-  const tagDef = getTagDef(path) || {};
-  const tagDefAttributes = tagDef.attributes || {};
+  const tagDef = getTagDef(path);
   const foundProperties = {};
 
   for (let i = 0; i < attrsLen; i++) {
@@ -37,7 +36,7 @@ export function getAttrs(path, noCamel, skipRenderBody) {
     foundProperties[name] = true;
     properties[i] = name
       ? t.objectProperty(
-          t.stringLiteral(getPropertyKey(name, noCamel, tagDefAttributes)),
+          t.stringLiteral(getPropertyKey(name, noCamel, tagDef)),
           value
         )
       : t.spreadElement(value);
@@ -60,18 +59,17 @@ export function getAttrs(path, noCamel, skipRenderBody) {
   }
 
   // Default parameters
-  for (let i of Object.keys(tagDefAttributes)) {
-    let attr = tagDefAttributes[i];
-    if (attr && !foundProperties[i] && attr.defaultValue) {
+  tagDef.forEachAttribute(attr => {
+    const { name, defaultValue } = attr;
+    if (!attr.dynamicAttribute && !foundProperties[name] && defaultValue) {
       properties.push(
         t.objectProperty(
-          t.stringLiteral(attr.name),
-          t.stringLiteral(escapeXmlAttr(attr.defaultValue))
+          t.stringLiteral(name),
+          t.stringLiteral(escapeXmlAttr(defaultValue))
         )
       );
     }
-  }
-
+  });
   return t.objectExpression(properties);
 }
 
