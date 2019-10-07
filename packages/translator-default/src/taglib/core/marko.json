@@ -81,7 +81,7 @@
   "<html-comment>": {
     "code-generator": "./translate-html-comment.js",
     "parse-options": {
-      "state": "static-text"
+      "state": "parsed-text"
     }
   },
   "<fragment>": {

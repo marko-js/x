@@ -11,6 +11,7 @@
     "@babel/types": "^7"
   },
   "dependencies": {
+    "@babel/runtime": "^7.6.2",
     "self-closing-tags": "^1.0.1"
   },
   "devDependencies": {
