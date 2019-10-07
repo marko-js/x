@@ -1,27 +1,33 @@
 export default (input => {
-  out.w("Hello ");
-  out.w(_marko_escapeXml(input.name));
-  out.w("! ");
+  _write("Hello ");
+
+  _write(_xml(input.name));
+
+  _write("! ");
 
   const _ifBranch = () => {
-    out.w("<ul>");
+    _write("<ul>");
 
     _loop(input.colors, color => {
-      out.w("<li>");
-      out.w(_marko_escapeXml(color));
-      out.w("</li>");
+      _write("<li>");
+
+      _write(_xml(color));
+
+      _write("</li>");
     });
 
-    out.w("</ul>");
+    _write("</ul>");
   };
 
   const _ifBranch2 = () => {
-    out.w("<div>");
-    out.w("No colors!");
-    out.w("</div>");
+    _write("<div>");
+
+    _write("No colors!");
+
+    _write("</div>");
   };
 
   _conditional(input.colors.length ? _ifBranch : _ifBranch2);
 });
-import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers";
+import { write as _write, xml as _xml } from "fluurt/html";
 import { loop as _loop, conditional as _conditional } from "fluurt";

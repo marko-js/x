@@ -1,11 +1,20 @@
 export default (input => {
-  out.w("<div>");
-  out.w("<!--");
-  out.w("abc");
-  out.w("-->");
-  out.w("<!--[if lt IE 9]><script src=\"...\"></script><![endif]-->");
-  out.w("<!--");
-  out.w("[if lt IE 9]><script src=\"...\"></script><![endif]");
-  out.w("-->");
-  out.w("</div>");
+  _write("<div>");
+
+  _write("<!--");
+
+  _write("abc");
+
+  _write("-->");
+
+  _write("<!--[if lt IE 9]><script src=\"...\"></script><![endif]-->");
+
+  _write("<!--");
+
+  _write("[if lt IE 9]><script src=\"...\"></script><![endif]");
+
+  _write("-->");
+
+  _write("</div>");
 });
+import { write as _write } from "fluurt/html";

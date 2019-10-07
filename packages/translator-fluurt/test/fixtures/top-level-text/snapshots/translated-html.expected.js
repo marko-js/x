@@ -1,3 +1,4 @@
 export default (input => {
-  out.w("Hello John");
+  _write("Hello John");
 });
+import { write as _write } from "fluurt/html";

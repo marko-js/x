@@ -1,23 +1,29 @@
 export default (input => {
-  out.w(`<input${_marko_attrs({ ...attrs
+  _write(`<input${_attrs({ ...attrs
   })}>`);
-  out.w(`<input${_marko_attrs({ ...input
+
+  _write(`<input${_attrs({ ...input
   })}>`);
-  out.w(`<input${_marko_attrs({ ...input.x
+
+  _write(`<input${_attrs({ ...input.x
   })}>`);
-  out.w(`<input${_marko_attrs({ ...input.x,
+
+  _write(`<input${_attrs({ ...input.x,
     ...input.y
   })}>`);
-  out.w(`<input${_marko_attrs({ ...{
+
+  _write(`<input${_attrs({ ...{
       a: 1
     }
   })}>`);
-  out.w(`<input${_marko_attrs({ ...{
+
+  _write(`<input${_attrs({ ...{
       a: 1,
       x: input.x
     }
   })}>`);
-  out.w(" ");
+
+  _write(" ");
 
   _test_tag(attrs);
 
@@ -38,5 +44,5 @@ export default (input => {
     x: input.x
   });
 });
-import { as as _marko_attrs } from "marko/src/runtime/html/helpers";
+import { attrs as _attrs, write as _write } from "fluurt/html";
 import _test_tag from "./components/test.marko";

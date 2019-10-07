@@ -1,9 +1,8 @@
 import { types as t } from "@marko/babel-types";
 import { normalizeTemplateString } from "@marko/babel-utils";
-import { xa as escapeXmlAttr } from "marko/src/runtime/html/helpers";
+import { attr as escapeAttr } from "fluurt/html";
 
 const EVENT_REG = /^(on(?:ce)?)([A-Z].*)$/;
-const basicTypes = ["string", "number", "boolean"];
 
 export default function(path, attrs) {
   if (!attrs.length) {
@@ -40,28 +39,16 @@ export default function(path, attrs) {
 
     const { confident, value: computed } = attr.get("value").evaluate();
 
-    if (
-      confident &&
-      basicTypes.includes(typeof computed)
-    ) {
-      if (computed == null || computed === false) {
-        continue;
-      }
+    if (confident) {
+      curString += escapeAttr(name, computed);
 
-      curString += ` ${name}`;
-
-      if (computed !== true) {
-        curString += `="${escapeXmlAttr(computed)}"`;
+      if (computed != null && computed !== false) {
+        attrsObject.properties.push(t.objectProperty(t.stringLiteral(name), value));
       }
-      attrsObject.properties.push(t.objectProperty(t.stringLiteral(name), t.stringLiteral(escapeXmlAttr(computed))));
     } else {
       const args = [t.stringLiteral(name), value];
       quasis.push(curString);
       curString = "";
-
-      if (name === "data-marko") {
-        args.push(t.booleanLiteral(false));
-      }
 
       attrsObject.properties.push(t.objectProperty(t.stringLiteral(name), value));
 
@@ -69,23 +56,23 @@ export default function(path, attrs) {
         t.callExpression(
           hub.importNamed(
             attr,
-            "marko/src/runtime/html/helpers",
-            "a",
-            "marko_attr"
+            "fluurt/html",
+            "attr"
           ),
           args
         )
       );
     }
   }
+
   quasis.push(curString);
+
   if (hasSpread) {
     return t.callExpression(
       path.hub.importNamed(
             path,
-            "marko/src/runtime/html/helpers",
-            "as",
-            "marko_attrs"
+            "fluurt/html",
+            "attrs"
           ),
           [attrsObject]
       );

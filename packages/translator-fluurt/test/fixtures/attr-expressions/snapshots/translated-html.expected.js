@@ -1,5 +1,6 @@
 export default (input => {
-  out.w(`<div a="1" b="2"${_marko_attr("c", input.c)}${_marko_attr("d", input.d())} e="3"${_marko_attr("f", 1 + input.f)}${_marko_attr("g", input.a.b.c + d)}${_marko_attr("h", Math.abc.ok())}>`);
-  out.w("</div>");
+  _write(`<div a="1" b="2"${_attr("c", input.c)}${_attr("d", input.d())} e="3"${_attr("f", 1 + input.f)}${_attr("g", input.a.b.c + d)}${_attr("h", Math.abc.ok())}>`);
+
+  _write("</div>");
 });
-import { a as _marko_attr } from "marko/src/runtime/html/helpers";
+import { attr as _attr, write as _write } from "fluurt/html";

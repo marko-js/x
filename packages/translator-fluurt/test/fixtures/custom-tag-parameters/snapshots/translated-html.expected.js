@@ -3,16 +3,22 @@ export default (input => {
     renderBody(a, b, {
       c
     }) {
-      out.w("<div>");
-      out.w(_marko_escapeXml(a));
-      out.w(" ");
-      out.w(_marko_escapeXml(b));
-      out.w(" ");
-      out.w(_marko_escapeXml(c + input.d));
-      out.w("</div>");
+      _write("<div>");
+
+      _write(_xml(a));
+
+      _write(" ");
+
+      _write(_xml(b));
+
+      _write(" ");
+
+      _write(_xml(c + input.d));
+
+      _write("</div>");
     }
 
   });
 });
-import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers";
+import { xml as _xml, write as _write } from "fluurt/html";
 import _customTag_tag from "./components/custom-tag.marko";

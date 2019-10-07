@@ -3,7 +3,7 @@ import {
   assertNoParams,
   assertNoAttributes
 } from "@marko/babel-utils";
-import write from "../../util/html-out-write";
+import write from "../../util/html-write";
 
 export function enter(path) {
   const { hub } = path;
@@ -12,7 +12,12 @@ export function enter(path) {
   assertNoAttributes(path);
 
   if (hub.options.output === "html") {
-    path.replaceWithMultiple([write`<!--`, ...path.node.body.body, write`-->`]);
+    const writer = write(path);
+    path.replaceWithMultiple([
+      writer`<!--`,
+      ...path.node.body.body,
+      writer`-->`
+    ]);
   } else {
     path.remove();
   }

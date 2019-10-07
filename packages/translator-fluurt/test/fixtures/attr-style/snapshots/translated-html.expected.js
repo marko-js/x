@@ -1,15 +1,20 @@
 export default (input => {
-  out.w("<div style=\"color: green\">");
-  out.w("</div>");
-  out.w(`<div${_marko_attr("style", _styleAttr({
+  _write("<div style=\"color: green\">");
+
+  _write("</div>");
+
+  _write(`<div${_attr("style", _styleAttr({
     color: "green"
   }))}>`);
-  out.w("</div>");
-  out.w(`<div${_marko_attr("style", _styleAttr({
+
+  _write("</div>");
+
+  _write(`<div${_attr("style", _styleAttr({
     color: "green",
     background: input.background
   }))}>`);
-  out.w("</div>");
+
+  _write("</div>");
 
   _customTag_tag({
     "style": "color: green"
@@ -45,6 +50,6 @@ export default (input => {
     }
   });
 });
+import { write as _write, attr as _attr } from "fluurt/html";
 import _styleAttr, { dynamicTag as _dynamicTag } from "fluurt";
-import { a as _marko_attr } from "marko/src/runtime/html/helpers";
 import _customTag_tag from "./components/custom-tag.marko";

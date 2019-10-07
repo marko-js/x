@@ -1,10 +1,16 @@
 export default (input => {
-  out.w("Hello ");
-  out.w(_marko_escapeXml(input.name));
-  out.w("! Hello ");
-  out.w(input.name);
-  out.w("! Hello ");
-  out.w(input.missing);
-  out.w("!");
+  _write("Hello ");
+
+  _write(_xml(input.name));
+
+  _write("! Hello ");
+
+  _write(input.name);
+
+  _write("! Hello ");
+
+  _write(input.missing);
+
+  _write("!");
 });
-import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers";
+import { write as _write, xml as _xml } from "fluurt/html";

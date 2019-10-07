@@ -1,13 +1,24 @@
 export default (input => {
-  out.w("<!DOCTYPE html>");
-  out.w("<html>");
-  out.w("<head>");
-  out.w("<title>");
-  out.w("Title of the document");
-  out.w("</title>");
-  out.w("</head>");
-  out.w("<body>");
-  out.w("The content of the document......");
-  out.w("</body>");
-  out.w("</html>");
+  _write("<!DOCTYPE html>");
+
+  _write("<html>");
+
+  _write("<head>");
+
+  _write("<title>");
+
+  _write("Title of the document");
+
+  _write("</title>");
+
+  _write("</head>");
+
+  _write("<body>");
+
+  _write("The content of the document......");
+
+  _write("</body>");
+
+  _write("</html>");
 });
+import { write as _write } from "fluurt/html";

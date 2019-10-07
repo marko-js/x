@@ -1,5 +1,6 @@
 export default (input => {
-  out.w(`<div${_marko_attr("foo", `Hello ${input.name}`)}>`);
-  out.w("</div>");
+  _write(`<div${_attr("foo", `Hello ${input.name}`)}>`);
+
+  _write("</div>");
 });
-import { a as _marko_attr } from "marko/src/runtime/html/helpers";
+import { attr as _attr, write as _write } from "fluurt/html";

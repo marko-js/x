@@ -1,22 +1,19 @@
 import { types as t } from "@marko/babel-types";
-import write from "../util/html-out-write";
+import { xml as escapeXML, style as escapeStyle, script as escapeScript } from "fluurt/html";
+import write from "../util/html-write";
 import withPreviousLocation from "../util/with-previous-location";
 
 const EMPTY_OBJECT = {};
 const ESCAPE_TYPES = {
-  html: {
-    name: "x",
-    alias: "marko_escapeXml"
-  },
-  script: {
-    name: "xs",
-    alias: "marko_escapeScript"
-  },
-  style: {
-    name: "xc",
-    alias: "marko_escapeStyle"
-  }
+  html: "xml",
+  style: "style",
+  script: "script"
 };
+const ESCAPE_FNS = {
+  html: escapeXML,
+  style: escapeStyle,
+  script: escapeScript
+}
 
 export default function(path) {
   const { node, hub } = path;
@@ -25,18 +22,30 @@ export default function(path) {
   if (escape) {
     const tagName = findParentTagName(path);
     const escapeType = ESCAPE_TYPES[tagName] || ESCAPE_TYPES.html;
-    value = t.callExpression(
-      hub.importNamed(
-        path,
-        "marko/src/runtime/html/helpers",
-        escapeType.name,
-        escapeType.alias
-      ),
-      [value]
-    );
+    const { confident, computed } = path.get("value").evaluate();
+
+    if (confident) {
+      const result = ESCAPE_FNS[escapeType](computed);
+      if (result === "") {
+        path.remove();
+        return;
+      }
+
+
+      value = t.stringLiteral(result);
+    } else {
+      value = t.callExpression(
+        hub.importNamed(
+          path,
+          "fluurt/html",
+          escapeType
+        ),
+        [value]
+      );
+    }
   }
 
-  path.replaceWith(withPreviousLocation(write`${value}`, node));
+  path.replaceWith(withPreviousLocation(write(path)`${value}`, node));
 }
 
 function findParentTagName(path) {

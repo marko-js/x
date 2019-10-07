@@ -1,3 +1,4 @@
 export default (input => {
-  out.w("<input checked>");
+  _write("<input checked>");
 });
+import { write as _write } from "fluurt/html";

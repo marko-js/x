@@ -3,9 +3,10 @@ export default (input => {
     "name": "World",
 
     renderBody() {
-      out.w("This is the body content");
+      _write("This is the body content");
     }
 
   });
 });
+import { write as _write } from "fluurt/html";
 import _testBodyFunction_tag from "./components/test-body-function/index.marko";

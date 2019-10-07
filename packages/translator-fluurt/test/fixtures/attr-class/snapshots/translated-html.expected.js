@@ -1,13 +1,18 @@
 export default (input => {
-  out.w("<div class=\"a b c\">");
-  out.w("</div>");
-  out.w(`<div${_marko_attr("class", _classAttr(["a", input.x]))}>`);
-  out.w("</div>");
-  out.w(`<div${_marko_attr("class", _classAttr(["a", {
+  _write("<div class=\"a b c\">");
+
+  _write("</div>");
+
+  _write(`<div${_attr("class", _classAttr(["a", input.x]))}>`);
+
+  _write("</div>");
+
+  _write(`<div${_attr("class", _classAttr(["a", {
     b: c,
     d
   }]))}>`);
-  out.w("</div>");
+
+  _write("</div>");
 
   _customTag_tag({
     "class": "a b c"
@@ -24,6 +29,6 @@ export default (input => {
     }]
   });
 });
+import { write as _write, attr as _attr } from "fluurt/html";
 import { classAttr as _classAttr } from "fluurt";
-import { a as _marko_attr } from "marko/src/runtime/html/helpers";
 import _customTag_tag from "./components/custom-tag.marko";
