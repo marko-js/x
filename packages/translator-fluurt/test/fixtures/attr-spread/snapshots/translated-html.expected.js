@@ -1,29 +1,17 @@
 export default (input => {
   _write(`<input${_attrs({ ...attrs
-  })}>`);
-
-  _write(`<input${_attrs({ ...input
-  })}>`);
-
-  _write(`<input${_attrs({ ...input.x
-  })}>`);
-
-  _write(`<input${_attrs({ ...input.x,
+  })}><input${_attrs({ ...input
+  })}><input${_attrs({ ...input.x
+  })}><input${_attrs({ ...input.x,
     ...input.y
-  })}>`);
-
-  _write(`<input${_attrs({ ...{
+  })}><input${_attrs({ ...{
       a: 1
     }
-  })}>`);
-
-  _write(`<input${_attrs({ ...{
+  })}><input${_attrs({ ...{
       a: 1,
       x: input.x
     }
-  })}>`);
-
-  _write(" ");
+  })}> `);
 
   _test_tag(attrs);
 

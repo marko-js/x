@@ -1,24 +1,4 @@
 export default (input => {
-  _write("<!DOCTYPE html>");
-
-  _write("<html>");
-
-  _write("<head>");
-
-  _write("<title>");
-
-  _write("Title of the document");
-
-  _write("</title>");
-
-  _write("</head>");
-
-  _write("<body>");
-
-  _write("The content of the document......");
-
-  _write("</body>");
-
-  _write("</html>");
+  _write("<!DOCTYPE html><html><head><title>Title of the document</title></head><body>The content of the document......</body></html>");
 });
 import { write as _write } from "fluurt/html";

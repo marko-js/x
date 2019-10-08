@@ -1,30 +1,18 @@
 export default (input => {
-  _write("Hello ");
-
-  _write(_xml(input.name));
-
-  _write("! ");
+  _write(`Hello ${_xml(input.name)}! `);
 
   const _ifBranch = () => {
     _write("<ul>");
 
     _loop(input.colors, color => {
-      _write("<li>");
-
-      _write(_xml(color));
-
-      _write("</li>");
+      _write(`<li>${_xml(color)}</li>`);
     });
 
     _write("</ul>");
   };
 
   const _ifBranch2 = () => {
-    _write("<div>");
-
-    _write("No colors!");
-
-    _write("</div>");
+    _write("<div>No colors!</div>");
   };
 
   _conditional(input.colors.length ? _ifBranch : _ifBranch2);

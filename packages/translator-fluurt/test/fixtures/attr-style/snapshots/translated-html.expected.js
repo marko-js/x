@@ -1,20 +1,10 @@
 export default (input => {
-  _write("<div style=\"color: green\">");
-
-  _write("</div>");
-
-  _write(`<div${_attr("style", _styleAttr({
+  _write(`<div style="color: green"></div><div${_attr("style", _styleAttr({
     color: "green"
-  }))}>`);
-
-  _write("</div>");
-
-  _write(`<div${_attr("style", _styleAttr({
+  }))}></div><div${_attr("style", _styleAttr({
     color: "green",
     background: input.background
-  }))}>`);
-
-  _write("</div>");
+  }))}></div>`);
 
   _customTag_tag({
     "style": "color: green"

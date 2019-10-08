@@ -8,6 +8,7 @@ import MarkoText from "./text";
 import MarkoPlaceholder from "./placeholder";
 import MarkoComment from "./comment";
 import MarkoScriptlet from "./scriptlet";
+import optimize from "./optimize";
 export { default as taglibs } from "./taglib";
 
 export const visitor = {
@@ -37,7 +38,8 @@ export const visitor = {
           t.arrowFunctionExpression([t.identifier("input")], renderBlock)
         )
       );
-    }
+    },
+    exit: optimize
   }
 };
 

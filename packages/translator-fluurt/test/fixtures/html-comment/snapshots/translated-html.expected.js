@@ -1,8 +1,4 @@
 export default (input => {
-  _write("<!--");
-
-  _write("test");
-
-  _write("-->");
+  _write("<!--test-->");
 });
 import { write as _write } from "fluurt/html";

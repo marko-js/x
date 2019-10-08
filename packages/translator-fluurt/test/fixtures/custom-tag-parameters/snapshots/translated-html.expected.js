@@ -3,19 +3,7 @@ export default (input => {
     renderBody(a, b, {
       c
     }) {
-      _write("<div>");
-
-      _write(_xml(a));
-
-      _write(" ");
-
-      _write(_xml(b));
-
-      _write(" ");
-
-      _write(_xml(c + input.d));
-
-      _write("</div>");
+      _write(`<div>${_xml(a)} ${_xml(b)} ${_xml(c + input.d)}</div>`);
     }
 
   });

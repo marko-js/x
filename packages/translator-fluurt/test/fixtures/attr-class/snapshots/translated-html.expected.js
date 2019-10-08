@@ -1,18 +1,8 @@
 export default (input => {
-  _write("<div class=\"a b c\">");
-
-  _write("</div>");
-
-  _write(`<div${_attr("class", _classAttr(["a", input.x]))}>`);
-
-  _write("</div>");
-
-  _write(`<div${_attr("class", _classAttr(["a", {
+  _write(`<div class="a b c"></div><div${_attr("class", _classAttr(["a", input.x]))}></div><div${_attr("class", _classAttr(["a", {
     b: c,
     d
-  }]))}>`);
-
-  _write("</div>");
+  }]))}></div>`);
 
   _customTag_tag({
     "class": "a b c"

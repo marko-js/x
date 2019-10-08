@@ -1,10 +1,6 @@
 export default (input => {
   function _renderTree(node) {
-    _write("Name: ");
-
-    _write(_xml(node.name));
-
-    _write(" Children: ");
+    _write(`Name: ${_xml(node.name)} Children: `);
 
     const _ifBranch = () => {
       _write("<ul>");

@@ -1,7 +1,6 @@
 import SELF_CLOSING from "self-closing-tags";
 import { types as t } from "@marko/babel-types";
 import write from "../../util/html-write";
-import withPreviousLocation from "../../util/with-previous-location";
 import translateAttributes from "./attributes";
 import {
   assertNoParams,
@@ -14,11 +13,11 @@ import {
  */
 export default {
   exit(path) {
-    const writer = write(path);
     assertNoArgs(path);
     assertNoParams(path);
     assertNoAttributeTags(path);
-
+    
+    const writer = write(path);
     const { node } = path;
     const {
       name: { value: tagName },
@@ -30,20 +29,16 @@ export default {
         (it.kind === "const" || it.kind === "let")
     );
 
-    const writeStartNode = withPreviousLocation(
-      writer`<${tagName}${translateAttributes(path, path.get("attributes"))}>`,
-      node
-    );
+    const startTag = writer`<${tagName}${translateAttributes(path, path.get("attributes"))}>`
 
     if (SELF_CLOSING.indexOf(tagName) !== -1) {
-      path.replaceWith(writeStartNode);
-      return;
+      return path.replaceWith(startTag);
     }
 
-    path.replaceWithMultiple(
-      [writeStartNode]
-        .concat(needsBlock ? t.blockStatement(body) : body)
-        .concat(writer`</${tagName}>`)
-    );
+    path.replaceWithMultiple([
+      startTag,
+      ...(needsBlock ? t.blockStatement(body) : body),
+      writer`</${tagName}>`
+    ]);
   }
 };

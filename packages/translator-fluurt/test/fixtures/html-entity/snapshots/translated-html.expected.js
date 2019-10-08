@@ -1,8 +1,4 @@
 export default (input => {
-  _write("<div>");
-
-  _write("&lt;div&gt;");
-
-  _write("</div>");
+  _write("<div>&lt;div&gt;</div>");
 });
 import { write as _write } from "fluurt/html";

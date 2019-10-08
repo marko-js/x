@@ -1,7 +1,6 @@
 import { types as t } from "@marko/babel-types";
 import { xml as escapeXML, style as escapeStyle, script as escapeScript } from "fluurt/html";
 import write from "../util/html-write";
-import withPreviousLocation from "../util/with-previous-location";
 
 const EMPTY_OBJECT = {};
 const ESCAPE_TYPES = {
@@ -45,7 +44,7 @@ export default function(path) {
     }
   }
 
-  path.replaceWith(withPreviousLocation(write(path)`${value}`, node));
+  path.replaceWith(write(path)`${value}`);
 }
 
 function findParentTagName(path) {
