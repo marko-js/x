@@ -45,13 +45,13 @@
     "@name": "string"
   },
   "<if>": {
-    "code-generator": "./conditional/translate-if.js"
+    "code-generator": "./conditional/index.js"
   },
   "<else-if>": {
-    "code-generator": "./conditional/translate-else-if.js"
+    "code-generator": "./conditional/index.js"
   },
   "<else>": {
-    "code-generator": "./conditional/translate-else.js"
+    "code-generator": "./conditional/index.js"
   },
   "<for>": {
     "code-generator": "./translate-for.js",

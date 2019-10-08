@@ -92,12 +92,21 @@ export default {
 };
 
 function enter(plugin, ...args) {
-  const fn = plugin && (plugin.enter || plugin);
+  const fn =
+    (plugin &&
+      (plugin.enter ||
+        ((plugin.default && plugin.default.enter) || plugin.default))) ||
+    plugin;
   if (typeof fn === "function") {
     fn(...args);
   }
 }
 
 function exit(plugin, ...args) {
-  plugin.exit && plugin.exit(...args);
+  const fn =
+    plugin &&
+    (plugin.exit || (plugin.default ? plugin.default.exit : undefined));
+  if (typeof fn === "function") {
+    fn(...args);
+  }
 }

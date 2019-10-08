@@ -7,8 +7,7 @@
   "bugs": "https://github.com/marko-js/x/issues/new?template=Bug_report.md",
   "dependencies": {
     "@marko/babel-types": "^1.0.0",
-    "@marko/babel-utils": "^1.0.0",
-    "fluurt": "^1.0.0"
+    "@marko/babel-utils": "^1.0.0"
   },
   "files": [
     "dist"
