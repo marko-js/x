@@ -54,7 +54,7 @@
     "code-generator": "./conditional/index.js"
   },
   "<for>": {
-    "code-generator": "./translate-for.js",
+    "code-generator": "./loop/index.js",
     "@of": "array",
     "@in": "object",
     "@from": "number",

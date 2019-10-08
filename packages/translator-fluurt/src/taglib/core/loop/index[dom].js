@@ -1,8 +1,8 @@
 import { types as t } from "@marko/babel-types";
 import { assertAllowedAttributes } from "@marko/babel-utils";
-import getComputedExpression from "../../util/get-computed-expression";
+import getComputedExpression from "../../../util/get-computed-expression";
 
-export function exit(path) {
+export default function(path) {
   const { hub, node } = path;
   const {
     body: { body }

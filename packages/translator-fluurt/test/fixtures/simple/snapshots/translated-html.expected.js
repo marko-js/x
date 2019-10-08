@@ -4,9 +4,9 @@ export default (input => {
   if (input.colors.length) {
     _write("<ul>");
 
-    _loop(input.colors, color => {
+    for (const color of input.colors) {
       _write(`<li>${_xml(color)}</li>`);
-    });
+    }
 
     _write("</ul>");
   } else {
@@ -14,4 +14,3 @@ export default (input => {
   }
 });
 import { write as _write, xml as _xml } from "fluurt/html";
-import { loop as _loop } from "fluurt";
