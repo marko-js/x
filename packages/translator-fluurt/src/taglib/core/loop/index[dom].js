@@ -36,7 +36,7 @@ export default function(path) {
     }
 
     path.replaceWith(
-      t.callExpression(hub.importNamed(path, "fluurt", "loop"), callArgs)
+      t.callExpression(hub.importNamed(path, "fluurt", "loopOf"), callArgs)
     );
 
     // TODO: technically if we detected that nothing is computed, we could
@@ -48,22 +48,46 @@ export default function(path) {
   const inAttr = getAttrValue(path, "in");
   if (inAttr) {
     assertAllowedAttributes(path, ["in"]);
-    throw inAttr.buildCodeFrameError(
-      "TODO: The 'in' attribute is not currently supported on the for loop in fluurt."
+
+    if (!(node.params && node.params.length)) {
+      throw namePath.buildCodeFrameError(
+        "Invalid 'for in' tag, missing |key, value| params."
+      );
+    }
+
+    const callArgs = [
+      getComputedExpression(inAttr) || inAttr.node,
+      t.arrowFunctionExpression(node.params, t.blockStatement(body))
+    ];
+
+    path.replaceWith(
+      t.callExpression(hub.importNamed(path, "fluurt", "loopIn"), callArgs)
     );
+
+    return;
   }
 
-  const fromAttr = getAttrValue(path, "from");
   const toAttr = getAttrValue(path, "to");
-  if (fromAttr || toAttr) {
+  const fromAttr = getAttrValue(path, "from");
+  if (fromAttr && toAttr) {
     assertAllowedAttributes(path, ["from", "to", "step"]);
-    throw inAttr.buildCodeFrameError(
-      "TODO: The 'from' and 'to' attributes are not currently supported on the for loop in fluurt."
+    const stepAttr = getAttrValue(path, "step");
+    const callArgs = [
+      getComputedExpression(fromAttr) || fromAttr.node,
+      getComputedExpression(toAttr) || toAttr.node,
+      stepAttr.node ? getComputedExpression(stepAttr) || stepAttr.node : t.numericLiteral(1),
+      t.arrowFunctionExpression(node.params, t.blockStatement(body))
+    ];
+
+    path.replaceWith(
+      t.callExpression(hub.importNamed(path, "fluurt", "loopFrom"), callArgs)
     );
+
+    return;
   }
 
   throw namePath.buildCodeFrameError(
-    "Invalid 'for' tag, missing an 'of', 'in' or 'to' attribute."
+    "Invalid 'for' tag, missing an 'of', 'in' or 'from/to' attribute."
   );
 }
 

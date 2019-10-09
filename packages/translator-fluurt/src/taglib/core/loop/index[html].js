@@ -16,34 +16,13 @@ export default function(path) {
   let forNode;
   let allowedAttributes = ["by"];
 
-  if (inAttr) {
-    allowedAttributes.push("in");
-
-    const [keyParam, valParam] = node.params;
-
-    if (!keyParam) {
-      throw namePath.buildCodeFrameError(
-        "Invalid 'for in' tag, missing |key, value| params."
-      );
-    }
-
-    if (valParam) {
-      block.body.unshift(
-        t.variableDeclaration("const", [
-          t.variableDeclarator(
-            valParam,
-            t.memberExpression(inAttr.value, keyParam, true)
-          )
-        ])
-      );
-    }
-
-    forNode = t.forInStatement(
-      t.variableDeclaration("const", [t.variableDeclarator(keyParam)]),
-      inAttr.value,
-      block
+  if (!body || !body.length) {
+    throw namePath.buildCodeFrameError(
+      "Invalid 'for' tag, missing body content."
     );
-  } else if (ofAttr) {
+  }
+
+  if (ofAttr) {
     let ofAttrValue = ofAttr.value;
     allowedAttributes.push("of");
 
@@ -88,6 +67,33 @@ export default function(path) {
         block
       )
     );
+  } else if (inAttr) {
+    allowedAttributes.push("in");
+
+    const [keyParam, valParam] = node.params;
+
+    if (!keyParam) {
+      throw namePath.buildCodeFrameError(
+        "Invalid 'for in' tag, missing |key, value| params."
+      );
+    }
+
+    if (valParam) {
+      block.body.unshift(
+        t.variableDeclaration("const", [
+          t.variableDeclarator(
+            valParam,
+            t.memberExpression(inAttr.value, keyParam, true)
+          )
+        ])
+      );
+    }
+
+    forNode = t.forInStatement(
+      t.variableDeclaration("const", [t.variableDeclarator(keyParam)]),
+      inAttr.value,
+      block
+    );
   } else if (fromAttr && toAttr) {
     allowedAttributes.push("from", "to", "step");
 
@@ -96,7 +102,6 @@ export default function(path) {
     const indexName = path.scope.generateUidIdentifier(
       indexParam ? indexParam.name : "i"
     );
-    const operator = stepAttr.value.operator !== "-" ? "<=" : ">=";
 
     if (indexParam) {
       block.body.unshift(
@@ -110,7 +115,7 @@ export default function(path) {
       t.variableDeclaration("let", [
         t.variableDeclarator(indexName, fromAttr.value)
       ]),
-      t.binaryExpression(operator, indexName, toAttr.value),
+      t.binaryExpression("<=", indexName, toAttr.value),
       stepAttr
         ? t.assignmentExpression("+=", indexName, stepAttr.value)
         : t.updateExpression("++", indexName),
@@ -118,7 +123,7 @@ export default function(path) {
     );
   } else {
     throw namePath.buildCodeFrameError(
-      "Invalid 'for' tag, missing an 'of', 'in' or 'to' attribute."
+      "Invalid 'for' tag, missing an 'of', 'in' or 'from/to' attribute."
     );
   }
 

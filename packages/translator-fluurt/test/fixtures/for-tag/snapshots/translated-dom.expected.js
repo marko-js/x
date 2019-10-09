@@ -1,5 +1,5 @@
 export default (input => {
-  _loop(arr, (val, i) => {
+  _loopOf(arr, (val, i) => {
     _beginEl("div");
 
     _dynamicText(i);
@@ -11,7 +11,35 @@ export default (input => {
     _endEl();
   });
 
-  _loop(arr, (val, i, list) => {
+  _loopIn(obj, (key, val) => {
+    _beginEl("div");
+
+    _dynamicText(key);
+
+    _text(": ");
+
+    _dynamicText(val);
+
+    _endEl();
+  });
+
+  _loopFrom(0, 10, 2, i => {
+    _beginEl("div");
+
+    _dynamicText(i);
+
+    _endEl();
+  });
+
+  _loopFrom(10, 0, -2, i => {
+    _beginEl("div");
+
+    _dynamicText(i);
+
+    _endEl();
+  });
+
+  _loopOf(arr, (val, i, list) => {
     _beginEl("div");
 
     _dynamicText(i);
@@ -27,7 +55,7 @@ export default (input => {
     _endEl();
   }, (val, i) => _get(i));
 
-  _loop(_compute(() => [].concat(_get(input.x), _get(input.y))), (val, i) => {
+  _loopOf(_compute(() => [].concat(_get(input.x), _get(input.y))), (val, i) => {
     _beginEl("div");
 
     _dynamicText(i);
@@ -39,4 +67,4 @@ export default (input => {
     _endEl();
   }, _compute(() => memo(val => doCalc(_get(val)))));
 });
-import { dynamicText as _dynamicText, text as _text, beginEl as _beginEl, endEl as _endEl, loop as _loop, get as _get, compute as _compute } from "fluurt";
+import { dynamicText as _dynamicText, text as _text, beginEl as _beginEl, endEl as _endEl, loopOf as _loopOf, loopIn as _loopIn, loopFrom as _loopFrom, get as _get, compute as _compute } from "fluurt";

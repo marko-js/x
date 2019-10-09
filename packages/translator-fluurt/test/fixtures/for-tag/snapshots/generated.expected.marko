@@ -4,30 +4,27 @@
     ${i}: ${val}
   </div>
 </for>
-<!-- <for|key, val| in=obj>
-  <div>${key}: ${val}</div>
+<for|key, val| in=obj>
+  <div>
+    ${key}: ${val}
+  </div>
 </for>
-
 <for|i| from=0 to=10 step=2>
-  <div>${i}</div>
-</for> -->
+  <div>
+    ${i}
+  </div>
+</for>
+<for|i| from=10 to=0 step=-2>
+  <div>
+    ${i}
+  </div>
+</for>
 <!-- with keys -->
 <for|val, i, list| of=arr by=(val, i) => i>
   <div>
     ${i} of ${list.length}: ${val}
   </div>
 </for>
-<!-- <for|key, val| in=obj>
-  <div key=key>${key}: ${val}</div>
-</for>
-
-<for|i| from=0 to=10 step=2>
-  <div key=i>${i}</div>
-</for>
-
-<for|i| from=10 to=0 step=-2>
-  <div key=i>${i}</div>
-</for> -->
 <!-- Dynamic of & by attr -->
 <for|val, i| of=[].concat(input.x, input.y) by=memo(val => doCalc(val))>
   <div>
