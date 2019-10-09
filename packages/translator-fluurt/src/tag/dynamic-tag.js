@@ -41,10 +41,7 @@ export default {
     }
     const [replacement] = path.replaceWith(
       t.expressionStatement(
-        t.callExpression(
-          hub.importNamed(path, "fluurt", "dynamicTag"),
-          dynamicTagArgs
-        )
+        t.callExpression(hub.importRuntime(path, "dynamicTag"), dynamicTagArgs)
       )
     );
 

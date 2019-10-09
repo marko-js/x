@@ -11,7 +11,7 @@ export default function(path) {
       const conditionId = path.scope.generateUid("if");
       const [replacement] = path.replaceWith(
         t.expressionStatement(
-          t.callExpression(path.hub.importNamed(path, "fluurt", "conditional"), [
+          t.callExpression(path.hub.importRuntime(path, "conditional"), [
             buildCondition(path)
           ])
         )

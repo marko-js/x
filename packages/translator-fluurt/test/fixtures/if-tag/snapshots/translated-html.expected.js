@@ -1,4 +1,4 @@
-export default (input => {
+export default function _renderer(input) {
   if (a + b) {
     _write("Hello");
   }
@@ -22,5 +22,9 @@ export default (input => {
   if (input.x) {
     _write("Hi Again");
   }
-});
-import { write as _write } from "fluurt/html";
+}
+import { createRenderer as _createRenderer, register as _register, write as _write } from "fluurt/html";
+
+const _render = _createRenderer(_register("DuNpP0vj", _renderer));
+
+export { _render as render };

@@ -36,7 +36,7 @@ export default function(path) {
     }
 
     path.replaceWith(
-      t.callExpression(hub.importNamed(path, "fluurt", "loopOf"), callArgs)
+      t.callExpression(hub.importRuntime(path, "loopOf"), callArgs)
     );
 
     // TODO: technically if we detected that nothing is computed, we could
@@ -61,7 +61,7 @@ export default function(path) {
     ];
 
     path.replaceWith(
-      t.callExpression(hub.importNamed(path, "fluurt", "loopIn"), callArgs)
+      t.callExpression(hub.importRuntime(path, "loopIn"), callArgs)
     );
 
     return;
@@ -80,7 +80,7 @@ export default function(path) {
     ];
 
     path.replaceWith(
-      t.callExpression(hub.importNamed(path, "fluurt", "loopFrom"), callArgs)
+      t.callExpression(hub.importRuntime(path, "loopFrom"), callArgs)
     );
 
     return;

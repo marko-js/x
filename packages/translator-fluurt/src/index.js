@@ -24,7 +24,11 @@ export const visitor = {
   Program: {
     enter(path) {
       // Move non static content into the renderBody.
+      const { hub } = path;
+      const { options } = hub;
+      const runtime = `fluurt/${options.output === "html" ? "html" : "dom"}`;
       const renderBlock = t.blockStatement([]);
+      hub.importRuntime = (path, name) => hub.importNamed(path, runtime, name);
       path
         .get("body")
         .filter(isRenderContent)
@@ -32,11 +36,39 @@ export const visitor = {
           renderBlock.body.push(childPath.node);
           childPath.remove();
         });
+
+      const rendererIdentifier = path.scope.generateUidIdentifier("renderer");
+      const renderIdentifier = path.scope.generateUidIdentifier("render");
       path.pushContainer(
         "body",
         t.exportDefaultDeclaration(
-          t.arrowFunctionExpression([t.identifier("input")], renderBlock)
+          t.functionDeclaration(
+            rendererIdentifier,
+            [t.identifier("input")],
+            renderBlock
+          )
         )
+      );
+      path.pushContainer(
+        "body",
+        t.variableDeclaration("const", [
+          t.variableDeclarator(
+            renderIdentifier,
+            t.callExpression(hub.importNamed(path, runtime, "createRenderer"), [
+              t.callExpression(hub.importNamed(path, runtime, "register"), [
+                t.stringLiteral(hub.meta.id),
+                rendererIdentifier
+              ])
+            ])
+          )
+        ])
+      );
+
+      path.pushContainer(
+        "body",
+        t.exportNamedDeclaration(null, [
+          t.exportSpecifier(renderIdentifier, t.identifier("render"))
+        ])
       );
     },
     exit: optimize

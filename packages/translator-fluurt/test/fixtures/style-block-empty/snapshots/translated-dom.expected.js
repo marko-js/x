@@ -1,8 +1,13 @@
-export default (input => {
+export default function _renderer(input) {
   _beginEl("div");
 
   _attr("class", "test");
 
   _endEl();
-});
-import { beginEl as _beginEl, attr as _attr, endEl as _endEl } from "fluurt";
+}
+import { createRenderer as _createRenderer, register as _register, beginEl as _beginEl, endEl as _endEl } from "fluurt/dom";
+
+const _render = _createRenderer(_register("YY6LI8sx", _renderer));
+
+export { _render as render };
+import { attr as _attr } from "fluurt";

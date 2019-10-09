@@ -1,4 +1,4 @@
-export default (input => {
+export default function _renderer(input) {
   _beginEl("input");
 
   _dynamicAttrs(attrs);
@@ -62,6 +62,10 @@ export default (input => {
     a: 1,
     x: input.x
   });
-});
-import { beginEl as _beginEl, dynamicAttrs as _dynamicAttrs, endEl as _endEl, get as _get, compute as _compute, text as _text } from "fluurt";
+}
+import { createRenderer as _createRenderer, register as _register, beginEl as _beginEl, dynamicAttrs as _dynamicAttrs, endEl as _endEl, get as _get, compute as _compute, text as _text } from "fluurt/dom";
+
+const _render = _createRenderer(_register("Z9KK3eIs", _renderer));
+
+export { _render as render };
 import _test_tag from "./components/test.marko";

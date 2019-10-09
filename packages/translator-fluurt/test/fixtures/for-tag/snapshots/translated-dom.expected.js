@@ -1,4 +1,4 @@
-export default (input => {
+export default function _renderer(input) {
   _loopOf(arr, (val, i) => {
     _beginEl("div");
 
@@ -66,5 +66,9 @@ export default (input => {
 
     _endEl();
   }, _compute(() => memo(val => doCalc(_get(val)))));
-});
-import { dynamicText as _dynamicText, text as _text, beginEl as _beginEl, endEl as _endEl, loopOf as _loopOf, loopIn as _loopIn, loopFrom as _loopFrom, get as _get, compute as _compute } from "fluurt";
+}
+import { createRenderer as _createRenderer, register as _register, dynamicText as _dynamicText, text as _text, beginEl as _beginEl, endEl as _endEl, loopOf as _loopOf, loopIn as _loopIn, loopFrom as _loopFrom, get as _get, compute as _compute } from "fluurt/dom";
+
+const _render = _createRenderer(_register("iIgIrt6K", _renderer));
+
+export { _render as render };

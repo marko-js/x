@@ -15,7 +15,7 @@ export default function(path) {
   path.replaceWith(
     t.expressionStatement(
       t.callExpression(
-        hub.importNamed(path, "fluurt", computed ? "dynamicText" : "text"),
+        hub.importRuntime(path, computed ? "dynamicText" : "text"),
         [computed || value.node]
       )
     )

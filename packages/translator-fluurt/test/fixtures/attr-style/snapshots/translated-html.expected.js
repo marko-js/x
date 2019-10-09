@@ -1,4 +1,4 @@
-export default (input => {
+export default function _renderer(input) {
   _write(`<div style="color: green"></div><div${_attr("style", _styleAttr({
     color: "green"
   }))}></div><div${_attr("style", _styleAttr({
@@ -39,7 +39,11 @@ export default (input => {
       background: input.background
     }
   });
-});
-import { write as _write, attr as _attr } from "fluurt/html";
-import _styleAttr, { dynamicTag as _dynamicTag } from "fluurt";
+}
+import { createRenderer as _createRenderer, register as _register, write as _write, attr as _attr, dynamicTag as _dynamicTag } from "fluurt/html";
+
+const _render = _createRenderer(_register("GctoYUnu", _renderer));
+
+export { _render as render };
+import _styleAttr from "fluurt";
 import _customTag_tag from "./components/custom-tag.marko";

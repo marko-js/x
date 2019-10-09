@@ -1,4 +1,4 @@
-export default (input => {
+export default function _renderer(input) {
   const _ifBranch = () => {
     _text("Hello");
   };
@@ -36,5 +36,9 @@ export default (input => {
   };
 
   _conditional(_compute(() => _get(input.x) && _if4Branch));
-});
-import { text as _text, conditional as _conditional, beginEl as _beginEl, endEl as _endEl, get as _get, compute as _compute } from "fluurt";
+}
+import { createRenderer as _createRenderer, register as _register, text as _text, conditional as _conditional, beginEl as _beginEl, endEl as _endEl, get as _get, compute as _compute } from "fluurt/dom";
+
+const _render = _createRenderer(_register("DuNpP0vj", _renderer));
+
+export { _render as render };

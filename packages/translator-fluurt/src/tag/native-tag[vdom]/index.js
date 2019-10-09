@@ -32,7 +32,7 @@ export default {
 
     path.insertBefore(
       t.expressionStatement(
-        t.callExpression(hub.importNamed(path, "fluurt", "beginEl"), [name])
+        t.callExpression(hub.importRuntime(path, "beginEl"), [name])
       )
     );
 
@@ -44,7 +44,7 @@ export default {
     if (hasSpreadAttributes) {
       const [dynamicAttrsPath] = path.insertBefore(
         t.expressionStatement(
-          t.callExpression(hub.importNamed(path, "fluurt", "dynamicAttrs"), [
+          t.callExpression(hub.importRuntime(path, "dynamicAttrs"), [
             getAttrs(path, true, true)
           ])
         )
@@ -115,7 +115,7 @@ export default {
 
     path.insertBefore(
       t.expressionStatement(
-        t.callExpression(hub.importNamed(path, "fluurt", "endEl"), [])
+        t.callExpression(hub.importRuntime(path, "endEl"), [])
       )
     );
 

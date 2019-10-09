@@ -1,4 +1,4 @@
-export default (input => {
+export default function _renderer(input) {
   _customTag_tag({
     renderBody(a, b, {
       c
@@ -19,6 +19,10 @@ export default (input => {
     }
 
   });
-});
-import { dynamicText as _dynamicText, text as _text, get as _get, compute as _compute, beginEl as _beginEl, endEl as _endEl } from "fluurt";
+}
+import { createRenderer as _createRenderer, register as _register, dynamicText as _dynamicText, text as _text, get as _get, compute as _compute, beginEl as _beginEl, endEl as _endEl } from "fluurt/dom";
+
+const _render = _createRenderer(_register("-GdU8GmU", _renderer));
+
+export { _render as render };
 import _customTag_tag from "./components/custom-tag.marko";

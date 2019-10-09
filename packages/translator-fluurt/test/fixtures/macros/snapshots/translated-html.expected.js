@@ -1,4 +1,4 @@
-export default (input => {
+export default function _renderer(input) {
   function _renderTree(node) {
     _write(`Name: ${_xml(node.name)} Children: `);
 
@@ -18,6 +18,9 @@ export default (input => {
   }
 
   _dynamicTag(_renderTree, input.node);
-});
-import { write as _write, xml as _xml } from "fluurt/html";
-import { dynamicTag as _dynamicTag } from "fluurt";
+}
+import { createRenderer as _createRenderer, register as _register, write as _write, xml as _xml, dynamicTag as _dynamicTag } from "fluurt/html";
+
+const _render = _createRenderer(_register("7mQHbgfv", _renderer));
+
+export { _render as render };

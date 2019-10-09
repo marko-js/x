@@ -64,14 +64,14 @@ export default path => {
     return false;
   }
 
-  return t.callExpression(hub.importNamed(path, "fluurt", "compute"), [
+  return t.callExpression(hub.importRuntime(path, "compute"), [
     t.arrowFunctionExpression([], path.node)
   ]);
 };
 
 function wrapWithGetCall(expression) {
   expression.container[expression.key] = t.callExpression(
-    expression.hub.importNamed(expression, "fluurt", "get"),
+    expression.hub.importRuntime(expression, "get"),
     [expression.node]
   );
 }

@@ -1,4 +1,4 @@
-export default (input => {
+export default function _renderer(input) {
   _testBodyFunction_tag({
     "name": "World",
 
@@ -7,6 +7,10 @@ export default (input => {
     }
 
   });
-});
-import { write as _write } from "fluurt/html";
+}
+import { createRenderer as _createRenderer, register as _register, write as _write } from "fluurt/html";
+
+const _render = _createRenderer(_register("SWWITW9h", _renderer));
+
+export { _render as render };
 import _testBodyFunction_tag from "./components/test-body-function/index.marko";

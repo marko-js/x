@@ -7,7 +7,7 @@ export default function(path) {
 
   path.replaceWith(
     t.callExpression(
-      hub.importNamed(path, "fluurt", "text"),
+      hub.importRuntime(path, "text"),
       [withPreviousLocation(t.stringLiteral(decode(node.value)), node)]
     )
   );

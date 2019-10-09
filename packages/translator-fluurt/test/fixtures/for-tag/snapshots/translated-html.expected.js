@@ -1,4 +1,4 @@
-export default (input => {
+export default function _renderer(input) {
   let _i = 0;
 
   for (const val of arr) {
@@ -41,5 +41,9 @@ export default (input => {
 
     _write(`<div>${_xml(i)}: ${_xml(val)}</div>`);
   }
-});
-import { xml as _xml, write as _write } from "fluurt/html";
+}
+import { createRenderer as _createRenderer, register as _register, xml as _xml, write as _write } from "fluurt/html";
+
+const _render = _createRenderer(_register("iIgIrt6K", _renderer));
+
+export { _render as render };

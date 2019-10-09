@@ -1,4 +1,4 @@
-export default (input => {
+export default function _renderer(input) {
   _beginEl("div");
 
   _attr("a", 1);
@@ -18,5 +18,10 @@ export default (input => {
   _attr("h", Math.abc.ok());
 
   _endEl();
-});
-import { beginEl as _beginEl, attr as _attr, dynamicAttr as _dynamicAttr, get as _get, compute as _compute, endEl as _endEl } from "fluurt";
+}
+import { createRenderer as _createRenderer, register as _register, beginEl as _beginEl, get as _get, compute as _compute, endEl as _endEl } from "fluurt/dom";
+
+const _render = _createRenderer(_register("9f1X6CjI", _renderer));
+
+export { _render as render };
+import { attr as _attr, dynamicAttr as _dynamicAttr } from "fluurt";

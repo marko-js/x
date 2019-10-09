@@ -1,4 +1,4 @@
-export default (input => {
+export default function _renderer(input) {
   _beginEl("div");
 
   _beginEl("div");
@@ -56,5 +56,9 @@ export default (input => {
   _beginEl("div");
 
   _endEl();
-});
-import { text as _text, beginEl as _beginEl, endEl as _endEl, dynamicText as _dynamicText } from "fluurt";
+}
+import { createRenderer as _createRenderer, register as _register, text as _text, beginEl as _beginEl, endEl as _endEl, dynamicText as _dynamicText } from "fluurt/dom";
+
+const _render = _createRenderer(_register("ic4rRpG7", _renderer));
+
+export { _render as render };

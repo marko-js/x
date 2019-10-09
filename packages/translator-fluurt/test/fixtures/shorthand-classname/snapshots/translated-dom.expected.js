@@ -1,4 +1,4 @@
-export default (input => {
+export default function _renderer(input) {
   _beginEl("div");
 
   _attr("class", "shorthand");
@@ -58,5 +58,10 @@ export default (input => {
   _attr("class", _classAttr(["partially-" + dynamic1, "shorthand2", dynamic2]));
 
   _endEl();
-});
-import { beginEl as _beginEl, attr as _attr, endEl as _endEl, classAttr as _classAttr } from "fluurt";
+}
+import { createRenderer as _createRenderer, register as _register, beginEl as _beginEl, endEl as _endEl, classAttr as _classAttr } from "fluurt/dom";
+
+const _render = _createRenderer(_register("scCJKZPx", _renderer));
+
+export { _render as render };
+import { attr as _attr } from "fluurt";

@@ -1,4 +1,4 @@
-export default (input => {
+export default function _renderer(input) {
   _text("Hello ");
 
   _dynamicText(input.name);
@@ -28,5 +28,9 @@ export default (input => {
   };
 
   _conditional(_compute(() => _get(_get(input.colors).length) ? _ifBranch : _ifBranch2));
-});
-import { text as _text, dynamicText as _dynamicText, beginEl as _beginEl, endEl as _endEl, loopOf as _loopOf, conditional as _conditional, get as _get, compute as _compute } from "fluurt";
+}
+import { createRenderer as _createRenderer, register as _register, text as _text, dynamicText as _dynamicText, beginEl as _beginEl, endEl as _endEl, loopOf as _loopOf, conditional as _conditional, get as _get, compute as _compute } from "fluurt/dom";
+
+const _render = _createRenderer(_register("YyUU9lze", _renderer));
+
+export { _render as render };
