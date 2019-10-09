@@ -2,7 +2,7 @@ import { getFullyResolvedTagName } from "@marko/babel-utils";
 import dynamicTag from "./dynamic-tag";
 import attributeTag from "./attribute-tag";
 import nativeTagHTML from "./native-tag[html]";
-import nativeTagVDOM from "./native-tag[vdom]";
+import nativeTagVDOM from "./native-tag[dom]";
 import customTag from "./custom-tag";
 import macroTag from "./macro-tag";
 

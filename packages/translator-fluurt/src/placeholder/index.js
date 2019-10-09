@@ -1,5 +1,5 @@
 import translateHTML from "./index[html]";
-import translateVDOM from "./index[vdom]";
+import translateDOM from "./index[dom]";
 
 export default function(path) {
   const {
@@ -8,6 +8,6 @@ export default function(path) {
   if (options.output === "html") {
     translateHTML(path);
   } else {
-    translateVDOM(path);
+    translateDOM(path);
   }
 }
