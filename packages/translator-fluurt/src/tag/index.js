@@ -41,7 +41,9 @@ export default {
       if (path.node !== node) {
         return;
       }
-    } else if (tagDef.html) {
+    }
+
+    if (tagDef.html) {
       if (options.output === "html") {
         enter(nativeTagHTML, path);
       } else {
@@ -79,7 +81,9 @@ export default {
       if (path.node !== node) {
         return;
       }
-    } else if (tagDef.html) {
+    }
+
+    if (tagDef.html) {
       if (options.output === "html") {
         exit(nativeTagHTML, path);
       } else {

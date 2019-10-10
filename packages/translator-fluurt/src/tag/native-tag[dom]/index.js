@@ -30,9 +30,11 @@ export default {
         (it.kind === "const" || it.kind === "let")
     );
 
+    const hasNS = name.value === "svg" || name.value === "math";
+
     path.insertBefore(
       t.expressionStatement(
-        t.callExpression(hub.importRuntime(path, "beginEl"), [name])
+        t.callExpression(hub.importRuntime(path, hasNS ? "beginElNS" : "beginEl"), [name])
       )
     );
 
@@ -118,6 +120,14 @@ export default {
         t.callExpression(hub.importRuntime(path, "endEl"), [])
       )
     );
+
+    if (hasNS) {
+      path.insertBefore(
+        t.expressionStatement(
+          t.callExpression(hub.importRuntime(path, "endNS"), [])
+        )
+      );
+    }
 
     path.remove();
   }
