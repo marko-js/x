@@ -3,7 +3,7 @@ import { escapeXmlAttr } from "marko/src/runtime/html/escape";
 import { getTagDef } from "@marko/babel-utils";
 
 function getPropertyKey(name, noCamel, tagDef) {
-  const attribute = tagDef.getAttribute(name);
+  const attribute = tagDef ? tagDef.getAttribute(name) : {};
   let currentKey = name;
   if (attribute.targetProperty && !attribute.dynamicAttribute) {
     currentKey = attribute.targetProperty;
@@ -59,17 +59,18 @@ export function getAttrs(path, noCamel, skipRenderBody) {
   }
 
   // Default parameters
-  tagDef.forEachAttribute(attr => {
-    const { name, defaultValue } = attr;
-    if (!attr.dynamicAttribute && !foundProperties[name] && defaultValue) {
-      properties.push(
-        t.objectProperty(
-          t.stringLiteral(name),
-          t.stringLiteral(escapeXmlAttr(defaultValue))
-        )
-      );
-    }
-  });
+  tagDef &&
+    tagDef.forEachAttribute(attr => {
+      const { name, defaultValue } = attr;
+      if (!attr.dynamicAttribute && !foundProperties[name] && defaultValue) {
+        properties.push(
+          t.objectProperty(
+            t.stringLiteral(name),
+            t.stringLiteral(escapeXmlAttr(defaultValue))
+          )
+        );
+      }
+    });
   return t.objectExpression(properties);
 }
 

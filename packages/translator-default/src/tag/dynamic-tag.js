@@ -7,9 +7,15 @@ export default function(path) {
   const { name: tagNameExpression, key, arguments: args } = node;
 
   const foundAttrs = getAttrs(path, true);
-  const renderBodyProp = foundAttrs.properties.find(
+  const renderBodyIndex = foundAttrs.properties.findIndex(
     prop => prop.key && prop.key.value === "renderBody"
   );
+  let renderBodyProp;
+  if (renderBodyIndex > -1) {
+    renderBodyProp = foundAttrs.properties[renderBodyIndex];
+    foundAttrs.properties.splice(renderBodyIndex, 1);
+  }
+
   const dynamicTagRenderCall = t.callExpression(
     hub.importNamed(
       path,
