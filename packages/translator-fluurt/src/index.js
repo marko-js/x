@@ -28,12 +28,7 @@ export const visitor = {
       const { options } = hub;
       const runtime = `fluurt/${options.output === "html" ? "html" : "dom"}`;
       const renderBlock = t.blockStatement([]);
-      const importedRuntimeSpecifiers = {};
-      hub.hasImported = name => importedRuntimeSpecifiers[name] || false;
-      hub.importRuntime = (path, name) => {
-        importedRuntimeSpecifiers[name] = true;
-        return hub.importNamed(path, runtime, name);
-      };
+      hub.importRuntime = (path, name) => hub.importNamed(path, runtime, name);
 
       path
         .get("body")

@@ -24,7 +24,7 @@ export default function(path) {
     const { confident, computed } = path.get("value").evaluate();
 
     if (confident) {
-      const result = ESCAPE_FNS[escapeType](computed);
+      const result = (ESCAPE_FNS[escapeType] || ESCAPE_FNS.html)(computed);
       if (result === "") {
         path.remove();
         return;

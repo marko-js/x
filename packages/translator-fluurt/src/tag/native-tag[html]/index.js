@@ -23,11 +23,6 @@ export default {
       name: { value: tagName },
       body: { body }
     } = node;
-    const needsBlock = body.some(
-      it =>
-        t.isVariableDeclaration(it) &&
-        (it.kind === "const" || it.kind === "let")
-    );
 
     const startTag = writer`<${tagName}${translateAttributes(
       path,
@@ -40,10 +35,18 @@ export default {
 
     const replacements = [startTag];
 
-    if (needsBlock) {
-      replacements.push(...body);
-    } else {
-      replacements.push(t.blockStatement(body));
+    if (body && body.length) {
+      const needsBlock = body.some(
+        it =>
+          t.isVariableDeclaration(it) &&
+          (it.kind === "const" || it.kind === "let")
+      );
+
+      if (needsBlock) {
+        replacements.push(t.blockStatement(body));
+      } else {
+        replacements.push(...body);
+      }
     }
 
     replacements.push(writer`</${tagName}>`);

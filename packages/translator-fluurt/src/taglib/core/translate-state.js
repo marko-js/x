@@ -27,7 +27,7 @@ export function enter(path) {
     id = stateValue.node;
   }
 
-  path.insertBefore(path.node.body.body);
+  path.insertAfter(path.node.body.body);
 
   if (hub.options.output === "html") {
     path

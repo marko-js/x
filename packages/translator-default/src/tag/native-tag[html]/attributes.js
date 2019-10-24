@@ -84,7 +84,9 @@ export default function(path, attrs) {
           ),
           [attrsObject]
       );
-  } else {
+  } else if (expressions.length) {
     return normalizeTemplateString(quasis, ...expressions);
+  } else {
+    return t.stringLiteral(quasis.join(""));
   }
 }

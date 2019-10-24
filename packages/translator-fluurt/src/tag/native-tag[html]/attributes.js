@@ -76,7 +76,9 @@ export default function(path, attrs) {
           ),
           [attrsObject]
       );
+  } else if (expressions.length) {
+    return normalizeTemplateString(quasis, ...expressions)
   } else {
-    return normalizeTemplateString(quasis, ...expressions);
+    return t.stringLiteral(quasis.join(""));
   }
 }
