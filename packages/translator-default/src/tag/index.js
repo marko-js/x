@@ -81,11 +81,7 @@ export default {
       return;
     }
 
-    try {
-      customTag(path, tagDef);
-    } catch (e) {
-      dynamicTag(path);
-    }
+    customTag(path, tagDef);
 
     function assertNoAttributeTags() {
       const exampleAttributeTag = path.get("exampleAttributeTag");
