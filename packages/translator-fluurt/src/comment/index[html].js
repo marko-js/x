@@ -1,6 +1,6 @@
 import { types as t } from "@marko/babel-types";
 import write from "../util/html-write";
-const ieConditionalCommentRegExp = /^\[if [^]*?<!\[endif\]$/;
+const ieConditionalCommentRegExp = /^\[if |<!\[endif\]$/;
 
 export default function(path) {
   const { node } = path;

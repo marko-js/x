@@ -29,6 +29,10 @@
       "ignoreAttributes": true
     }
   },
+  "<state>": {
+    "code-generator": "./translate-state.js",
+    "parse-options": {}
+  },
   "<style>": {
     "node-factory": "./parse-style.js",
     "code-generator": "./translate-style.js",

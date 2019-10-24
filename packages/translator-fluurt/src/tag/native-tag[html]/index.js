@@ -16,7 +16,7 @@ export default {
     assertNoArgs(path);
     assertNoParams(path);
     assertNoAttributeTags(path);
-    
+
     const writer = write(path);
     const { node } = path;
     const {
@@ -29,16 +29,25 @@ export default {
         (it.kind === "const" || it.kind === "let")
     );
 
-    const startTag = writer`<${tagName}${translateAttributes(path, path.get("attributes"))}>`
+    const startTag = writer`<${tagName}${translateAttributes(
+      path,
+      path.get("attributes")
+    )}>`;
 
     if (SELF_CLOSING.indexOf(tagName) !== -1) {
       return path.replaceWith(startTag);
     }
 
-    path.replaceWithMultiple([
-      startTag,
-      ...(needsBlock ? t.blockStatement(body) : body),
-      writer`</${tagName}>`
-    ]);
+    const replacements = [startTag];
+
+    if (needsBlock) {
+      replacements.push(...body);
+    } else {
+      replacements.push(t.blockStatement(body));
+    }
+
+    replacements.push(writer`</${tagName}>`);
+
+    path.replaceWithMultiple(replacements);
   }
 };
