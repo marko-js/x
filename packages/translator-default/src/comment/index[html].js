@@ -1,7 +1,7 @@
 import { types as t } from "@marko/babel-types";
 import withPreviousLocation from "../util/with-previous-location";
 import write from "../util/html-out-write";
-const ieConditionalCommentRegExp = /^\[if [^]*?<!\[endif\]$/;
+const ieConditionalCommentRegExp = /^\[if |<!\[endif\]$/;
 
 export default function(path) {
   const { node } = path;

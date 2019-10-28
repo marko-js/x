@@ -1,0 +1,11 @@
+<state|x = 1, setX|>
+  <div>
+    <state|y = 2, setY|>
+      ${x + y}
+      <button onClick=() => {
+        setX(x + 1);
+        setY(y + 1);
+      }/>
+    </state>
+  </div>
+</state>

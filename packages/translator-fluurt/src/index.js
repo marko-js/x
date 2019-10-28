@@ -29,6 +29,7 @@ export const visitor = {
       const runtime = `fluurt/${options.output === "html" ? "html" : "dom"}`;
       const renderBlock = t.blockStatement([]);
       hub.importRuntime = (path, name) => hub.importNamed(path, runtime, name);
+
       path
         .get("body")
         .filter(isRenderContent)

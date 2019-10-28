@@ -19,6 +19,7 @@
     "chai": "^4.2.0",
     "codecov": "^3.5.0",
     "cross-env": "^6.0.0",
+    "dot-json": "^1.1.0",
     "eslint": "^6.4.0",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-prettier": "^3.1.1",
@@ -41,7 +42,10 @@
     "mocha": "mocha -r @babel/register packages/*/test/*.test.js",
     "mocha:watch": "npm run mocha -- --recursive --watch",
     "postinstall": "lerna bootstrap --hoist --no-ci",
-    "publish": "npm run build && lerna publish",
+    "set-entry": "lerna exec -- dot-json package.json main $\\(dot-json package.json $ENTRY\\)",
+    "prerelease": "ENTRY=main:npm npm run set-entry",
+    "postrelease": "ENTRY=main:dev npm run set-entry",
+    "release": "npm run build && lerna publish",
     "report": "open ./coverage/lcov-report/index.html",
     "test": "cross-env NODE_ENV=test nyc npm run mocha"
   }

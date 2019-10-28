@@ -16,29 +16,41 @@ export default {
     assertNoArgs(path);
     assertNoParams(path);
     assertNoAttributeTags(path);
-    
+
     const writer = write(path);
     const { node } = path;
     const {
       name: { value: tagName },
       body: { body }
     } = node;
-    const needsBlock = body.some(
-      it =>
-        t.isVariableDeclaration(it) &&
-        (it.kind === "const" || it.kind === "let")
-    );
 
-    const startTag = writer`<${tagName}${translateAttributes(path, path.get("attributes"))}>`
+    const startTag = writer`<${tagName}${translateAttributes(
+      path,
+      path.get("attributes")
+    )}>`;
 
     if (SELF_CLOSING.indexOf(tagName) !== -1) {
       return path.replaceWith(startTag);
     }
 
-    path.replaceWithMultiple([
-      startTag,
-      ...(needsBlock ? t.blockStatement(body) : body),
-      writer`</${tagName}>`
-    ]);
+    const replacements = [startTag];
+
+    if (body && body.length) {
+      const needsBlock = body.some(
+        it =>
+          t.isVariableDeclaration(it) &&
+          (it.kind === "const" || it.kind === "let")
+      );
+
+      if (needsBlock) {
+        replacements.push(t.blockStatement(body));
+      } else {
+        replacements.push(...body);
+      }
+    }
+
+    replacements.push(writer`</${tagName}>`);
+
+    path.replaceWithMultiple(replacements);
   }
 };
