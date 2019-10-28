@@ -3,7 +3,7 @@ import { escapeXmlAttr } from "marko/src/runtime/html/escape";
 import { getTagDef } from "@marko/babel-utils";
 
 function getPropertyKey(name, noCamel, tagDef) {
-  const attribute = tagDef ? tagDef.getAttribute(name) : {};
+  const attribute = (tagDef && tagDef.getAttribute(name)) || {};
   let currentKey = name;
   if (attribute.targetProperty && !attribute.dynamicAttribute) {
     currentKey = attribute.targetProperty;
