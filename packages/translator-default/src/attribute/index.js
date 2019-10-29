@@ -28,7 +28,8 @@ export default function(attr) {
 
   if (eventType) {
     if (!args || !args.length) {
-      throw attr.buildCodeFrameError("Event handler is missing arguments.");
+      attr.hub.buildWarning(attr.node, "Event handler is missing arguments.");
+      return;
     }
 
     if (!value.isBooleanLiteral(true)) {
