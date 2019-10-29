@@ -32,14 +32,7 @@ export class Hub {
   }
 
   buildWarning(node, msg) {
-    return codeFrameWarning(
-      this.filename,
-      this._code,
-      msg,
-      node,
-      node.start,
-      node.end
-    );
+    return codeFrameWarning(this.filename, this._code, msg, node);
   }
 
   getClientPath(file) {
