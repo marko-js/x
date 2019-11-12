@@ -4,6 +4,7 @@ import { getClientPath } from "lasso-modules-client/transport";
 import { parse, parseExpression } from "@babel/parser";
 import createFile from "./util/create-file";
 import codeFrameError from "./util/code-frame-error";
+import codeFrameWarning from "./util/code-frame-warning";
 import { getLoc, getLocRange } from "./util/get-loc";
 import checksum from "./util/checksum";
 export class Hub {
@@ -28,6 +29,10 @@ export class Hub {
 
   buildError(node, msg) {
     return codeFrameError(this.filename, this._code, msg, node.start, node.end);
+  }
+
+  buildWarning(node, msg) {
+    return codeFrameWarning(this.filename, this._code, msg, node);
   }
 
   getClientPath(file) {
