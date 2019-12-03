@@ -37,7 +37,7 @@ export default (api, options) => {
 
       // TODO: this package should be split into 4:
       // 1. babel-syntax-marko (removes the need for the _parseOnly option)
-      // 2. babel-plugin-transform-marko (removes the need for the _migrateOnly option)
+      // 2. babel-plugin-migrate-marko (removes the need for the _migrateOnly option)
       // 3. babel-plugin-transform-marko (only runs transformers without converting Marko nodes to js)
       // 4. babel-plugin-translate-marko (runs final translations)
       if (!options._parseOnly) {
@@ -67,7 +67,7 @@ export default (api, options) => {
         }
       }
 
-      return hub.file;
+      return Object.assign({}, hub.file);
     },
     post(file) {
       // Attach marko metadata to babel metadata.
