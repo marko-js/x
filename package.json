@@ -32,7 +32,7 @@
     "prettier": "^1.18.2"
   },
   "scripts": {
-    "build": "lerna exec --parallel -- babel ./src --out-dir ./dist --delete-dir-on-start --copy-files --config-file ../../babel.config.js --source-maps",
+    "build": "lerna exec --parallel -- babel ./src --out-dir ./dist --delete-dir-on-start --copy-files --config-file ../../babel.config.js --source-maps-inline",
     "build:watch": "npm run build -- --watch",
     "ci:codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "ci:test": "cross-env NODE_ENV=test nyc --reporter=text npm run mocha",
@@ -41,6 +41,7 @@
     "lint": "eslint -f visualstudio packages/",
     "mocha": "mocha -r @babel/register packages/*/test/*.test.js",
     "mocha:watch": "npm run mocha -- --recursive --watch",
+    "marko-test": "NEW_MARKO_COMPILER=1 npx mocha -r @babel/register packages/marko/test/**/*.test.js",
     "postinstall": "lerna bootstrap --hoist --no-ci",
     "set-entry": "lerna exec -- dot-json package.json main $\\(dot-json package.json $ENTRY\\)",
     "prerelease": "ENTRY=main:npm npm run set-entry",
