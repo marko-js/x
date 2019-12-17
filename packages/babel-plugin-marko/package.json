@@ -21,7 +21,7 @@
     "htmljs-parser": "^2.7.0",
     "jsesc": "^2.5.2",
     "lasso-modules-client": "^2.0.5",
-    "marko": "4.18.14",
+    "marko": "^4.18.13",
     "resolve-from": "^5.0.0",
     "self-closing-tags": "^1.0.1",
     "strip-ansi": "^5.2.0"
