@@ -2,9 +2,9 @@ import path from "path";
 import { types as t } from "@marko/babel-types";
 import { getClientPath } from "lasso-modules-client/transport";
 import { parse, parseExpression } from "@babel/parser";
-import { buildLookup } from "./taglib";
 import createFile from "./util/create-file";
 import codeFrameError from "./util/code-frame-error";
+import codeFrameWarning from "./util/code-frame-warning";
 import { getLoc, getLocRange } from "./util/get-loc";
 import checksum from "./util/checksum";
 export class Hub {
@@ -13,7 +13,7 @@ export class Hub {
     this.options = options;
     this.filename = filename;
     this.file = createFile(filename, code);
-    this.lookup = buildLookup(path.dirname(filename));
+    this.lookup = this.options.lookup;
     this.macros = Object.create(null);
     this.meta = this.file.markoMeta = {
       id: checksum(this.getClientPath(this.filename)),
@@ -29,6 +29,10 @@ export class Hub {
 
   buildError(node, msg) {
     return codeFrameError(this.filename, this._code, msg, node.start, node.end);
+  }
+
+  buildWarning(node, msg) {
+    return codeFrameWarning(this.filename, this._code, msg, node);
   }
 
   getClientPath(file) {

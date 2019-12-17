@@ -1,0 +1,33 @@
+{
+  "name": "@marko/translator-fluurt",
+  "private": true,
+  "description": "Fluurt babel translator for Marko.",
+  "version": "1.0.0",
+  "author": "Dylan Piercey <dpiercey@ebay.com>",
+  "bugs": "https://github.com/marko-js/x/issues/new?template=Bug_report.md",
+  "dependencies": {
+    "@marko/babel-types": "^1.0.0",
+    "@marko/babel-utils": "^1.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/marko-js/x/blob/master/packages/babel-plugin-marko/README.md",
+  "keywords": [
+    "htmljs",
+    "parser",
+    "babel",
+    "plugin",
+    "parse",
+    "marko",
+    "fluurt"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "main:dev": "src/index.js",
+  "main:npm": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marko-js/x/tree/master/packages/babel-plugin-marko"
+  }
+}

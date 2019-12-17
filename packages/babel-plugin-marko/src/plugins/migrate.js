@@ -41,7 +41,7 @@ function getMigratorsForTag(path) {
 
     migrators = MIGRATOR_CACHE[tagName] = [
       ...(tagDef ? tagDef.migratorPaths : []),
-      ...lookup.getTag("*").migratorPaths
+      ...(lookup.getTag("*") || { migratorPaths: [] }).migratorPaths
     ].map(path => require(path));
   }
 

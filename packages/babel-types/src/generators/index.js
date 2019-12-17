@@ -8,7 +8,7 @@ const UNENCLOSED_WHITESPACE_TYPES = [
   "ConditionalExpression",
   "BinaryExpression",
   "NewExpression",
-  "FunctionDeclaration",
+  "Function",
   "AssignmentExpression"
 ];
 

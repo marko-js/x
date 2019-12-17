@@ -9,6 +9,7 @@ export {
   assertAllowedAttributes,
   assertNoArgs,
   assertNoAttributes,
-  assertNoParams
+  assertNoParams,
+  assertNoAttributeTags
 } from "./assert";
 export { normalizeTemplateString } from "./template-string";

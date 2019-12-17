@@ -6,8 +6,10 @@
   "author": "Dylan Piercey <dpiercey@ebay.com>",
   "bugs": "https://github.com/marko-js/x/issues/new?template=Bug_report.md",
   "dependencies": {
+    "@babel/runtime": "^7.6.2",
     "@marko/babel-types": "^1.0.0",
-    "@marko/babel-utils": "^1.0.0"
+    "@marko/babel-utils": "^1.0.0",
+    "self-closing-tags": "^1.0.1"
   },
   "files": [
     "dist"
@@ -22,7 +24,9 @@
     "marko"
   ],
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "src/index.js",
+  "main:dev": "src/index.js",
+  "main:npm": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/marko-js/x/tree/master/packages/babel-plugin-marko"

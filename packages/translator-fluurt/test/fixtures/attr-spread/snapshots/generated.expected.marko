@@ -1,0 +1,24 @@
+<input ...attrs/>
+<input ...input/>
+<input ...input.x/>
+<input ...input.x ...input.y/>
+<input ...{
+  a: 1
+}/>
+<input ...{
+  a: 1,
+  x: input.x
+}/>
+--  
+<!-- TODO: this one is wrong, maybe should just be unwrapped -->
+<test ...attrs/>
+<test ...input/>
+<test ...input.x/>
+<test ...input.x ...input.y/>
+<test ...{
+  a: 1
+}/>
+<test ...{
+  a: 1,
+  x: input.x
+}/>

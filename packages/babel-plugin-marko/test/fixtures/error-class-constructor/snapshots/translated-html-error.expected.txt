@@ -1,7 +1,0 @@
-packages/babel-plugin-marko/test/fixtures/error-class-constructor/template.marko(2,3): The constructor method should not be used for a component, use onCreate instead.
-  1 | class {
-> 2 |   constructor() {
-    |   ^^^^^^^^^^^
-  3 |     
-  4 |   }
-  5 | }

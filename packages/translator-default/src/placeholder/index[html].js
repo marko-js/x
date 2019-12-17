@@ -34,6 +34,11 @@ export default function(path) {
       ),
       [value]
     );
+  } else {
+    value = t.callExpression(
+      hub.importNamed(path, "marko/src/runtime/html/helpers", "s"),
+      [value]
+    );
   }
 
   path.replaceWith(withPreviousLocation(write`${value}`, node));

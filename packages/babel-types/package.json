@@ -11,6 +11,7 @@
     "@babel/types": "^7"
   },
   "dependencies": {
+    "@babel/runtime": "^7.6.2",
     "self-closing-tags": "^1.0.1"
   },
   "devDependencies": {
@@ -31,7 +32,9 @@
     "marko"
   ],
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "src/index.js",
+  "main:dev": "src/index.js",
+  "main:npm": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/marko-js/x/tree/master/packages/babel-plugin-marko"

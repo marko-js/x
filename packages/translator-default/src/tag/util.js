@@ -1,4 +1,15 @@
 import { types as t } from "@marko/babel-types";
+import { escapeXmlAttr } from "marko/src/runtime/html/escape";
+import { getTagDef } from "@marko/babel-utils";
+
+function getPropertyKey(name, noCamel, tagDef) {
+  const attribute = (tagDef && tagDef.getAttribute(name)) || {};
+  let currentKey = name;
+  if (attribute.targetProperty && !attribute.dynamicAttribute) {
+    currentKey = attribute.targetProperty;
+  }
+  return noCamel ? currentKey : camelCase(currentKey);
+}
 
 export function getAttrs(path, noCamel, skipRenderBody) {
   const { node } = path;
@@ -17,12 +28,15 @@ export function getAttrs(path, noCamel, skipRenderBody) {
   }
 
   const properties = new Array(attrsLen);
+  const tagDef = getTagDef(path);
+  const foundProperties = {};
 
   for (let i = 0; i < attrsLen; i++) {
     const { name, value } = attributes[i];
+    foundProperties[name] = true;
     properties[i] = name
       ? t.objectProperty(
-          t.stringLiteral(noCamel ? name : camelCase(name)),
+          t.stringLiteral(getPropertyKey(name, noCamel, tagDef)),
           value
         )
       : t.spreadElement(value);
@@ -44,6 +58,19 @@ export function getAttrs(path, noCamel, skipRenderBody) {
     }
   }
 
+  // Default parameters
+  tagDef &&
+    tagDef.forEachAttribute(attr => {
+      const { name, defaultValue } = attr;
+      if (!attr.dynamicAttribute && !foundProperties[name] && defaultValue) {
+        properties.push(
+          t.objectProperty(
+            t.stringLiteral(name),
+            t.stringLiteral(escapeXmlAttr(defaultValue))
+          )
+        );
+      }
+    });
   return t.objectExpression(properties);
 }
 

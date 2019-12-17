@@ -14,7 +14,7 @@ export default function(tag, attr) {
     prop = t.objectProperty(t.identifier("noupdate"), t.arrayExpression([]));
     properties.push(prop);
 
-    if (hub.options.output === "vdom" && !hasMonkeyPatch.has(hub)) {
+    if (hub.options.output === "dom" && !hasMonkeyPatch.has(hub)) {
       hasMonkeyPatch.add(hub);
       hub.importDefault(tag, "marko/src/runtime/vdom/preserve-attrs");
     }

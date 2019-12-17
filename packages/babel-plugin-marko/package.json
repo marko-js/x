@@ -16,14 +16,18 @@
     "@babel/types": "^7.6.1",
     "@babel/parser": "^7.6.0",
     "@babel/generator": "^7.6.0",
+    "complain": "^1.6.0",
     "he": "^1.2.0",
     "htmljs-parser": "^2.7.0",
     "jsesc": "^2.5.2",
     "lasso-modules-client": "^2.0.5",
-    "marko": "4.18.14",
+    "marko": "^4.18.13",
     "resolve-from": "^5.0.0",
     "self-closing-tags": "^1.0.1",
     "strip-ansi": "^5.2.0"
+  },
+  "devDependencies": {
+    "@marko/translator-fluurt": "^1.0.0"
   },
   "files": [
     "dist"
@@ -38,7 +42,9 @@
     "marko"
   ],
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "src/index.js",
+  "main:dev": "src/index.js",
+  "main:npm": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/marko-js/x/tree/master/packages/babel-plugin-marko"
