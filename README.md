@@ -37,6 +37,46 @@ You probably don't want to touch this code. But in case you do...
 - `format` Formats the files in the repo _(runs on precommit)_
 - `lint` Lints the files in the repo _(runs on precommit)_
 
+## Setup
+
+When cloning the repo run:
+
+```
+git clone https://github.com/marko-js/x --recurse-submodules
+```
+
+OR if already cloned to get the marko submodule run
+
+```
+git submodule update --init
+```
+
+## Running marko tests
+
+To run the marko tests using the new compiler
+
+```
+npm run build
+```
+
+Then to execute marko tests run
+
+```
+npm run marko-test
+```
+
+OR to run specific tests use:
+
+```
+npm run marko-test -- --grep static
+```
+
+To debug, you can use:
+
+```
+npm run marko-test -- --inspect-brk --grep static
+```
+
 ## Code of Conduct
 
 This project adheres to the [eBay Code of Conduct](./.github/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
