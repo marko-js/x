@@ -42,7 +42,7 @@ You probably don't want to touch this code. But in case you do...
 When cloning the repo run:
 
 ```
-git clone https://github.com/marko-js/x --recurse-submodules
+git clone git@github.com:marko-js/x.git --recurse-submodules
 ```
 
 OR if already cloned to get the marko submodule run
