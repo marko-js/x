@@ -2,6 +2,7 @@ import { resolve } from "path";
 import SELF_CLOSING from "self-closing-tags";
 import { types as t } from "@marko/babel-types";
 import write from "../../util/vdom-out-write";
+import translateAttributes from "./attributes";
 import { assertNoParams, assertNoArgs } from "@marko/babel-utils";
 import * as FLAGS from "../../util/runtime-flags";
 import { getAttrs } from "../util";
@@ -38,7 +39,7 @@ export default function(path) {
   const writeArgs = [
     isSelfClosing ? "e" : "be",
     name,
-    attrsObj.properties.length ? attrsObj : t.nullLiteral(),
+    attrsObj.properties.length ? translateAttributes(path, path.get("attributes")) : t.nullLiteral(),
     key,
     t.identifier("component"),
     body.length ? t.nullLiteral() : t.numericLiteral(0)
