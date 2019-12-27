@@ -11,13 +11,8 @@
     "@babel/types": "^7"
   },
   "dependencies": {
-    "@babel/runtime": "^7.6.2",
+    "@babel/runtime": "^7.7.7",
     "self-closing-tags": "^1.0.1"
-  },
-  "devDependencies": {
-    "@babel/generator": "^7.6.0",
-    "@babel/traverse": "^7.6.0",
-    "@babel/types": "^7.6.1"
   },
   "files": [
     "dist"
