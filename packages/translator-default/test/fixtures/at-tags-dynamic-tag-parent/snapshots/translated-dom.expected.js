@@ -21,9 +21,6 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       "renderBody": out => {
         out.t("Footer content");
       }
-    },
-    "renderBody": out => {
-      out.t("Body content");
     }
   }), out => {
     out.t("Body content");

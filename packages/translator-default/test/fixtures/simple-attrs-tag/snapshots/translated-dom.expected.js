@@ -2,6 +2,7 @@ const _marko_template = _t(__filename);
 
 export default _marko_template;
 import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
+import "marko/src/runtime/vdom/preserve-attrs";
 import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
 import { t as _t } from "marko/src/runtime/dom";
 

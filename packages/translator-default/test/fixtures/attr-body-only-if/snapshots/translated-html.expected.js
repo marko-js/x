@@ -25,11 +25,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": _test_tag_renderBody
   }, out, _component, "1");
 
-  _marko_dynamicTag(out, test, () => ({
-    "renderBody": out => {
-      out.w("<div>Hello World</div>");
-    }
-  }), out => {
+  _marko_dynamicTag(out, test, null, out => {
     out.w("<div>Hello World</div>");
   }, null, null, _component, "4");
 }, {
