@@ -172,14 +172,14 @@ export default {
       },
       params: {
         ...functionCommon.params,
-        default: []
+        optional: true
       },
       arguments: {
         validate: chain(
           assertValueType("array"),
           assertEach(assertNodeType("Expression", "SpreadElement"))
         ),
-        default: []
+        optional: true
       },
       properties: {
         validate: arrayOfType(["ObjectProperty"]),

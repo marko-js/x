@@ -2,6 +2,8 @@ import { types as t } from "@marko/babel-types";
 import { escapeXmlAttr } from "marko/src/runtime/html/escape";
 import { getTagDef } from "@marko/babel-utils";
 
+const EMPTY_ARR = [];
+
 function getPropertyKey(name, noCamel, tagDef) {
   const attribute = (tagDef && tagDef.getAttribute(name)) || {};
   let currentKey = name;
@@ -50,7 +52,7 @@ export function getAttrs(path, noCamel, skipRenderBody) {
         t.objectProperty(
           t.stringLiteral("renderBody"),
           t.arrowFunctionExpression(
-            [t.identifier("out"), ...node.params],
+            [t.identifier("out"), ...(node.params || EMPTY_ARR)],
             t.blockStatement(body)
           )
         )

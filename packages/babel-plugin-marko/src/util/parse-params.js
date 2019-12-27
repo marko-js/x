@@ -1,7 +1,5 @@
-export default (hub, { value, pos } = {}) => {
-  if (value) {
-    return hub.parseExpression(`(${value})=>{}`, pos).params;
+export default (hub, details) => {
+  if (details) {
+    return hub.parseExpression(`(${details.value})=>{}`, details.pos).params;
   }
-
-  return [];
 };

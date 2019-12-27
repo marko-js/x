@@ -1,6 +1,7 @@
 import { types as t } from "@marko/babel-types";
 import { getAttrs, normalizePropsObject } from "./util";
 import getComputedExpression from "../util/get-computed-expression";
+const EMPTY_ARR = [];
 
 export default {
   exit(path) {
@@ -30,7 +31,7 @@ export default {
     if (body && body.length) {
       dynamicTagArgs.push(
         t.arrowFunctionExpression(
-          node.params || [],
+          node.params || EMPTY_ARR,
           body.length === 1
             ? t.isExpressionStatement(body[0])
               ? body[0].expression

@@ -26,8 +26,8 @@ export default function(attr) {
 
   let [, eventType, isDash, eventName] = EVENT_REG.exec(name) || EMPTY_ARRAY;
 
-  if (eventType) {
-    if (!args || !args.length) {
+  if (eventType && args) {
+    if (!args.length) {
       throw attr.buildCodeFrameError("Event handler is missing arguments.");
     }
 

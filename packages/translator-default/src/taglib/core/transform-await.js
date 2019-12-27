@@ -25,5 +25,5 @@ export function exit(path) {
 
   path.pushContainer("attributes", t.markoAttribute("_provider", provider));
   path.pushContainer("attributes", t.markoAttribute("_name", defaultName));
-  path.set("arguments", []);
+  path.set("arguments", undefined);
 }

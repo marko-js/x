@@ -1,6 +1,8 @@
 import { types as t } from "@marko/babel-types";
 import { assertAllowedAttributes } from "@marko/babel-utils";
 
+const EMPTY_ARR = [];
+
 export default function(path) {
   const { node } = path;
   const {
@@ -26,7 +28,7 @@ export default function(path) {
     let ofAttrValue = ofAttr.value;
     allowedAttributes.push("of");
 
-    const [valParam, keyParam, loopParam] = node.params;
+    const [valParam, keyParam, loopParam] = node.params || EMPTY_ARR;
 
     if (!valParam) {
       throw namePath.buildCodeFrameError(
@@ -70,7 +72,7 @@ export default function(path) {
   } else if (inAttr) {
     allowedAttributes.push("in");
 
-    const [keyParam, valParam] = node.params;
+    const [keyParam, valParam] = node.params || EMPTY_ARR;
 
     if (!keyParam) {
       throw namePath.buildCodeFrameError(
@@ -98,7 +100,7 @@ export default function(path) {
     allowedAttributes.push("from", "to", "step");
 
     const stepAttr = findName(attributes, "step");
-    const [indexParam] = node.params;
+    const [indexParam] = node.params || EMPTY_ARR;
     const indexName = path.scope.generateUidIdentifier(
       indexParam ? indexParam.name : "i"
     );

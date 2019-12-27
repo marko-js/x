@@ -73,7 +73,11 @@ ALIAS_TYPES.forEach(aliasName => {
 
 const originalIsReferenced = referencedValidators.default;
 referencedValidators.default = (node, parent, grandparent) => {
-  if (parent.type === "MarkoTag" && parent.params.includes(node)) {
+  if (
+    parent.type === "MarkoTag" &&
+    parent.params &&
+    parent.params.includes(node)
+  ) {
     return false;
   }
   return originalIsReferenced(node, parent, grandparent);
@@ -88,8 +92,10 @@ Scope.prototype.crawl = function() {
   if (path.isMarkoTagBody()) {
     const params = path.parentPath.get("params");
 
-    for (const param of params) {
-      this.registerBinding("param", param);
+    if (params.length) {
+      for (const param of params) {
+        this.registerBinding("param", param);
+      }
     }
   }
 };

@@ -1,5 +1,6 @@
 import { types as t } from "@marko/babel-types";
 import getComputedExpression from "../util/get-computed-expression";
+const EMPTY_ARR = [];
 
 export function getAttrs(path, noCamel, skipRenderBody) {
   const { node } = path;
@@ -37,7 +38,7 @@ export function getAttrs(path, noCamel, skipRenderBody) {
         t.objectMethod(
           "method",
           t.identifier("renderBody"),
-          node.params,
+          node.params || EMPTY_ARR,
           t.blockStatement(body)
         )
       );

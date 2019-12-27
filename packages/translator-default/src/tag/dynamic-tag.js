@@ -30,7 +30,7 @@ export default function(path) {
         ? t.arrowFunctionExpression([], foundAttrs)
         : t.nullLiteral(),
       renderBodyProp ? renderBodyProp.value : t.nullLiteral(),
-      args.length ? t.arrayExpression(args) : t.nullLiteral(),
+      args && args.length ? t.arrayExpression(args) : t.nullLiteral(),
       t.nullLiteral(), // props
       hub._componentDefIdentifier,
       key,

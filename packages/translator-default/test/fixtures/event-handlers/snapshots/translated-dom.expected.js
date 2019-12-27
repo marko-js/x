@@ -21,7 +21,9 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "onDashed-cased-Event": _component.d("Dashed-cased-Event", "handle", false)
   });
   out.ee();
-  out.be("div", null, "2", component, 0, 0, {
+  out.be("div", {
+    "onmouseout": "someStringHandler"
+  }, "2", component, 0, 0, {
     "oncamelcasedevent": _component.d("camelcasedevent", "handle", false)
   });
   out.ee();

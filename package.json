@@ -32,7 +32,7 @@
     "prettier": "^1.19.1"
   },
   "scripts": {
-    "build": "lerna exec --parallel -- babel ./src --out-dir ./dist --delete-dir-on-start --copy-files --config-file ../../babel.config.js --source-maps-inline",
+    "build": "lerna exec --parallel -- babel ./src --out-dir ./dist --delete-dir-on-start --copy-files --config-file ../../babel.config.js --source-maps=inline",
     "build:watch": "npm run build -- --watch",
     "ci:codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "ci:test": "cross-env NODE_ENV=test nyc --reporter=text npm run mocha",

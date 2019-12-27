@@ -17,7 +17,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "onclick": _component.d("click", "handleClick", [a, b, ...d], false)
   }, false)}></div><div${_marko_attr("data-marko", {
     "onDashed-cased-Event": _component.d("Dashed-cased-Event", "handle", false)
-  }, false)}></div><div${_marko_attr("data-marko", {
+  }, false)}></div><div onmouseout="someStringHandler"${_marko_attr("data-marko", {
     "oncamelcasedevent": _component.d("camelcasedevent", "handle", false)
   }, false)}></div>`);
 

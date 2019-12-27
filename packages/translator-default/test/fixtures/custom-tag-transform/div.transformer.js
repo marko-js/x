@@ -13,8 +13,12 @@ export function exit(path) {
       t.stringLiteral("span"),
       path.get("attributes").map(p => p.node),
       t.markoTagBody(path.get("body.body").map(p => p.node)),
-      path.get("params").map(p => p.node),
-      path.get("arguments").map(p => p.node)
+      toNodes(path.get("params")),
+      toNodes(path.get("arguments"))
     )
   );
+}
+
+function toNodes(nodePaths) {
+  return nodePaths.length ? nodePaths.map(p => p.node) : undefined;
 }

@@ -149,13 +149,13 @@ Object.assign(Printer.prototype, {
         this.token(tagName);
       }
 
-      if (node.arguments.length) {
+      if (node.arguments && node.arguments.length) {
         this.token("(");
         this.printList(node.arguments, node);
         this.token(")");
       }
 
-      if (node.params.length) {
+      if (node.params && node.params.length) {
         this.token("|");
         this.printList(node.params, node);
         this.token("|");
