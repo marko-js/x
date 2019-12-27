@@ -96,7 +96,7 @@ export function exit(path) {
     const indexName = path.scope.generateUidIdentifier(
       indexParam ? indexParam.name : "i"
     );
-    const operator = stepAttr.value.operator !== "-" ? "<=" : ">=";
+    const operator = stepAttr && stepAttr.value.operator !== "-" ? "<=" : ">=";
 
     if (indexParam) {
       block.body.unshift(

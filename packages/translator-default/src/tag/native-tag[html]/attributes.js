@@ -43,12 +43,13 @@ export default function(path, attrs) {
       }
 
       curString += ` ${name}`;
-      let computedValue = computed;
 
-      if (computed !== true) {
+      if (computed === true) {
+        attrsObject.properties.push(t.objectProperty(t.stringLiteral(name), t.booleanLiteral(true)));
+      } else {
         curString += `="${escapeXmlAttr(computed)}"`;
+        attrsObject.properties.push(t.objectProperty(t.stringLiteral(name), t.stringLiteral(computed + "")));
       }
-      attrsObject.properties.push(t.objectProperty(t.stringLiteral(name), t.stringLiteral(escapeXmlAttr(computed))));
     } else {
       const args = [t.stringLiteral(name), value];
       quasis.push(curString);
