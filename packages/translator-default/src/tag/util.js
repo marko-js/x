@@ -26,7 +26,7 @@ export function getAttrs(path, noCamel, skipRenderBody) {
   const hasRenderBody = !skipRenderBody && childLen;
 
   if (!attrsLen && !hasRenderBody && !attributeTags) {
-    return t.objectExpression([]);
+    return t.nullLiteral();
   }
 
   const properties = new Array(attrsLen);
@@ -73,6 +73,11 @@ export function getAttrs(path, noCamel, skipRenderBody) {
         );
       }
     });
+
+  if (properties.length === 1 && t.isSpreadElement(properties[0])) {
+    return properties[0].argument;
+  }
+
   return t.objectExpression(properties);
 }
 

@@ -166,8 +166,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.be("div", null, "29", component, null, 0);
   out.t("123 abc 123");
   out.ee();
-  out.be("span", { ...abc
-  }, "30", component, 0, 0);
+  out.be("span", abc, "30", component, 0, 0);
   out.ee();
 
   if (cond) {

@@ -58,9 +58,11 @@ export default function(path, tagDef) {
   }
 
   const foundAttrs = getAttrs(path);
-  const renderBodyProp = foundAttrs.properties.find(
-    prop => prop.key && prop.key.value === "renderBody"
-  );
+  const renderBodyProp = t.isObjectExpression(foundAttrs)
+    ? foundAttrs.properties.find(
+        prop => prop.key && prop.key.value === "renderBody"
+      )
+    : undefined;
   const customTagRenderCall = t.expressionStatement(
     t.callExpression(tagIdentifier, [
       foundAttrs,

@@ -38,7 +38,7 @@ export default function(path) {
   const writeArgs = [
     isSelfClosing ? "e" : "be",
     name,
-    attrsObj.properties.length ? attrsObj : t.nullLiteral(),
+    attrsObj,
     key,
     t.identifier("component"),
     body.length ? t.nullLiteral() : t.numericLiteral(0)
@@ -77,7 +77,7 @@ export default function(path) {
   }
 
   if (
-    attrsObj.properties.length &&
+    t.isObjectExpression(attrsObj) &&
     attrsObj.properties.every(n => isPropertyName(n, SIMPLE_ATTRS)) &&
     !tagProperties.some(n => isPropertyName(n, ["noupdate"]))
   ) {

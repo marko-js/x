@@ -105,8 +105,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.w("c");
   }
 
-  out.w(`</div><div b="1"></div><div>123 abc 123</div><span${_marko_attrs({ ...abc
-  })}></span>`);
+  out.w(`</div><div b="1"></div><div>123 abc 123</div><span${_marko_attrs(abc)}></span>`);
 
   if (cond) {
     out.w(`Hello ${_marko_escapeXml(planet)}`);

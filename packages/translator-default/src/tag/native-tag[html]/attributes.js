@@ -83,7 +83,7 @@ export default function(path, attrs) {
             "as",
             "marko_attrs"
           ),
-          [attrsObject]
+          [attrsObject.properties.length === 1 ? attrsObject.properties[0].argument : attrsObject]
       );
   } else if (expressions.length) {
     return normalizeTemplateString(quasis, ...expressions);

@@ -24,7 +24,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, _component, "1");
+          _hello_tag(null, out, _component, "1");
 
           out.be("div", null, "2", component, 0, 0);
           out.ee();
@@ -47,7 +47,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
             "cid": _noUpdateKey3,
             "if": (a, b),
             "renderBody": out => {
-              _hello_tag({}, out, _component, "4");
+              _hello_tag(null, out, _component, "4");
             }
           }, out, _component, `#${_noUpdateKey3}`);
 
@@ -66,7 +66,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag({}, out, _component, "7");
+          _hello_tag(null, out, _component, "7");
 
           out.be("div", null, "8", component, 0, 0);
           out.ee();
