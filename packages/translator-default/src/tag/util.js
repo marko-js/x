@@ -1,5 +1,9 @@
 import { types as t } from "@marko/babel-types";
-import { escapeXmlAttr } from "marko/src/runtime/html/escape";
+import {
+  xa as escapeXmlAttr,
+  cl as classToString
+} from "marko/src/runtime/html/helpers";
+import styleToString from "marko/src/runtime/vdom/helper-styleAttr";
 import { getTagDef } from "@marko/babel-utils";
 
 const EMPTY_ARR = [];
@@ -107,6 +111,34 @@ export function buildEventHandlerArray(path) {
       )
     )
   ];
+}
+
+export function evaluateAttr(attr) {
+  const name = attr.get("name").node;
+  const value = attr.get("value");
+  let confident = false;
+  let computed = undefined;
+
+  if (name !== "data-marko") {
+    if (value.isRegExpLiteral()) {
+      confident = true;
+      computed = value.get("pattern").node;
+    } else {
+      const evaluated = value.evaluate();
+      ({ confident, value: computed } = evaluated);
+
+      if (computed === true) {
+        computed = "";
+      } else if (computed != null && computed !== false) {
+        computed = computed + "";
+      }
+    }
+  }
+
+  return {
+    confident,
+    computed
+  };
 }
 
 function camelCase(string) {

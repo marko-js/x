@@ -4,7 +4,7 @@ import { types as t } from "@marko/babel-types";
 import write from "../../util/vdom-out-write";
 import { assertNoParams, assertNoArgs } from "@marko/babel-utils";
 import * as FLAGS from "../../util/runtime-flags";
-import { getAttrs } from "../util";
+import { getAttrs, evaluateAttr } from "../util";
 
 const EMPTY_OBJECT = {};
 const SIMPLE_ATTRS = ["id", "class", "style"];
@@ -20,15 +20,28 @@ const MAYBE_SVG = {
  */
 export default function(path) {
   const { hub, node, parent } = path;
-  const { name, key, body: { body }, properties, handlers, tagDef } = node;
+  const {
+    name,
+    key,
+    body: { body },
+    properties,
+    handlers,
+    tagDef
+  } = node;
   const { value: tagName } = name;
 
   path.get("attributes").forEach(attr => {
-    // Remove falsey attributes.
-    const { confident, value: computed } = attr.get("value").evaluate();
+    const { confident, computed } = evaluateAttr(attr);
 
-    if (confident && (computed == null || computed === false)) {
-      attr.remove();
+    if (confident) {
+      if (computed == null || computed === false) {
+        attr.remove();
+      } else {
+        attr.set(
+          "value",
+          t.stringLiteral(computed)
+        );
+      }
     }
   });
 

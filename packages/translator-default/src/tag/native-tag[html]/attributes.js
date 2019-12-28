@@ -1,8 +1,7 @@
 import { types as t } from "@marko/babel-types";
 import { normalizeTemplateString } from "@marko/babel-utils";
 import { xa as escapeXmlAttr } from "marko/src/runtime/html/helpers";
-
-const basicTypes = ["string", "number", "boolean"];
+import { evaluateAttr } from "../util";
 
 export default function(path, attrs) {
   if (!attrs.length) {
@@ -26,29 +25,32 @@ export default function(path, attrs) {
     if (!name) {
       quasis.push(curString);
       curString = "";
-      hasSpread = hasSpread || attr.type === 'MarkoSpreadAttribute';
+      hasSpread = hasSpread || attr.type === "MarkoSpreadAttribute";
       attrsObject.properties.push(t.spreadElement(value));
       continue;
     }
 
-    const { confident, value: computed } = attr.get("value").evaluate();
+    const { confident, computed } = evaluateAttr(attr);
 
-    if (
-      confident &&
-      name !== "data-marko" &&
-      basicTypes.includes(typeof computed)
-    ) {
+    if (confident) {
       if (computed == null || computed === false) {
         continue;
       }
 
       curString += ` ${name}`;
 
-      if (computed === true) {
-        attrsObject.properties.push(t.objectProperty(t.stringLiteral(name), t.booleanLiteral(true)));
+      if (computed === "") {
+        attrsObject.properties.push(
+          t.objectProperty(t.stringLiteral(name), t.booleanLiteral(true))
+        );
       } else {
         curString += `="${escapeXmlAttr(computed)}"`;
-        attrsObject.properties.push(t.objectProperty(t.stringLiteral(name), t.stringLiteral(computed + "")));
+        attrsObject.properties.push(
+          t.objectProperty(
+            t.stringLiteral(name),
+            value
+          )
+        );
       }
     } else {
       const args = [t.stringLiteral(name), value];
@@ -59,7 +61,9 @@ export default function(path, attrs) {
         args.push(t.booleanLiteral(false));
       }
 
-      attrsObject.properties.push(t.objectProperty(t.stringLiteral(name), value));
+      attrsObject.properties.push(
+        t.objectProperty(t.stringLiteral(name), value)
+      );
 
       expressions.push(
         t.callExpression(
@@ -78,13 +82,17 @@ export default function(path, attrs) {
   if (hasSpread) {
     return t.callExpression(
       path.hub.importNamed(
-            path,
-            "marko/src/runtime/html/helpers",
-            "as",
-            "marko_attrs"
-          ),
-          [attrsObject.properties.length === 1 ? attrsObject.properties[0].argument : attrsObject]
-      );
+        path,
+        "marko/src/runtime/html/helpers",
+        "as",
+        "marko_attrs"
+      ),
+      [
+        attrsObject.properties.length === 1
+          ? attrsObject.properties[0].argument
+          : attrsObject
+      ]
+    );
   } else if (expressions.length) {
     return normalizeTemplateString(quasis, ...expressions);
   } else {
