@@ -9,7 +9,7 @@ const _marko_componentType = _marko_registerComponent("xUb7Pw79", () => _marko_t
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.e("input", {
-    "checked": true
+    "checked": ""
   }, "0", component, 0, 0);
 }, {
   ___type: _marko_componentType,

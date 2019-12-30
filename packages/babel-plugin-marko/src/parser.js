@@ -26,7 +26,6 @@ export function parse(fileNodePath) {
   let currentTag = fileNodePath;
   let preservingWhitespaceUntil = preserveWhitespace;
   let wasSelfClosing = false;
-  let wasConcise = false;
   let onNext;
 
   createParser(
@@ -204,7 +203,6 @@ export function parse(fileNodePath) {
         const { tagDef } = currentTag.node;
         const parseOptions = (tagDef && tagDef.parseOptions) || EMPTY_OBJECT;
         wasSelfClosing = event.selfClosed;
-        wasConcise = event.concise;
 
         if (parseOptions.state === "parsed-text") {
           parser.enterParsedTextContentState();
@@ -246,6 +244,7 @@ export function parse(fileNodePath) {
         const tag = currentTag;
         const { node } = tag;
         const { tagDef } = node;
+        const isConcise = code[pos] !== "<";
 
         if (preservingWhitespaceUntil === currentTag) {
           preservingWhitespaceUntil = undefined;
@@ -258,7 +257,7 @@ export function parse(fileNodePath) {
         if (!endPos) {
           endPos = pos;
 
-          if (wasSelfClosing && !wasConcise) {
+          if (wasSelfClosing && !isConcise) {
             endPos += 2; // account for "/>"
           }
         }
@@ -266,9 +265,10 @@ export function parse(fileNodePath) {
         Object.assign(node, getLocRange(code, node.start, endPos));
 
         if (
+          !isConcise &&
           !wasSelfClosing &&
-          !currentTag.get("name").isStringLiteral() &&
-          code.slice(pos, endPos) !== "</>"
+          code[pos + 1] !== "/" &&
+          !currentTag.get("name").isStringLiteral()
         ) {
           throw hub.buildError(
             { start: pos, end: endPos },

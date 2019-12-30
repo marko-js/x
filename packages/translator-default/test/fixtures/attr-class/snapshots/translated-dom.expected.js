@@ -22,8 +22,12 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   }, "0", component, 0, 1);
   out.ee();
   out.be("div", {
-    "class": "a b c"
+    "class": "a b"
   }, "1", component, 0, 1);
+  out.ee();
+  out.be("div", {
+    "class": "a b c"
+  }, "2", component, 0, 1);
   out.ee();
 
   _customTag_tag({
@@ -31,7 +35,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       b: c,
       d
     }]
-  }, out, _component, "2");
+  }, out, _component, "3");
+
+  _customTag_tag({
+    "class": ["a", false, "b"]
+  }, out, _component, "4");
 
   _marko_dynamicTag(out, input.test, () => ({
     "class": ["a", {
@@ -47,7 +55,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
         out.t("Hello");
       }
     }
-  }), null, null, null, _component, "3");
+  }), null, null, null, _component, "5");
 }, {
   ___type: _marko_componentType,
   ___implicit: true

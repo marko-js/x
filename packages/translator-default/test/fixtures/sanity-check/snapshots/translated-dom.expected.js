@@ -10,7 +10,6 @@ function more() {
 }
 
 import { cl as _marko_class_merge } from "marko/src/runtime/html/helpers";
-import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
 import { d as _marko_dynamicTag, t as _t } from "marko/src/runtime/dom/helpers";
 import _other from "./components/other/index.marko";
 
@@ -77,9 +76,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       b: c,
       d
     }]),
-    "style": _marko_style_merge({
-      a: "b"
-    })
+    "style": "a:b;"
   }, "9", component, 0, 1);
   out.ee();
   out.e("input", {
@@ -131,9 +128,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   out.be("div", {
     "class": "b c",
-    "a": {
-      a: 1
-    },
+    "a": "[object Object]",
     "c": "${d}",
     ...e,
     ...f(),
@@ -141,11 +136,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   }, "22", component, null, 0);
   out.t(a);
   out.be("div", {
-    "c": 1
+    "c": "1"
   }, "23", component, 0, 0);
   out.ee();
   out.be("div", {
-    "d": 1
+    "d": "1"
   }, "24", component, 0, 0);
   out.ee();
 
@@ -160,7 +155,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   out.ee();
   out.be("div", {
-    "b": 1
+    "b": "1"
   }, "28", component, 0, 0);
   out.ee();
   out.be("div", null, "29", component, null, 0);
@@ -177,7 +172,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   for (let _i = 0; _i <= 10; _i += 2) {
     const i = _i;
     out.be("div", {
-      "c": 1
+      "c": "1"
     }, "33", component, 0, 0);
     out.ee();
   }
@@ -185,7 +180,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   for (const key in obj) {
     const val = obj[key];
     out.be("div", {
-      "c": 1
+      "c": "1"
     }, "35", component, 0, 0);
     out.ee();
   }
@@ -196,7 +191,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     let i = _i2++;
     i;
     out.be("div", {
-      "c": 1
+      "c": "1"
     }, `@${val.name}`, component, 0, 0);
     out.ee();
 

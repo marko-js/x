@@ -16,14 +16,18 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.w(`<div${_marko_attr("class", _marko_class_merge(["a", {
     b: c,
     d
-  }]))}></div><div class="a b c"></div>`);
+  }]))}></div><div class="a b"></div><div class="a b c"></div>`);
 
   _customTag_tag({
     "class": ["a", {
       b: c,
       d
     }]
-  }, out, _component, "2");
+  }, out, _component, "3");
+
+  _customTag_tag({
+    "class": ["a", false, "b"]
+  }, out, _component, "4");
 
   _marko_dynamicTag(out, input.test, () => ({
     "class": ["a", {
@@ -39,7 +43,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
         out.w("Hello");
       }
     }
-  }), null, null, null, _component, "3");
+  }), null, null, null, _component, "5");
 }, {
   ___type: _marko_componentType,
   ___implicit: true

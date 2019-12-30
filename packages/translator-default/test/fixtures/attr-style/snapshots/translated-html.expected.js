@@ -15,14 +15,24 @@ const _marko_componentType = _marko_registerComponent("VZtwv5da", () => _marko_t
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w(`<div${_marko_attr("style", _marko_style_merge({
-    color: "green"
-  }))}></div><div style="color: green"></div>`);
+    color: input.color
+  }))}></div><div style="width:100px;"></div><div style="color: green"></div>`);
 
   _customTag_tag({
     "style": {
-      color: "green"
+      color: input.color
     }
-  }, out, _component, "2");
+  }, out, _component, "3");
+
+  _customTag_tag({
+    "style": {
+      width: 100
+    }
+  }, out, _component, "4");
+
+  _customTag_tag({
+    "style": "color: green"
+  }, out, _component, "5");
 
   _marko_dynamicTag(out, input.test, () => ({
     "style": {
@@ -36,7 +46,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
         out.w("Hello");
       }
     }
-  }), null, null, null, _component, "3");
+  }), null, null, null, _component, "6");
 }, {
   ___type: _marko_componentType,
   ___implicit: true

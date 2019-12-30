@@ -10,7 +10,6 @@ function more() {
 }
 
 import { xc as _marko_escapeStyle, xs as _marko_escapeScript, a as _marko_attr, cl as _marko_class_merge, d as _marko_dynamicTag, t as _t, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/html/helpers";
-import _marko_style_merge from "marko/src/runtime/vdom/helper-styleAttr";
 import _other from "./components/other/index.marko";
 
 const _other_tag = _t(_other);
@@ -44,9 +43,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.w(`</div><div></div><div${_marko_attr("id", _component.elId("1"))}></div><div${_marko_attr("class", _marko_class_merge(["a", {
     b: c,
     d
-  }]))}${_marko_attr("style", _marko_style_merge({
-    a: "b"
-  }))}></div><input type="text">`);
+  }]))} style="a:b;"></div><input type="text">`);
 
   _marko_dynamicTag(out, a, null, out => {
     out.w("<div></div>");
