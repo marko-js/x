@@ -1,4 +1,4 @@
-const _marko_template = _t2(__filename);
+const _marko_template = _t(__filename);
 
 export default _marko_template;
 import a from "b";
@@ -9,14 +9,17 @@ function more() {
   abc();
 }
 
-import { cl as _marko_class_merge } from "marko/src/runtime/html/helpers";
-import { d as _marko_dynamicTag, t as _t } from "marko/src/runtime/dom/helpers";
+import _marko_class_merge from "marko/src/runtime/helpers/class-value";
+import { marko_dynamic_tag as _marko_dynamic_tag } from "marko/src/runtime/helpers/dynamic-tag";
 import _other from "./components/other/index.marko";
+import _marko_load_tag from "marko/src/runtime/helpers/load-tag";
 
-const _other_tag = _t(_other);
+const _other_tag = _marko_load_tag(_other);
 
-import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
-import { t as _t2 } from "marko/src/runtime/dom";
+import _marko_renderer from "marko/src/runtime/components/renderer";
+import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
+import { t as _t } from "marko/src/runtime/dom";
+import { r as _marko_registerComponent } from "marko/runtime/components/registry-browser";
 
 const _marko_componentType = _marko_registerComponent("vwW5Oh1D", () => _marko_template),
       _marko_component = {
@@ -83,12 +86,12 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "type": "text"
   }, "10", component, 0, 0);
 
-  _marko_dynamicTag(out, a, null, out => {
+  _marko_dynamic_tag(out, a, null, out => {
     out.be("div", null, "12", component, 0, 0);
     out.ee();
   }, null, null, _component, "@x");
 
-  _marko_dynamicTag(out, _thing, () => ({
+  _marko_dynamic_tag(out, _thing, () => ({
     "x": 1
   }), null, null, null, _component, "13");
 

@@ -1,6 +1,6 @@
 import { types as t } from "@marko/babel-types";
 import { normalizeTemplateString } from "@marko/babel-utils";
-import { xa as escapeXmlAttr } from "marko/src/runtime/html/helpers";
+import { d as escapeDoubleQuoteAttr } from "marko/src/runtime/html/helpers/escape-xml";
 import { evaluateAttr } from "../util";
 
 export default function(path, attrs) {
@@ -44,7 +44,7 @@ export default function(path, attrs) {
           t.objectProperty(t.stringLiteral(name), t.booleanLiteral(true))
         );
       } else {
-        curString += `="${escapeXmlAttr(computed)}"`;
+        curString += `="${escapeDoubleQuoteAttr(computed)}"`;
         attrsObject.properties.push(
           t.objectProperty(
             t.stringLiteral(name),
@@ -69,8 +69,7 @@ export default function(path, attrs) {
         t.callExpression(
           hub.importNamed(
             attr,
-            "marko/src/runtime/html/helpers",
-            "a",
+            "marko/src/runtime/html/helpers/attr",
             "marko_attr"
           ),
           args
@@ -83,8 +82,7 @@ export default function(path, attrs) {
     return t.callExpression(
       path.hub.importNamed(
         path,
-        "marko/src/runtime/html/helpers",
-        "as",
+        "marko/src/runtime/html/helpers/attrs",
         "marko_attrs"
       ),
       [

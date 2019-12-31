@@ -1,14 +1,17 @@
-const _marko_template = _t2(__filename);
+const _marko_template = _t(__filename);
 
 export default _marko_template;
-import { cl as _marko_class_merge } from "marko/src/runtime/html/helpers";
+import _marko_class_merge from "marko/src/runtime/helpers/class-value";
 import _customTag from "./components/custom-tag.marko";
-import { t as _t, d as _marko_dynamicTag } from "marko/src/runtime/dom/helpers";
+import _marko_load_tag from "marko/src/runtime/helpers/load-tag";
 
-const _customTag_tag = _t(_customTag);
+const _customTag_tag = _marko_load_tag(_customTag);
 
-import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
-import { t as _t2 } from "marko/src/runtime/dom";
+import { marko_dynamic_tag as _marko_dynamic_tag } from "marko/src/runtime/helpers/dynamic-tag";
+import _marko_renderer from "marko/src/runtime/components/renderer";
+import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
+import { t as _t } from "marko/src/runtime/dom";
+import { r as _marko_registerComponent } from "marko/runtime/components/registry-browser";
 
 const _marko_componentType = _marko_registerComponent("hajtJue-", () => _marko_template),
       _marko_component = {};
@@ -41,7 +44,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "class": ["a", false, "b"]
   }, out, _component, "4");
 
-  _marko_dynamicTag(out, input.test, () => ({
+  _marko_dynamic_tag(out, input.test, () => ({
     "class": ["a", {
       b: c,
       d

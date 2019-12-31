@@ -3,8 +3,10 @@ const _marko_template = _t(__filename);
 export default _marko_template;
 import bar, { f as foo } from "./bar";
 import "./foo";
-import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
+import _marko_renderer from "marko/src/runtime/components/renderer";
+import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 import { t as _t } from "marko/src/runtime/dom";
+import { r as _marko_registerComponent } from "marko/runtime/components/registry-browser";
 
 const _marko_componentType = _marko_registerComponent("fDlal4KB", () => _marko_template),
       _marko_component = {};

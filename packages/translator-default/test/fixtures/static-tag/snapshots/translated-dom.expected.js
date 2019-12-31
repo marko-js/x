@@ -6,8 +6,10 @@ var foo = 123;
 function bar() {}
 
 var baz = 456;
-import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
+import _marko_renderer from "marko/src/runtime/components/renderer";
+import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 import { t as _t } from "marko/src/runtime/dom";
+import { r as _marko_registerComponent } from "marko/runtime/components/registry-browser";
 
 const _marko_componentType = _marko_registerComponent("GBHWxkT6", () => _marko_template),
       _marko_component = {};

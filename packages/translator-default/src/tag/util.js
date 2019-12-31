@@ -1,9 +1,4 @@
 import { types as t } from "@marko/babel-types";
-import {
-  xa as escapeXmlAttr,
-  cl as classToString
-} from "marko/src/runtime/html/helpers";
-import styleToString from "marko/src/runtime/vdom/helper-styleAttr";
 import { getTagDef } from "@marko/babel-utils";
 
 const EMPTY_ARR = [];
@@ -70,10 +65,7 @@ export function getAttrs(path, noCamel, skipRenderBody) {
       const { name, defaultValue } = attr;
       if (!attr.dynamicAttribute && !foundProperties[name] && defaultValue) {
         properties.push(
-          t.objectProperty(
-            t.stringLiteral(name),
-            t.stringLiteral(escapeXmlAttr(defaultValue))
-          )
+          t.objectProperty(t.stringLiteral(name), t.stringLiteral(defaultValue))
         );
       }
     });

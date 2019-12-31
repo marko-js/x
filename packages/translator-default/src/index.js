@@ -56,6 +56,7 @@ export const visitor = {
         componentFile,
         componentBrowserFile
       } = getComponentFiles(path);
+      const isHTML = options.output === "html";
       let isSplit = false;
       let isImplicit = !inlineComponentClass;
 
@@ -98,16 +99,14 @@ export const visitor = {
       const templateIdentifier = path.scope.generateUidIdentifier(
         "marko_template"
       );
-      const rendererIdentifier = hub.importNamed(
+      const rendererIdentifier = hub.importDefault(
         path,
-        "marko/src/runtime/components/helpers",
-        "r",
+        "marko/src/runtime/components/renderer",
         "marko_renderer"
       );
-      const defineComponentIdentifier = hub.importNamed(
+      const defineComponentIdentifier = hub.importDefault(
         path,
-        "marko/src/runtime/components/helpers",
-        "c",
+        "marko/src/runtime/components/defineComponent",
         "marko_defineComponent"
       );
       const templateRendererMember = t.memberExpression(
@@ -135,23 +134,27 @@ export const visitor = {
           )
         ])
       );
+
+      const componentIdString = t.stringLiteral(componentId);
       path.pushContainer(
         "body",
         t.variableDeclaration("const", [
           t.variableDeclarator(
             componentTypeIdentifier,
-            t.callExpression(
-              hub.importNamed(
-                path,
-                "marko/src/runtime/components/helpers",
-                "rc",
-                "marko_registerComponent"
-              ),
-              [
-                t.stringLiteral(componentId),
-                t.arrowFunctionExpression([], templateIdentifier)
-              ]
-            )
+            isHTML
+              ? componentIdString
+              : t.callExpression(
+                  hub.importNamed(
+                    path,
+                    "marko/runtime/components/registry-browser",
+                    "r",
+                    "marko_registerComponent"
+                  ),
+                  [
+                    componentIdString,
+                    t.arrowFunctionExpression([], templateIdentifier)
+                  ]
+                )
           ),
           t.variableDeclarator(componentIdentifier, componentClass)
         ])
@@ -199,19 +202,21 @@ export const visitor = {
       );
       renderBlock.remove();
 
-      path.pushContainer(
-        "body",
-        t.expressionStatement(
-          t.assignmentExpression(
-            "=",
-            t.memberExpression(templateIdentifier, t.identifier("Component")),
-            t.callExpression(defineComponentIdentifier, [
-              componentIdentifier,
-              templateRendererMember
-            ])
+      if (!isHTML && !isSplit) {
+        path.pushContainer(
+          "body",
+          t.expressionStatement(
+            t.assignmentExpression(
+              "=",
+              t.memberExpression(templateIdentifier, t.identifier("Component")),
+              t.callExpression(defineComponentIdentifier, [
+                componentIdentifier,
+                templateRendererMember
+              ])
+            )
           )
-        )
-      );
+        );
+      }
 
       const metaObject = t.objectExpression([
         t.objectProperty(t.identifier("id"), componentTypeIdentifier)

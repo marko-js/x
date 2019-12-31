@@ -1,6 +1,6 @@
 import { types as t } from "@marko/babel-types";
 import { isHTMLTag } from "@marko/babel-utils";
-import { cl as classToString } from "marko/src/runtime/html/helpers";
+import classToString from "marko/src/runtime/helpers/class-value";
 
 export default function(tag, _, value) {
   const { hub } = tag;
@@ -13,10 +13,9 @@ export default function(tag, _, value) {
     confident
       ? t.stringLiteral(classToString(computed) || "")
       : t.callExpression(
-          hub.importNamed(
+          hub.importDefault(
             tag,
-            "marko/src/runtime/html/helpers", // TODO: expose CL in vdom.
-            "cl",
+            "marko/src/runtime/helpers/class-value",
             "marko_class_merge"
           ),
           [value.node]

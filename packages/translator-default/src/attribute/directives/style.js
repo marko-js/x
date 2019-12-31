@@ -1,6 +1,6 @@
 import { types as t } from "@marko/babel-types";
 import { isHTMLTag } from "@marko/babel-utils";
-import styleToString from "marko/src/runtime/vdom/helper-styleAttr";
+import styleToString from "marko/src/runtime/helpers/style-value";
 
 export default function(tag, _, value) {
   const { hub } = tag;
@@ -14,7 +14,7 @@ export default function(tag, _, value) {
       : t.callExpression(
           hub.importDefault(
             tag,
-            "marko/src/runtime/vdom/helper-styleAttr",
+            "marko/src/runtime/helpers/style-value",
             "marko_style_merge"
           ),
           [value.node]

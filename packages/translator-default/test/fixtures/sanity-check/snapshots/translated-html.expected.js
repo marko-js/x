@@ -1,4 +1,4 @@
-const _marko_template = _t2(__filename);
+const _marko_template = _t(__filename);
 
 export default _marko_template;
 import a from "b";
@@ -9,22 +9,28 @@ function more() {
   abc();
 }
 
-import { xc as _marko_escapeStyle, xs as _marko_escapeScript, a as _marko_attr, cl as _marko_class_merge, d as _marko_dynamicTag, t as _t, x as _marko_escapeXml, as as _marko_attrs } from "marko/src/runtime/html/helpers";
+import _marko_escapeStyle from "marko/src/runtime/html/helpers/escape-style-placeholder";
+import _marko_escapeScript from "marko/src/runtime/html/helpers/escape-script-placeholder";
+import { marko_attr as _marko_attr } from "marko/src/runtime/html/helpers/attr";
+import _marko_class_merge from "marko/src/runtime/helpers/class-value";
+import { marko_dynamic_tag as _marko_dynamic_tag } from "marko/src/runtime/helpers/dynamic-tag";
 import _other from "./components/other/index.marko";
+import _marko_load_tag from "marko/src/runtime/helpers/load-tag";
 
-const _other_tag = _t(_other);
+const _other_tag = _marko_load_tag(_other);
 
-import { r as _marko_renderer, c as _marko_defineComponent, rc as _marko_registerComponent } from "marko/src/runtime/components/helpers";
-import { t as _t2 } from "marko/src/runtime/html";
-
-const _marko_componentType = _marko_registerComponent("vwW5Oh1D", () => _marko_template),
+import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers/escape-xml";
+import { marko_attrs as _marko_attrs } from "marko/src/runtime/html/helpers/attrs";
+import _marko_renderer from "marko/src/runtime/components/renderer";
+import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
+import { t as _t } from "marko/src/runtime/html";
+const _marko_componentType = "vwW5Oh1D",
       _marko_component = {
   onCreate() {
     this.stuff();
   }
 
 };
-
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w(`<style id="css">\n  div {\n    color: ${_marko_escapeStyle(x)};\n  }\n</style><script>\n  var y = ${_marko_escapeScript(x)};\n</script>`);
 
@@ -45,11 +51,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     d
   }]))} style="a:b;"></div><input type="text">`);
 
-  _marko_dynamicTag(out, a, null, out => {
+  _marko_dynamic_tag(out, a, null, out => {
     out.w("<div></div>");
   }, null, null, _component, "@x");
 
-  _marko_dynamicTag(out, _thing, () => ({
+  _marko_dynamic_tag(out, _thing, () => ({
     "x": 1
   }), null, null, null, _component, "13");
 
@@ -136,7 +142,6 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 }, {
   ___type: _marko_componentType
 }, _marko_component);
-_marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
 _marko_template.meta = {
   id: _marko_componentType,
   deps: [{

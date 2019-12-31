@@ -18,7 +18,6 @@ const aliases = {};
 export const MARKO_TYPES = Object.keys(types);
 MARKO_TYPES.forEach(typeName => {
   const type = types[typeName];
-  if (!type) console.log(typeName, type);
   for (const alias of type.aliases) {
     aliases[alias] = aliases[alias] || [];
     aliases[alias].push(typeName);

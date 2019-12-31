@@ -6,14 +6,15 @@ const EMPTY_OBJECT = {};
 const ESCAPE_TYPES = {
   html: {
     name: "x",
+    module: "marko/src/runtime/html/helpers/escape-xml",
     alias: "marko_escapeXml"
   },
   script: {
-    name: "xs",
+    module: "marko/src/runtime/html/helpers/escape-script-placeholder",
     alias: "marko_escapeScript"
   },
   style: {
-    name: "xc",
+    module: "marko/src/runtime/html/helpers/escape-style-placeholder",
     alias: "marko_escapeStyle"
   }
 };
@@ -25,18 +26,21 @@ export default function(path) {
   if (escape) {
     const tagName = findParentTagName(path);
     const escapeType = ESCAPE_TYPES[tagName] || ESCAPE_TYPES.html;
+
     value = t.callExpression(
-      hub.importNamed(
-        path,
-        "marko/src/runtime/html/helpers",
-        escapeType.name,
-        escapeType.alias
-      ),
+      escapeType.name
+        ? hub.importNamed(
+            path,
+            escapeType.module,
+            escapeType.name,
+            escapeType.alias
+          )
+        : hub.importDefault(path, escapeType.module, escapeType.alias),
       [value]
     );
   } else {
     value = t.callExpression(
-      hub.importNamed(path, "marko/src/runtime/html/helpers", "s"),
+      hub.importDefault(path, "marko/src/runtime/to-string", "marko_to_string"),
       [value]
     );
   }
