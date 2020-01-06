@@ -11,7 +11,7 @@ const packagesDir = path.join(__dirname, "../../");
 
 fs.readdirSync(packagesDir)
   .map(dir => /^translator-(.*)|/.exec(dir)[1])
-  // .filter(name => name === "default")
+  .filter(name => name === "default") // comment this our to run fluurt tests
   .filter(Boolean)
   .forEach(translator => {
     const fixturesDir = path.join(
