@@ -4,5 +4,11 @@ export default function(path) {
   const { node } = path;
   const { escape, value } = node;
   const method = escape ? "t" : "h";
-  path.replaceWith(write(method, value));
+  const { confident, value: computed } = path.get("value").evaluate();
+
+  if (confident && !computed) {
+    path.remove();
+  } else {
+    path.replaceWith(write(method, value));
+  }
 }
