@@ -91,29 +91,43 @@ export function exit(path) {
   } else if (fromAttr && toAttr) {
     allowedAttributes.push("from", "to", "step");
 
-    const stepAttr = findName(attributes, "step");
+    const stepAttr = findName(attributes, "step") || {
+      value: t.numericLiteral(1)
+    };
+    const stepValue = stepAttr ? stepAttr.value : t.numericLiteral(1);
     const [indexParam] = node.params;
-    const indexName = path.scope.generateUidIdentifier(
-      indexParam ? indexParam.name : "i"
-    );
-    const operator = stepAttr && stepAttr.value.operator !== "-" ? "<=" : ">=";
+    const stepsName = path.scope.generateUidIdentifier("steps");
+    const stepName = path.scope.generateUidIdentifier("step");
 
     if (indexParam) {
       block.body.unshift(
         t.variableDeclaration("const", [
-          t.variableDeclarator(indexParam, indexName)
+          t.variableDeclarator(
+            indexParam,
+            t.binaryExpression(
+              "+",
+              fromAttr.value,
+              t.binaryExpression("*", stepName, stepValue)
+            )
+          )
         ])
       );
     }
 
     forNode = t.forStatement(
       t.variableDeclaration("let", [
-        t.variableDeclarator(indexName, fromAttr.value)
+        t.variableDeclarator(
+          stepsName,
+          t.binaryExpression(
+            "/",
+            t.binaryExpression("-", toAttr.value, fromAttr.value),
+            stepValue
+          )
+        ),
+        t.variableDeclarator(stepName, t.numericLiteral(0))
       ]),
-      t.binaryExpression(operator, indexName, toAttr.value),
-      stepAttr
-        ? t.assignmentExpression("+=", indexName, stepAttr.value)
-        : t.updateExpression("++", indexName),
+      t.binaryExpression("<=", stepName, stepsName),
+      t.updateExpression("++", stepName),
       block
     );
   } else {
