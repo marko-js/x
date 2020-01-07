@@ -1,5 +1,5 @@
 import { types as t } from "@marko/babel-types";
-const transparentTags = new Set(["for", "while", "if", "else", "no-update"]);
+const transparentTags = new Set(["for", "while", "if", "else", "_no-update"]);
 
 export function isNativeTag(path) {
   const tagDef = path.node.tagDef;
@@ -19,7 +19,7 @@ export function isMacro(path) {
 }
 
 export function getMacro(path) {
-  return path.hub.macros[path.get("name.value").node];
+  return !isDynamicTag(path) && path.hub.macros[path.get("name.value").node];
 }
 
 export function getTagDef(path) {

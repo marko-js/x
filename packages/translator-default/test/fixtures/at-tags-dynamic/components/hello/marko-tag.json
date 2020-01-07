@@ -5,6 +5,7 @@
     }
   },
   "@cols <col>[]": {
+    "@*": "expression",
     "@rows <row>[]": {
       "@*": "expression"
     }

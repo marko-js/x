@@ -21,11 +21,13 @@ export default function(tag, attr, opts = EMPTY_OBJECT) {
   }
 
   if (opts.bodyOnly) {
-    replacementAttrs.push(t.markoAttribute("bodyOnly", t.booleanLiteral(true)));
+    replacementAttrs.push(
+      t.markoAttribute("body-only", t.booleanLiteral(true))
+    );
   }
 
   const replacement = t.markoTag(
-    t.stringLiteral("no-update"),
+    t.stringLiteral("_no-update"),
     replacementAttrs,
     t.markoTagBody([node])
   );

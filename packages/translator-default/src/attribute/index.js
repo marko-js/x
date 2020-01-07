@@ -1,4 +1,4 @@
-import { isNativeTag } from "@marko/babel-utils";
+import { isNativeTag, getTagDef } from "@marko/babel-utils";
 import { join, basename } from "path";
 import fs from "fs";
 
@@ -12,12 +12,16 @@ export default function(attr) {
   const value = attr.get("value");
   const { name, modifier, arguments: args } = attr.node;
 
+  if (!tag.node) {
+    return;
+  }
+
   if (modifier) {
     const modifierTranslate = modifiers[modifier];
     if (modifierTranslate) {
-      modifierTranslate(tag, attr, value);
       const tagNode = tag.node;
       const attrNode = attr.node;
+      modifierTranslate(tag, attr, value);
       if (tag.node !== tagNode || attr.node !== attrNode) return;
     } else {
       throw attr.buildCodeFrameError(`Unsupported modifier "${modifier}".`);
@@ -64,18 +68,33 @@ export default function(attr) {
     };
 
     attr.remove();
+    return;
   }
 
   const directiveTranslate = directives[name];
   if (directiveTranslate) {
-    directiveTranslate(tag, attr, value);
     const tagNode = tag.node;
     const attrNode = attr.node;
+    directiveTranslate(tag, attr, value);
     if (tag.node !== tagNode || attr.node !== attrNode) return;
   }
 
   if (attr.node && !attr.node.allowArguments && args && args.length) {
-    throw attr.buildCodeFrameError("Unsupported arguments on attribute.");
+    throw attr.buildCodeFrameError(
+      `Unsupported arguments on the "${name}" attribute.`
+    );
+  }
+
+  const tagDef = getTagDef(tag);
+
+  if (tagDef) {
+    if (!tagDef.html && !tagDef.getAttribute(name)) {
+      throw attr.buildCodeFrameError(
+        `<${
+          tag.get("name.value").node
+        }> does not support the "${name}" attribute.`
+      );
+    }
   }
 }
 

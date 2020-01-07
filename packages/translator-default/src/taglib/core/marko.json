@@ -89,8 +89,9 @@
     "transformer": "./transform-fragment.js",
     "@key": "string"
   },
-  "<no-update>": {
+  "<_no-update>": {
     "renderer": "marko/src/core-tags/components/preserve-tag.js",
+    "@cid": "string",
     "@key": "string",
     "@if": "boolean",
     "@body-only": "boolean",
