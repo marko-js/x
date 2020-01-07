@@ -1,8 +1,3 @@
-export function isHTMLTag(path) {
-  const tagDef = path.node.tagDef;
-  return tagDef && tagDef.html;
-}
-
 export function assertAllowedAttributes(path, allowed) {
   const { node } = path;
   node.attributes.forEach((attr, i) => {

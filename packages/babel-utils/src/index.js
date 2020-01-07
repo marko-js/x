@@ -1,11 +1,15 @@
 export {
+  isHTMLTag,
+  isMacro,
+  isDynamicTag,
+  isAttributeTag,
+  getMacro,
   getTagDef,
   getFullyResolvedTagName,
   findParentTag,
   getArgOrSequence
 } from "./tags";
 export {
-  isHTMLTag,
   assertAllowedAttributes,
   assertNoArgs,
   assertNoAttributes,

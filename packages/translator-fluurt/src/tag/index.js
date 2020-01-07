@@ -1,4 +1,8 @@
-import { getFullyResolvedTagName } from "@marko/babel-utils";
+import {
+  getFullyResolvedTagName,
+  getTagDef,
+  isHTMLTag
+} from "@marko/babel-utils";
 import dynamicTag from "./dynamic-tag";
 import attributeTag from "./attribute-tag";
 import nativeTagHTML from "./native-tag[html]";
@@ -31,9 +35,7 @@ export default {
       return;
     }
 
-    const tagDef =
-      hub.lookup.getTag(getFullyResolvedTagName(path)) || EMPTY_OBJECT;
-    path.set("tagDef", tagDef);
+    const tagDef = getTagDef(path) || EMPTY_OBJECT;
 
     if (tagDef.codeGeneratorModulePath) {
       tagDef.codeGenerator = require(tagDef.codeGeneratorModulePath);
@@ -43,7 +45,7 @@ export default {
       }
     }
 
-    if (tagDef.html) {
+    if (isHTMLTag(path)) {
       if (options.output === "html") {
         enter(nativeTagHTML, path);
       } else {
@@ -56,7 +58,7 @@ export default {
   exit(path) {
     const { hub, node } = path;
     const { options, macros } = hub;
-    const tagDef = path.get("tagDef").node;
+    const tagDef = getTagDef(path) || EMPTY_OBJECT;
     const name = path.get("name");
     const tagName = name.get("value").node;
     const isAttributeTag = tagName && tagName[0] === "@";
@@ -99,7 +101,7 @@ function enter(plugin, ...args) {
   const fn =
     (plugin &&
       (plugin.enter ||
-        ((plugin.default && plugin.default.enter) || plugin.default))) ||
+        (plugin.default && plugin.default.enter) || plugin.default)) ||
     plugin;
   if (typeof fn === "function") {
     fn(...args);

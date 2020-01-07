@@ -1,9 +1,5 @@
 import { types as t } from "@marko/babel-types";
-import {
-  getFullyResolvedTagName,
-  findParentTag,
-  assertNoArgs
-} from "@marko/babel-utils";
+import { findParentTag, assertNoArgs, getTagDef } from "@marko/babel-utils";
 import { getAttrs } from "./util";
 
 const EMPTY_OBJECT = {};
@@ -12,11 +8,9 @@ const parentIdentifierLookup = new WeakMap();
 // TODO: optimize inline repeated @tags.
 
 export default function(path) {
-  const { node, hub } = path;
-  const { lookup } = hub;
+  const { node } = path;
   const namePath = path.get("name");
   const tagName = namePath.node.value;
-  const fullTagName = getFullyResolvedTagName(path);
   const parentPath = findParentTag(path);
 
   assertNoArgs(path);
@@ -34,8 +28,9 @@ export default function(path) {
   }
 
   const parentAttributes = parentPath.get("attributes");
-  const tagDef = lookup.getTag(fullTagName) || EMPTY_OBJECT;
-  const { isRepeated, targetProperty = tagName.slice(1) } = tagDef;
+  const tagDef = getTagDef(path);
+  const { isRepeated, targetProperty = tagName.slice(1) } =
+    tagDef || EMPTY_OBJECT;
   const isDynamic = isRepeated || parentPath !== path.parentPath.parentPath;
   parentPath.node.exampleAttributeTag = node;
   parentPath.node.hasDynamicAttributeTags =

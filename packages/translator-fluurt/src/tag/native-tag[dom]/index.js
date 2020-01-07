@@ -15,10 +15,6 @@ const EMPTY_ARRAY = [];
  */
 export default {
   exit(path) {
-    assertNoArgs(path);
-    assertNoParams(path);
-    assertNoAttributeTags(path);
-
     const { hub, node } = path;
     const {
       name,

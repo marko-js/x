@@ -1,10 +1,10 @@
 import { resolve } from "path";
 import SELF_CLOSING from "self-closing-tags";
 import { types as t } from "@marko/babel-types";
+import { getTagDef } from "@marko/babel-utils";
 import write from "../../util/html-out-write";
 import withPreviousLocation from "../../util/with-previous-location";
 import translateAttributes from "./attributes";
-import { assertNoParams, assertNoArgs } from "@marko/babel-utils";
 import getComponentFiles from "../../util/get-component-files";
 
 const EMPTY_OBJECT = {};
@@ -13,18 +13,16 @@ const EMPTY_OBJECT = {};
  * Translates the html streaming version of a standard html element.
  */
 export default function(path) {
-  assertNoParams(path);
-  assertNoArgs(path);
 
   const { hub, node } = path;
   const {
     name: { value: tagName },
     body: { body },
     properties,
-    handlers,
-    tagDef
+    handlers
   } = node;
   const tagProperties = properties.slice();
+  const tagDef = getTagDef(path);
 
   if (tagDef) {
     const { parseOptions = EMPTY_OBJECT } = tagDef;

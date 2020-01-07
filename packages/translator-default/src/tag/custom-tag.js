@@ -14,9 +14,7 @@ export default function(path, tagDef) {
     key,
     bodyOnlyIf
   } = node;
-  const relativePath = resolveRelativePath(hub, tagDef);
-
-  assertNoArgs(path);
+  const relativePath = tagDef && resolveRelativePath(hub, tagDef);
 
   if (!relativePath) {
     throw path
@@ -25,6 +23,8 @@ export default function(path, tagDef) {
         `Unable to find entry point for custom tag <${name}>.`
       );
   }
+
+  assertNoArgs(path);
 
   let tagIdentifierLookup = TAG_IDENTIFIER_LOOKUPS.get(hub);
   if (!tagIdentifierLookup) {

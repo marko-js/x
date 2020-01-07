@@ -1,95 +1,68 @@
-import { getFullyResolvedTagName } from "@marko/babel-utils";
+import {
+  getTagDef,
+  isDynamicTag,
+  isAttributeTag,
+  isMacro,
+  isHTMLTag
+} from "@marko/babel-utils";
+import nativeTag from "./native-tag";
 import dynamicTag from "./dynamic-tag";
 import attributeTag from "./attribute-tag";
-import nativeTagHTML from "./native-tag[html]";
-import nativeTagVDOM from "./native-tag[vdom]";
 import customTag from "./custom-tag";
 import macroTag from "./macro-tag";
 import { getKeyManager } from "../util/key-manager";
 
-const EMPTY_OBJECT = {};
-
 export default {
   enter(path) {
-    const { hub } = path;
-    const { macros } = hub;
-    const name = path.get("name");
-    const tagName = name.get("value").node;
-    const canHaveTagDef = name.isStringLiteral() && !macros[tagName];
-    const tagDef =
-      (canHaveTagDef && hub.lookup.getTag(getFullyResolvedTagName(path))) ||
-      EMPTY_OBJECT;
+    const tagDef = getTagDef(path);
 
-    if (tagDef.codeGeneratorModulePath) {
-      tagDef.codeGenerator = require(tagDef.codeGeneratorModulePath);
-    }
+    if (tagDef) {
+      if (tagDef.codeGeneratorModulePath) {
+        tagDef.codeGenerator = require(tagDef.codeGeneratorModulePath);
+      }
 
-    if (tagDef.codeGenerator && tagDef.codeGenerator.enter) {
-      const { node } = path;
-      tagDef.codeGenerator.enter(path);
-      if (path.node !== node) {
-        return;
+      if (tagDef.codeGenerator && tagDef.codeGenerator.enter) {
+        const { node } = path;
+        tagDef.codeGenerator.enter(path);
+        if (path.node !== node) {
+          return;
+        }
       }
     }
 
-    path.set("tagDef", tagDef);
     getKeyManager(path).resolveKey(path);
   },
   exit(path) {
-    const { hub } = path;
-    const { macros, options } = hub;
-    const name = path.get("name");
-
-    if (!name.isStringLiteral()) {
-      dynamicTag(path);
-      return;
+    if (isDynamicTag(path)) {
+      return dynamicTag(path);
     }
 
-    const tagName = name.get("value").node;
-    const isAttributeTag = tagName[0] === "@";
-
-    if (isAttributeTag) {
-      attributeTag(path);
-      return;
+    if (isAttributeTag(path)) {
+      return attributeTag(path);
     }
 
-    if (macros[tagName]) {
-      assertNoAttributeTags();
-      macroTag(path, macros[tagName]);
-      return;
+    if (isMacro(path)) {
+      return macroTag(path);
     }
 
-    const tagDef = path.get("tagDef").node;
-    const { codeGenerator } = tagDef;
+    const tagDef = getTagDef(path);
 
-    if (codeGenerator && codeGenerator.exit) {
-      const { node } = path;
-      tagDef.codeGenerator.exit(path);
-      if (path.node !== node) {
-        return;
-      }
-    }
+    if (tagDef) {
+      const { codeGenerator } = tagDef;
 
-    if (tagDef.html) {
-      assertNoAttributeTags();
-      if (options.output === "html") {
-        nativeTagHTML(path);
-      } else {
-        nativeTagVDOM(path);
+      if (codeGenerator && codeGenerator.exit) {
+        const { node } = path;
+        tagDef.codeGenerator.exit(path);
+        if (path.node !== node) {
+          return;
+        }
       }
 
-      return;
+      if (isHTMLTag(path)) {
+        return nativeTag(path);
+      }
     }
 
     customTag(path, tagDef);
-
-    function assertNoAttributeTags() {
-      const exampleAttributeTag = path.get("exampleAttributeTag");
-      if (exampleAttributeTag.node) {
-        throw exampleAttributeTag
-          .get("name")
-          .buildCodeFrameError("@tags must be within a custom element.");
-      }
-    }
   }
 };

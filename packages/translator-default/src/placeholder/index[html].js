@@ -1,4 +1,5 @@
 import { types as t } from "@marko/babel-types";
+import { getTagDef } from "@marko/babel-utils";
 import toString from "marko/src/runtime/helpers/to-string";
 import { x as escapeXML } from "marko/src/runtime/html/helpers/escape-xml";
 import escapeScript from "marko/src/runtime/html/helpers/escape-script-placeholder";
@@ -6,7 +7,6 @@ import escapeStyle from "marko/src/runtime/html/helpers/escape-style-placeholder
 import write from "../util/html-out-write";
 import withPreviousLocation from "../util/with-previous-location";
 
-const EMPTY_OBJECT = {};
 const ESCAPE_TYPES = {
   html: {
     name: "x",
@@ -77,8 +77,8 @@ function findParentTagName(path) {
     }
 
     if (path.isMarkoTag()) {
-      const { tagDef = EMPTY_OBJECT } = path.node;
-      return tagDef.html && path.get("name").get("value").node;
+      const tagDef = getTagDef(path);
+      return tagDef && tagDef.html && path.get("name.value").node;
     }
   }
 }

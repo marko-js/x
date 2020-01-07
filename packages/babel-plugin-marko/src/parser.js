@@ -12,7 +12,7 @@ const EMPTY_ARRAY = [];
 const htmlTrimStart = t => t.replace(/^[\n\r]\s*/, "");
 const htmlTrimEnd = t => t.replace(/[\n\r]\s*$/, "");
 const htmlTrim = t => htmlTrimStart(htmlTrimEnd(t));
-const isNestedTag = node =>
+const isAttributeTag = node =>
   t.isStringLiteral(node.name) && node.name.value[0] === "@";
 
 export function parse(fileNodePath) {
@@ -74,7 +74,7 @@ export function parse(fileNodePath) {
             if (
               t.isMarkoComment(prev) ||
               t.isMarkoScriptlet(prev) ||
-              isNestedTag(prev)
+              isAttributeTag(prev)
             ) {
               prev = undefined;
             } else {
@@ -202,7 +202,7 @@ export function parse(fileNodePath) {
         [currentTag] = pushTagBody(node);
 
         // @tags are not treated as content and do not call next.
-        if (!isNestedTag(node)) {
+        if (!isAttributeTag(node)) {
           onNext = onNext && onNext(node);
         }
       },

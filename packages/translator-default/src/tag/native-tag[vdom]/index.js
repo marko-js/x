@@ -2,9 +2,9 @@ import { resolve } from "path";
 import SELF_CLOSING from "self-closing-tags";
 import { types as t } from "@marko/babel-types";
 import write from "../../util/vdom-out-write";
-import { assertNoParams, assertNoArgs } from "@marko/babel-utils";
 import * as FLAGS from "../../util/runtime-flags";
 import { getAttrs, evaluateAttr } from "../util";
+import { getTagDef } from "@marko/babel-utils";
 
 const EMPTY_OBJECT = {};
 const SIMPLE_ATTRS = ["id", "class", "style"];
@@ -25,8 +25,7 @@ export default function(path) {
     key,
     body: { body },
     properties,
-    handlers,
-    tagDef
+    handlers
   } = node;
   const { value: tagName } = name;
 
@@ -71,9 +70,6 @@ export default function(path) {
     body.length ? t.nullLiteral() : t.numericLiteral(0)
   ];
 
-  assertNoParams(path);
-  assertNoArgs(path);
-
   if (handlers) {
     Object.entries(handlers).forEach(
       ([eventName, { arguments: args, once }]) => {
@@ -110,6 +106,8 @@ export default function(path) {
   ) {
     node.runtimeFlags |= FLAGS.HAS_SIMPLE_ATTRS;
   }
+
+  const tagDef = getTagDef(path);
 
   if (tagDef) {
     const { htmlType, name, parseOptions = EMPTY_OBJECT } = tagDef;

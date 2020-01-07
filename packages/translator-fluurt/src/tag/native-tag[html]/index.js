@@ -13,10 +13,6 @@ import {
  */
 export default {
   exit(path) {
-    assertNoArgs(path);
-    assertNoParams(path);
-    assertNoAttributeTags(path);
-
     const writer = write(path);
     const { node } = path;
     const {

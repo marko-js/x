@@ -10,7 +10,7 @@ export default {
     const {
       name: { value: name }
     } = node;
-    const relativePath = resolveRelativePath(hub, tagDef);
+    const relativePath = tagDef && resolveRelativePath(hub, tagDef);
 
     assertNoArgs(path);
 
