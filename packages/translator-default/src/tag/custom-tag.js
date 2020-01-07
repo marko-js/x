@@ -1,5 +1,5 @@
 import { types as t } from "@marko/babel-types";
-import { assertNoArgs } from "@marko/babel-utils";
+import { assertNoArgs, getTagDef } from "@marko/babel-utils";
 import { getAttrs, buildEventHandlerArray } from "./util";
 import nativeTag from "./native-tag";
 
@@ -7,9 +7,10 @@ import nativeTag from "./native-tag";
 const TAG_FILE_ENTRIES = ["template", "renderer"];
 const TAG_IDENTIFIER_LOOKUPS = new WeakMap();
 
-export default function(path, tagDef) {
+export default function(path) {
   const { hub, node } = path;
   const { meta, options } = hub;
+  const tagDef = getTagDef(path);
   const {
     name: { value: name },
     key,

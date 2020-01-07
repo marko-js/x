@@ -74,6 +74,6 @@ export default {
       }
     }
 
-    customTag(path, tagDef);
+    customTag(path);
   }
 };

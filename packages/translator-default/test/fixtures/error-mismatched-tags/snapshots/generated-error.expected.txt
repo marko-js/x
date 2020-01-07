@@ -1,5 +1,0 @@
-packages/translator-default/test/fixtures/error-mismatched-tags/template.marko(1,17): The closing "foo" tag does not match the corresponding opening "div" tag
-> 1 | <div>Hello World</foo>
-    |                 ^^^^^^
-> 2 | 
-    | ^

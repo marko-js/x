@@ -7,18 +7,11 @@ export function getAttrs(path, noCamel, skipRenderBody) {
   const { node } = path;
   const {
     attributes,
-    attributeTags,
     body: { body },
     hasDynamicAttributeTags
   } = node;
   const attrsLen = attributes.length;
   const childLen = body.length;
-  const hasRenderBody = !skipRenderBody && childLen;
-
-  if (!attrsLen && !hasRenderBody && !attributeTags) {
-    return t.nullLiteral();
-  }
-
   const properties = [];
   const targetObjects = {};
   const tagDef = getTagDef(path);
@@ -88,20 +81,27 @@ export function getAttrs(path, noCamel, skipRenderBody) {
   tagDef &&
     tagDef.forEachAttribute &&
     tagDef.forEachAttribute(attr => {
-      const { name, defaultValue } = attr;
-      if (
-        !attr.dynamicAttribute &&
-        !foundProperties[name] &&
-        defaultValue !== undefined
-      ) {
+      if (foundProperties[attr.name] || attr.dynamicAttribute) {
+        return;
+      }
+
+      if (attr.defaultValue !== undefined) {
         properties.push(
           t.objectProperty(
-            t.stringLiteral(name),
-            t.stringLiteral(defaultValue + "")
+            t.stringLiteral(attr.name),
+            t.stringLiteral(attr.defaultValue + "")
           )
         );
+      } else if (attr.required) {
+        throw path
+          .get("name")
+          .buildCodeFrameError(`The "${attr.name}" attribute is required.`);
       }
     });
+
+  if (properties.length === 0) {
+    return t.nullLiteral();
+  }
 
   if (properties.length === 1 && t.isSpreadElement(properties[0])) {
     return properties[0].argument;
