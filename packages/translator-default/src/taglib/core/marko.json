@@ -77,11 +77,7 @@
     "@by": "string"
   },
   "<while>": {
-    "code-generator": "./translate-while.js",
-    "parse-options": {
-      "rawOpenTag": true,
-      "ignoreAttributes": true
-    }
+    "code-generator": "./translate-while.js"
   },
   "<html-comment>": {
     "code-generator": "./translate-html-comment.js",

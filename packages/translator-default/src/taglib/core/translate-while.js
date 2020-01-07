@@ -1,13 +1,17 @@
 import { types as t } from "@marko/babel-types";
+import {
+  getArgOrSequence,
+  assertNoAttributes,
+  assertNoParams
+} from "@marko/babel-utils";
 
 export function exit(path) {
-  const { node, hub } = path;
-  const {
-    rawValue,
-    start,
-    body: { body }
-  } = node;
-  const [whileNode] = hub.parse(rawValue + ";", start).body;
-  whileNode.body = t.blockStatement(body);
-  path.replaceWith(whileNode);
+  assertNoParams(path);
+  assertNoAttributes(path);
+  path.replaceWith(
+    t.whileStatement(
+      getArgOrSequence(path),
+      t.blockStatement(path.node.body.body)
+    )
+  );
 }

@@ -47,7 +47,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   while (i--) {
     _items.push({
       "renderBody": out => {
-        out.w("10");
+        out.w(_marko_escapeXml(i));
       }
     });
   }
