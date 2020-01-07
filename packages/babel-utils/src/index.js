@@ -1,5 +1,5 @@
 export {
-  isHTMLTag,
+  isNativeTag,
   isMacro,
   isDynamicTag,
   isAttributeTag,

@@ -4,7 +4,7 @@ import {
   isDynamicTag,
   isAttributeTag,
   isMacro,
-  isHTMLTag,
+  isNativeTag,
   findAttributeTags
 } from "@marko/babel-utils";
 import nativeTag from "./native-tag";
@@ -69,7 +69,7 @@ export default {
         }
       }
 
-      if (isHTMLTag(path)) {
+      if (isNativeTag(path)) {
         return nativeTag(path);
       }
     }

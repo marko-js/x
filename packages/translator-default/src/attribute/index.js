@@ -1,4 +1,4 @@
-import { isHTMLTag } from "@marko/babel-utils";
+import { isNativeTag } from "@marko/babel-utils";
 import { join, basename } from "path";
 import fs from "fs";
 
@@ -40,7 +40,7 @@ export default function(attr) {
     if (!isDash) {
       // When the event is not in dash case we normalized differently for html tags and custom tags.
 
-      if (isHTMLTag(tag)) {
+      if (isNativeTag(tag)) {
         // Lowercase the string
         // Example: onMouseOver → mouseover
         eventName = eventName.toLowerCase();

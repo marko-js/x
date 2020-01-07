@@ -1,11 +1,11 @@
 import { types as t } from "@marko/babel-types";
-import { isHTMLTag } from "@marko/babel-utils";
+import { isNativeTag } from "@marko/babel-utils";
 import styleToString from "marko/src/runtime/helpers/style-value";
 
 export default function(tag, _, value) {
   const { hub } = tag;
   if (value.isStringLiteral()) return;
-  if (!isHTMLTag(tag)) return;
+  if (!isNativeTag(tag)) return;
 
   const { confident, value: computed } = value.evaluate();
   value.replaceWith(

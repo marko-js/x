@@ -1,7 +1,7 @@
 import { types as t } from "@marko/babel-types";
 const transparentTags = new Set(["for", "while", "if", "else", "no-update"]);
 
-export function isHTMLTag(path) {
+export function isNativeTag(path) {
   const tagDef = path.node.tagDef;
   return tagDef && tagDef.html;
 }
