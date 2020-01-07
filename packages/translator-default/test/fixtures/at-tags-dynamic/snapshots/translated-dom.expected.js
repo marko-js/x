@@ -21,8 +21,10 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   for (const color of input.colors) {
     if (x) {
       _items.push({
-        "style": {
-          color
+        "*": {
+          "style": {
+            color
+          }
         },
         "renderBody": out => {
           out.t("foo");
@@ -30,8 +32,10 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       });
     } else {
       _items.push({
-        "style": {
-          color
+        "*": {
+          "style": {
+            color
+          }
         },
         "renderBody": out => {
           out.t("bar");
@@ -55,7 +59,9 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
     for (const row of col) {
       _rows.push({
-        "row": row,
+        "*": {
+          "row": row
+        },
         "renderBody": out => {
           out.t(row);
         }
@@ -71,7 +77,9 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   const _rows2 = [];
 
   _rows2.push({
-    "row": -1,
+    "*": {
+      "row": -1
+    },
     "renderBody": out => {
       out.t("Outside");
     }

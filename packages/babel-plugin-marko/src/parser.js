@@ -150,7 +150,8 @@ export function parse(fileNodePath) {
       },
 
       onOpenTagName(event) {
-        const { tagName, pos, endPos } = event;
+        const { pos, endPos } = event;
+        const tagName = event.tagName || "div";
         const [, tagNameExpression] =
           /^\$\{([\s\S]+)\}/.exec(tagName) || EMPTY_ARRAY;
         const tagDef = !tagNameExpression && hub.lookup.getTag(tagName);
@@ -222,12 +223,12 @@ export function parse(fileNodePath) {
           currentTag.set("arguments", parseArguments(hub, event.argument));
           currentTag.set(
             "attributes",
-            parseClassnameShorthand(
+            parseIDShorthand(
               hub,
-              event.shorthandClassNames,
-              parseIDShorthand(
+              event.shorthandId,
+              parseClassnameShorthand(
                 hub,
-                event.shorthandId,
+                event.shorthandClassNames,
                 parseAttributes(hub, event.attributes, tagNameEndPos)
               )
             )

@@ -14,7 +14,7 @@ export function getTagDef(path) {
 
   if (isDynamicTag) {
     tagName = undefined;
-  } else if (isAttributeTag && path.parentPath.isMarkoTag()) {
+  } else if (isAttributeTag) {
     tagName = getFullyResolvedTagName(path);
   }
 
@@ -25,18 +25,14 @@ export function getFullyResolvedTagName(path) {
   const parts = [];
   let cur;
   do {
-    cur = path.node.name.value;
+    cur = path.node.name.value || "*";
 
-    if (cur) {
-      if (cur[0] !== "@") {
-        parts.push(cur);
-      } else {
-        parts.push(cur.slice(1));
-        continue;
-      }
+    if (cur[0] === "@") {
+      parts.push(cur.slice(1));
+    } else {
+      parts.push(cur);
+      break;
     }
-
-    break;
   } while ((path = findParentTag(path)));
 
   return parts.reverse().join(":");

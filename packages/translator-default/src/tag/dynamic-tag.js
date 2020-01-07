@@ -25,7 +25,7 @@ export default function(path) {
   }
 
   const dynamicTagRenderCall = t.callExpression(
-    hub.importNamed(
+    hub.importDefault(
       path,
       `marko/src/runtime/helpers/dynamic-tag`,
       "marko_dynamic_tag"

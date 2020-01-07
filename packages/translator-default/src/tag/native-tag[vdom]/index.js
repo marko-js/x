@@ -47,7 +47,21 @@ export default function(path) {
 
   const tagProperties = properties.slice();
   const isSelfClosing = SELF_CLOSING.indexOf(tagName) !== -1;
-  const attrsObj = getAttrs(path, true, true);
+  let attrsObj = getAttrs(path, true, true);
+
+  if (!t.isNullLiteral(attrsObj)) {
+    if (!t.isObjectExpression(attrsObj) || attrsObj.properties.some(t.isSpreadElement)) {
+      attrsObj = t.callExpression(
+        hub.importDefault(
+          path,
+          "marko/src/runtime/vdom/helpers/attrs",
+          "marko_attrs"
+        ),
+        [attrsObj]
+      )
+    }
+  }
+
   const writeArgs = [
     isSelfClosing ? "e" : "be",
     name,

@@ -8,7 +8,7 @@ const TAG_IDENTIFIER_LOOKUPS = new WeakMap();
 
 export default function(path, tagDef) {
   const { hub, node } = path;
-  const { options, meta } = hub;
+  const { meta } = hub;
   const {
     name: { value: name },
     key,

@@ -10,12 +10,13 @@ function more() {
 }
 
 import _marko_class_merge from "marko/src/runtime/helpers/class-value";
-import { marko_dynamic_tag as _marko_dynamic_tag } from "marko/src/runtime/helpers/dynamic-tag";
+import _marko_dynamic_tag from "marko/src/runtime/helpers/dynamic-tag";
 import _other from "./components/other/index.marko";
 import _marko_load_tag from "marko/src/runtime/helpers/load-tag";
 
 const _other_tag = _marko_load_tag(_other);
 
+import _marko_attrs from "marko/src/runtime/vdom/helpers/attrs";
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 import { t as _t } from "marko/src/runtime/dom";
@@ -129,14 +130,14 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }
   }, out, _component, "16");
 
-  out.be("div", {
+  out.be("div", _marko_attrs({
     "class": "b c",
-    "a": "[object Object]",
+    "a": "{\"a\":1}",
     "c": "${d}",
     ...e,
     ...f(),
     "id": "a"
-  }, "22", component, null, 0);
+  }), "22", component, null, 0);
   out.t(a);
   out.be("div", {
     "c": "1"
@@ -164,7 +165,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.be("div", null, "29", component, null, 0);
   out.t("123 abc 123");
   out.ee();
-  out.be("span", abc, "30", component, 0, 0);
+  out.be("span", _marko_attrs(abc), "30", component, 0, 0);
   out.ee();
 
   if (cond) {

@@ -3,15 +3,6 @@ import { getTagDef } from "@marko/babel-utils";
 
 const EMPTY_ARR = [];
 
-function getPropertyKey(name, noCamel, tagDef) {
-  const attribute = (tagDef && tagDef.getAttribute(name)) || {};
-  let currentKey = name;
-  if (attribute.targetProperty && !attribute.dynamicAttribute) {
-    currentKey = attribute.targetProperty;
-  }
-  return noCamel ? currentKey : camelCase(currentKey);
-}
-
 export function getAttrs(path, noCamel, skipRenderBody) {
   const { node } = path;
   const {
@@ -28,19 +19,53 @@ export function getAttrs(path, noCamel, skipRenderBody) {
     return t.nullLiteral();
   }
 
-  const properties = new Array(attrsLen);
+  const properties = [];
+  const targetObjects = {};
   const tagDef = getTagDef(path);
   const foundProperties = {};
 
   for (let i = 0; i < attrsLen; i++) {
     const { name, value } = attributes[i];
-    foundProperties[name] = true;
-    properties[i] = name
-      ? t.objectProperty(
-          t.stringLiteral(getPropertyKey(name, noCamel, tagDef)),
-          value
-        )
-      : t.spreadElement(value);
+
+    if (name) {
+      const attrDef = tagDef && tagDef.getAttribute(name);
+      let targetProperties = properties;
+      let targetProperty = name;
+
+      if (attrDef) {
+        if (attrDef.targetProperty) {
+          const key = attrDef.targetProperty;
+
+          if (attrDef.dynamicAttribute) {
+            let targetObject = targetObjects[key];
+
+            if (!targetObject) {
+              properties.push(
+                t.objectProperty(
+                  t.stringLiteral(key),
+                  (targetObject = targetObjects[key] = t.objectExpression([]))
+                )
+              );
+            }
+
+            targetProperties = targetObject.properties;
+          } else {
+            targetProperty = key;
+          }
+        }
+      }
+
+      if (!noCamel) {
+        targetProperty = camelCase(targetProperty);
+      }
+
+      foundProperties[targetProperty] = true;
+      targetProperties.push(
+        t.objectProperty(t.stringLiteral(targetProperty), value)
+      );
+    } else {
+      properties.push(t.spreadElement(value));
+    }
   }
 
   if (!skipRenderBody && childLen) {
@@ -63,9 +88,16 @@ export function getAttrs(path, noCamel, skipRenderBody) {
   tagDef &&
     tagDef.forEachAttribute(attr => {
       const { name, defaultValue } = attr;
-      if (!attr.dynamicAttribute && !foundProperties[name] && defaultValue) {
+      if (
+        !attr.dynamicAttribute &&
+        !foundProperties[name] &&
+        defaultValue !== undefined
+      ) {
         properties.push(
-          t.objectProperty(t.stringLiteral(name), t.stringLiteral(defaultValue))
+          t.objectProperty(
+            t.stringLiteral(name),
+            t.stringLiteral(defaultValue + "")
+          )
         );
       }
     });
@@ -111,7 +143,7 @@ export function evaluateAttr(attr) {
   let confident = false;
   let computed = undefined;
 
-  if (name !== "data-marko") {
+  if (name && name !== "data-marko") {
     if (value.isRegExpLiteral()) {
       confident = true;
       computed = value.get("pattern").node;
@@ -122,7 +154,11 @@ export function evaluateAttr(attr) {
       if (computed === true) {
         computed = "";
       } else if (computed != null && computed !== false) {
-        computed = computed + "";
+        if (typeof computed === "object") {
+          computed = JSON.stringify(computed);
+        } else {
+          computed = computed + "";
+        }
       }
     }
   }

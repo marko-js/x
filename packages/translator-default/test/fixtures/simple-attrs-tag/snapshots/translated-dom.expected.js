@@ -13,8 +13,8 @@ const _marko_componentType = _marko_registerComponent("fQi0Vsvi", () => _marko_t
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("div", {
     "style": "c:1px;",
-    "id": "a",
-    "class": "b"
+    "class": "b",
+    "id": "a"
   }, "0", component, 0, 1);
   out.ee();
   out.be("div", {

@@ -2,7 +2,7 @@ const _marko_template = _t(__filename);
 
 export default _marko_template;
 import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers/escape-xml";
-import { marko_attr as _marko_attr } from "marko/src/runtime/html/helpers/attr";
+import _marko_attr from "marko/src/runtime/html/helpers/attr";
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 import { t as _t } from "marko/src/runtime/html";

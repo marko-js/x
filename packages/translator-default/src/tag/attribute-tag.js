@@ -50,10 +50,19 @@ export default function(path) {
       );
     }
 
+    let attrs = getAttrs(path);
+
+    if (t.isNullLiteral(attrs)) {
+      // TODO: this could be left as a null literal, but would require changes in the
+      // await tag runtime to handle `<@catch/>`. (this would be a breaking change though)
+      attrs = t.objectExpression([]);
+    }
+
     parentPath.pushContainer(
       "attributes",
-      t.markoAttribute(targetProperty, getAttrs(path))
+      t.markoAttribute(targetProperty, attrs)
     );
+
     path.remove();
     return;
   }

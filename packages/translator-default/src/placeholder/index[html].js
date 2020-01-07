@@ -40,7 +40,7 @@ export default function(path) {
     );
   } else {
     value = t.callExpression(
-      hub.importDefault(path, "marko/src/runtime/to-string", "marko_to_string"),
+      hub.importDefault(path, "marko/src/runtime/helpers/to-string", "marko_to_string"),
       [value]
     );
   }

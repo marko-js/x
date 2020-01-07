@@ -1,7 +1,7 @@
 const _marko_template = _t(__filename);
 
 export default _marko_template;
-import { marko_attr as _marko_attr } from "marko/src/runtime/html/helpers/attr";
+import _marko_attr from "marko/src/runtime/html/helpers/attr";
 import _customTag from "./components/custom-tag.marko";
 import _marko_load_tag from "marko/src/runtime/helpers/load-tag";
 
