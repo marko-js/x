@@ -27,6 +27,8 @@ export default function(path) {
     const tagName = findParentTagName(path);
     const escapeType = ESCAPE_TYPES[tagName] || ESCAPE_TYPES.html;
 
+    // TODO: omit escape call on string literals.
+
     value = t.callExpression(
       escapeType.name
         ? hub.importNamed(
@@ -39,6 +41,7 @@ export default function(path) {
       [value]
     );
   } else {
+    // TODO: omit to string call on string literals
     value = t.callExpression(
       hub.importDefault(path, "marko/src/runtime/helpers/to-string", "marko_to_string"),
       [value]

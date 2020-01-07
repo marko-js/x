@@ -50,6 +50,14 @@
     "code-generator": "./macro/translate.js",
     "@name": "string"
   },
+  "<include-text>": {
+    "code-generator": "./translate-include-content.js",
+    "@name": "string"
+  },
+  "<include-html>": {
+    "code-generator": "./translate-include-content.js",
+    "@name": "string"
+  },
   "<if>": {
     "code-generator": "./conditional/translate-if.js"
   },
