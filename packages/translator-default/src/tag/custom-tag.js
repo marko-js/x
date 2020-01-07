@@ -1,6 +1,7 @@
 import { types as t } from "@marko/babel-types";
 import { assertNoArgs } from "@marko/babel-utils";
 import { getAttrs, buildEventHandlerArray } from "./util";
+import nativeTag from "./native-tag";
 
 // TODO: support transform and other entries.
 const TAG_FILE_ENTRIES = ["template", "renderer"];
@@ -8,7 +9,7 @@ const TAG_IDENTIFIER_LOOKUPS = new WeakMap();
 
 export default function(path, tagDef) {
   const { hub, node } = path;
-  const { meta } = hub;
+  const { meta, options } = hub;
   const {
     name: { value: name },
     key,
@@ -17,6 +18,10 @@ export default function(path, tagDef) {
   const relativePath = tagDef && resolveRelativePath(hub, tagDef);
 
   if (!relativePath) {
+    if (options.ignoreUnrecognizedTags) {
+      return nativeTag(path);
+    }
+
     throw path
       .get("name")
       .buildCodeFrameError(

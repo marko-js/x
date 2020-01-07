@@ -86,6 +86,7 @@ export function getAttrs(path, noCamel, skipRenderBody) {
 
   // Default parameters
   tagDef &&
+    tagDef.forEachAttribute &&
     tagDef.forEachAttribute(attr => {
       const { name, defaultValue } = attr;
       if (

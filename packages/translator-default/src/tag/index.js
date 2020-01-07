@@ -1,9 +1,11 @@
+import { types as t } from "@marko/babel-types";
 import {
   getTagDef,
   isDynamicTag,
   isAttributeTag,
   isMacro,
-  isHTMLTag
+  isHTMLTag,
+  findAttributeTags
 } from "@marko/babel-utils";
 import nativeTag from "./native-tag";
 import dynamicTag from "./dynamic-tag";
@@ -27,6 +29,15 @@ export default {
         if (path.node !== node) {
           return;
         }
+      }
+    } else {
+      if (path.hub.options.ignoreUnrecognizedTags) {
+        findAttributeTags(path).forEach(child => {
+          child.set(
+            "name",
+            t.stringLiteral(`at_${child.get("name.value").node.slice(1)}`)
+          );
+        });
       }
     }
 

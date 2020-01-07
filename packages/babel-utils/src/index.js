@@ -7,6 +7,7 @@ export {
   getTagDef,
   getFullyResolvedTagName,
   findParentTag,
+  findAttributeTags,
   getArgOrSequence
 } from "./tags";
 export {

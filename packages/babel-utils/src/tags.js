@@ -75,13 +75,25 @@ export function findParentTag(path) {
       break;
     }
 
-    if (transparentTags.has(cur.get("name.value").node)) {
+    if (isTransparentTag(cur)) {
       cur = cur.parentPath;
       continue;
     }
 
     return cur;
   }
+}
+
+export function findAttributeTags(path, attributeTags = []) {
+  path.get("body.body").forEach(child => {
+    if (isAttributeTag(child)) {
+      attributeTags.push(child);
+    } else if (isTransparentTag(child)) {
+      findAttributeTags(child, attributeTags);
+    }
+  });
+
+  return attributeTags;
 }
 
 export function getArgOrSequence(path) {
@@ -97,4 +109,10 @@ export function getArgOrSequence(path) {
       return args[0];
     }
   }
+}
+
+function isTransparentTag(path) {
+  return (
+    !isDynamicTag(path) && transparentTags.has(path.get("name.value").node)
+  );
 }
