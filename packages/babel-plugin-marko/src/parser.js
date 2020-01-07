@@ -153,9 +153,17 @@ export function parse(fileNodePath) {
         const { pos, endPos } = event;
         const tagName = event.tagName || "div";
         const [, tagNameExpression] =
-          /^\$\{([\s\S]+)\}/.exec(tagName) || EMPTY_ARRAY;
+          /^\$\{([\s\S]*)\}/.exec(tagName) || EMPTY_ARRAY;
         const tagDef = !tagNameExpression && hub.lookup.getTag(tagName);
         const tagNameStartPos = pos + (event.concise ? 0 : 1); // Account for leading `<`.
+
+        if (tagNameExpression === "") {
+          throw hub.buildError(
+            { start: tagNameStartPos + 1, end: tagNameStartPos + 3 },
+            "Missing expression for <${dynamic}> tag."
+          );
+        }
+
         const node = hub.createNode(
           "markoTag",
           pos,

@@ -114,8 +114,8 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.w(`Hello ${_marko_escapeXml(planet)}`);
   }
 
-  for (let _i = 0; _i <= 10; _i += 2) {
-    const i = _i;
+  for (let _steps = (10 - 0) / 2, _step = 0; _step <= _steps; _step++) {
+    const i = 0 + _step * 2;
     out.w("<div c=\"1\"></div>");
   }
 
@@ -124,10 +124,10 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.w("<div c=\"1\"></div>");
   }
 
-  let _i2 = 0;
+  let _i = 0;
 
   for (const val of arr) {
-    let i = _i2++;
+    let i = _i++;
     i;
     out.w("<div c=\"1\"></div>");
 

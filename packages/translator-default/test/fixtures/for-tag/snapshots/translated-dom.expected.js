@@ -38,8 +38,8 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.ee();
   }
 
-  for (let _i2 = 0; _i2 <= 10; _i2 += 2) {
-    const i = _i2;
+  for (let _steps = (10 - 0) / 2, _step = 0; _step <= _steps; _step++) {
+    const i = 0 + _step * 2;
     out.be("div", null, "9", component, null, 0);
     out.t(i);
     out.ee();
@@ -49,10 +49,10 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.ee();
   }
 
-  let _i3 = 0;
+  let _i2 = 0;
 
   for (const val of arr) {
-    let i = _i3++;
+    let i = _i2++;
     out.be("div", null, `@${i}`, component, null, 0);
     out.t(i);
     out.t(": ");
@@ -64,11 +64,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.ee();
   }
 
-  let _i4 = 0;
+  let _i3 = 0;
   const list = arr;
 
   for (const val of list) {
-    let i = _i4++;
+    let i = _i3++;
     out.be("div", null, `@${i}`, component, null, 0);
     out.t(list.length);
     out.t(": ");
@@ -89,8 +89,8 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.ee();
   }
 
-  for (let _i6 = 0; _i6 <= 10; _i6 += 2) {
-    const i = _i6;
+  for (let _steps3 = (10 - 0) / 2, _step3 = 0; _step3 <= _steps3; _step3++) {
+    const i = 0 + _step3 * 2;
     out.be("div", null, `@${i}`, component, null, 0);
     out.t(i);
     out.ee();
@@ -99,8 +99,8 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.be("div", null, `@other-${i}`, component, 0, 0);
     out.ee();
 
-    for (let _i5 = 0; _i5 <= 10; _i5 += 2) {
-      const i = _i5;
+    for (let _steps2 = (10 - 0) / 2, _step2 = 0; _step2 <= _steps2; _step2++) {
+      const i = 0 + _step2 * 2;
       out.be("div", null, `@${i}`, component, null, 0);
       out.t(i);
       out.ee();
@@ -111,8 +111,8 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }
   }
 
-  for (let _i7 = 10; _i7 >= 0; _i7 += -2) {
-    const i = _i7;
+  for (let _steps4 = (0 - 10) / -2, _step4 = 0; _step4 <= _steps4; _step4++) {
+    const i = 10 + _step4 * -2;
     out.be("div", null, `@${i}`, component, null, 0);
     out.t(i);
     out.ee();
