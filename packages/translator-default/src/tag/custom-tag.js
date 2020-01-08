@@ -71,7 +71,8 @@ export default function(path) {
     : undefined;
   const customTagRenderCall = t.expressionStatement(
     t.callExpression(tagIdentifier, [
-      foundAttrs,
+      // TODO: this could be left as null if we froze input mutations and used a default object in the runtime.
+      t.isNullLiteral(foundAttrs) ? t.objectExpression([]) : foundAttrs,
       t.identifier("out"),
       hub._componentDefIdentifier,
       key,

@@ -218,52 +218,54 @@ export const visitor = {
         );
       }
 
-      const metaObject = t.objectExpression([
-        t.objectProperty(t.identifier("id"), componentTypeIdentifier)
-      ]);
+      if (options.meta !== false) {
+        const metaObject = t.objectExpression([
+          t.objectProperty(t.identifier("id"), componentTypeIdentifier)
+        ]);
 
-      if (meta.component) {
-        metaObject.properties.push(
-          t.objectProperty(
-            t.identifier("component"),
-            t.stringLiteral(hub.resolveRelativePath(meta.component))
-          )
-        );
-      }
-
-      if (meta.deps.length) {
-        metaObject.properties.push(
-          t.objectProperty(
-            t.identifier("deps"),
-            hub.parseExpression(
-              JSON.stringify(
-                meta.deps.map(file =>
-                  typeof file === "string"
-                    ? hub.resolveRelativePath(file)
-                    : file
-                )
-              ),
-              hub.getCode().length
+        if (meta.component) {
+          metaObject.properties.push(
+            t.objectProperty(
+              t.identifier("component"),
+              t.stringLiteral(hub.resolveRelativePath(meta.component))
             )
+          );
+        }
+
+        if (meta.deps.length) {
+          metaObject.properties.push(
+            t.objectProperty(
+              t.identifier("deps"),
+              hub.parseExpression(
+                JSON.stringify(
+                  meta.deps.map(file =>
+                    typeof file === "string"
+                      ? hub.resolveRelativePath(file)
+                      : file
+                  )
+                ),
+                hub.getCode().length
+              )
+            )
+          );
+        }
+
+        if (meta.tags.length) {
+          metaObject.properties.push(
+            t.objectProperty(
+              t.identifier("tags"),
+              t.arrayExpression(meta.tags.map(tag => t.stringLiteral(tag)))
+            )
+          );
+        }
+
+        path.pushContainer(
+          "body",
+          t.expressionStatement(
+            t.assignmentExpression("=", templateMetaMember, metaObject)
           )
         );
       }
-
-      if (meta.tags.length) {
-        metaObject.properties.push(
-          t.objectProperty(
-            t.identifier("tags"),
-            t.arrayExpression(meta.tags.map(tag => t.stringLiteral(tag)))
-          )
-        );
-      }
-
-      path.pushContainer(
-        "body",
-        t.expressionStatement(
-          t.assignmentExpression("=", templateMetaMember, metaObject)
-        )
-      );
 
       path.traverse(optimize);
     }
