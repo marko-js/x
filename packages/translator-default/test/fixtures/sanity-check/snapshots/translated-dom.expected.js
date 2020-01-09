@@ -188,22 +188,6 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }, "29", component, 0, 0);
     out.ee();
   }
-
-  let _i = 0;
-
-  for (const val of arr) {
-    let i = _i++;
-    i;
-    const _loopKey = `@${val.name}`;
-    out.be("div", {
-      "c": "1"
-    }, _loopKey, component, 0, 0);
-    out.ee();
-
-    _other_tag({
-      "d": 2
-    }, out, _component, `@${val.name}`);
-  }
 }, {
   ___type: _marko_componentType
 }, _marko_component);

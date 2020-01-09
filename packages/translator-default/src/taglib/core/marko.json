@@ -85,10 +85,6 @@
       "state": "parsed-text"
     }
   },
-  "<fragment>": {
-    "transformer": "./transform-fragment.js",
-    "@key": "string"
-  },
   "<_no-update>": {
     "renderer": "marko/src/core-tags/components/preserve-tag.js",
     "@component": "boolean",

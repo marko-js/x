@@ -123,19 +123,6 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     const val = obj[key];
     out.w("<div c=\"1\"></div>");
   }
-
-  let _i = 0;
-
-  for (const val of arr) {
-    let i = _i++;
-    i;
-    const _loopKey = `@${val.name}`;
-    out.w("<div c=\"1\"></div>");
-
-    _other_tag({
-      "d": 2
-    }, out, _component, `@${val.name}`);
-  }
 }, {
   ___type: _marko_componentType
 }, _marko_component);
