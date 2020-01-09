@@ -3,7 +3,12 @@ const transparentTags = new Set(["for", "while", "if", "else", "_no-update"]);
 
 export function isNativeTag(path) {
   const tagDef = path.node.tagDef;
-  return tagDef && tagDef.html && !tagDef.template && !tagDef.renderer;
+  return (
+    tagDef &&
+    tagDef.html &&
+    (tagDef.htmlType === "custom-element" ||
+      (!tagDef.template && !tagDef.renderer))
+  );
 }
 
 export function isDynamicTag(path) {

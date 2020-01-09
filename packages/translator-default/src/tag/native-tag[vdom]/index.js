@@ -136,20 +136,11 @@ export default function(path) {
     writeArgs.push(t.objectExpression(tagProperties));
   }
 
-  let writeStartNode = write(...writeArgs);
+  const writeStartNode = write(...writeArgs);
 
   if (isSelfClosing) {
     path.replaceWith(writeStartNode);
     return;
-  }
-
-  let writeEndNode = write("ee");
-
-  const { bodyOnlyIf } = path.node;
-  if (bodyOnlyIf) {
-    const negatedBodyOnlyIf = t.unaryExpression("!", bodyOnlyIf, true);
-    writeStartNode = t.ifStatement(negatedBodyOnlyIf, writeStartNode);
-    writeEndNode = t.ifStatement(negatedBodyOnlyIf, writeEndNode);
   }
 
   let needsBlock;
@@ -165,7 +156,7 @@ export default function(path) {
   path.replaceWithMultiple(
     [writeStartNode]
       .concat(needsBlock ? t.blockStatement(body) : body)
-      .concat(writeEndNode)
+      .concat(write("ee"))
   );
 }
 

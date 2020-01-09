@@ -63,7 +63,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": (out, a) => {
       out.w("<div></div>");
     }
-  }, out, _component, "13", ["click", "handleClick", false, [a, b, ...d]]);
+  }, out, _component, "13", [["click", "handleClick", false, [a, b, ...d]]]);
 
   _other_tag({
     "x": 1,
@@ -136,10 +136,6 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       "d": 2
     }, out, _component, `@${val.name}`);
   }
-
-  if (!true) out.w("<div>");
-  out.w("Hi");
-  if (!true) out.w("</div>");
 }, {
   ___type: _marko_componentType
 }, _marko_component);

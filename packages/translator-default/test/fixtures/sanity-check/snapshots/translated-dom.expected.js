@@ -101,7 +101,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       out.be("div", null, "14", component, 0, 0);
       out.ee();
     }
-  }, out, _component, "13", ["click", "handleClick", false, [a, b, ...d]]);
+  }, out, _component, "13", [["click", "handleClick", false, [a, b, ...d]]]);
 
   _other_tag({
     "x": 1,
@@ -204,10 +204,6 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       "d": 2
     }, out, _component, `@${val.name}`);
   }
-
-  if (!true) out.be("div", null, "30", component, null, 0);
-  out.t("Hi");
-  if (!true) out.ee();
 }, {
   ___type: _marko_componentType
 }, _marko_component);

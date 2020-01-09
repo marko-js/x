@@ -68,7 +68,7 @@ export default function(path) {
     );
   }
 
-  let writeStartNode = withPreviousLocation(
+  const writeStartNode = withPreviousLocation(
     write`<${tagName}${translateAttributes(path, path.get("attributes"))}>`,
     node
   );
@@ -76,15 +76,6 @@ export default function(path) {
   if (SELF_CLOSING.indexOf(tagName) !== -1) {
     path.replaceWith(writeStartNode);
     return;
-  }
-
-  let writeEndNode = write`</${tagName}>`;
-
-  const { bodyOnlyIf } = path.node;
-  if (bodyOnlyIf) {
-    const negatedBodyOnlyIf = t.unaryExpression("!", bodyOnlyIf, true);
-    writeStartNode = t.ifStatement(negatedBodyOnlyIf, writeStartNode);
-    writeEndNode = t.ifStatement(negatedBodyOnlyIf, writeEndNode);
   }
 
   let needsBlock;
@@ -100,6 +91,6 @@ export default function(path) {
   path.replaceWithMultiple(
     [writeStartNode]
       .concat(needsBlock ? t.blockStatement(body) : body)
-      .concat(writeEndNode)
+      .concat(write`</${tagName}>`)
   );
 }

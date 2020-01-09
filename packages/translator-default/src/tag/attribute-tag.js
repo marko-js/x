@@ -21,12 +21,6 @@ export default function(path) {
     );
   }
 
-  if (node.bodyOnlyIf) {
-    throw namePath.buildCodeFrameError(
-      `@tags do not support the "body-only-if" attribute.`
-    );
-  }
-
   const parentAttributes = parentPath.get("attributes");
   const tagDef = getTagDef(path);
   const { isRepeated, targetProperty = tagName.slice(1) } =

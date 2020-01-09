@@ -13,8 +13,7 @@ export default function(path) {
   const tagDef = getTagDef(path);
   const {
     name: { value: name },
-    key,
-    bodyOnlyIf
+    key
   } = node;
   const relativePath = tagDef && resolveRelativePath(hub, tagDef);
 
@@ -64,11 +63,6 @@ export default function(path) {
   }
 
   const foundAttrs = getAttrs(path);
-  const renderBodyProp = t.isObjectExpression(foundAttrs)
-    ? foundAttrs.properties.find(
-        prop => prop.key && prop.key.value === "renderBody"
-      )
-    : undefined;
   const customTagRenderCall = t.expressionStatement(
     t.callExpression(tagIdentifier, [
       // TODO: this could be left as null if we froze input mutations and used a default object in the runtime.
@@ -80,27 +74,7 @@ export default function(path) {
     ])
   );
 
-  if (bodyOnlyIf && renderBodyProp) {
-    const renderBodyIdentifier = path.scope.generateUidIdentifier(
-      `${name}_tag_renderBody`
-    );
-    path.insertBefore(
-      t.variableDeclaration("const", [
-        t.variableDeclarator(renderBodyIdentifier, renderBodyProp.value)
-      ])
-    );
-
-    renderBodyProp.value = renderBodyIdentifier;
-    path.replaceWith(
-      t.ifStatement(
-        bodyOnlyIf,
-        t.markoTag(renderBodyIdentifier, [], t.markoTagBody()),
-        customTagRenderCall
-      )
-    );
-  } else {
-    path.replaceWith(customTagRenderCall);
-  }
+  path.replaceWith(customTagRenderCall);
 }
 
 function resolveRelativePath(hub, tagDef) {
