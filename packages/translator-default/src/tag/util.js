@@ -118,22 +118,19 @@ export function buildEventHandlerArray(path) {
 
   return [
     t.arrayExpression(
-      Object.entries(handlers).reduce(
-        (props, [eventName, { arguments: args, once }]) => {
-          props.push(
-            t.stringLiteral(eventName),
-            args[0],
-            t.booleanLiteral(once)
-          );
+      Object.entries(handlers).map(([eventName, { arguments: args, once }]) => {
+        const parts = [
+          t.stringLiteral(eventName),
+          args[0],
+          t.booleanLiteral(once)
+        ];
 
-          if (args.length > 1) {
-            props.push(t.arrayExpression(args.slice(1)));
-          }
+        if (args.length > 1) {
+          parts.push(t.arrayExpression(args.slice(1)));
+        }
 
-          return props;
-        },
-        []
-      )
+        return t.arrayExpression(parts);
+      })
     )
   ];
 }
