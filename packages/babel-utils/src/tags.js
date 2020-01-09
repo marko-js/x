@@ -14,11 +14,17 @@ export function isAttributeTag(path) {
   return !isDynamicTag(path) && path.get("name.value").node[0] === "@";
 }
 
-export function isMacro(path) {
-  return Boolean(getMacro(path));
+export function isTransparentTag(path) {
+  return (
+    !isDynamicTag(path) && transparentTags.has(path.get("name.value").node)
+  );
 }
 
-export function getMacro(path) {
+export function isMacroTag(path) {
+  return Boolean(getMacroIdentifier(path));
+}
+
+export function getMacroIdentifier(path) {
   return !isDynamicTag(path) && path.hub.macros[path.get("name.value").node];
 }
 
@@ -33,7 +39,7 @@ export function getTagDef(path) {
   const { lookup } = hub;
   let tagName;
 
-  if (!(isMacro(path) || isDynamicTag(path))) {
+  if (!(isMacroTag(path) || isDynamicTag(path))) {
     tagName = isAttributeTag(path)
       ? getFullyResolvedTagName(path)
       : path.get("name.value").node;
@@ -109,10 +115,4 @@ export function getArgOrSequence(path) {
       return args[0];
     }
   }
-}
-
-function isTransparentTag(path) {
-  return (
-    !isDynamicTag(path) && transparentTags.has(path.get("name.value").node)
-  );
 }

@@ -21,11 +21,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "oncamelcasedevent": _component.d("camelcasedevent", "handle", false)
   }, false)}></div>`);
 
-  _customTag_tag(null, out, _component, "3", ["thing", "handleThing", false, [a, b, ...d]]);
+  _customTag_tag({}, out, _component, "3", ["thing", "handleThing", false, [a, b, ...d]]);
 
-  _customTag_tag(null, out, _component, "4", ["Dashed-cased-Event", "handle", false]);
+  _customTag_tag({}, out, _component, "4", ["Dashed-cased-Event", "handle", false]);
 
-  _customTag_tag(null, out, _component, "5", ["camelcasedEvent", "handle", false]);
+  _customTag_tag({}, out, _component, "5", ["camelcasedEvent", "handle", false]);
 }, {
   ___type: _marko_componentType,
   ___implicit: true

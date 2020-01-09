@@ -57,13 +57,13 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   _marko_dynamic_tag(out, _thing, () => ({
     "x": 1
-  }), null, null, null, _component, "13");
+  }), null, null, null, _component, "12");
 
   _other_tag({
     "renderBody": (out, a) => {
       out.w("<div></div>");
     }
-  }, out, _component, "14", ["click", "handleClick", false, [a, b, ...d]]);
+  }, out, _component, "13", ["click", "handleClick", false, [a, b, ...d]]);
 
   _other_tag({
     "x": 1,
@@ -87,7 +87,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": (out, b) => {
       out.w("<div></div>");
     }
-  }, out, _component, "16");
+  }, out, _component, "15");
 
   out.w(`<div${_marko_attrs({
     "class": "b c",
@@ -129,6 +129,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   for (const val of arr) {
     let i = _i++;
     i;
+    const _loopKey = `@${val.name}`;
     out.w("<div c=\"1\"></div>");
 
     _other_tag({

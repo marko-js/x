@@ -3,7 +3,7 @@ import {
   getTagDef,
   isDynamicTag,
   isAttributeTag,
-  isMacro,
+  isMacroTag,
   isNativeTag,
   findAttributeTags
 } from "@marko/babel-utils";
@@ -52,7 +52,7 @@ export default {
       return attributeTag(path);
     }
 
-    if (isMacro(path)) {
+    if (isMacroTag(path)) {
       return macroTag(path);
     }
 

@@ -88,20 +88,20 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   }, "10", component, 0, 0);
 
   _marko_dynamic_tag(out, a, null, out => {
-    out.be("div", null, "12", component, 0, 0);
+    out.be("div", null, "11", component, 0, 0);
     out.ee();
   }, null, null, _component, "@x");
 
   _marko_dynamic_tag(out, _thing, () => ({
     "x": 1
-  }), null, null, null, _component, "13");
+  }), null, null, null, _component, "12");
 
   _other_tag({
     "renderBody": (out, a) => {
-      out.be("div", null, "15", component, 0, 0);
+      out.be("div", null, "14", component, 0, 0);
       out.ee();
     }
-  }, out, _component, "14", ["click", "handleClick", false, [a, b, ...d]]);
+  }, out, _component, "13", ["click", "handleClick", false, [a, b, ...d]]);
 
   _other_tag({
     "x": 1,
@@ -115,20 +115,20 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
       "d": {
         "d": 1,
         "renderBody": out => {
-          out.be("div", null, "21", component, 0, 0);
+          out.be("div", null, "20", component, 0, 0);
           out.ee();
         }
       },
       "renderBody": out => {
-        out.be("div", null, "19", component, 0, 0);
+        out.be("div", null, "18", component, 0, 0);
         out.ee();
       }
     },
     "renderBody": (out, b) => {
-      out.be("div", null, "17", component, 0, 0);
+      out.be("div", null, "16", component, 0, 0);
       out.ee();
     }
-  }, out, _component, "16");
+  }, out, _component, "15");
 
   out.be("div", _marko_attrs({
     "class": "b c",
@@ -137,15 +137,15 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     ...e,
     ...f(),
     "id": "a"
-  }), "22", component, null, 0);
+  }), "21", component, null, 0);
   out.t(a);
   out.be("div", {
     "c": "1"
-  }, "23", component, 0, 0);
+  }, "22", component, 0, 0);
   out.ee();
   out.be("div", {
     "d": "1"
-  }, "24", component, 0, 0);
+  }, "23", component, 0, 0);
   out.ee();
 
   if (x === a) {
@@ -160,12 +160,12 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   out.ee();
   out.be("div", {
     "b": "1"
-  }, "28", component, 0, 0);
+  }, "25", component, 0, 0);
   out.ee();
-  out.be("div", null, "29", component, null, 0);
+  out.be("div", null, "26", component, null, 0);
   out.t("123 abc 123");
   out.ee();
-  out.be("span", _marko_attrs(abc), "30", component, 0, 0);
+  out.be("span", _marko_attrs(abc), "27", component, 0, 0);
   out.ee();
 
   if (cond) {
@@ -177,7 +177,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     const i = 0 + _step * 2;
     out.be("div", {
       "c": "1"
-    }, "33", component, 0, 0);
+    }, "28", component, 0, 0);
     out.ee();
   }
 
@@ -185,7 +185,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     const val = obj[key];
     out.be("div", {
       "c": "1"
-    }, "35", component, 0, 0);
+    }, "29", component, 0, 0);
     out.ee();
   }
 
@@ -194,9 +194,10 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   for (const val of arr) {
     let i = _i++;
     i;
+    const _loopKey = `@${val.name}`;
     out.be("div", {
       "c": "1"
-    }, `@${val.name}`, component, 0, 0);
+    }, _loopKey, component, 0, 0);
     out.ee();
 
     _other_tag({
@@ -204,7 +205,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }, out, _component, `@${val.name}`);
   }
 
-  if (!true) out.be("div", null, "37", component, null, 0);
+  if (!true) out.be("div", null, "30", component, null, 0);
   out.t("Hi");
   if (!true) out.ee();
 }, {

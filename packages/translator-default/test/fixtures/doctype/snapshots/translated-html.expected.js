@@ -22,13 +22,13 @@ const _marko_componentType = "7TQV88nJ",
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w("<!DOCTYPE html><html><head><title>Title of the document</title></head><body>");
 
-  _componentGlobals_tag(null, out, _component, "4");
+  _componentGlobals_tag({}, out, _component, "4");
 
   out.w("The content of the document......");
 
-  _initComponents_tag(null, out, _component, "5");
+  _initComponents_tag({}, out, _component, "5");
 
-  _awaitReorderer_tag(null, out, _component, "6");
+  _awaitReorderer_tag({}, out, _component, "6");
 
   out.w("</body></html>");
 }, {

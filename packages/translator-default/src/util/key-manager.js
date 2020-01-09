@@ -1,5 +1,5 @@
 import { types as t } from "@marko/babel-types";
-import { normalizeTemplateString } from "@marko/babel-utils";
+import { normalizeTemplateString, isTransparentTag } from "@marko/babel-utils";
 const KeyManagerLookup = new WeakMap();
 
 /**
@@ -25,8 +25,26 @@ class KeyManager {
   }
 
   resolveKey(path) {
-    const parentLoopKeys = getParentLoopKeys(path);
-    if (!hasUserDefinedKey(path)) {
+    if (isTransparentTag(path)) {
+      return;
+    }
+
+    const userKey = getUserKey(path);
+    if (userKey) {
+      const parentTag = path.parentPath.parentPath;
+      if (isLoopTag(parentTag) && !getLoopKey(parentTag)) {
+        const keyIdentifier = path.scope.generateUidIdentifier("loopKey");
+        path.set("key", keyIdentifier);
+        path.insertBefore(
+          t.variableDeclaration("const", [
+            t.variableDeclarator(keyIdentifier, userKey)
+          ])
+        );
+
+        parentTag.set("loopKey", keyIdentifier);
+      }
+    } else {
+      const parentLoopKeys = getParentLoopKeys(path);
       const autoKey = path.get("key").node || this.nextKey();
       path.set(
         "key",
@@ -44,50 +62,41 @@ class KeyManager {
 function getParentLoopKeys(path) {
   return path
     .getAncestry()
-    .filter(parent => {
-      if (parent.isMarkoTag()) {
-        const tagName = parent.get("name.value").node;
-        if (tagName === "for" || tagName === "while") {
-          return true;
-        }
-      }
-    })
+    .filter(isLoopTag)
     .map(getLoopKey)
     .filter(Boolean)
     .reverse();
 }
 
 function getLoopKey(path) {
-  if (path.get("checkedKey").node) {
-    const existingIdentifier = path.get("loopKey").node;
-    return existingIdentifier && t.identifier(existingIdentifier.name);
-  }
-
-  const loopBody = path.get("body.body");
-  const childElements = loopBody.filter(childPath => childPath.isMarkoTag());
-  const [firstElement] = childElements;
-  const allKeyed = childElements.every(hasUserDefinedKey);
-  path.set("checkedKey", true);
-
-  if (allKeyed || !hasUserDefinedKey(firstElement)) {
-    return;
-  }
-
-  const firstElementKey = firstElement.get("key").node;
-  const keyIdentifier = path.scope.generateUidIdentifier("loopKey");
-  firstElement.set("key", keyIdentifier);
-  firstElement.insertBefore(
-    t.variableDeclaration("const", [
-      t.variableDeclarator(keyIdentifier, firstElementKey)
-    ])
-  );
-
-  path.set("loopKey", keyIdentifier);
-
-  return keyIdentifier;
+  return path.get("loopKey").node;
 }
 
-function hasUserDefinedKey(path) {
-  const key = path.get("key").node;
-  return key && !key._autoKey;
+function getUserKey(path) {
+  let key = path.get("key").node;
+  if (key === undefined) {
+    const keyAttr = path
+      .get("attributes")
+      .find(attr => attr.get("name").node === "key");
+
+    if (keyAttr) {
+      key = normalizeTemplateString`@${keyAttr.get("value").node}`;
+      keyAttr.remove();
+    } else {
+      key = null;
+    }
+
+    path.set("key", key);
+  }
+
+  return key;
+}
+
+function isLoopTag(path) {
+  if (!path.isMarkoTag()) {
+    return false;
+  }
+
+  const tagName = path.node.name.value;
+  return tagName === "while" || tagName === "for";
 }

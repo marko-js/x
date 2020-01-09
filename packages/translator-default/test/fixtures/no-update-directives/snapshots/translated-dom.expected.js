@@ -19,94 +19,79 @@ const _marko_componentType = _marko_registerComponent("ssDzNmTg", () => _marko_t
       _marko_component = {};
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  const _noUpdateKey = _component.___nextKey("0");
+  const _noUpdateKey = _component.nk("0");
 
   _noUpdate_tag({
-    "cid": _noUpdateKey,
+    "component": true,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          _hello_tag(null, out, _component, "1");
+          _hello_tag({}, out, _component, "1");
 
           out.be("div", null, "2", component, 0, 0);
           out.ee();
         }
-      }, out, _component, "0");
+      }, out, _component, _noUpdateKey);
     }
-  }, out, _component, `#${_noUpdateKey}`);
+  }, out, _component, _noUpdateKey);
 
-  const _noUpdateKey2 = _component.___nextKey("3");
+  const _noUpdateKey2 = _component.nk("3");
 
   _noUpdate_tag({
-    "cid": _noUpdateKey2,
     "if": x,
+    "component": true,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          const _noUpdateKey3 = _component.___nextKey("4");
+          const _noUpdateKey3 = _component.nk("4");
 
           _noUpdate_tag({
-            "cid": _noUpdateKey3,
             "if": (a, b),
+            "component": true,
             "renderBody": out => {
-              _hello_tag(null, out, _component, "4");
+              _hello_tag({}, out, _component, _noUpdateKey3);
             }
-          }, out, _component, `#${_noUpdateKey3}`);
+          }, out, _component, _noUpdateKey3);
 
           out.be("div", null, "5", component, 0, 0);
           out.ee();
         }
-      }, out, _component, "3");
+      }, out, _component, _noUpdateKey2);
     }
-  }, out, _component, `#${_noUpdateKey2}`);
+  }, out, _component, _noUpdateKey2);
 
-  const _noUpdateKey4 = _component.___nextKey("6");
+  const _noUpdateKey4 = _component.nk("6");
 
   _noUpdate_tag({
-    "cid": _noUpdateKey4,
-    "bodyOnly": true,
+    "component": true,
     "renderBody": out => {
-      _hello_tag({
-        "renderBody": out => {
-          _hello_tag(null, out, _component, "7");
+      _hello_tag({}, out, _component, "7");
 
-          out.be("div", null, "8", component, 0, 0);
-          out.ee();
-        }
-      }, out, _component, "6");
+      out.be("div", null, "8", component, 0, 0);
+      out.ee();
     }
-  }, out, _component, `#${_noUpdateKey4}`);
+  }, out, _component, _noUpdateKey4);
 
-  const _noUpdateKey5 = _component.___nextKey("9");
+  const _noUpdateKey5 = _component.nk("9");
 
   _noUpdate_tag({
-    "cid": _noUpdateKey5,
     "if": x,
-    "bodyOnly": true,
+    "component": true,
     "renderBody": out => {
-      _hello_tag({
+      const _noUpdateKey6 = _component.nk("10");
+
+      _noUpdate_tag({
+        "if": (a, b),
+        "component": true,
         "renderBody": out => {
-          const _noUpdateKey6 = _component.___nextKey("10");
-
-          _noUpdate_tag({
-            "cid": _noUpdateKey6,
-            "if": (a, b),
-            "bodyOnly": true,
-            "renderBody": out => {
-              _hello_tag({
-                "renderBody": out => {
-                  out.t("Again");
-                }
-              }, out, _component, "10");
-            }
-          }, out, _component, `#${_noUpdateKey6}`);
-
-          out.be("div", null, "11", component, 0, 0);
-          out.ee();
+          out.t("Again");
         }
-      }, out, _component, "9");
+      }, out, _component, _noUpdateKey6);
+
+      out.be("div", null, "11", component, 0, 0);
+      out.ee();
     }
-  }, out, _component, `#${_noUpdateKey5}`);
+  }, out, _component, _noUpdateKey5);
 }, {
   ___type: _marko_componentType,
   ___implicit: true

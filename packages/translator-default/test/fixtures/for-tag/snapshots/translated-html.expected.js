@@ -29,6 +29,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   for (const val of arr) {
     let i = _i2++;
+    const _loopKey = `@${i}`;
     out.w(`<div>${_marko_escapeXml(i)}: ${_marko_escapeXml(val)}</div><div></div><div></div>`);
   }
 
@@ -37,26 +38,31 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   for (const val of list) {
     let i = _i3++;
+    const _loopKey2 = `@${i}`;
     out.w(`<div>${_marko_escapeXml(list.length)}: ${_marko_escapeXml(val)}</div>`);
   }
 
   for (const key in obj) {
     const val = obj[key];
+    const _loopKey3 = `@${key}`;
     out.w(`<div>${_marko_escapeXml(key)}: ${_marko_escapeXml(val)}</div><div></div><div></div>`);
   }
 
   for (let _steps3 = (10 - 0) / 2, _step3 = 0; _step3 <= _steps3; _step3++) {
     const i = 0 + _step3 * 2;
+    const _loopKey4 = `@${i}`;
     out.w(`<div>${_marko_escapeXml(i)}</div><div></div><div></div>`);
 
     for (let _steps2 = (10 - 0) / 2, _step2 = 0; _step2 <= _steps2; _step2++) {
       const i = 0 + _step2 * 2;
+      const _loopKey5 = `@${i}`;
       out.w(`<div>${_marko_escapeXml(i)}</div><div></div><div></div>`);
     }
   }
 
   for (let _steps4 = (0 - 10) / -2, _step4 = 0; _step4 <= _steps4; _step4++) {
     const i = 10 + _step4 * -2;
+    const _loopKey6 = `@${i}`;
     out.w(`<div>${_marko_escapeXml(i)}</div><div></div><div></div>`);
   }
 }, {

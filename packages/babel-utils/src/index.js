@@ -1,9 +1,10 @@
 export {
   isNativeTag,
-  isMacro,
+  isMacroTag,
   isDynamicTag,
   isAttributeTag,
-  getMacro,
+  isTransparentTag,
+  getMacroIdentifier,
   getTagDef,
   getFullyResolvedTagName,
   findParentTag,

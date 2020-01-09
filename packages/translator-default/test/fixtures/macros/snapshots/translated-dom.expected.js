@@ -17,12 +17,12 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     out.t(" Children: ");
 
     if (node.children) {
-      out.be("ul", null, "2", component, null, 0);
+      out.be("ul", null, "1", component, null, 0);
 
       for (const child of node.children) {
-        out.be("li", null, "4", component, null, 0);
+        out.be("li", null, "2", component, null, 0);
 
-        _marko_dynamic_tag(out, _renderTree, () => child, null, null, null, _component, "5");
+        _marko_dynamic_tag(out, _renderTree, () => child, null, null, null, _component, "3");
 
         out.ee();
       }
@@ -31,7 +31,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }
   }
 
-  _marko_dynamic_tag(out, _renderTree, () => input.node, null, null, null, _component, "6");
+  _marko_dynamic_tag(out, _renderTree, () => input.node, null, null, null, _component, "4");
 }, {
   ___type: _marko_componentType,
   ___implicit: true

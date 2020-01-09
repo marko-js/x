@@ -14,7 +14,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   while (i < 10) {
     i++;
-    out.be("div", null, "1", component, 0, 0);
+    out.be("div", null, "0", component, 0, 0);
     out.ee();
   }
 }, {
