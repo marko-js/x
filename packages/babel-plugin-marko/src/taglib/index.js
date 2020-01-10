@@ -3,7 +3,7 @@ import { loader, finder } from "marko/src/taglib";
 import TaglibLookup from "marko/src/taglib/taglib-lookup/TaglibLookup";
 
 const lookupCache = Object.create(null);
-const coreTaglibs = ["html", "svg"].map(name =>
+const coreTaglibs = ["html", "svg", "math"].map(name =>
   loader.loadTaglibFromFile(path.join(__dirname, name, "marko.json"))
 );
 
