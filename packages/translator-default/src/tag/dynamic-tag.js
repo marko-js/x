@@ -3,8 +3,12 @@ import { getAttrs, buildEventHandlerArray } from "./util";
 
 export default function(path) {
   const { node, hub } = path;
-  const { options } = hub;
-  const { name: tagNameExpression, key, arguments: args } = node;
+  const {
+    name: tagNameExpression,
+    key,
+    arguments: args,
+    properties: tagProperties
+  } = node;
 
   const foundAttrs = getAttrs(path, true);
   let renderBodyProp;
@@ -36,7 +40,9 @@ export default function(path) {
       attrsLen ? t.arrowFunctionExpression([], foundAttrs) : t.nullLiteral(),
       renderBodyProp ? renderBodyProp.value : t.nullLiteral(),
       args && args.length ? t.arrayExpression(args) : t.nullLiteral(),
-      t.nullLiteral(), // props
+      tagProperties.length
+        ? t.objectExpression(tagProperties)
+        : t.nullLiteral(),
       hub._componentDefIdentifier,
       key,
       ...buildEventHandlerArray(path)
