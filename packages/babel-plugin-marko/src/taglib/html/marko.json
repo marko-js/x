@@ -58,7 +58,9 @@
       }
     ],
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "<article>": {
     "html": true,
@@ -101,7 +103,9 @@
       }
     ],
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "<bdi>": {
     "html": true,
@@ -152,7 +156,9 @@
   "<br>": {
     "html": true,
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "<button>": {
     "@autofocus": "#html-autofocus",
@@ -204,7 +210,9 @@
     "@span": "#html-span",
     "html": true,
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "<colgroup>": {
     "@span": "#html-span",
@@ -269,7 +277,9 @@
       }
     ],
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "<fieldset>": {
     "@disabled": "#html-disabled",
@@ -347,7 +357,9 @@
   "<hr>": {
     "html": true,
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "<html>": {
     "html": true,
@@ -415,7 +427,9 @@
       }
     ],
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "<input>": {
     "@accept": "#html-accept",
@@ -458,7 +472,9 @@
       }
     ],
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "<ins>": {
     "@cite": "#html-cite",
@@ -518,7 +534,9 @@
       }
     ],
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "<map>": {
     "@name": "#html-name",
@@ -546,7 +564,9 @@
       }
     ],
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "<meter>": {
     "@form": "#html-form",
@@ -641,14 +661,18 @@
       }
     ],
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "<picture>": {
     "html": true,
     "attribute-groups": ["html-attributes"]
   },
   "<pre>": {
-    "preserve-whitespace": true,
+    "parse-options": {
+      "preserveWhitespace": true
+    },
     "html": true,
     "attribute-groups": ["html-attributes"]
   },
@@ -695,7 +719,9 @@
     "attribute-groups": ["html-attributes"]
   },
   "<script>": {
-    "preserve-whitespace": true,
+    "parse-options": {
+      "preserveWhitespace": true
+    },
     "@async": "#html-async",
     "@crossorigin": "#html-crossorigin",
     "@defer": "#html-defer",
@@ -746,7 +772,9 @@
       }
     ],
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "<span>": {
     "html": true,
@@ -757,7 +785,9 @@
     "attribute-groups": ["html-attributes"]
   },
   "<style>": {
-    "preserve-whitespace": true,
+    "parse-options": {
+      "preserveWhitespace": true
+    },
     "@disabled": "#html-disabled",
     "@media": "#html-media",
     "@nonce": "#html-nonce",
@@ -793,7 +823,9 @@
     "attribute-groups": ["html-attributes"]
   },
   "<textarea>": {
-    "preserve-whitespace": true,
+    "parse-options": {
+      "preserveWhitespace": true
+    },
     "@autocomplete": "#html-autocomplete",
     "@autofocus": "#html-autofocus",
     "@cols": "#html-cols",
@@ -857,7 +889,9 @@
       }
     ],
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "<u>": {
     "html": true,
@@ -895,7 +929,9 @@
   "<wbr>": {
     "html": true,
     "attribute-groups": ["html-attributes"],
-    "open-tag-only": true
+    "parse-options": {
+      "openTagOnly": true
+    }
   },
   "attribute-groups": {
     "html-attributes": {

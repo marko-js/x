@@ -65,19 +65,21 @@ export default function(path) {
 
   if (isHTML) {
     const componentFiles = getComponentFiles(path);
+    const isSplit = Boolean(componentFiles.componentBrowserFile);
     const isImplicit = Boolean(
-      componentFiles.componentBrowserFile ||
-        (!hub.inlineComponentClass && !componentFiles.componentFile)
+        !hub.inlineComponentClass && !componentFiles.componentFile && !hub._hasTagParams
     );
 
-    if (isImplicit) {
+    if (isSplit || isImplicit) {
       if (tagProperties.length) {
         path.pushContainer(
           "attributes",
           t.markoAttribute("data-marko", t.objectExpression(tagProperties))
         );
       }
+    }
 
+    if (isSplit) {
       if (!hasAutoKey(path)) {
         path.pushContainer(
           "attributes",

@@ -4,7 +4,7 @@ import { getTagDef } from "@marko/babel-utils";
 const EMPTY_ARR = [];
 
 export function getAttrs(path, noCamel, skipRenderBody) {
-  const { node } = path;
+  const { node, hub } = path;
   const {
     attributes,
     body: { body },
@@ -65,6 +65,12 @@ export function getAttrs(path, noCamel, skipRenderBody) {
     if (hasDynamicAttributeTags) {
       path.insertBefore(body);
     } else {
+      if (node.params) {
+        if (!hub._hasTagParams && !isIgnoredTagParams(path)) {
+          hub._hasTagParams = true;
+        }
+      }
+
       properties.push(
         t.objectProperty(
           t.stringLiteral("renderBody"),
@@ -169,4 +175,23 @@ export function evaluateAttr(attr) {
 
 function camelCase(string) {
   return string.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+}
+
+function isIgnoredTagParams(path) {
+  const tagNamePath = path.get("name");
+
+  if (!tagNamePath.isStringLiteral()) {
+    return false;
+  }
+
+  const tagName = tagNamePath.get("value").node;
+
+  return (
+    tagName === "for" ||
+    tagName === "macro" ||
+    ((tagName === "@then" || tagName === "@catch") &&
+      path.parentPath.parentPath
+        .get("name")
+        .isStringLiteral({ value: "await" }))
+  );
 }
