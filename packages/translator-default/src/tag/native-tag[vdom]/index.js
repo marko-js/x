@@ -75,12 +75,12 @@ export default function(path) {
       ([eventName, { arguments: args, once }]) => {
         const delegateArgs = [t.stringLiteral(eventName), args[0]];
 
+        // TODO: look into only sending this if once is true.
+        delegateArgs.push(t.booleanLiteral(once));
+
         if (args.length > 1) {
           delegateArgs.push(t.arrayExpression(args.slice(1)));
         }
-
-        // TODO: look into only sending this if once is true.
-        delegateArgs.push(t.booleanLiteral(once));
 
         // TODO: why do we output eventName twice.
         tagProperties.push(
