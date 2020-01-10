@@ -13,6 +13,11 @@ export function getKeyManager(path) {
   );
 }
 
+export function hasAutoKey(path) {
+  const key = path.get("key").node;
+  return Boolean(key && key._autoKey);
+}
+
 class KeyManager {
   constructor() {
     this._nextKey = 0;

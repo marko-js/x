@@ -82,10 +82,10 @@ export const visitor = {
       const renderBlock = hub._renderBlock;
       const componentClass =
         inlineComponentClass ||
-        (componentFile &&
+        (meta.component &&
           hub.importDefault(
             path,
-            hub.resolveRelativePath(componentFile),
+            hub.resolveRelativePath(meta.component),
             "marko_component"
           )) ||
         t.objectExpression([]);
@@ -202,7 +202,7 @@ export const visitor = {
       );
       renderBlock.remove();
 
-      if (!isHTML && !isSplit) {
+      if (!isHTML && !isImplicit) {
         path.pushContainer(
           "body",
           t.expressionStatement(

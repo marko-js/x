@@ -3,6 +3,7 @@ import SELF_CLOSING from "self-closing-tags";
 import { types as t } from "@marko/babel-types";
 import { getTagDef } from "@marko/babel-utils";
 import write from "../../util/html-out-write";
+import { hasAutoKey } from "../../util/key-manager";
 import withPreviousLocation from "../../util/with-previous-location";
 import translateAttributes from "./attributes";
 import getComponentFiles from "../../util/get-component-files";
@@ -12,7 +13,7 @@ const EMPTY_OBJECT = {};
 /**
  * Translates the html streaming version of a standard html element.
  */
-export default function(path) {
+export default function (path) {
 
   const { hub, node } = path;
   const {
@@ -61,12 +62,28 @@ export default function(path) {
     );
   }
 
-  const isImplicit = !hub.inlineComponentClass && !getComponentFiles(path).componentFile;
-  if (isImplicit && tagProperties.length) {
-    path.pushContainer(
-      "attributes",
-      t.markoAttribute("data-marko", t.objectExpression(tagProperties))
-    );
+  const isHTML = hub.options.output === "html";
+
+  if (isHTML && tagProperties.length) {
+    const isImplicit = !hub.inlineComponentClass && !getComponentFiles(path).componentFile;
+    if (isImplicit) {
+      if (!hasAutoKey(path)) {
+        path.pushContainer(
+          "attributes",
+          t.markoAttribute("data-marko-key",
+            t.callExpression(hub.importDefault(
+              path,
+              "marko/src/core-tags/components/helpers/markoKeyAttr",
+              "marko_key"), [path.get("key").node, hub._componentDefIdentifier])
+          )
+        );
+      }
+
+      path.pushContainer(
+        "attributes",
+        t.markoAttribute("data-marko", t.objectExpression(tagProperties))
+      );
+    }
   }
 
   const writeStartNode = withPreviousLocation(
