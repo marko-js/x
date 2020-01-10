@@ -6,11 +6,14 @@ const directives = requireDir(join(__dirname, "directives"));
 const modifiers = requireDir(join(__dirname, "modifiers"));
 const EMPTY_ARRAY = [];
 const EVENT_REG = /^(on(?:ce)?)(-)?(.*)$/;
+const attachedDetachedLoaded = new WeakSet();
 
 export default function(attr) {
+  const { hub } = attr;
   const tag = attr.parentPath;
   const value = attr.get("value");
   const { name, modifier, arguments: args } = attr.node;
+  const isVDOM = hub.options.output !== "html";
 
   if (!tag.node) {
     return;
@@ -66,6 +69,16 @@ export default function(attr) {
       arguments: args,
       once: eventType === "once"
     };
+
+    if (isVDOM) {
+      if (eventName === "attach" || eventName === "detach") {
+        if (!attachedDetachedLoaded.has(hub)) {
+          // Pull in helper for element attach/detach;
+          attachedDetachedLoaded.add(hub);
+          hub.importDefault(tag, "marko/src/runtime/components/attach-detach");
+        }
+      }
+    }
 
     attr.remove();
     return;
