@@ -75,7 +75,9 @@ export default function(path) {
     const callArgs = [
       getComputedExpression(fromAttr) || fromAttr.node,
       getComputedExpression(toAttr) || toAttr.node,
-      stepAttr.node ? getComputedExpression(stepAttr) || stepAttr.node : t.numericLiteral(1),
+      stepAttr.node
+        ? getComputedExpression(stepAttr) || stepAttr.node
+        : t.numericLiteral(1),
       t.arrowFunctionExpression(node.params, t.blockStatement(body))
     ];
 

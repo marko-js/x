@@ -26,7 +26,7 @@ export default function(path, attrs) {
     if (!name) {
       quasis.push(curString);
       curString = "";
-      hasSpread = hasSpread || attr.type === 'MarkoSpreadAttribute';
+      hasSpread = hasSpread || attr.type === "MarkoSpreadAttribute";
       attrsObject.properties.push(t.spreadElement(value));
       continue;
     }
@@ -43,24 +43,21 @@ export default function(path, attrs) {
       curString += escapeAttr(name, computed);
 
       if (computed != null && computed !== false) {
-        attrsObject.properties.push(t.objectProperty(t.stringLiteral(name), value));
+        attrsObject.properties.push(
+          t.objectProperty(t.stringLiteral(name), value)
+        );
       }
     } else {
       const args = [t.stringLiteral(name), value];
       quasis.push(curString);
       curString = "";
 
-      attrsObject.properties.push(t.objectProperty(t.stringLiteral(name), value));
+      attrsObject.properties.push(
+        t.objectProperty(t.stringLiteral(name), value)
+      );
 
       expressions.push(
-        t.callExpression(
-          hub.importNamed(
-            attr,
-            "fluurt/html",
-            "attr"
-          ),
-          args
-        )
+        t.callExpression(hub.importNamed(attr, "fluurt/html", "attr"), args)
       );
     }
   }
@@ -69,15 +66,11 @@ export default function(path, attrs) {
 
   if (hasSpread) {
     return t.callExpression(
-      path.hub.importNamed(
-            path,
-            "fluurt/html",
-            "attrs"
-          ),
-          [attrsObject]
-      );
+      path.hub.importNamed(path, "fluurt/html", "attrs"),
+      [attrsObject]
+    );
   } else if (expressions.length) {
-    return normalizeTemplateString(quasis, ...expressions)
+    return normalizeTemplateString(quasis, ...expressions);
   } else {
     return t.stringLiteral(quasis.join(""));
   }

@@ -13,8 +13,7 @@ const EMPTY_OBJECT = {};
 /**
  * Translates the html streaming version of a standard html element.
  */
-export default function (path) {
-
+export default function(path) {
   const { hub, node } = path;
   const {
     name: { value: tagName },
@@ -64,25 +63,37 @@ export default function (path) {
 
   const isHTML = hub.options.output === "html";
 
-  if (isHTML && tagProperties.length) {
-    const isImplicit = !hub.inlineComponentClass && !getComponentFiles(path).componentFile;
+  if (isHTML) {
+    const componentFiles = getComponentFiles(path);
+    const isImplicit = Boolean(
+      componentFiles.componentBrowserFile ||
+        (!hub.inlineComponentClass && !componentFiles.componentFile)
+    );
+
     if (isImplicit) {
-      if (!hasAutoKey(path)) {
+      if (tagProperties.length) {
         path.pushContainer(
           "attributes",
-          t.markoAttribute("data-marko-key",
-            t.callExpression(hub.importDefault(
-              path,
-              "marko/src/core-tags/components/helpers/markoKeyAttr",
-              "marko_key"), [path.get("key").node, hub._componentDefIdentifier])
-          )
+          t.markoAttribute("data-marko", t.objectExpression(tagProperties))
         );
       }
 
-      path.pushContainer(
-        "attributes",
-        t.markoAttribute("data-marko", t.objectExpression(tagProperties))
-      );
+      if (!hasAutoKey(path)) {
+        path.pushContainer(
+          "attributes",
+          t.markoAttribute(
+            "data-marko-key",
+            t.callExpression(
+              hub.importDefault(
+                path,
+                "marko/src/core-tags/components/helpers/markoKeyAttr",
+                "marko_key"
+              ),
+              [path.get("key").node, hub._componentDefIdentifier]
+            )
+          )
+        );
+      }
     }
   }
 

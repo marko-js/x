@@ -30,7 +30,10 @@ export default {
 
     path.insertBefore(
       t.expressionStatement(
-        t.callExpression(hub.importRuntime(path, hasNS ? "beginElNS" : "beginEl"), [name])
+        t.callExpression(
+          hub.importRuntime(path, hasNS ? "beginElNS" : "beginEl"),
+          [name]
+        )
       )
     );
 

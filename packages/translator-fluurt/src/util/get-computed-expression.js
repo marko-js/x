@@ -70,10 +70,11 @@ export default path => {
 };
 
 function wrapWithGetCall(expression) {
-  expression.container[expression.key] = t.callExpression(
-    expression.hub.importRuntime(expression, "get"),
-    [expression.node]
-  );
+  expression.container[
+    expression.key
+  ] = t.callExpression(expression.hub.importRuntime(expression, "get"), [
+    expression.node
+  ]);
 }
 
 function getFirstIdentifierInMemberExpression(memberExpression) {

@@ -36,10 +36,7 @@ export default function(path) {
       if (computed == null || computed === false) {
         attr.remove();
       } else {
-        attr.set(
-          "value",
-          t.stringLiteral(computed)
-        );
+        attr.set("value", t.stringLiteral(computed));
       }
     }
   });
@@ -49,7 +46,10 @@ export default function(path) {
   let attrsObj = getAttrs(path, true, true);
 
   if (!t.isNullLiteral(attrsObj)) {
-    if (!t.isObjectExpression(attrsObj) || attrsObj.properties.some(t.isSpreadElement)) {
+    if (
+      !t.isObjectExpression(attrsObj) ||
+      attrsObj.properties.some(t.isSpreadElement)
+    ) {
       attrsObj = t.callExpression(
         hub.importDefault(
           path,
@@ -57,7 +57,7 @@ export default function(path) {
           "marko_attrs"
         ),
         [attrsObj]
-      )
+      );
     }
   }
 

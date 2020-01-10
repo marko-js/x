@@ -1,5 +1,9 @@
 import { types as t } from "@marko/babel-types";
-import { assertNoAttributes, assertNoArgs, getArgOrSequence } from "@marko/babel-utils";
+import {
+  assertNoAttributes,
+  assertNoArgs,
+  getArgOrSequence
+} from "@marko/babel-utils";
 import getComputedExpression from "../../../util/get-computed-expression";
 
 export default function(path) {
@@ -16,7 +20,7 @@ export default function(path) {
           ])
         )
       );
-    
+
       const conditionPath = replacement.get("expression.arguments")[0];
       const computedCondition = getComputedExpression(conditionPath);
       if (computedCondition) {
@@ -24,13 +28,13 @@ export default function(path) {
         // output a regular if statement.
         conditionPath.replaceWith(computedCondition);
       }
-    
+
       replacement.insertBefore(insertions);
       break;
 
       function buildCondition(branch) {
         const arg = getArgOrSequence(branch);
-    
+
         if (!arg) {
           const tagName = branch.node.name.value;
           throw branch
@@ -39,17 +43,17 @@ export default function(path) {
               `Invalid '<${tagName}>' tag, expected arguments like '<${tagName}(test)>'.`
             );
         }
-    
+
         const condition = t.conditionalExpression(
           arg,
           addBranchBody(branch),
           t.nullLiteral()
         );
         const next = branch.getNextSibling();
-    
+
         if (next.isMarkoTag()) {
           const nextTagName = next.get("name.value").node;
-    
+
           if (nextTagName === "else-if") {
             condition.alternate = buildCondition(next);
             next.remove();
@@ -58,25 +62,32 @@ export default function(path) {
             next.remove();
           }
         }
-    
+
         if (t.isNullLiteral(condition.alternate)) {
-          return t.logicalExpression("&&", condition.test, condition.consequent);
+          return t.logicalExpression(
+            "&&",
+            condition.test,
+            condition.consequent
+          );
         }
-    
+
         return condition;
       }
-    
+
       function addBranchBody(branch) {
         const id = path.scope.generateUidIdentifier(`${conditionId}Branch`);
         insertions.push(
           t.variableDeclaration("const", [
             t.variableDeclarator(
               id,
-              t.arrowFunctionExpression([], t.blockStatement(branch.node.body.body))
+              t.arrowFunctionExpression(
+                [],
+                t.blockStatement(branch.node.body.body)
+              )
             )
           ])
         );
-    
+
         return id;
       }
     }
@@ -90,7 +101,7 @@ export default function(path) {
             "Invalid 'else-if' tag, expected preceding 'if' or 'else-if' tag."
           );
       }
-    
+
       ifStatement.alternate = buildIfStatement(path, args);
       path.remove();
       break;
@@ -102,7 +113,7 @@ export default function(path) {
       } = path.node;
 
       assertNoArgs(path);
-    
+
       if (!ifStatement) {
         throw path
           .get("name")

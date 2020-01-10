@@ -81,13 +81,13 @@ export const visitor = {
 
       const renderBlock = hub._renderBlock;
       const componentClass =
-        inlineComponentClass ||
-        (meta.component &&
+        (componentFile &&
           hub.importDefault(
             path,
-            hub.resolveRelativePath(meta.component),
+            hub.resolveRelativePath(componentFile),
             "marko_component"
           )) ||
+        inlineComponentClass ||
         t.objectExpression([]);
 
       const componentIdentifier = path.scope.generateUidIdentifier(
@@ -103,11 +103,6 @@ export const visitor = {
         path,
         "marko/src/runtime/components/renderer",
         "marko_renderer"
-      );
-      const defineComponentIdentifier = hub.importDefault(
-        path,
-        "marko/src/runtime/components/defineComponent",
-        "marko_defineComponent"
       );
       const templateRendererMember = t.memberExpression(
         templateIdentifier,
@@ -152,7 +147,16 @@ export const visitor = {
                   ),
                   [
                     componentIdString,
-                    t.arrowFunctionExpression([], templateIdentifier)
+                    t.arrowFunctionExpression(
+                      [],
+                      isSplit
+                        ? hub.importDefault(
+                            path,
+                            hub.resolveRelativePath(componentBrowserFile),
+                            "marko_split_component"
+                          )
+                        : templateIdentifier
+                    )
                   ]
                 )
           ),
@@ -202,17 +206,21 @@ export const visitor = {
       );
       renderBlock.remove();
 
-      if (!isHTML && !isImplicit) {
+      if (!isHTML && !(isSplit || isImplicit)) {
         path.pushContainer(
           "body",
           t.expressionStatement(
             t.assignmentExpression(
               "=",
               t.memberExpression(templateIdentifier, t.identifier("Component")),
-              t.callExpression(defineComponentIdentifier, [
-                componentIdentifier,
-                templateRendererMember
-              ])
+              t.callExpression(
+                hub.importDefault(
+                  path,
+                  "marko/src/runtime/components/defineComponent",
+                  "marko_defineComponent"
+                ),
+                [componentIdentifier, templateRendererMember]
+              )
             )
           )
         );

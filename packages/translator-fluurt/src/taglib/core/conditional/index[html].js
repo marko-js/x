@@ -19,7 +19,7 @@ export default function(path) {
             "Invalid 'else-if' tag, expected preceding 'if' or 'else-if' tag."
           );
       }
-    
+
       ifStatement.alternate = buildIfStatement(path, args);
       path.remove();
       break;
@@ -31,7 +31,7 @@ export default function(path) {
       } = path.node;
 
       assertNoArgs(path);
-    
+
       if (!ifStatement) {
         throw path
           .get("name")
@@ -39,7 +39,7 @@ export default function(path) {
             "Invalid 'else' tag, expected preceding 'if' or 'else-if' tag."
           );
       }
-    
+
       ifStatement.alternate = t.blockStatement(body);
       path.remove();
       break;

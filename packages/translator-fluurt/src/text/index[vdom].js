@@ -6,9 +6,8 @@ export default function(path) {
   const { node, hub } = path;
 
   path.replaceWith(
-    t.callExpression(
-      hub.importRuntime(path, "text"),
-      [withPreviousLocation(t.stringLiteral(decode(node.value)), node)]
-    )
+    t.callExpression(hub.importRuntime(path, "text"), [
+      withPreviousLocation(t.stringLiteral(decode(node.value)), node)
+    ])
   );
 }

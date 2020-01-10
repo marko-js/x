@@ -101,7 +101,8 @@ function enter(plugin, ...args) {
   const fn =
     (plugin &&
       (plugin.enter ||
-        (plugin.default && plugin.default.enter) || plugin.default)) ||
+        (plugin.default && plugin.default.enter) ||
+        plugin.default)) ||
     plugin;
   if (typeof fn === "function") {
     fn(...args);

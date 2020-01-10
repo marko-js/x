@@ -1,5 +1,9 @@
 import { types as t } from "@marko/babel-types";
-import { xml as escapeXML, style as escapeStyle, script as escapeScript } from "fluurt/html";
+import {
+  xml as escapeXML,
+  style as escapeStyle,
+  script as escapeScript
+} from "fluurt/html";
 import write from "../util/html-write";
 
 const EMPTY_OBJECT = {};
@@ -12,7 +16,7 @@ const ESCAPE_FNS = {
   html: escapeXML,
   style: escapeStyle,
   script: escapeScript
-}
+};
 
 export default function(path) {
   const { node, hub } = path;
@@ -30,15 +34,10 @@ export default function(path) {
         return;
       }
 
-
       value = t.stringLiteral(result);
     } else {
       value = t.callExpression(
-        hub.importNamed(
-          path,
-          "fluurt/html",
-          escapeType
-        ),
+        hub.importNamed(path, "fluurt/html", escapeType),
         [value]
       );
     }
