@@ -22,7 +22,6 @@ const _other_tag = _marko_load_tag(_other);
 import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers/escape-xml";
 import _marko_attrs from "marko/src/runtime/html/helpers/attrs";
 import _marko_renderer from "marko/src/runtime/components/renderer";
-import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 import { t as _t } from "marko/src/runtime/html";
 const _marko_componentType = "vwW5Oh1D",
       _marko_component = {

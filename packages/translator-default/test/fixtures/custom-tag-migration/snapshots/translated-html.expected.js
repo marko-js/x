@@ -7,7 +7,6 @@ import _marko_load_tag from "marko/src/runtime/helpers/load-tag";
 const _new_tag = _marko_load_tag(_new);
 
 import _marko_renderer from "marko/src/runtime/components/renderer";
-import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 import { t as _t } from "marko/src/runtime/html";
 const _marko_componentType = "erJY3UnH",
       _marko_component = {};

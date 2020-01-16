@@ -12,6 +12,7 @@ import dynamicTag from "./dynamic-tag";
 import attributeTag from "./attribute-tag";
 import customTag from "./custom-tag";
 import macroTag from "./macro-tag";
+import attributeTranslators from "./attribute";
 import { getKeyManager } from "../util/key-manager";
 
 export default {
@@ -30,20 +31,41 @@ export default {
           return;
         }
       }
-    } else {
-      if (path.hub.options.ignoreUnrecognizedTags) {
-        findAttributeTags(path).forEach(child => {
-          child.set(
-            "name",
-            t.stringLiteral(`at_${child.get("name.value").node.slice(1)}`)
-          );
-        });
+    }
+
+    for (const attr of path.get("attributes")) {
+      if (attr.isMarkoAttribute()) {
+        const { node } = path;
+        attributeTranslators.enter(attr);
+        if (path.node !== node) {
+          return;
+        }
       }
+    }
+
+    if (path.hub.options.ignoreUnrecognizedTags && !tagDef) {
+      findAttributeTags(path).forEach(child => {
+        child.set(
+          "name",
+          t.stringLiteral(`at_${child.get("name.value").node.slice(1)}`)
+        );
+      });
     }
 
     getKeyManager(path).resolveKey(path);
   },
   exit(path) {
+    debugger;
+    for (const attr of path.get("attributes")) {
+      if (attr.isMarkoAttribute()) {
+        const { node } = path;
+        attributeTranslators.exit(attr);
+        if (path.node !== node) {
+          return;
+        }
+      }
+    }
+
     if (isDynamicTag(path)) {
       return dynamicTag(path);
     }

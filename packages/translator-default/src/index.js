@@ -3,7 +3,6 @@ import MarkoDocumentType from "./document-type";
 import MarkoDeclaration from "./declaration";
 import MarkoCDATA from "./cdata";
 import MarkoTag from "./tag";
-import MarkoAttribute from "./attribute";
 import MarkoText from "./text";
 import MarkoPlaceholder from "./placeholder";
 import MarkoComment from "./comment";
@@ -19,7 +18,6 @@ export const visitor = {
   MarkoDeclaration,
   MarkoCDATA,
   MarkoTag,
-  MarkoAttribute,
   MarkoText,
   MarkoPlaceholder,
   MarkoScriptlet,

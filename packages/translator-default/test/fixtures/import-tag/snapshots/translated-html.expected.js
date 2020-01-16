@@ -4,7 +4,6 @@ export default _marko_template;
 import bar, { f as foo } from "./bar";
 import "./foo";
 import _marko_renderer from "marko/src/runtime/components/renderer";
-import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 import { t as _t } from "marko/src/runtime/html";
 const _marko_componentType = "fDlal4KB",
       _marko_component = {};

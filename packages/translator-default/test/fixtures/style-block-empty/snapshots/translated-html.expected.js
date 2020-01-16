@@ -2,7 +2,6 @@ const _marko_template = _t(__filename);
 
 export default _marko_template;
 import _marko_renderer from "marko/src/runtime/components/renderer";
-import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 import { t as _t } from "marko/src/runtime/html";
 const _marko_componentType = "GmaaXamX",
       _marko_component = {};

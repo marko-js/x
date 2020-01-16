@@ -4,7 +4,6 @@ export default _marko_template;
 import { asset as test } from "./test1/asset";
 import { asset } from "./test2/asset";
 import _marko_renderer from "marko/src/runtime/components/renderer";
-import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 import { t as _t } from "marko/src/runtime/html";
 const _marko_componentType = "DErD0VST",
       _marko_component = {};

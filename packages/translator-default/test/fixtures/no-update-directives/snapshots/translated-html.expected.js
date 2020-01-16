@@ -11,7 +11,6 @@ import _noUpdate from "../../../../marko/src/core-tags/components/preserve-tag.j
 const _noUpdate_tag = _marko_load_tag(_noUpdate);
 
 import _marko_renderer from "marko/src/runtime/components/renderer";
-import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 import { t as _t } from "marko/src/runtime/html";
 const _marko_componentType = "ssDzNmTg",
       _marko_component = {};

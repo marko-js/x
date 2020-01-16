@@ -8,13 +8,12 @@ import _marko_load_tag from "marko/src/runtime/helpers/load-tag";
 const _customTag_tag = _marko_load_tag(_customTag);
 
 import _marko_renderer from "marko/src/runtime/components/renderer";
-import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 import { t as _t } from "marko/src/runtime/html";
 const _marko_componentType = "0s1D5L6O",
       _marko_component = {};
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w(`<div${_marko_attr("data-marko", {
-    "onclick": _component.d("click", "handleClick", [a, b, ...d], false)
+    "onclick": _component.d("click", "handleClick", false, [a, b, ...d])
   }, false)}></div><div${_marko_attr("data-marko", {
     "onDashed-cased-Event": _component.d("Dashed-cased-Event", "handle", false)
   }, false)}></div><div onmouseout="someStringHandler"${_marko_attr("data-marko", {

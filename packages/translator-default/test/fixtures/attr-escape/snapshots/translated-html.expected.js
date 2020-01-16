@@ -4,7 +4,6 @@ export default _marko_template;
 import _marko_class_merge from "marko/src/runtime/helpers/class-value";
 import _marko_attr from "marko/src/runtime/html/helpers/attr";
 import _marko_renderer from "marko/src/runtime/components/renderer";
-import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 import { t as _t } from "marko/src/runtime/html";
 const _marko_componentType = "YmLCHzZR",
       _marko_component = {};
