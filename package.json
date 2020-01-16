@@ -39,7 +39,7 @@
     "clean": "lerna clean && rm -rf ./packages/*/dist",
     "format": "prettier \"**/*.{json,md,js}\" --write",
     "lint": "eslint -f visualstudio packages/",
-    "mocha": "mocha -r @babel/register packages/*/test/*.test.js",
+    "mocha": "NEW_MARKO_COMPILER=1 mocha -r @babel/register packages/*/test/*.test.js ./packages/marko/test/{render,components-{browser,pages,server}}/*.test.js",
     "mocha:watch": "npm run mocha -- --recursive --watch",
     "marko-test": "NEW_MARKO_COMPILER=1 npx mocha -r @babel/register packages/marko/test/**/*.test.js",
     "postinstall": "lerna bootstrap --hoist --no-ci",

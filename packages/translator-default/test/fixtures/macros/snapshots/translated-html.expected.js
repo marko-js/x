@@ -13,15 +13,18 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
     if (node.children) {
       out.w("<ul>");
+      {
+        let _keyValue = 0;
 
-      for (const child of node.children) {
-        out.w("<li>");
+        for (const child of node.children) {
+          const _keyScope = `[${_keyValue++}]`;
+          out.w("<li>");
 
-        _marko_dynamic_tag(out, _renderTree, () => child, null, null, null, _component, "3");
+          _marko_dynamic_tag(out, _renderTree, () => child, null, null, null, _component, "3" + _keyScope);
 
-        out.w("</li>");
+          out.w("</li>");
+        }
       }
-
       out.w("</ul>");
     }
   }

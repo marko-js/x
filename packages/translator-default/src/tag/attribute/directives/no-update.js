@@ -1,20 +1,20 @@
 import { types as t } from "@marko/babel-types";
 import { isNativeTag } from "@marko/babel-utils";
-import { getKeyManager } from "../../../util/key-manager";
 const EMPTY_OBJECT = {};
 
 export default {
-  enter(tag, attr, opts = EMPTY_OBJECT) {
+  exit(tag, attr, opts = EMPTY_OBJECT) {
     attr.remove();
     const { hub, node } = tag;
 
-    const keyValue = node.key || getKeyManager(tag).nextKey();
+    const keyValue = node.key;
     const keyIdentifier = tag.scope.generateUidIdentifier("noUpdateKey");
     const replacement = t.markoTag(
       t.stringLiteral("_no-update"),
       [],
       opts.bodyOnly ? node.body : t.markoTagBody([node])
     );
+
     replacement.key = keyIdentifier;
     node.key = keyIdentifier;
 
@@ -49,6 +49,6 @@ export default {
       );
     }
 
-    tag.replaceWith(replacement)[0].visit();
+    tag.replaceWith(replacement);
   }
 };

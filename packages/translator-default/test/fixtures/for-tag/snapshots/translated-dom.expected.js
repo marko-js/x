@@ -13,38 +13,41 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   for (const val of arr) {
     let i = _i++;
-    out.be("div", null, "0", component, null, 0);
+    const _keyScope = `[${i}]`;
+    out.be("div", null, "0" + _keyScope, component, null, 0);
     out.t(i);
     out.t(": ");
     out.t(val);
     out.ee();
-    out.be("div", null, "1", component, 0, 0);
+    out.be("div", null, "1" + _keyScope, component, 0, 0);
     out.ee();
-    out.be("div", null, "2", component, 0, 0);
+    out.be("div", null, "2" + _keyScope, component, 0, 0);
     out.ee();
   }
 
   for (const key in obj) {
     const val = obj[key];
-    out.be("div", null, "3", component, null, 0);
+    const _keyScope2 = `[${key}]`;
+    out.be("div", null, "3" + _keyScope2, component, null, 0);
     out.t(key);
     out.t(": ");
     out.t(val);
     out.ee();
-    out.be("div", null, "4", component, 0, 0);
+    out.be("div", null, "4" + _keyScope2, component, 0, 0);
     out.ee();
-    out.be("div", null, "5", component, 0, 0);
+    out.be("div", null, "5" + _keyScope2, component, 0, 0);
     out.ee();
   }
 
   for (let _steps = (10 - 0) / 2, _step = 0; _step <= _steps; _step++) {
     const i = 0 + _step * 2;
-    out.be("div", null, "6", component, null, 0);
+    const _keyScope3 = `[${i}]`;
+    out.be("div", null, "6" + _keyScope3, component, null, 0);
     out.t(i);
     out.ee();
-    out.be("div", null, "7", component, 0, 0);
+    out.be("div", null, "7" + _keyScope3, component, 0, 0);
     out.ee();
-    out.be("div", null, "8", component, 0, 0);
+    out.be("div", null, "8" + _keyScope3, component, 0, 0);
     out.ee();
   }
 
@@ -52,13 +55,14 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   for (const val of arr) {
     let i = _i2++;
-    const _loopKey = `@${i}`;
-    out.be("div", null, _loopKey, component, null, 0);
+    const _keyValue = `@${i}`,
+          _keyScope4 = `[${_keyValue}]`;
+    out.be("div", null, _keyValue, component, null, 0);
     out.t(i);
     out.t(": ");
     out.t(val);
     out.ee();
-    out.be("div", null, `9[${_loopKey}]`, component, 0, 0);
+    out.be("div", null, "9" + _keyScope4, component, 0, 0);
     out.ee();
     out.be("div", null, `@other-${i}`, component, 0, 0);
     out.ee();
@@ -69,8 +73,8 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   for (const val of list) {
     let i = _i3++;
-    const _loopKey2 = `@${i}`;
-    out.be("div", null, _loopKey2, component, null, 0);
+    const _keyValue2 = `@${i}`;
+    out.be("div", null, _keyValue2, component, null, 0);
     out.t(list.length);
     out.t(": ");
     out.t(val);
@@ -79,13 +83,14 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   for (const key in obj) {
     const val = obj[key];
-    const _loopKey3 = `@${key}`;
-    out.be("div", null, _loopKey3, component, null, 0);
+    const _keyValue3 = `@${key}`,
+          _keyScope5 = `[${_keyValue3}]`;
+    out.be("div", null, _keyValue3, component, null, 0);
     out.t(key);
     out.t(": ");
     out.t(val);
     out.ee();
-    out.be("div", null, `10[${_loopKey3}]`, component, 0, 0);
+    out.be("div", null, "10" + _keyScope5, component, 0, 0);
     out.ee();
     out.be("div", null, `@other-${key}`, component, 0, 0);
     out.ee();
@@ -93,22 +98,24 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   for (let _steps3 = (10 - 0) / 2, _step3 = 0; _step3 <= _steps3; _step3++) {
     const i = 0 + _step3 * 2;
-    const _loopKey4 = `@${i}`;
-    out.be("div", null, _loopKey4, component, null, 0);
+    const _keyValue4 = `@${i}`,
+          _keyScope6 = `[${_keyValue4}]`;
+    out.be("div", null, _keyValue4, component, null, 0);
     out.t(i);
     out.ee();
-    out.be("div", null, `11[${_loopKey4}]`, component, 0, 0);
+    out.be("div", null, "11" + _keyScope6, component, 0, 0);
     out.ee();
     out.be("div", null, `@other-${i}`, component, 0, 0);
     out.ee();
 
     for (let _steps2 = (10 - 0) / 2, _step2 = 0; _step2 <= _steps2; _step2++) {
       const i = 0 + _step2 * 2;
-      const _loopKey5 = `@${i}`;
-      out.be("div", null, _loopKey5, component, null, 0);
+      const _keyValue5 = `@${i}`,
+            _keyScope7 = `[${_keyValue5}]`;
+      out.be("div", null, _keyValue5, component, null, 0);
       out.t(i);
       out.ee();
-      out.be("div", null, `12[${_loopKey4}][${_loopKey5}]`, component, 0, 0);
+      out.be("div", null, "12" + _keyScope7, component, 0, 0);
       out.ee();
       out.be("div", null, `@other-${i}`, component, 0, 0);
       out.ee();
@@ -117,11 +124,12 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   for (let _steps4 = (0 - 10) / -2, _step4 = 0; _step4 <= _steps4; _step4++) {
     const i = 10 + _step4 * -2;
-    const _loopKey6 = `@${i}`;
-    out.be("div", null, _loopKey6, component, null, 0);
+    const _keyValue6 = `@${i}`,
+          _keyScope8 = `[${_keyValue6}]`;
+    out.be("div", null, _keyValue6, component, null, 0);
     out.t(i);
     out.ee();
-    out.be("div", null, `13[${_loopKey6}]`, component, 0, 0);
+    out.be("div", null, "13" + _keyScope8, component, 0, 0);
     out.ee();
     out.be("div", null, `@other-${i}`, component, 0, 0);
     out.ee();

@@ -115,11 +115,13 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   for (let _steps = (10 - 0) / 2, _step = 0; _step <= _steps; _step++) {
     const i = 0 + _step * 2;
+    const _keyScope = `[${i}]`;
     out.w("<div c=\"1\"></div>");
   }
 
   for (const key in obj) {
     const val = obj[key];
+    const _keyScope2 = `[${key}]`;
     out.w("<div c=\"1\"></div>");
   }
 }, {

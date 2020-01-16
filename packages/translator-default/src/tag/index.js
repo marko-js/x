@@ -18,6 +18,7 @@ import { getKeyManager } from "../util/key-manager";
 export default {
   enter(path) {
     const tagDef = getTagDef(path);
+    const isVDOM = path.hub.options.output !== "html";
 
     if (tagDef) {
       if (tagDef.codeGeneratorModulePath) {
@@ -55,7 +56,6 @@ export default {
     getKeyManager(path).resolveKey(path);
   },
   exit(path) {
-    debugger;
     for (const attr of path.get("attributes")) {
       if (attr.isMarkoAttribute()) {
         const { node } = path;

@@ -10,10 +10,12 @@ const _marko_componentType = _marko_registerComponent("AXfGRiJb", () => _marko_t
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   let i = 0;
+  let _keyValue = 0;
 
   while (i < 10) {
+    const _keyScope = `[${_keyValue++}]`;
     i++;
-    out.be("div", null, "0", component, 0, 0);
+    out.be("div", null, "0" + _keyScope, component, 0, 0);
     out.ee();
   }
 }, {

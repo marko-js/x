@@ -1,7 +1,7 @@
 import noUpdateTransform from "./no-update";
 
 export default {
-  enter(tag, attr) {
-    noUpdateTransform.enter(tag, attr, { bodyOnly: true });
+  exit(tag, attr) {
+    noUpdateTransform.exit(tag, attr, { bodyOnly: true });
   }
 };

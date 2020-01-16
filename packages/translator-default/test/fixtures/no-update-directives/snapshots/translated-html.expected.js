@@ -30,7 +30,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }
   }, out, _component, _noUpdateKey);
 
-  const _noUpdateKey2 = _component.nk("3");
+  const _noUpdateKey3 = _component.nk("3");
 
   _noUpdate_tag({
     "if": x,
@@ -38,21 +38,21 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          const _noUpdateKey3 = _component.nk("4");
+          const _noUpdateKey2 = _component.nk("4");
 
           _noUpdate_tag({
             "if": (a, b),
             "component": true,
             "renderBody": out => {
-              _hello_tag({}, out, _component, _noUpdateKey3);
+              _hello_tag({}, out, _component, _noUpdateKey2);
             }
-          }, out, _component, _noUpdateKey3);
+          }, out, _component, _noUpdateKey2);
 
           out.w("<div></div>");
         }
-      }, out, _component, _noUpdateKey2);
+      }, out, _component, _noUpdateKey3);
     }
-  }, out, _component, _noUpdateKey2);
+  }, out, _component, _noUpdateKey3);
 
   const _noUpdateKey4 = _component.nk("6");
 
@@ -65,13 +65,13 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
     }
   }, out, _component, _noUpdateKey4);
 
-  const _noUpdateKey5 = _component.nk("9");
+  const _noUpdateKey6 = _component.nk("9");
 
   _noUpdate_tag({
     "if": x,
     "component": true,
     "renderBody": out => {
-      const _noUpdateKey6 = _component.nk("10");
+      const _noUpdateKey5 = _component.nk("10");
 
       _noUpdate_tag({
         "if": (a, b),
@@ -79,11 +79,11 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
         "renderBody": out => {
           out.w("Again");
         }
-      }, out, _component, _noUpdateKey6);
+      }, out, _component, _noUpdateKey5);
 
       out.w("<div></div>");
     }
-  }, out, _component, _noUpdateKey5);
+  }, out, _component, _noUpdateKey6);
 }, {
   ___type: _marko_componentType,
   ___implicit: true

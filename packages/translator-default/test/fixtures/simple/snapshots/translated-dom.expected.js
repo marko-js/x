@@ -15,13 +15,16 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   if (input.colors.length) {
     out.be("ul", null, "0", component, null, 0);
+    {
+      let _keyValue = 0;
 
-    for (const color of input.colors) {
-      out.be("li", null, "1", component, null, 0);
-      out.t(color);
-      out.ee();
+      for (const color of input.colors) {
+        const _keyScope = `[${_keyValue++}]`;
+        out.be("li", null, "1" + _keyScope, component, null, 0);
+        out.t(color);
+        out.ee();
+      }
     }
-
     out.ee();
   } else {
     out.be("div", null, "2", component, null, 0);

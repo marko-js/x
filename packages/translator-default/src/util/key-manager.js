@@ -30,54 +30,122 @@ class KeyManager {
   }
 
   resolveKey(path) {
+    if (isLoopTag(path)) {
+      // Record the first child key if found under a loop.
+      const firstChildTag = path
+        .get("body.body")
+        .find(child => child.isMarkoTag());
+      const firstChildKey = firstChildTag && getUserKey(firstChildTag);
+
+      if (firstChildKey) {
+        const keyValueIdentifier = path.scope.generateUidIdentifier("keyValue");
+        firstChildTag.set("key", keyValueIdentifier);
+        firstChildTag.insertBefore(
+          t.variableDeclaration("const", [
+            t.variableDeclarator(keyValueIdentifier, firstChildKey)
+          ])
+        );
+
+        path.set("keyValue", keyValueIdentifier);
+        path.get("body").scope.crawl();
+      }
+      return;
+    }
+
     if (isTransparentTag(path)) {
       return;
     }
 
-    const userKey = getUserKey(path);
-    if (userKey) {
-      const parentTag = path.parentPath.parentPath;
-      if (isLoopTag(parentTag) && !getLoopKey(parentTag)) {
-        const keyIdentifier = path.scope.generateUidIdentifier("loopKey");
-        path.set("key", keyIdentifier);
-        path.insertBefore(
-          t.variableDeclaration("const", [
-            t.variableDeclarator(keyIdentifier, userKey)
-          ])
-        );
-
-        parentTag.set("loopKey", keyIdentifier);
-      }
-    } else {
-      const parentLoopKeys = getParentLoopKeys(path);
-      const autoKey = path.get("key").node || this.nextKey();
-      path.set(
-        "key",
-        parentLoopKeys.length
-          ? normalizeTemplateString`${autoKey}${normalizeTemplateString(
-              ["[", ...parentLoopKeys.slice(1).map(() => "]["), "]"],
-              ...parentLoopKeys
-            )}`
-          : autoKey
-      );
+    if (getUserKey(path)) {
+      return;
     }
+
+    const parentKeyScope = getParentKeyScope(path);
+    const autoKey = path.get("key").node || this.nextKey();
+    path.set(
+      "key",
+      parentKeyScope
+        ? t.binaryExpression("+", autoKey, parentKeyScope)
+        : autoKey
+    );
   }
 }
 
-function getParentLoopKeys(path) {
-  return path
-    .getAncestry()
-    .filter(isLoopTag)
-    .map(getLoopKey)
-    .filter(Boolean)
-    .reverse();
+function getParentKeyScope(path) {
+  const parentLoopTag = path.findParent(isLoopTag);
+  return parentLoopTag && getKeyScope(parentLoopTag);
 }
 
-function getLoopKey(path) {
-  return path.get("loopKey").node;
+function getKeyScope(path) {
+  const existingKeyScope = path.get("keyScope").node;
+  if (existingKeyScope) {
+    return existingKeyScope;
+  }
+
+  const keyScopeIdentifier = path.scope.generateUidIdentifier("keyScope");
+  const firstChildKeyValue = path.get("keyValue").node;
+
+  if (firstChildKeyValue) {
+    const valuePath = path
+      .get("body")
+      .scope.getOwnBinding(firstChildKeyValue.name).path;
+    const declarationPath = valuePath.parentPath;
+    declarationPath.pushContainer(
+      "declarations",
+      t.variableDeclarator(
+        keyScopeIdentifier,
+        normalizeTemplateString`[${firstChildKeyValue}]`
+      )
+    );
+  } else {
+    let keyValue;
+
+    if (path.get("name.value").node === "for" && path.node.params) {
+      if (path.node.attributes.some(attr => attr.name === "of")) {
+        keyValue = path.node.params[1];
+      } else {
+        keyValue = path.node.params[0];
+      }
+    }
+
+    if (!keyValue) {
+      const keyValueIdentifier = path.scope.generateUidIdentifier("keyValue");
+      path.insertBefore(
+        t.variableDeclaration("let", [
+          t.variableDeclarator(keyValueIdentifier, t.numericLiteral(0))
+        ])
+      );
+
+      keyValue = t.updateExpression("++", keyValueIdentifier);
+    }
+
+    const parentKeyScope = getParentKeyScope(path);
+    if (parentKeyScope) {
+      keyValue = t.binaryExpression("+", keyValue, parentKeyScope);
+    }
+
+    path
+      .get("body")
+      .unshiftContainer(
+        "body",
+        t.variableDeclaration("const", [
+          t.variableDeclarator(
+            keyScopeIdentifier,
+            normalizeTemplateString`[${keyValue}]`
+          )
+        ])
+      );
+  }
+
+  path.set("keyScope", keyScopeIdentifier);
+  return keyScopeIdentifier;
 }
 
 function getUserKey(path) {
+  if (hasAutoKey(path)) {
+    return undefined;
+  }
+
   let key = path.get("key").node;
   if (key === undefined) {
     const keyAttr = path
