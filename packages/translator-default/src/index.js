@@ -68,7 +68,7 @@ export const visitor = {
 
       if (componentFile) {
         isImplicit = false;
-        meta.component = componentFile;
+        meta.component = ".";
       }
 
       if (componentBrowserFile) {
@@ -76,6 +76,12 @@ export const visitor = {
         isSplit = true;
         meta.component = componentBrowserFile;
       }
+
+      meta.component =
+        meta.component && hub.resolveRelativePath(meta.component);
+      meta.deps = meta.deps.map(file =>
+        typeof file === "string" ? hub.resolveRelativePath(file) : file
+      );
 
       const renderBlock = hub._renderBlock;
       const componentClass =
@@ -139,7 +145,7 @@ export const visitor = {
               : t.callExpression(
                   hub.importNamed(
                     path,
-                    "marko/runtime/components/registry-browser",
+                    "marko/src/runtime/components/registry-browser",
                     "r",
                     "marko_registerComponent"
                   ),
@@ -233,7 +239,7 @@ export const visitor = {
           metaObject.properties.push(
             t.objectProperty(
               t.identifier("component"),
-              t.stringLiteral(hub.resolveRelativePath(meta.component))
+              t.stringLiteral(meta.component)
             )
           );
         }
@@ -243,13 +249,7 @@ export const visitor = {
             t.objectProperty(
               t.identifier("deps"),
               hub.parseExpression(
-                JSON.stringify(
-                  meta.deps.map(file =>
-                    typeof file === "string"
-                      ? hub.resolveRelativePath(file)
-                      : file
-                  )
-                ),
+                JSON.stringify(meta.deps),
                 hub.getCode().length
               )
             )

@@ -8,7 +8,7 @@ const _hello_tag = _marko_load_tag(_hello);
 
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import { t as _t } from "marko/src/runtime/dom";
-import { r as _marko_registerComponent } from "marko/runtime/components/registry-browser";
+import { r as _marko_registerComponent } from "marko/src/runtime/components/registry-browser";
 
 const _marko_componentType = _marko_registerComponent("ULy6APKx", () => _marko_template),
       _marko_component = {};

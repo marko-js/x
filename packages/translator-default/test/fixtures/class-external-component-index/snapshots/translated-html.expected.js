@@ -13,5 +13,5 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 }, _marko_component2);
 _marko_template.meta = {
   id: _marko_componentType,
-  component: "./component.js"
+  component: "."
 };

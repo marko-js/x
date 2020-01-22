@@ -19,7 +19,7 @@ const _other_tag = _marko_load_tag(_other);
 import _marko_attrs from "marko/src/runtime/vdom/helpers/attrs";
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import { t as _t } from "marko/src/runtime/dom";
-import { r as _marko_registerComponent } from "marko/runtime/components/registry-browser";
+import { r as _marko_registerComponent } from "marko/src/runtime/components/registry-browser";
 
 const _marko_componentType = _marko_registerComponent("vwW5Oh1D", () => _marko_template),
       _marko_component = {

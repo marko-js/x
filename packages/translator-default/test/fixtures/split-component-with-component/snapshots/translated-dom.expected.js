@@ -4,7 +4,7 @@ export default _marko_template;
 import _marko_component from "./template.component.js";
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import { t as _t } from "marko/src/runtime/dom";
-import { r as _marko_registerComponent } from "marko/runtime/components/registry-browser";
+import { r as _marko_registerComponent } from "marko/src/runtime/components/registry-browser";
 import _marko_split_component from "./template.component-browser.js";
 
 const _marko_componentType = _marko_registerComponent("Opt3q0IL", () => _marko_split_component),

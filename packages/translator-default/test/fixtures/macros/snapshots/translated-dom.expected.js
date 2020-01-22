@@ -4,7 +4,7 @@ export default _marko_template;
 import _marko_dynamic_tag from "marko/src/runtime/helpers/dynamic-tag";
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import { t as _t } from "marko/src/runtime/dom";
-import { r as _marko_registerComponent } from "marko/runtime/components/registry-browser";
+import { r as _marko_registerComponent } from "marko/src/runtime/components/registry-browser";
 
 const _marko_componentType = _marko_registerComponent("hLnr707b", () => _marko_template),
       _marko_component = {};
