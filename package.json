@@ -39,7 +39,7 @@
     "clean": "lerna clean && rm -rf ./packages/*/dist",
     "format": "prettier \"**/*.{json,md,js}\" --write",
     "lint": "eslint -f visualstudio packages/",
-    "mocha": "mocha -r @babel/register packages/*/test/*.test.js ./packages/marko/test/{render,components-{browser,pages,server}}/*.test.js",
+    "mocha": "mocha -r @babel/register packages/*/test/{*.test.js,*/*.test.js}",
     "mocha:watch": "npm run mocha -- --recursive --watch",
     "postinstall": "lerna bootstrap --hoist --no-ci",
     "set-entry": "lerna exec -- dot-json package.json main $\\(dot-json package.json $ENTRY\\)",

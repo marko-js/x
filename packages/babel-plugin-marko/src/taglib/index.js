@@ -7,7 +7,10 @@ const coreTaglibs = ["html", "svg", "math"].map(name =>
   loader.loadTaglibFromFile(path.join(__dirname, name, "marko.json"))
 );
 
-export function buildLookup(dirname, translatorTaglibs) {
+export function buildTaglibLookup(dirname, translator = "default") {
+  const translatorTaglibs = Array.isArray(translator)
+    ? translator
+    : require(`@marko/translator-${translator}`).taglibs;
   const taglibsForDir = finder.find(
     dirname,
     coreTaglibs.concat(translatorTaglibs)

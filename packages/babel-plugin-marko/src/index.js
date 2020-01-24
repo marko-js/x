@@ -4,7 +4,8 @@ import { parse } from "./parser";
 import { visitor as migrate } from "./plugins/migrate";
 import { visitor as transform } from "./plugins/transform";
 import { NodePath, visitors } from "@babel/traverse";
-import { buildLookup } from "./taglib";
+import { buildTaglibLookup } from "./taglib";
+export { buildTaglibLookup };
 
 export default (api, options) => {
   api.assertVersion(7);
@@ -22,7 +23,7 @@ export default (api, options) => {
         ...options,
         jsParseOptions,
         isProduction,
-        lookup: buildLookup(dirname(filename), translator.taglibs)
+        lookup: buildTaglibLookup(dirname(filename), translator.taglibs)
       });
 
       // Only run on Marko files.
