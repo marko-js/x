@@ -5,7 +5,6 @@ import { x as escapeXML } from "marko/src/runtime/html/helpers/escape-xml";
 import escapeScript from "marko/src/runtime/html/helpers/escape-script-placeholder";
 import escapeStyle from "marko/src/runtime/html/helpers/escape-style-placeholder";
 import write from "../util/html-out-write";
-import withPreviousLocation from "../util/with-previous-location";
 
 const ESCAPE_TYPES = {
   html: {
@@ -64,7 +63,7 @@ export default function(path) {
   const replacement = write`${value}`;
 
   if (replacement) {
-    path.replaceWith(withPreviousLocation(replacement, node));
+    path.replaceWith(replacement);
   } else {
     path.remove();
   }

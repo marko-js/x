@@ -20,6 +20,10 @@ export default function(path) {
     .map(prop => {
       if (t.isClassMethod(prop)) {
         prop.type = "ObjectMethod";
+        delete prop.start;
+        delete prop.end;
+        delete prop.loc;
+        return prop;
       } else if (t.isClassProperty(prop) && !prop.static) {
         classProperties.push(
           t.assignmentExpression(
@@ -30,11 +34,9 @@ export default function(path) {
         );
 
         return undefined;
-      } else {
-        throw hub.buildError(prop, "Unsupported class property on component.");
       }
 
-      return prop;
+      throw hub.buildError(prop, "Unsupported class property on component.");
     })
     .filter(Boolean);
 

@@ -1,5 +1,4 @@
 import { types as t } from "@marko/babel-types";
-import withPreviousLocation from "../../util/with-previous-location";
 import getComponentFiles from "../../util/get-component-files";
 
 const SEEN_INLINE_CLASS = new WeakSet();
@@ -48,5 +47,5 @@ export default function(path) {
   }
 
   SEEN_INLINE_CLASS.add(hub);
-  path.replaceWith(withPreviousLocation(t.markoClass(parsed.body), node));
+  path.replaceWith(t.markoClass(parsed.body));
 }

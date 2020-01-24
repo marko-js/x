@@ -131,8 +131,12 @@ export class Hub {
   }
 
   _tryParseJS(isExpression, str, start) {
-    const { line, column } = getLoc(str, start);
-    const opts = { ...this.options.jsParseOptions, startLine: line };
+    const { line, column } = getLoc(this._code, start);
+    const opts = {
+      ...this.options.jsParseOptions,
+      startLine: line,
+      ranges: true
+    };
     const length = str.length - 1 + column;
     const padding = length - str.length - 1;
     str = str.padStart(length, " ");

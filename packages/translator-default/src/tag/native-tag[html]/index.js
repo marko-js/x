@@ -4,7 +4,6 @@ import { types as t } from "@marko/babel-types";
 import { getTagDef } from "@marko/babel-utils";
 import write from "../../util/html-out-write";
 import { hasAutoKey } from "../../util/key-manager";
-import withPreviousLocation from "../../util/with-previous-location";
 import translateAttributes from "./attributes";
 import getComponentFiles from "../../util/get-component-files";
 
@@ -99,10 +98,7 @@ export default function(path) {
     }
   }
 
-  const writeStartNode = withPreviousLocation(
-    write`<${tagName}${translateAttributes(path, path.get("attributes"))}>`,
-    node
-  );
+  const writeStartNode = write`<${tagName}${translateAttributes(path, path.get("attributes"))}>`;
 
   if (SELF_CLOSING.indexOf(tagName) !== -1) {
     path.replaceWith(writeStartNode);

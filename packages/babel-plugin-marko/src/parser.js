@@ -129,6 +129,7 @@ export function parse(fileNodePath) {
     },
 
     onScriptlet({ value, line, block, pos, endPos }) {
+      pos -= 1; // Include $.
       if (!line && !block) {
         throw hub.buildError(
           { start: pos, end: endPos },
@@ -142,7 +143,7 @@ export function parse(fileNodePath) {
           "markoScriptlet",
           pos,
           endPos,
-          hub.parse(value, pos).body
+          hub.parse(value, pos + 2 /** Ignores leading `$ ` */).body
         )
       );
     },
