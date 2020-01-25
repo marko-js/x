@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = api => ({
   retainLines: true,
   presets: [
     [
@@ -16,9 +16,20 @@ module.exports = {
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-proposal-object-rest-spread"
   ],
+  overrides: [
+    {
+      test: "./packages/*/src/**/*",
+      plugins: api.env("production")
+        ? [
+            ["babel-plugin-minprops", { matchPrefix: "___", context: "marko" }],
+            "./scripts/babel-plugin-marko-debug"
+          ]
+        : []
+    }
+  ],
   env: {
     test: {
       plugins: ["babel-plugin-istanbul"]
     }
   }
-};
+});

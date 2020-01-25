@@ -129,7 +129,6 @@ export function parse(fileNodePath) {
     },
 
     onScriptlet({ value, line, block, pos, endPos }) {
-      pos -= 1; // Include $.
       if (!line && !block) {
         throw hub.buildError(
           { start: pos, end: endPos },
@@ -137,6 +136,7 @@ export function parse(fileNodePath) {
         );
       }
 
+      pos -= 1; // Include $.
       // Scriptlets are ignored as content and don't call `onNext`.
       pushTagBody(
         hub.createNode(

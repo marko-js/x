@@ -5,7 +5,7 @@ import { parse, parseExpression } from "@babel/parser";
 import createFile from "./util/create-file";
 import codeFrameError from "./util/code-frame-error";
 import codeFrameWarning from "./util/code-frame-warning";
-import { getLoc, getLocRange } from "./util/get-loc";
+import { getLocRange } from "./util/get-loc";
 import checksum from "./util/checksum";
 export class Hub {
   constructor(filename, code, options) {
@@ -25,6 +25,13 @@ export class Hub {
 
   getCode() {
     return this._code;
+  }
+
+  getWhitespaceBefore(pos) {
+    return (
+      this._codeAsWhitespace ||
+      (this._codeAsWhitespace = this._code.replace(/[^\n\r ]/g, " "))
+    ).slice(0, pos);
   }
 
   buildError(node, msg) {
@@ -131,15 +138,8 @@ export class Hub {
   }
 
   _tryParseJS(isExpression, str, start) {
-    const { line, column } = getLoc(this._code, start);
-    const opts = {
-      ...this.options.jsParseOptions,
-      startLine: line,
-      ranges: true
-    };
-    const length = str.length - 1 + column;
-    const padding = length - str.length - 1;
-    str = str.padStart(length, " ");
+    const opts = this.options.jsParseOptions;
+    str = this.getWhitespaceBefore(start) + str;
 
     try {
       return isExpression
@@ -148,8 +148,6 @@ export class Hub {
     } catch (err) {
       let { pos, message } = err;
       if (pos) {
-        pos -= padding;
-        pos += start;
         throw codeFrameError(
           this.filename,
           this._code,
