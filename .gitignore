@@ -1,6 +1,6 @@
 ### Project ###
 *.marko.js
-*.actual.*
+*actual*
 dist
 
 ### Node ###

@@ -1,6 +1,6 @@
 *.marko.js
-*.actual.js
-*.expected.js
+*actual*
+*expected*
 .cache/
 .nyc_output/
 lerna.json
