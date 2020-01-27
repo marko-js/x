@@ -1,10 +1,8 @@
-import "it-fails";
 import fs from "fs";
 import path from "path";
 import autotest from "mocha-autotest";
 import stripAnsi from "strip-ansi";
-import plugin from "../src";
-import { transform } from "@babel/core";
+import { compileFileSync } from "../src";
 
 fs.readdirSync(path.join(__dirname, "../../"))
   .map(dir => /^translator-(.*)|/.exec(dir)[1])
@@ -25,31 +23,19 @@ fs.readdirSync(path.join(__dirname, "../../"))
         const templateFile = resolve(
           testConfig.templateFile || "template.marko"
         );
-        const templateSource = fs.readFileSync(templateFile);
-        const transformConfig = {
-          ast: true,
-          code: true,
-          babelrc: false,
-          configFile: false,
-          sourceMaps: false,
-          filename: templateFile,
-          sourceFileName: templateFile,
-          plugins: [
-            "@babel/plugin-proposal-class-properties",
-            [
-              plugin,
-              {
-                translator,
-                ...config
-              }
-            ]
-          ]
+
+        const compilerConfig = {
+          ...config,
+          babelConfig: {
+            babelrc: false,
+            configFile: false
+          }
         };
 
         test(() => {
           let output;
           try {
-            output = transform(templateSource, transformConfig).code;
+            output = compileFileSync(templateFile, compilerConfig).code;
           } catch (err) {
             try {
               snapshot(stripCwd(stripAnsi(err.message)), {

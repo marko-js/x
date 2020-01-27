@@ -1,3 +1,4 @@
+/*Compiled using marko@5.0.0 - DO NOT EDIT*/
 const _marko_template = _t(__filename);
 
 export default _marko_template;
@@ -17,34 +18,24 @@ const _awaitReorderer_tag = _marko_load_tag(_awaitReorderer);
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import { t as _t } from "marko/src/runtime/html";
 const _marko_componentType = "7TQV88nJ",
-  _marko_component = {};
-_marko_template._ = _marko_renderer(
-  function(input, out, _component, component, state) {
-    out.w(
-      "<!DOCTYPE html><html><head><title>Title of the document</title></head><body>"
-    );
+      _marko_component = {};
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
+  out.w("<!DOCTYPE html><html><head><title>Title of the document</title></head><body>");
 
-    _componentGlobals_tag({}, out, _component, "4");
+  _componentGlobals_tag({}, out, _component, "4");
 
-    out.w("The content of the document......");
+  out.w("The content of the document......");
 
-    _initComponents_tag({}, out, _component, "5");
+  _initComponents_tag({}, out, _component, "5");
 
-    _awaitReorderer_tag({}, out, _component, "6");
+  _awaitReorderer_tag({}, out, _component, "6");
 
-    out.w("</body></html>");
-  },
-  {
-    ___type: _marko_componentType,
-    ___implicit: true
-  },
-  _marko_component
-);
+  out.w("</body></html>");
+}, {
+  ___type: _marko_componentType,
+  ___implicit: true
+}, _marko_component);
 _marko_template.meta = {
   id: _marko_componentType,
-  tags: [
-    "../../../../marko/src/core-tags/components/component-globals-tag.js",
-    "../../../../marko/src/core-tags/components/init-components-tag.js",
-    "../../../../marko/src/core-tags/core/await/reorderer-renderer.js"
-  ]
+  tags: ["../../../../marko/src/core-tags/components/component-globals-tag.js", "../../../../marko/src/core-tags/components/init-components-tag.js", "../../../../marko/src/core-tags/core/await/reorderer-renderer.js"]
 };

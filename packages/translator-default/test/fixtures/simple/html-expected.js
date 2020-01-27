@@ -1,3 +1,4 @@
+/*Compiled using marko@5.0.0 - DO NOT EDIT*/
 const _marko_template = _t(__filename);
 
 export default _marko_template;
@@ -5,32 +6,30 @@ import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers/escape-xml
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import { t as _t } from "marko/src/runtime/html";
 const _marko_componentType = "Kc_RlNKk",
-  _marko_component = {};
-_marko_template._ = _marko_renderer(
-  function(input, out, _component, component, state) {
-    out.w(`Hello ${_marko_escapeXml(input.name)}! `);
+      _marko_component = {};
+_marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
+  out.w(`Hello ${_marko_escapeXml(input.name)}! `);
 
-    if (input.colors.length) {
-      out.w("<ul>");
-      {
-        let _keyValue = 0;
+  if (input.colors.length) {
+    out.w("<ul>");
+    {
+      let _keyValue = 0;
 
-        for (const color of input.colors) {
-          const _keyScope = `[${_keyValue++}]`;
-          out.w(`<li>${_marko_escapeXml(color)}</li>`);
-        }
+      for (const color of input.colors) {
+        const _keyScope = `[${_keyValue++}]`;
+        out.w(`<li>${_marko_escapeXml(color)}</li>`);
       }
-      out.w("</ul>");
-    } else {
-      out.w("<div>No colors!</div>");
     }
-  },
-  {
-    ___type: _marko_componentType,
-    ___implicit: true
-  },
-  _marko_component
-);
+    out.w("</ul>");
+  } else {
+    out.w("<div>No colors!</div>");
+  }
+}, {
+  ___type: _marko_componentType,
+  ___implicit: true
+}, _marko_component);
+
+/*Compiled using marko@5.0.0 - DO NOT EDIT*/
 _marko_template.meta = {
   id: _marko_componentType
 };

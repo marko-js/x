@@ -1,10 +1,9 @@
 import fs from "fs";
-import { ok } from "assert";
-import babel from "@babel/core";
+import { loadPartialConfig, transformAsync, transformSync } from "@babel/core";
 import { version } from "marko/package.json";
 import corePlugin from "./babel-plugin";
 import defaultOptions from "./config";
-import * as taglib from "../taglib";
+import * as taglib from "./taglib";
 
 export { taglib };
 
@@ -13,41 +12,29 @@ export function configure(newConfig = {}) {
   globalConfig = Object.assign({}, defaultOptions, newConfig);
 }
 
-export function compile(src, filename, options, done) {
-  if (typeof options === "function") {
-    done = options;
-    options = null;
-  }
-
-  options = options || {};
-  return _compile(src, filename, options || {}, done);
+export async function compile(src, filename, options) {
+  const babelConfig = loadBabelConfig(filename, options);
+  const babelResult = await transformAsync(src, babelConfig);
+  return buildResult(babelResult);
 }
 
-export function compileFile(filename, options, done) {
-  if (typeof options === "function") {
-    done = options;
-    options = null;
-  }
-
-  options = options || {};
-
-  if (done) {
-    fs.readFile(filename, "utf8", (err, src) => {
-      if (err) {
-        return done(err);
-      }
-
-      _compile(src, filename, options, done);
-    });
-  } else {
-    return _compile(fs.readFileSync(filename, "utf8"), filename, options, done);
-  }
+export function compileSync(src, filename, options) {
+  const babelConfig = loadBabelConfig(filename, options);
+  const babelResult = transformSync(src, babelConfig);
+  return buildResult(babelResult);
 }
 
-function _compile(src, filename, options, done) {
-  ok(filename, '"filename" argument is required');
-  ok(typeof filename === "string", '"filename" argument should be a string');
+export async function compileFile(filename, options) {
+  const src = await fs.promises.readFile(filename, "utf-8");
+  return compile(src, filename, options);
+}
 
+export function compileFileSync(filename, options) {
+  const src = fs.readFileSync(filename, "utf-8");
+  return compileSync(src, filename, options);
+}
+
+function loadBabelConfig(filename, options) {
   const markoConfig = Object.assign({}, globalConfig);
 
   if (options) {
@@ -71,22 +58,14 @@ function _compile(src, filename, options, done) {
     Object.assign(baseBabelConfig, markoConfig.babelConfig);
   }
 
-  const babelConfig = babel.loadPartialConfig(baseBabelConfig).options;
-
-  if (done) {
-    babel.transform(src, babelConfig, (err, result) => {
-        if (err) {
-            return done(err);
-        }
-
-        done(buildResult(result));
-    });
-  } else {
-    return buildResult(babel.transformSync(src, babelConfig));
-  }
+  return loadPartialConfig(baseBabelConfig).options;
 }
 
 function buildResult(babelResult) {
-    const { map, code, metadata: { marko: meta } } = babelResult;
-    return { map, code, meta };
+  const {
+    map,
+    code,
+    metadata: { marko: meta }
+  } = babelResult;
+  return { map, code, meta };
 }
