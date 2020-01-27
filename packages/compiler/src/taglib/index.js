@@ -1,13 +1,16 @@
 import path from "path";
-import { loader, finder } from "marko/src/taglib";
+import loader from "marko/src/taglib/taglib-loader";
+import finder from "marko/src/taglib/taglib-finder";
 import TaglibLookup from "marko/src/taglib/taglib-lookup/TaglibLookup";
 
-const lookupCache = Object.create(null);
+export { excludeDir, excludePackage } from "marko/src/taglib/taglib-finder";
+
+let lookupCache = Object.create(null);
 const coreTaglibs = ["html", "svg", "math"].map(name =>
   loader.loadTaglibFromFile(path.join(__dirname, name, "marko.json"))
 );
 
-export function buildTaglibLookup(dirname, translator = "default") {
+export function buildLookup(dirname, translator = "default") {
   const translatorTaglibs = Array.isArray(translator)
     ? translator
     : require(`@marko/translator-${translator}`).taglibs;
@@ -34,4 +37,10 @@ export function buildTaglibLookup(dirname, translator = "default") {
   }
 
   return lookup;
+}
+
+export function clearCaches() {
+  loader.clearCache();
+  finder.clearCache();
+  lookupCache = Object.create(null);
 }
