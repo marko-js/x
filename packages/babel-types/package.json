@@ -17,7 +17,7 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://github.com/marko-js/x/blob/master/packages/babel-plugin-marko/README.md",
+  "homepage": "https://github.com/marko-js/marko/blob/master/packages/babel-types/README.md",
   "keywords": [
     "htmljs",
     "parser",
@@ -32,6 +32,6 @@
   "main:npm": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/marko-js/x/tree/master/packages/babel-plugin-marko"
+    "url": "https://github.com/marko-js/marko/tree/master/packages/babel-types"
   }
 }

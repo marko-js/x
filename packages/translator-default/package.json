@@ -9,13 +9,13 @@
     "@babel/runtime": "^7.7.7",
     "@marko/babel-types": "^1.0.0",
     "@marko/babel-utils": "^1.0.0",
-    "marko": "^4.18.28",
+    "marko": "^5.0.0",
     "self-closing-tags": "^1.0.1"
   },
   "files": [
     "dist"
   ],
-  "homepage": "https://github.com/marko-js/x/blob/master/packages/babel-plugin-marko/README.md",
+  "homepage": "https://github.com/marko-js/marko/blob/master/packages/translator-default/README.md",
   "keywords": [
     "htmljs",
     "parser",
@@ -30,6 +30,6 @@
   "main:npm": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/marko-js/x/tree/master/packages/babel-plugin-marko"
+    "url": "https://github.com/marko-js/marko/tree/master/packages/translator-default"
   }
 }
