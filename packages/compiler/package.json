@@ -1,5 +1,5 @@
 {
-  "name": "babel-plugin-marko",
+  "name": "@marko/compiler",
   "private": true,
   "description": "Babel plugin to parse Marko templates.",
   "version": "1.0.0",
