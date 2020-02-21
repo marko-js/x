@@ -20,8 +20,3 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 /*Compiled using marko@5.0.0 - DO NOT EDIT*/
 import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 _marko_template.Component = _marko_defineComponent(_marko_component2, _marko_template._);
-_marko_template.meta = {
-  id: _marko_componentType,
-  component: ".",
-  deps: ["./template.style.css", "./template.browser.json"]
-};

@@ -1,10 +1,11 @@
 let config;
 const globalThis = typeof window === "undefined" ? global : window;
+const MARKO_CONFIG_KEY = Symbol("Default Marko Compiler Config");
 
-if (globalThis.__MARKO_CONFIG) {
-  config = globalThis.__MARKO_CONFIG;
+if (globalThis[MARKO_CONFIG_KEY]) {
+  config = globalThis[MARKO_CONFIG_KEY];
 } else {
-  config = globalThis.__MARKO_CONFIG = {
+  config = globalThis[MARKO_CONFIG_KEY] = {
     // The default output mode for compiled templates
     output: "html",
 

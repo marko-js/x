@@ -134,7 +134,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   out.be("div", _marko_attrs({
     "class": "b c",
-    "a": "{\"a\":1}",
+    "a": "[object Object]",
     "c": "${d}",
     ...e,
     ...f(),
@@ -199,13 +199,3 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 /*Compiled using marko@5.0.0 - DO NOT EDIT*/
 import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 _marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
-_marko_template.meta = {
-  id: _marko_componentType,
-  deps: [{
-    "type": "css",
-    "code": "div {\n    color: green;\n  }",
-    "path": "./template.marko",
-    "virtualPath": "./template.marko.css"
-  }],
-  tags: ["./components/other/index.marko"]
-};

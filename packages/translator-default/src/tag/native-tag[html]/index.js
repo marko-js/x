@@ -61,6 +61,7 @@ export default function(path) {
   }
 
   const isHTML = hub.options.output === "html";
+  let dataMarko = t.stringLiteral("");
 
   if (isHTML) {
     const componentFiles = getComponentFiles(path);
@@ -69,16 +70,23 @@ export default function(path) {
         !hub.inlineComponentClass && !componentFiles.componentFile && !hub._hasTagParams
     );
 
-    if (isSplit || isImplicit) {
+    const isSplitOrPreserved = isSplit || isPreserved(path);
+
+    if (isSplitOrPreserved || isImplicit) {
       if (tagProperties.length) {
-        path.pushContainer(
-          "attributes",
-          t.markoAttribute("data-marko", t.objectExpression(tagProperties))
-        );
+        // TODO we should pre evaluate this if it is static.
+        dataMarko = t.callExpression(
+          hub.importDefault(
+            path,
+            "marko/src/runtime/html/helpers/data-marko",
+            "marko_props"
+          ),
+          [t.objectExpression(tagProperties)]
+        )
       }
     }
 
-    if (isSplit) {
+    if (isSplitOrPreserved) {
       if (!hasAutoKey(path)) {
         path.pushContainer(
           "attributes",
@@ -87,7 +95,7 @@ export default function(path) {
             t.callExpression(
               hub.importDefault(
                 path,
-                "marko/src/core-tags/components/helpers/markoKeyAttr",
+                "marko/src/runtime/html/helpers/data-marko-key",
                 "marko_key"
               ),
               [path.get("key").node, hub._componentDefIdentifier]
@@ -98,7 +106,7 @@ export default function(path) {
     }
   }
 
-  const writeStartNode = write`<${tagName}${translateAttributes(path, path.get("attributes"))}>`;
+  const writeStartNode = write`<${tagName}${dataMarko}${translateAttributes(path, path.get("attributes"))}>`;
 
   if (SELF_CLOSING.indexOf(tagName) !== -1) {
     path.replaceWith(writeStartNode);
@@ -120,4 +128,16 @@ export default function(path) {
       .concat(needsBlock ? t.blockStatement(body) : body)
       .concat(write`</${tagName}>`)
   );
+}
+
+function isPreserved(path) {
+  let parentTag = path;
+  do {
+    parentTag = parentTag.parentPath.parentPath;
+    if (parentTag.get("isPreserved").node === true) {
+      return true;
+    }
+  } while (t.isMarkoTag(parentTag));
+
+  return false;
 }

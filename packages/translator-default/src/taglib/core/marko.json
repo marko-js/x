@@ -233,7 +233,7 @@
       }
     ]
   },
-  "<_no-update>": {
+  "<_preserve>": {
     "renderer": "marko/src/core-tags/components/preserve-tag.js",
     "@component": "boolean",
     "@if": "boolean",

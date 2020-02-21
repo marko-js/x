@@ -14,8 +14,3 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   ___type: _marko_componentType,
   ___implicit: true
 }, _marko_component);
-
-/*Compiled using marko@5.0.0 - DO NOT EDIT*/
-_marko_template.meta = {
-  id: _marko_componentType
-};

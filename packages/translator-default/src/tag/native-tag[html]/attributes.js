@@ -62,10 +62,6 @@ export default function(path, attrs) {
       quasis.push(curString);
       curString = "";
 
-      if (name === "data-marko") {
-        args.push(t.booleanLiteral(false));
-      }
-
       attrsObject.properties.push(
         t.objectProperty(t.stringLiteral(name), value)
       );

@@ -147,7 +147,7 @@ export function evaluateAttr(attr) {
   let confident = false;
   let computed = undefined;
 
-  if (name && name !== "data-marko") {
+  if (name) {
     if (value.isRegExpLiteral()) {
       confident = true;
       computed = value.get("pattern").node;
@@ -158,11 +158,7 @@ export function evaluateAttr(attr) {
       if (computed === true) {
         computed = "";
       } else if (computed != null && computed !== false) {
-        if (typeof computed === "object") {
-          computed = JSON.stringify(computed);
-        } else {
-          computed = computed + "";
-        }
+        computed = computed + "";
       }
     }
   }

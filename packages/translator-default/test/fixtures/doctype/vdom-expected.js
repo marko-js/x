@@ -49,7 +49,3 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 /*Compiled using marko@5.0.0 - DO NOT EDIT*/
 import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 _marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);
-_marko_template.meta = {
-  id: _marko_componentType,
-  tags: ["../../../../marko/src/core-tags/components/component-globals-tag.js", "../../../../marko/src/core-tags/components/init-components-tag.js", "../../../../marko/src/core-tags/core/await/reorderer-renderer.js"]
-};

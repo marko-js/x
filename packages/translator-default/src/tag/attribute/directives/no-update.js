@@ -1,54 +1,28 @@
 import { types as t } from "@marko/babel-types";
-import { isNativeTag } from "@marko/babel-utils";
+import { normalizeTemplateString } from "@marko/babel-utils";
 const EMPTY_OBJECT = {};
 
 export default {
-  exit(tag, attr, opts = EMPTY_OBJECT) {
+  exit(tag, attr, _, opts = EMPTY_OBJECT) {
     attr.remove();
-    const { hub, node } = tag;
-
-    const keyValue = node.key;
-    const keyIdentifier = tag.scope.generateUidIdentifier("noUpdateKey");
+    const { node } = tag;
     const replacement = t.markoTag(
-      t.stringLiteral("_no-update"),
+      t.stringLiteral("_preserve"),
       [],
       opts.bodyOnly ? node.body : t.markoTagBody([node])
     );
 
-    replacement.key = keyIdentifier;
-    node.key = keyIdentifier;
-
-    tag.insertBefore(
-      t.variableDeclaration("const", [
-        t.variableDeclarator(
-          keyIdentifier,
-          t.callExpression(
-            t.memberExpression(hub._componentDefIdentifier, t.identifier("nk")),
-            [keyValue]
-          )
-        )
-      ])
-    );
+    replacement.key = normalizeTemplateString`p_${node.key}`;
+    replacement.isPreserved = true;
 
     if (opts.if) {
       replacement.attributes.push(t.markoAttribute("if", opts.if));
     }
 
-    if (isNativeTag(tag)) {
-      if (opts.bodyOnly) {
-        replacement.attributes.push(
-          t.markoAttribute("body-only", t.booleanLiteral(true))
-        );
-
-        tag.set("body", t.markoTagBody([replacement]));
-        return;
-      }
+    if (opts.bodyOnly) {
+      tag.set("body", t.markoTagBody([replacement]));
     } else {
-      replacement.attributes.push(
-        t.markoAttribute("component", t.booleanLiteral(true))
-      );
+      tag.replaceWith(replacement);
     }
-
-    tag.replaceWith(replacement);
   }
 };

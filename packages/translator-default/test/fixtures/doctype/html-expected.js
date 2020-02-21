@@ -35,7 +35,3 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   ___type: _marko_componentType,
   ___implicit: true
 }, _marko_component);
-_marko_template.meta = {
-  id: _marko_componentType,
-  tags: ["../../../../marko/src/core-tags/components/component-globals-tag.js", "../../../../marko/src/core-tags/components/init-components-tag.js", "../../../../marko/src/core-tags/core/await/reorderer-renderer.js"]
-};

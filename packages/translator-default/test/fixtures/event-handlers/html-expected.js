@@ -2,7 +2,7 @@
 const _marko_template = _t(__filename);
 
 export default _marko_template;
-import _marko_attr from "marko/src/runtime/html/helpers/attr";
+import _marko_props from "marko/src/runtime/html/helpers/data-marko";
 import _customTag from "./components/custom-tag.marko";
 import _marko_load_tag from "marko/src/runtime/helpers/load-tag";
 
@@ -13,13 +13,13 @@ import { t as _t } from "marko/src/runtime/html";
 const _marko_componentType = "0s1D5L6O",
       _marko_component = {};
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  out.w(`<div${_marko_attr("data-marko", {
+  out.w(`<div${_marko_props({
     "onclick": _component.d("click", "handleClick", false, [a, b, ...d])
-  }, false)}></div><div${_marko_attr("data-marko", {
+  })}></div><div${_marko_props({
     "onDashed-cased-Event": _component.d("Dashed-cased-Event", "handle", false)
-  }, false)}></div><div onmouseout="someStringHandler"${_marko_attr("data-marko", {
+  })}></div><div${_marko_props({
     "oncamelcasedevent": _component.d("camelcasedevent", "handle", false)
-  }, false)}></div>`);
+  })} onmouseout="someStringHandler"></div>`);
 
   _customTag_tag({}, out, _component, "3", [["thing", "handleThing", false, [a, b, ...d]]]);
 
@@ -30,9 +30,3 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
   ___type: _marko_componentType,
   ___implicit: true
 }, _marko_component);
-
-/*Compiled using marko@5.0.0 - DO NOT EDIT*/
-_marko_template.meta = {
-  id: _marko_componentType,
-  tags: ["./components/custom-tag.marko"]
-};

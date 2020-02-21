@@ -7,19 +7,16 @@ import _marko_load_tag from "marko/src/runtime/helpers/load-tag";
 
 const _hello_tag = _marko_load_tag(_hello);
 
-import _noUpdate from "../../../../marko/src/core-tags/components/preserve-tag.js";
+import _preserve from "../../../../marko/src/core-tags/components/preserve-tag.js";
 
-const _noUpdate_tag = _marko_load_tag(_noUpdate);
+const _preserve_tag = _marko_load_tag(_preserve);
 
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import { t as _t } from "marko/src/runtime/html";
 const _marko_componentType = "ssDzNmTg",
       _marko_component = {};
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
-  const _noUpdateKey = _component.nk("0");
-
-  _noUpdate_tag({
-    "component": true,
+  _preserve_tag({
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
@@ -27,71 +24,126 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
           out.w("<div></div>");
         }
-      }, out, _component, _noUpdateKey);
+      }, out, _component, "0");
     }
-  }, out, _component, _noUpdateKey);
+  }, out, _component, "p_0");
 
-  const _noUpdateKey3 = _component.nk("3");
-
-  _noUpdate_tag({
+  _preserve_tag({
     "if": x,
-    "component": true,
     "renderBody": out => {
       _hello_tag({
         "renderBody": out => {
-          const _noUpdateKey2 = _component.nk("4");
-
-          _noUpdate_tag({
+          _preserve_tag({
             "if": (a, b),
-            "component": true,
             "renderBody": out => {
-              _hello_tag({}, out, _component, _noUpdateKey2);
+              _hello_tag({}, out, _component, "4");
             }
-          }, out, _component, _noUpdateKey2);
+          }, out, _component, "p_4");
 
           out.w("<div></div>");
         }
-      }, out, _component, _noUpdateKey3);
+      }, out, _component, "3");
     }
-  }, out, _component, _noUpdateKey3);
+  }, out, _component, "p_3");
 
-  const _noUpdateKey4 = _component.nk("6");
-
-  _noUpdate_tag({
-    "component": true,
+  _hello_tag({
     "renderBody": out => {
-      _hello_tag({}, out, _component, "7");
-
-      out.w("<div></div>");
-    }
-  }, out, _component, _noUpdateKey4);
-
-  const _noUpdateKey6 = _component.nk("9");
-
-  _noUpdate_tag({
-    "if": x,
-    "component": true,
-    "renderBody": out => {
-      const _noUpdateKey5 = _component.nk("10");
-
-      _noUpdate_tag({
-        "if": (a, b),
-        "component": true,
+      _preserve_tag({
         "renderBody": out => {
-          out.w("Again");
-        }
-      }, out, _component, _noUpdateKey5);
+          _hello_tag({}, out, _component, "7");
 
-      out.w("<div></div>");
+          out.w("<div></div>");
+        }
+      }, out, _component, "p_6");
     }
-  }, out, _component, _noUpdateKey6);
+  }, out, _component, "6");
+
+  _hello_tag({
+    "renderBody": out => {
+      _preserve_tag({
+        "if": x,
+        "renderBody": out => {
+          _hello_tag({
+            "renderBody": out => {
+              _preserve_tag({
+                "if": (a, b),
+                "renderBody": out => {
+                  out.w("Again");
+                }
+              }, out, _component, "p_10");
+            }
+          }, out, _component, "10");
+
+          out.w("<div></div>");
+        }
+      }, out, _component, "p_9");
+    }
+  }, out, _component, "9");
+
+  _preserve_tag({
+    "renderBody": out => {
+      _hello_tag({
+        "renderBody": out => {
+          _hello_tag({}, out, _component, "12");
+
+          out.w("<div></div>");
+        }
+      }, out, _component, "@a");
+    }
+  }, out, _component, "p_@a");
+
+  _preserve_tag({
+    "if": x,
+    "renderBody": out => {
+      _hello_tag({
+        "renderBody": out => {
+          _preserve_tag({
+            "if": (a, b),
+            "renderBody": out => {
+              _hello_tag({}, out, _component, "@c");
+            }
+          }, out, _component, "p_@c");
+
+          out.w("<div></div>");
+        }
+      }, out, _component, "@b");
+    }
+  }, out, _component, "p_@b");
+
+  _hello_tag({
+    "renderBody": out => {
+      _preserve_tag({
+        "renderBody": out => {
+          _hello_tag({}, out, _component, "15");
+
+          out.w("<div></div>");
+        }
+      }, out, _component, "p_@d");
+    }
+  }, out, _component, "@d");
+
+  _hello_tag({
+    "renderBody": out => {
+      _preserve_tag({
+        "if": x,
+        "renderBody": out => {
+          _hello_tag({
+            "renderBody": out => {
+              _preserve_tag({
+                "if": (a, b),
+                "renderBody": out => {
+                  out.w("Again");
+                }
+              }, out, _component, "p_@f");
+            }
+          }, out, _component, "@f");
+
+          out.w("<div></div>");
+        }
+      }, out, _component, "p_@e");
+    }
+  }, out, _component, "@e");
 }, {
   ___type: _marko_componentType,
   ___implicit: true
 }, _marko_component);
-
-/*Compiled using marko@5.0.0 - DO NOT EDIT*/
-_marko_template.meta = {
-  id: _marko_componentType,
-  tags: ["./components/hello/index.marko", "../../../../marko/src/core-tags/components/preserve-tag.js"]
-};
