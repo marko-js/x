@@ -3,7 +3,7 @@ import SELF_CLOSING from "self-closing-tags";
 import { types as t } from "@marko/babel-types";
 import { getTagDef } from "@marko/babel-utils";
 import write from "../../util/html-out-write";
-import { hasAutoKey } from "../../util/key-manager";
+import { hasUserKey } from "../../util/key-manager";
 import translateAttributes from "./attributes";
 import getComponentFiles from "../../util/get-component-files";
 
@@ -70,38 +70,37 @@ export default function(path) {
         !hub.inlineComponentClass && !componentFiles.componentFile && !hub._hasTagParams
     );
 
-    const isSplitOrPreserved = isSplit || isPreserved(path);
+    const needsDataMarkoAttr = isSplit || isImplicit || isPreserved(path);
+    
+    if (needsDataMarkoAttr) {
+      const dataMarkoArgs = [];
 
-    if (isSplitOrPreserved || isImplicit) {
       if (tagProperties.length) {
         // TODO we should pre evaluate this if it is static.
+        dataMarkoArgs.push(t.objectExpression(tagProperties));
+      }
+
+      debugger;
+      if (hasUserKey(path)) {
+        if (dataMarkoArgs.length === 0) {
+          dataMarkoArgs.push(t.nullLiteral());
+        }
+
+        dataMarkoArgs.push(
+          path.get("key").node,
+          hub._componentDefIdentifier
+        );
+      }
+
+      if (dataMarkoArgs.length) {
         dataMarko = t.callExpression(
           hub.importDefault(
             path,
             "marko/src/runtime/html/helpers/data-marko",
             "marko_props"
           ),
-          [t.objectExpression(tagProperties)]
+          dataMarkoArgs
         )
-      }
-    }
-
-    if (isSplitOrPreserved) {
-      if (!hasAutoKey(path)) {
-        path.pushContainer(
-          "attributes",
-          t.markoAttribute(
-            "data-marko-key",
-            t.callExpression(
-              hub.importDefault(
-                path,
-                "marko/src/runtime/html/helpers/data-marko-key",
-                "marko_key"
-              ),
-              [path.get("key").node, hub._componentDefIdentifier]
-            )
-          )
-        );
       }
     }
   }
