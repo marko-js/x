@@ -49,11 +49,6 @@ function loadBabelConfig(filename, options) {
     plugins: [[corePlugin, markoConfig]]
   };
 
-  if (markoConfig.writeVersionComment) {
-    baseBabelConfig.auxiliaryCommentBefore =
-      "Compiled using marko@" + version + " - DO NOT EDIT";
-  }
-
   if (markoConfig.babelConfig) {
     Object.assign(baseBabelConfig, markoConfig.babelConfig);
   }

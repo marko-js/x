@@ -1,4 +1,5 @@
 import { types as t } from "@marko/babel-types";
+import { version } from "marko/package.json";
 import MarkoDocumentType from "./document-type";
 import MarkoDeclaration from "./declaration";
 import MarkoCDATA from "./cdata";
@@ -117,6 +118,15 @@ export const visitor = {
         t.identifier("meta")
       );
       const componentId = meta.id;
+
+      if (options.writeVersionComment) {
+        path.addComment(
+          "leading",
+          ` Compiled using marko@${version} - DO NOT EDIT`,
+          true
+        );
+      }
+
       path.unshiftContainer(
         "body",
         t.exportDefaultDeclaration(templateIdentifier)

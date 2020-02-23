@@ -80,7 +80,6 @@ export default function(path) {
         dataMarkoArgs.push(t.objectExpression(tagProperties));
       }
 
-      debugger;
       if (hasUserKey(path)) {
         if (dataMarkoArgs.length === 0) {
           dataMarkoArgs.push(t.nullLiteral());
