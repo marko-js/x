@@ -6,8 +6,8 @@
   "author": "Dylan Piercey <dpiercey@ebay.com>",
   "bugs": "https://github.com/marko-js/marko/issues/new?template=Bug_report.md",
   "dependencies": {
-    "@marko/babel-types": "^1.0.0",
-    "@marko/babel-utils": "^1.0.0"
+    "@marko/babel-types": "^5.0.0",
+    "@marko/babel-utils": "^5.0.0"
   },
   "files": [
     "dist"
