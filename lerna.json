@@ -2,7 +2,7 @@
   "command": {
     "publish": {
       "conventionalCommits": true,
-      "message": "chore: publish"
+      "message": "chore(release): publish"
     }
   },
   "packages": [
@@ -13,5 +13,5 @@
     "packages/*/test/**",
     "**/*.md"
   ],
-  "version": "dependent"
+  "version": "independent"
 }
