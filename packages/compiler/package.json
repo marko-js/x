@@ -1,10 +1,10 @@
 {
   "name": "@marko/compiler",
   "private": true,
-  "description": "Babel plugin to parse Marko templates.",
+  "description": "Marko template to JS compiler.",
   "version": "1.0.0",
   "author": "Dylan Piercey <dpiercey@ebay.com>",
-  "bugs": "https://github.com/marko-js/x/issues/new?template=Bug_report.md",
+  "bugs": "https://github.com/marko-js/marko/issues/new?template=Bug_report.md",
   "dependencies": {
     "@marko/babel-types": "^1.0.0",
     "@marko/babel-utils": "^1.0.0",

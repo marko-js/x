@@ -14,20 +14,18 @@ import customTag from "./custom-tag";
 import macroTag from "./macro-tag";
 import attributeTranslators from "./attribute";
 import { getKeyManager } from "../util/key-manager";
+import { enter, exit } from "../util/plugin-hooks";
 
 export default {
   enter(path) {
     const tagDef = getTagDef(path);
-    const isVDOM = path.hub.options.output !== "html";
 
     if (tagDef) {
       if (tagDef.codeGeneratorModulePath) {
-        tagDef.codeGenerator = require(tagDef.codeGeneratorModulePath);
-      }
-
-      if (tagDef.codeGenerator && tagDef.codeGenerator.enter) {
         const { node } = path;
-        tagDef.codeGenerator.enter(path);
+        tagDef.codeGenerator = require(tagDef.codeGeneratorModulePath);
+        enter(tagDef.codeGenerator, path, t);
+
         if (path.node !== node) {
           return;
         }
@@ -82,13 +80,12 @@ export default {
 
     if (tagDef) {
       const { codeGenerator } = tagDef;
+      const { node } = path;
 
-      if (codeGenerator && codeGenerator.exit) {
-        const { node } = path;
-        tagDef.codeGenerator.exit(path);
-        if (path.node !== node) {
-          return;
-        }
+      exit(codeGenerator, path, t);
+
+      if (path.node !== node) {
+        return;
       }
 
       if (isNativeTag(path)) {

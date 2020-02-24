@@ -1,4 +1,6 @@
+import { types as t } from "@marko/babel-types";
 import { getTagDef } from "@marko/babel-utils";
+import { enter, exit } from "../util/plugin-hooks";
 
 /**
  * Applies custom transformers on tags.
@@ -12,17 +14,19 @@ export const visitor = {
   MarkoTag: {
     enter(path) {
       const transformers = getTransformersForTag(path);
+      const { node } = path;
+
       for (const transformer of transformers) {
-        const { node } = path;
-        enter(transformer, path);
+        enter(transformer, path, t);
         if (path.node !== node) break; // Stop if node is replaced.
       }
     },
     exit(path) {
       const transformers = getTransformersForTag(path);
+      const { node } = path;
+
       for (const transformer of transformers) {
-        const { node } = path;
-        exit(transformer, path);
+        exit(transformer, path, t);
         if (path.node !== node) break; // Stop if node is replaced.
       }
     }
@@ -60,25 +64,4 @@ function comparePriority(a, b) {
   b = b.priority || 0;
 
   return a - b;
-}
-
-function enter(plugin, ...args) {
-  const fn =
-    (plugin &&
-      (plugin.enter ||
-        (plugin.default && plugin.default.enter) ||
-        plugin.default)) ||
-    plugin;
-  if (typeof fn === "function") {
-    fn(...args);
-  }
-}
-
-function exit(plugin, ...args) {
-  const fn =
-    plugin &&
-    (plugin.exit || (plugin.default ? plugin.default.exit : undefined));
-  if (typeof fn === "function") {
-    fn(...args);
-  }
 }

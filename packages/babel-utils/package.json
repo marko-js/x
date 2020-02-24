@@ -4,7 +4,7 @@
   "description": "Utilities for use with Marko babel plugins.",
   "version": "1.0.0",
   "author": "Dylan Piercey <dpiercey@ebay.com>",
-  "bugs": "https://github.com/marko-js/x/issues/new?template=Bug_report.md",
+  "bugs": "https://github.com/marko-js/marko/issues/new?template=Bug_report.md",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
     "@marko/babel-types": "^1.0.0",

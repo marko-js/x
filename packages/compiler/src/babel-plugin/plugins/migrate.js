@@ -1,4 +1,6 @@
+import { types as t } from "@marko/babel-types";
 import { getTagDef } from "@marko/babel-utils";
+import { enter, exit } from "../util/plugin-hooks";
 
 /**
  * Applies custom migrators on tags.
@@ -7,22 +9,18 @@ export const visitor = {
   MarkoTag: {
     enter(path) {
       const migrators = getMigratorsForTag(path);
+      const { node } = path;
       for (const migrator of migrators) {
-        if (migrator.enter) {
-          const { node } = path;
-          migrator.enter(path);
-          if (path.node !== node) break; // Stop if node is replaced.
-        }
+        enter(migrator, path, t);
+        if (path.node !== node) break; // Stop if node is replaced.
       }
     },
     exit(path) {
       const migrators = getMigratorsForTag(path);
+      const { node } = path;
       for (const migrator of migrators) {
-        if (migrator.exit) {
-          const { node } = path;
-          migrator.exit(path);
-          if (path.node !== node) break; // Stop if node is replaced.
-        }
+        exit(migrator, path, t);
+        if (path.node !== node) break; // Stop if node is replaced.
       }
     }
   }

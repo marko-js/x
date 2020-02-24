@@ -294,7 +294,7 @@ export function parse(fileNodePath) {
         const module = require(tagDef.nodeFactoryPath);
         /* istanbul ignore next */
         const { default: fn = module } = module;
-        fn(tag);
+        fn(tag, t);
       }
 
       currentTag = currentTag.parentPath.parentPath;
