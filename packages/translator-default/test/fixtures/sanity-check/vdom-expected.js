@@ -1,4 +1,5 @@
-/*Compiled using marko@5.0.0 - DO NOT EDIT*/
+// Compiled using marko@5.0.0 - DO NOT EDIT
+
 const _marko_template = _t(__filename);
 
 export default _marko_template;
@@ -10,7 +11,6 @@ function more() {
   abc();
 }
 
-/*Compiled using marko@5.0.0 - DO NOT EDIT*/
 import _marko_class_merge from "marko/src/runtime/helpers/class-value";
 import _marko_dynamic_tag from "marko/src/runtime/helpers/dynamic-tag";
 import _other from "./components/other/index.marko";
@@ -31,7 +31,6 @@ const _marko_componentType = _marko_registerComponent("vwW5Oh1D", () => _marko_t
 
 };
 
-/*Compiled using marko@5.0.0 - DO NOT EDIT*/
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.be("style", {
     "id": "css"
@@ -195,7 +194,5 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 }, {
   ___type: _marko_componentType
 }, _marko_component);
-
-/*Compiled using marko@5.0.0 - DO NOT EDIT*/
 import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 _marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);

@@ -1,4 +1,5 @@
-/*Compiled using marko@5.0.0 - DO NOT EDIT*/
+// Compiled using marko@5.0.0 - DO NOT EDIT
+
 const _marko_template = _t(__filename);
 
 export default _marko_template;
@@ -16,9 +17,7 @@ const _marko_componentType = _marko_registerComponent("PXhaeWTf", () => _marko_t
 
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   _test_tag({
-    "class":
-    /*Compiled using marko@5.0.0 - DO NOT EDIT*/
-    input.class,
+    "class": input.class,
     "renderBody": (out, data) => {
       out.t("Hello ");
       out.t(data.name);
@@ -27,9 +26,7 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 
   out.be("div", null, "1", component, null, 0);
   out.t("Hello ");
-  out.t(
-  /*Compiled using marko@5.0.0 - DO NOT EDIT*/
-  input.name);
+  out.t(input.name);
   out.be("span", null, "2", component, null, 0);
 
   () => {
@@ -52,7 +49,5 @@ _marko_template._ = _marko_renderer(function (input, out, _component, component,
 }, {
   ___type: _marko_componentType
 }, _marko_component);
-
-/*Compiled using marko@5.0.0 - DO NOT EDIT*/
 import _marko_defineComponent from "marko/src/runtime/components/defineComponent";
 _marko_template.Component = _marko_defineComponent(_marko_component, _marko_template._);

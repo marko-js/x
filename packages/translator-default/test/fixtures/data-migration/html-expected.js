@@ -1,4 +1,5 @@
-/*Compiled using marko@5.0.0 - DO NOT EDIT*/
+// Compiled using marko@5.0.0 - DO NOT EDIT
+
 const _marko_template = _t(__filename);
 
 export default _marko_template;
@@ -14,17 +15,13 @@ const _marko_componentType = "PXhaeWTf",
       _marko_component = {};
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   _test_tag({
-    "class":
-    /*Compiled using marko@5.0.0 - DO NOT EDIT*/
-    input.class,
+    "class": input.class,
     "renderBody": (out, data) => {
       out.w(`Hello ${_marko_escapeXml(data.name)}`);
     }
   }, out, _component, "0");
 
-  out.w(`<div>Hello ${_marko_escapeXml(
-  /*Compiled using marko@5.0.0 - DO NOT EDIT*/
-  input.name)}<span>`);
+  out.w(`<div>Hello ${_marko_escapeXml(input.name)}<span>`);
 
   () => {
     data;

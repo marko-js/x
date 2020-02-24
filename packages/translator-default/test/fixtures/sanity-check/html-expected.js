@@ -1,4 +1,5 @@
-/*Compiled using marko@5.0.0 - DO NOT EDIT*/
+// Compiled using marko@5.0.0 - DO NOT EDIT
+
 const _marko_template = _t(__filename);
 
 export default _marko_template;
@@ -10,7 +11,6 @@ function more() {
   abc();
 }
 
-/*Compiled using marko@5.0.0 - DO NOT EDIT*/
 import _marko_escapeStyle from "marko/src/runtime/html/helpers/escape-style-placeholder";
 import _marko_escapeScript from "marko/src/runtime/html/helpers/escape-script-placeholder";
 import _marko_attr from "marko/src/runtime/html/helpers/attr";
@@ -32,8 +32,6 @@ const _marko_componentType = "vwW5Oh1D",
   }
 
 };
-
-/*Compiled using marko@5.0.0 - DO NOT EDIT*/
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w(`<style id="css">\n  div {\n    color: ${_marko_escapeStyle(x)};\n  }\n</style><script>\n  var y = ${_marko_escapeScript(x)};\n</script>`);
 
