@@ -30,5 +30,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/marko-js/marko/tree/master/packages/translator-default"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
