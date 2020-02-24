@@ -6,7 +6,7 @@ export default _marko_template;
 import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers/escape-xml";
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import { t as _t } from "marko/src/runtime/html";
-const _marko_componentType = "_XScaIR4",
+const _marko_componentType = "01WxYw7m",
       _marko_component = {};
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w("<div><div>Hello <div> </div> World</div><div> Hello</div><pre>\n    This should  \n      be preserved\n  </pre><div><div>Hello </div></div></div><div>");

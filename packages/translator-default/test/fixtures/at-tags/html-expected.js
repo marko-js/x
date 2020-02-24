@@ -10,7 +10,7 @@ const _hello_tag = _marko_load_tag(_hello);
 
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import { t as _t } from "marko/src/runtime/html";
-const _marko_componentType = "Mp8YE_db",
+const _marko_componentType = "tlG_aFWw",
       _marko_component = {};
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   _hello_tag({

@@ -25,7 +25,7 @@ import { x as _marko_escapeXml } from "marko/src/runtime/html/helpers/escape-xml
 import _marko_attrs from "marko/src/runtime/html/helpers/attrs";
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import { t as _t } from "marko/src/runtime/html";
-const _marko_componentType = "vwW5Oh1D",
+const _marko_componentType = "sWzbPUpL",
       _marko_component = {
   onCreate() {
     this.stuff();

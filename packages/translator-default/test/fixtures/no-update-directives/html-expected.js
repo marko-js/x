@@ -14,7 +14,7 @@ const _preserve_tag = _marko_load_tag(_preserve);
 
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import { t as _t } from "marko/src/runtime/html";
-const _marko_componentType = "ssDzNmTg",
+const _marko_componentType = "rVSetn_I",
       _marko_component = {};
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   _preserve_tag({

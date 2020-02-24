@@ -11,7 +11,7 @@ const _customTag_tag = _marko_load_tag(_customTag);
 
 import _marko_renderer from "marko/src/runtime/components/renderer";
 import { t as _t } from "marko/src/runtime/html";
-const _marko_componentType = "0s1D5L6O",
+const _marko_componentType = "BaPp2UaD",
       _marko_component = {};
 _marko_template._ = _marko_renderer(function (input, out, _component, component, state) {
   out.w(`<div${_marko_props({
