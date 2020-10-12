@@ -34,14 +34,13 @@ export interface BaseSignal<V> {
   ___execFn: ((arg: unknown) => unknown) | undefined;
   ___execObject: Record<string, unknown> | undefined;
   ___execProperty: string | undefined;
-  ___execStart: ExecChain | undefined;
-  ___execEnd: ExecChain | undefined;
+  ___execArray: ExecArray | undefined;
   ___consumable: boolean;
   ___cleanup: (() => void) | undefined;
   ___root: Fragment;
 }
 
-type ExecChain = ((...args:  unknown[]) => unknown) & { next?: ExecChain };
+type ExecArray = Array<(...args:  unknown[]) => unknown>;
 
 interface SignalSingleDownstream<V> extends BaseSignal<V> {
   ___downstream: DownstreamSignal | undefined;
@@ -74,8 +73,7 @@ export type SyncComputation<V> = SignalWithUpstream<V> & SignalWithDownstream<V>
 };
 export type ConsumableComputation<V> = SyncComputation<V> & {
   ___execFn: typeof execConsumable;
-  ___execStart: ExecChain;
-  ___execEnd: ExecChain;
+  ___execArray: ExecArray;
 };
 export type AsyncComputation<V> = SignalWithUpstream<V> & SignalWithDownstream<V> & {
   ___type: SignalTypes.ASYNC_COMPUTATION;
@@ -112,8 +110,7 @@ function createSignal(type: SignalTypes): BaseSignal<unknown> {
     ___execFn: undefined,
     ___execObject: undefined,
     ___execProperty: undefined,
-    ___execStart: undefined,
-    ___execEnd: undefined,
+    ___execArray: undefined,
     ___consumable: false,
     ___cleanup: undefined,
     ___root: currentFragment!
@@ -152,7 +149,7 @@ export function createComputation<
         }
         upstream.___type = type as any;
         upstream.___consumable = consumable;
-        upstream.___execEnd = upstream.___execEnd.next = fn;
+        upstream.___execArray.push(fn);
         return upstream as SyncComputation<V>;
       }
       computation = createSignal(type) as SyncComputation<V>;
@@ -181,7 +178,7 @@ export function createComputation<
     if (consumable) {
       computation.___consumable = consumable;
       computation.___execFn = execConsumable;
-      computation.___execStart = computation.___execEnd = fn;
+      computation.___execArray = [fn];
     } else {
       computation.___execFn = fn;
       if (type === SignalTypes.EFFECT) {
@@ -211,18 +208,18 @@ function execConsumable<V>(
   this: ConsumableComputation<V>,
   originalInput: unknown
 ): V {
-  let fn: ExecChain | undefined = this.___execStart;
+  let array = this.___execArray;
   let inputValue: unknown = originalInput;
   let isEffect = (this as any).___type === SignalTypes.EFFECT;
-  while (fn) {
-    const next = fn.next;
-    if (isEffect && !next) {
+
+  for(let i = 0, last = array.length - 1; i <= last; i++) {
+    if (isEffect && i === last) {
       if (inputValue === this.___value) return undefined as any as V;
       else this.___value = inputValue as V;
     }
-    inputValue = fn.call(this, inputValue);
-    fn = next;
+    inputValue = array[i].call(this, inputValue);
   }
+  
   return inputValue as V;
 }
 
