@@ -14,7 +14,7 @@ export default envs.flatMap(env =>
         file: `${env}/${name}/index.esm.js`,
         format: "esm"
       },
-      !sizeOnly && {
+      {
         file: `${env}/${name}/index.cjs.js`,
         format: "cjs"
       }
