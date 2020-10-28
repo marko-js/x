@@ -1,5 +1,6 @@
 import typescript from "rollup-plugin-typescript2";
 import { terser } from "rollup-plugin-terser";
+import mangleInternal from "./rollup-plugin-mangle-internal";
 import fs from "fs";
 
 const sizeOnly = process.env.SIZE;
@@ -25,16 +26,8 @@ export default envs.flatMap(env =>
           compilerOptions: { declaration: false, emitDeclarationOnly: false }
         }
       }),
-      env === "dist" &&
-        terser({
-          compress: {},
-          mangle: {
-            module: true
-            // properties: {
-            //   regex: /^___/
-            // }
-          }
-        }),
+      env === "dist" && mangleInternal(),
+      env === "dist" && terser({ mangle: {}, compress: {} }),
       {
         name: "write-package",
         writeBundle() {
