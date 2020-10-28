@@ -1,0 +1,244 @@
+{
+  "file": "./packages/runtime/dist/dom/index.esm.js",
+  "exports": [
+    "register",
+    "init",
+    "source",
+    "compute",
+    "effect",
+    "get",
+    "set",
+    "on",
+    "attr",
+    "text",
+    "conditional",
+    "loopOf"
+  ],
+  "preminified": true,
+  "results": [
+    {
+      "name": "*",
+      "individual": {
+        "original": 12989,
+        "brotlied": 4652,
+        "gzipped": 5071
+      }
+    },
+    {
+      "name": "register",
+      "individual": {
+        "original": 159,
+        "brotlied": 113,
+        "gzipped": 148
+      },
+      "cumulative": {
+        "original": 159,
+        "brotlied": 113,
+        "gzipped": 148
+      },
+      "increment": {
+        "original": 159,
+        "brotlied": 113,
+        "gzipped": 148
+      }
+    },
+    {
+      "name": "init",
+      "individual": {
+        "original": 786,
+        "brotlied": 417,
+        "gzipped": 498
+      },
+      "cumulative": {
+        "original": 836,
+        "brotlied": 433,
+        "gzipped": 521
+      },
+      "increment": {
+        "original": 677,
+        "brotlied": 320,
+        "gzipped": 373
+      }
+    },
+    {
+      "name": "source",
+      "individual": {
+        "original": 510,
+        "brotlied": 256,
+        "gzipped": 313
+      },
+      "cumulative": {
+        "original": 1225,
+        "brotlied": 570,
+        "gzipped": 675
+      },
+      "increment": {
+        "original": 389,
+        "brotlied": 137,
+        "gzipped": 154
+      }
+    },
+    {
+      "name": "compute",
+      "individual": {
+        "original": 1613,
+        "brotlied": 649,
+        "gzipped": 720
+      },
+      "cumulative": {
+        "original": 2388,
+        "brotlied": 981,
+        "gzipped": 1098
+      },
+      "increment": {
+        "original": 1163,
+        "brotlied": 411,
+        "gzipped": 423
+      }
+    },
+    {
+      "name": "effect",
+      "individual": {
+        "original": 1658,
+        "brotlied": 663,
+        "gzipped": 738
+      },
+      "cumulative": {
+        "original": 2447,
+        "brotlied": 1007,
+        "gzipped": 1121
+      },
+      "increment": {
+        "original": 59,
+        "brotlied": 26,
+        "gzipped": 23
+      }
+    },
+    {
+      "name": "get",
+      "individual": {
+        "original": 212,
+        "brotlied": 128,
+        "gzipped": 171
+      },
+      "cumulative": {
+        "original": 2504,
+        "brotlied": 1024,
+        "gzipped": 1139
+      },
+      "increment": {
+        "original": 57,
+        "brotlied": 17,
+        "gzipped": 18
+      }
+    },
+    {
+      "name": "set",
+      "individual": {
+        "original": 1923,
+        "brotlied": 786,
+        "gzipped": 879
+      },
+      "cumulative": {
+        "original": 4089,
+        "brotlied": 1533,
+        "gzipped": 1694
+      },
+      "increment": {
+        "original": 1585,
+        "brotlied": 509,
+        "gzipped": 555
+      }
+    },
+    {
+      "name": "on",
+      "individual": {
+        "original": 479,
+        "brotlied": 273,
+        "gzipped": 330
+      },
+      "cumulative": {
+        "original": 4451,
+        "brotlied": 1676,
+        "gzipped": 1859
+      },
+      "increment": {
+        "original": 362,
+        "brotlied": 143,
+        "gzipped": 165
+      }
+    },
+    {
+      "name": "attr",
+      "individual": {
+        "original": 1877,
+        "brotlied": 764,
+        "gzipped": 852
+      },
+      "cumulative": {
+        "original": 4683,
+        "brotlied": 1763,
+        "gzipped": 1957
+      },
+      "increment": {
+        "original": 232,
+        "brotlied": 87,
+        "gzipped": 98
+      }
+    },
+    {
+      "name": "text",
+      "individual": {
+        "original": 1969,
+        "brotlied": 785,
+        "gzipped": 878
+      },
+      "cumulative": {
+        "original": 5053,
+        "brotlied": 1872,
+        "gzipped": 2084
+      },
+      "increment": {
+        "original": 370,
+        "brotlied": 109,
+        "gzipped": 127
+      }
+    },
+    {
+      "name": "conditional",
+      "individual": {
+        "original": 3911,
+        "brotlied": 1386,
+        "gzipped": 1525
+      },
+      "cumulative": {
+        "original": 7229,
+        "brotlied": 2535,
+        "gzipped": 2770
+      },
+      "increment": {
+        "original": 2176,
+        "brotlied": 663,
+        "gzipped": 686
+      }
+    },
+    {
+      "name": "loopOf",
+      "individual": {
+        "original": 6444,
+        "brotlied": 2454,
+        "gzipped": 2654
+      },
+      "cumulative": {
+        "original": 9670,
+        "brotlied": 3536,
+        "gzipped": 3852
+      },
+      "increment": {
+        "original": 2441,
+        "brotlied": 1001,
+        "gzipped": 1082
+      }
+    }
+  ]
+}
