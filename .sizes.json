@@ -19,225 +19,225 @@
     {
       "name": "*",
       "individual": {
-        "original": 12989,
-        "brotlied": 4652,
-        "gzipped": 5071
+        "min": 12950,
+        "gzip": 5045,
+        "brotli": 4636
       }
     },
     {
       "name": "register",
       "individual": {
-        "original": 159,
-        "brotlied": 113,
-        "gzipped": 148
+        "min": 153,
+        "gzip": 143,
+        "brotli": 108
       },
       "cumulative": {
-        "original": 159,
-        "brotlied": 113,
-        "gzipped": 148
+        "min": 153,
+        "gzip": 143,
+        "brotli": 108
       },
       "increment": {
-        "original": 159,
-        "brotlied": 113,
-        "gzipped": 148
+        "min": 153,
+        "gzip": 143,
+        "brotli": 108
       }
     },
     {
       "name": "init",
       "individual": {
-        "original": 786,
-        "brotlied": 417,
-        "gzipped": 498
+        "min": 780,
+        "gzip": 492,
+        "brotli": 411
       },
       "cumulative": {
-        "original": 836,
-        "brotlied": 433,
-        "gzipped": 521
+        "min": 829,
+        "gzip": 514,
+        "brotli": 430
       },
       "increment": {
-        "original": 677,
-        "brotlied": 320,
-        "gzipped": 373
+        "min": 676,
+        "gzip": 371,
+        "brotli": 322
       }
     },
     {
       "name": "source",
       "individual": {
-        "original": 510,
-        "brotlied": 256,
-        "gzipped": 313
+        "min": 504,
+        "gzip": 307,
+        "brotli": 248
       },
       "cumulative": {
-        "original": 1225,
-        "brotlied": 570,
-        "gzipped": 675
+        "min": 1217,
+        "gzip": 667,
+        "brotli": 569
       },
       "increment": {
-        "original": 389,
-        "brotlied": 137,
-        "gzipped": 154
+        "min": 388,
+        "gzip": 153,
+        "brotli": 139
       }
     },
     {
       "name": "compute",
       "individual": {
-        "original": 1613,
-        "brotlied": 649,
-        "gzipped": 720
+        "min": 1607,
+        "gzip": 713,
+        "brotli": 658
       },
       "cumulative": {
-        "original": 2388,
-        "brotlied": 981,
-        "gzipped": 1098
+        "min": 2379,
+        "gzip": 1088,
+        "brotli": 972
       },
       "increment": {
-        "original": 1163,
-        "brotlied": 411,
-        "gzipped": 423
+        "min": 1162,
+        "gzip": 421,
+        "brotli": 403
       }
     },
     {
       "name": "effect",
       "individual": {
-        "original": 1658,
-        "brotlied": 663,
-        "gzipped": 738
+        "min": 1652,
+        "gzip": 731,
+        "brotli": 652
       },
       "cumulative": {
-        "original": 2447,
-        "brotlied": 1007,
-        "gzipped": 1121
+        "min": 2437,
+        "gzip": 1111,
+        "brotli": 993
       },
       "increment": {
-        "original": 59,
-        "brotlied": 26,
-        "gzipped": 23
+        "min": 58,
+        "gzip": 23,
+        "brotli": 21
       }
     },
     {
       "name": "get",
       "individual": {
-        "original": 212,
-        "brotlied": 128,
-        "gzipped": 171
+        "min": 206,
+        "gzip": 166,
+        "brotli": 124
       },
       "cumulative": {
-        "original": 2504,
-        "brotlied": 1024,
-        "gzipped": 1139
+        "min": 2493,
+        "gzip": 1129,
+        "brotli": 1011
       },
       "increment": {
-        "original": 57,
-        "brotlied": 17,
-        "gzipped": 18
+        "min": 56,
+        "gzip": 18,
+        "brotli": 18
       }
     },
     {
       "name": "set",
       "individual": {
-        "original": 1923,
-        "brotlied": 786,
-        "gzipped": 879
+        "min": 1917,
+        "gzip": 870,
+        "brotli": 782
       },
       "cumulative": {
-        "original": 4089,
-        "brotlied": 1533,
-        "gzipped": 1694
+        "min": 4077,
+        "gzip": 1683,
+        "brotli": 1534
       },
       "increment": {
-        "original": 1585,
-        "brotlied": 509,
-        "gzipped": 555
+        "min": 1584,
+        "gzip": 554,
+        "brotli": 523
       }
     },
     {
       "name": "on",
       "individual": {
-        "original": 479,
-        "brotlied": 273,
-        "gzipped": 330
+        "min": 473,
+        "gzip": 324,
+        "brotli": 298
       },
       "cumulative": {
-        "original": 4451,
-        "brotlied": 1676,
-        "gzipped": 1859
+        "min": 4438,
+        "gzip": 1847,
+        "brotli": 1668
       },
       "increment": {
-        "original": 362,
-        "brotlied": 143,
-        "gzipped": 165
+        "min": 361,
+        "gzip": 164,
+        "brotli": 134
       }
     },
     {
       "name": "attr",
       "individual": {
-        "original": 1877,
-        "brotlied": 764,
-        "gzipped": 852
+        "min": 1871,
+        "gzip": 847,
+        "brotli": 757
       },
       "cumulative": {
-        "original": 4683,
-        "brotlied": 1763,
-        "gzipped": 1957
+        "min": 4669,
+        "gzip": 1945,
+        "brotli": 1761
       },
       "increment": {
-        "original": 232,
-        "brotlied": 87,
-        "gzipped": 98
+        "min": 231,
+        "gzip": 98,
+        "brotli": 93
       }
     },
     {
       "name": "text",
       "individual": {
-        "original": 1969,
-        "brotlied": 785,
-        "gzipped": 878
+        "min": 1963,
+        "gzip": 873,
+        "brotli": 786
       },
       "cumulative": {
-        "original": 5053,
-        "brotlied": 1872,
-        "gzipped": 2084
+        "min": 5038,
+        "gzip": 2072,
+        "brotli": 1865
       },
       "increment": {
-        "original": 370,
-        "brotlied": 109,
-        "gzipped": 127
+        "min": 369,
+        "gzip": 127,
+        "brotli": 104
       }
     },
     {
       "name": "conditional",
       "individual": {
-        "original": 3911,
-        "brotlied": 1386,
-        "gzipped": 1525
+        "min": 3905,
+        "gzip": 1517,
+        "brotli": 1396
       },
       "cumulative": {
-        "original": 7229,
-        "brotlied": 2535,
-        "gzipped": 2770
+        "min": 7213,
+        "gzip": 2755,
+        "brotli": 2522
       },
       "increment": {
-        "original": 2176,
-        "brotlied": 663,
-        "gzipped": 686
+        "min": 2175,
+        "gzip": 683,
+        "brotli": 657
       }
     },
     {
       "name": "loopOf",
       "individual": {
-        "original": 6444,
-        "brotlied": 2454,
-        "gzipped": 2654
+        "min": 6438,
+        "gzip": 2645,
+        "brotli": 2446
       },
       "cumulative": {
-        "original": 9670,
-        "brotlied": 3536,
-        "gzipped": 3852
+        "min": 9653,
+        "gzip": 3838,
+        "brotli": 3525
       },
       "increment": {
-        "original": 2441,
-        "brotlied": 1001,
-        "gzipped": 1082
+        "min": 2440,
+        "gzip": 1083,
+        "brotli": 1003
       }
     }
   ]

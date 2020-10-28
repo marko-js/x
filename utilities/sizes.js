@@ -7,6 +7,7 @@ const hypothetical = require("rollup-plugin-hypothetical");
 
 const path = require("path");
 const assert = require("assert");
+const { terser } = require("rollup-plugin-terser");
 const configPath = path.join(__dirname, "../.sizes.json");
 
 run(configPath).catch(console.error);
@@ -17,7 +18,7 @@ async function run(configPath) {
   );
   const current = await getExportResults(file, exports, preminified);
 
-  console.log(renderTable(current, previous, process.env.MEASURE || "gzipped"));
+  console.log(renderTable(current, previous, process.env.MEASURE || "gzip"));
 
   if (process.env.WRITE) {
     writeData(configPath, current);
@@ -104,9 +105,9 @@ async function getExportResults(file, exports, preminified) {
   ];
   const exportsSoFar = [];
   let previous = {
-    original: 0,
-    brotlied: 0,
-    gzipped: 0
+    min: 0,
+    gzip: 0,
+    brotli: 0
   };
   for (const e of exports) {
     exportsSoFar.push(e);
@@ -121,9 +122,9 @@ async function getExportResults(file, exports, preminified) {
       individual,
       cumulative,
       increment: {
-        original: cumulative.original - previous.original,
-        brotlied: cumulative.brotlied - previous.brotlied,
-        gzipped: cumulative.gzipped - previous.gzipped
+        min: cumulative.min - previous.min,
+        gzip: cumulative.gzip - previous.gzip,
+        brotli: cumulative.brotli - previous.brotli
       }
     });
     previous = cumulative;
@@ -140,14 +141,14 @@ async function getSizesForExports(file, exports, preminified) {
   return getSizesForSrc(await bundleExports(file, exports, preminified));
 }
 
-async function getSizesForSrc(original) {
-  const gzipped = await gzip(original);
-  const brotlied = await brotli(original);
+async function getSizesForSrc(minified) {
+  const gzipped = await gzip(minified);
+  const brotlied = await brotli(minified);
 
   return {
-    original: original.length,
-    brotlied: brotlied.length,
-    gzipped: gzipped.length
+    min: minified.length,
+    gzip: gzipped.length,
+    brotli: brotlied.length
   };
 }
 
@@ -174,11 +175,12 @@ async function bundle(src, preminified) {
           "./entry.js": src
         },
         allowFallthrough: true
-      })
+      }),
+      !preminified && terser({ compress: {}, mangle: { module: true } })
     ]
   });
 
-  const { output } = await bundle.generate({ format: "es" });
+  const { output } = await bundle.generate({ format: "es", compact: true });
   return output[0].code;
 }
 
