@@ -1,6 +1,6 @@
 import typescript from "rollup-plugin-typescript2";
 import { terser } from "rollup-plugin-terser";
-import mangleInternal from "./rollup-plugin-mangle-internal";
+import mangleInternal from "../../utilities/rollup-plugin-mangle-internal";
 import fs from "fs";
 
 const sizeOnly = process.env.SIZE;
