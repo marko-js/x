@@ -5,14 +5,14 @@ export default () => {
   const ids = new Map();
   return {
     name: "mangle-internal",
-    transform(code, filename) {
+    renderChunk(code, chunk, outputOptions) {
       let m = internalReg.exec(code);
 
       if (!m) {
         return;
       }
 
-      const s = new MagicString(code, { filename });
+      const s = new MagicString(code);
 
       do {
         const [v] = m;
@@ -39,10 +39,11 @@ export default () => {
         m = internalReg.exec(code);
       } while (m);
 
-      return {
-        code: s.toString(),
-        map: s.generateMap()
-      };
+      const result = { code: s.toString() };
+      if (outputOptions.sourcemap !== false) {
+        result.map = s.generateMap({ hires: true });
+      }
+      return result;
     }
   };
 };
