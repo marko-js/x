@@ -27,7 +27,13 @@ export default envs.flatMap(env =>
         }
       }),
       env === "dist" && mangleInternal(),
-      env === "dist" && terser({ mangle: {}, compress: {} }),
+      env === "dist" &&
+        terser({
+          compress: {},
+          mangle: {
+            module: true
+          }
+        }),
       {
         name: "write-package",
         writeBundle() {
