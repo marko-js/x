@@ -29,7 +29,6 @@ export default envs.flatMap(env =>
       }),
       env === "dist" &&
         replace({
-          "'MARKO_DEBUG'": false,
           '"MARKO_DEBUG"': false,
           delimiters: ["", ""]
         }),
