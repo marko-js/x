@@ -7,8 +7,13 @@
     "@marko/babel-types": "^5.0.0-next.51",
     "@marko/babel-utils": "^5.0.0-next.51"
   },
+  "scripts": {
+    "build": "rollup -c ./rollup.config.js --sourcemap && tsc",
+    "prepublishOnly": "npm run build"
+  },
   "files": [
-    "dist"
+    "dist",
+    "types"
   ],
   "homepage": "https://github.com/marko-js/x/blob/master/packages/translator-fluurt/README.md",
   "keywords": [
@@ -21,7 +26,10 @@
     "plugin"
   ],
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs.js",
+  "jsnext": "dist/index.esm.js",
+  "module": "dist/index.esm.js",
+  "types": "types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/marko-js/x/tree/master/packages/translator-fluurt"
