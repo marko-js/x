@@ -1,3 +1,7 @@
+export function toString(val: unknown) {
+  return val == null ? "" : val + "";
+}
+
 export const escapeXML = escapeIfNeeded((val: string) => {
   let result = "";
   let lastPos = 0;

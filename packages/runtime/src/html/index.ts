@@ -1,4 +1,4 @@
-export { escapeScript, escapeStyle, escapeXML } from "./content";
+export { toString, escapeScript, escapeStyle, escapeXML } from "./content";
 
 export { attr, attrs, classAttr, styleAttr } from "./attrs";
 
