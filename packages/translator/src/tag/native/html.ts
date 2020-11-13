@@ -49,9 +49,30 @@ export function enter(path: NodePath<MarkoTag>) {
       const { confident, value: computed } = value.evaluate();
 
       if (confident) {
-        write`${runtime.attr(name, computed)}`;
+        switch (name) {
+          case "class":
+          case "style":
+            write`${runtime[`${name}Attr`](computed)}`;
+            break;
+          default:
+            write`${runtime.attr(name, computed)}`;
+            break;
+        }
       } else {
-        write`${callRuntime(path, "attr", t.stringLiteral(name), value.node!)}`;
+        switch (name) {
+          case "class":
+          case "style":
+            write`${callRuntime(path, `${name}Attr`, value.node!)}`;
+            break;
+          default:
+            write`${callRuntime(
+              path,
+              "attr",
+              t.stringLiteral(name),
+              value.node!
+            )}`;
+            break;
+        }
       }
     }
   }
