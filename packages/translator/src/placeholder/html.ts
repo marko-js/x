@@ -5,29 +5,14 @@ import {
   Expression
 } from "@marko/babel-types";
 import { isNativeTag } from "@marko/babel-utils";
-import {
-  toString,
-  escapeXML,
-  escapeScript,
-  escapeStyle
-} from "@marko/runtime-fluurt/dist/html";
+import * as runtime from "@marko/runtime-fluurt/dist/html";
 import { callRuntime } from "../util/runtime";
 import { writeHTML } from "../util/html-write";
 
 const ESCAPE_TYPES = {
-  html: {
-    name: "escapeXML",
-    fn: escapeXML
-  },
-  script: {
-    name: "escapeScript",
-    fn: escapeScript
-  },
-  style: {
-    name: "escapeStyle",
-    fn: escapeStyle
-  }
-} as Record<string, { name: string; fn(str: string): string }>;
+  script: "escapeScript",
+  style: "escapeStyle"
+} as Record<string, string>;
 
 export default function (path: NodePath<MarkoPlaceholder>) {
   const { node, parentPath } = path;
@@ -40,14 +25,14 @@ export default function (path: NodePath<MarkoPlaceholder>) {
         isNativeTag(parentPath) &&
         (parentPath.node.name as StringLiteral).value) ||
       "";
-    const escapeType = ESCAPE_TYPES[parentTagName] || ESCAPE_TYPES.html;
+    const escapeType = ESCAPE_TYPES[parentTagName] || "escapeXML";
 
     value = confident
-      ? escapeType.fn(computed)
-      : callRuntime(path, escapeType.name, value);
+      ? runtime[escapeType](computed)
+      : callRuntime(path, escapeType, value);
   } else {
     value = confident
-      ? toString(computed)
+      ? runtime.toString(computed)
       : callRuntime(path, "toString", value);
   }
 

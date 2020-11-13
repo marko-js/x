@@ -5,6 +5,7 @@ import MarkoDocumentType from "./document-type";
 import MarkoDeclaration from "./declaration";
 import MarkoCDATA from "./cdata";
 import MarkoText from "./text";
+import * as MarkoTag from "./tag";
 import MarkoPlaceholder from "./placeholder";
 import MarkoComment from "./comment";
 
@@ -25,6 +26,7 @@ export const visitor: Visitor = {
   MarkoDeclaration,
   MarkoCDATA,
   MarkoText,
+  MarkoTag,
   MarkoPlaceholder,
   MarkoComment
 };

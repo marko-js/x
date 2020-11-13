@@ -20,15 +20,32 @@ export function flushHTML(path: NodePath<MarkoTag> | NodePath<Program>) {
   let curStr: string = writes[0] as string;
 
   for (let i = 1; i < writes.length; i++) {
-    const content = writes[i];
+    let content = writes[i];
 
-    if (typeof content === "string") {
-      curStr += content;
-    } else {
-      exprs.push(content);
-      strs.push(curStr);
-      curStr = "";
+    if (typeof content === "object") {
+      if (t.isStringLiteral(content)) {
+        content = content.value;
+      } else if (t.isTemplateLiteral(content)) {
+        let nextIndex = i + 1;
+        const exprLen = content.expressions.length;
+        shiftItems(writes, nextIndex, content.quasis.length + exprLen);
+
+        for (let j = 0; j < exprLen; j++) {
+          writes[nextIndex++] = content.quasis[j].value.raw;
+          writes[nextIndex++] = content.expressions[j];
+        }
+
+        writes[nextIndex] = content.quasis[exprLen].value.raw;
+        continue;
+      } else {
+        exprs.push(content);
+        strs.push(curStr);
+        curStr = "";
+        continue;
+      }
     }
+
+    curStr += content;
   }
 
   let arg: Expression | undefined;
@@ -50,5 +67,11 @@ export function flushHTML(path: NodePath<MarkoTag> | NodePath<Program>) {
     } else {
       path.pushContainer("body", callRuntime(path, "write", arg));
     }
+  }
+}
+
+function shiftItems(list: unknown[], start: number, offset: number) {
+  for (let i = list.length - 1; i >= start; i--) {
+    list[i + offset] = list[i];
   }
 }
