@@ -2,12 +2,11 @@ import {
   types as t,
   NodePath,
   MarkoTag,
-  Expression,
-  SpreadElement,
   MarkoAttribute
 } from "@marko/babel-types";
 import { getTagDef } from "@marko/babel-utils";
 import * as runtime from "@marko/runtime-fluurt/dist/html";
+import attrsToObject from "../../util/attrs-to-object";
 import { writeHTML } from "../../util/html-write";
 import { callRuntime } from "../../util/runtime";
 
@@ -23,68 +22,50 @@ export function enter(path: NodePath<MarkoTag>) {
   write`<${name.node}`;
 
   if (hasSpread) {
-    let attrsObject: Expression = t.objectExpression([]);
-
-    for (const attr of attrs) {
-      const value = attr.node.value!;
-
-      if (attr.isMarkoSpreadAttribute()) {
-        attrsObject.properties.push(t.spreadElement(value));
-      } else if (attr.isMarkoAttribute()) {
-        attrsObject.properties.push(
-          t.objectProperty(t.stringLiteral(attr.node.name), value)
-        );
-      }
-    }
-
-    if (attrsObject.properties.length === 1) {
-      attrsObject = (attrsObject.properties[0] as SpreadElement).argument;
-    }
-
-    write`${callRuntime(path, "attrs", attrsObject)}`;
+    write`${callRuntime(path, "attrs", attrsToObject(path))}`;
   } else {
     for (const attr of attrs as NodePath<MarkoAttribute>[]) {
       const name = attr.node.name;
       const value = attr.get("value");
       const { confident, value: computed } = value.evaluate();
 
-      if (confident) {
-        switch (name) {
-          case "class":
-          case "style":
+      switch (name) {
+        case "class":
+        case "style":
+          if (confident) {
             write`${runtime[`${name}Attr`](computed)}`;
-            break;
-          default:
-            write`${runtime.attr(name, computed)}`;
-            break;
-        }
-      } else {
-        switch (name) {
-          case "class":
-          case "style":
+          } else {
             write`${callRuntime(path, `${name}Attr`, value.node!)}`;
-            break;
-          default:
+          }
+          break;
+        default:
+          if (confident) {
+            write`${runtime.attr(name, computed)}`;
+          } else {
             write`${callRuntime(
               path,
               "attr",
               t.stringLiteral(name),
               value.node!
             )}`;
-            break;
-        }
+          }
+
+          break;
       }
     }
   }
 
-  if (tagDef && tagDef.parseOptions?.openTagOnly && name.isStringLiteral()) {
-    const htmlType = tagDef.htmlType;
+  if (tagDef && tagDef.parseOptions?.openTagOnly) {
     path.remove();
 
-    if (htmlType === "svg" || htmlType === "math") {
-      write`/>`;
-    } else {
-      write`>`;
+    switch (tagDef.htmlType) {
+      case "svg":
+      case "math":
+        write`/>`;
+        break;
+      default:
+        write`>`;
+        break;
     }
   } else {
     write`>`;
