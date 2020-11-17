@@ -48,7 +48,7 @@ export const inputs = [
 ];
 
 export const template = `<div></div>`;
-export const walks = inside + over(1);
+export const walks = get + over(1);
 export const hydrate = register(
   __dirname.split("/").pop()!,
   (input: { children: Array<{ id: number; text: string }> }) => {
@@ -57,7 +57,9 @@ export const hydrate = register(
       createRenderer(loop_template, loop_walks, undefined, item => {
         text(computeProperty("text", item));
       }),
-      i => "" + i.id
+      i => "" + i.id,
+      false,
+      true
     );
   }
 );
