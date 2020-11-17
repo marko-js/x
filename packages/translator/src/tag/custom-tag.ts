@@ -23,7 +23,7 @@ export function exit(tag: NodePath<t.MarkoTag>) {
     const { file } = tag.hub;
     const tagName = node.name.value;
     const tags = file.metadata.marko.tags;
-    const tagDef = getTagDef(tag) as { template?: string } | undefined;
+    const tagDef = getTagDef(tag);
     const template = tagDef?.template;
     const relativePath = template && resolveRelativePath(file, template);
 

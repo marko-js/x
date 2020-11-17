@@ -7,13 +7,11 @@ import { flushHTML } from "../../util/html-flush";
 import { writeHTML } from "../../util/html-write";
 import { callRuntime } from "../../util/runtime";
 
-type TagDef = { htmlType?: string; parseOptions?: { openTagOnly: boolean } };
-
 export function enter(tag: NodePath<t.MarkoTag>) {
   const write = writeHTML(tag);
   const name = tag.get("name");
   const attrs = tag.get("attributes");
-  const tagDef = getTagDef(tag) as TagDef | undefined;
+  const tagDef = getTagDef(tag);
   const hasSpread = attrs.some(attr => attr.isMarkoSpreadAttribute());
   const { nullable } = analyzeTagName(tag);
 
@@ -79,7 +77,7 @@ export function enter(tag: NodePath<t.MarkoTag>) {
 }
 
 export function exit(tag: NodePath<t.MarkoTag>) {
-  if (!(getTagDef(tag) as TagDef | undefined)?.parseOptions?.openTagOnly) {
+  if (!getTagDef(tag)?.parseOptions?.openTagOnly) {
     writeHTML(tag)`</${tag.node.name}>`;
 
     if (analyzeTagName(tag).nullable) {

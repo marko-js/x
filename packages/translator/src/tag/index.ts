@@ -1,5 +1,10 @@
 import { types as t, NodePath } from "@marko/babel-types";
-import { assertNoArgs, getTagDef, isNativeTag } from "@marko/babel-utils";
+import {
+  assertNoArgs,
+  getTagDef,
+  isNativeTag,
+  Plugin
+} from "@marko/babel-utils";
 import markoModules from "@marko/compiler/modules";
 import analyzeTagName, { TagNameTypes } from "../util/analyze-tag-name";
 import * as hooks from "../util/plugin-hooks";
@@ -8,19 +13,20 @@ import * as CustomTag from "./custom-tag";
 // import * as DynamicTag from "./dynamic-tag";
 // import * as AttributeTag from "./attribute-tag";
 
-type CodeGeneratorTagDef = {
-  codeGeneratorModulePath?: string;
-  codeGenerator?: hooks.Plugin;
-};
+declare module "@marko/babel-utils" {
+  export interface TagDefinition {
+    codeGenerator?: Plugin;
+  }
+}
 
 export function enter(tag: NodePath<t.MarkoTag>) {
-  const tagDef = getTagDef(tag) as CodeGeneratorTagDef | undefined;
+  const tagDef = getTagDef(tag);
 
   assertNoArgs(tag);
 
   if (tagDef) {
     if (tagDef.codeGeneratorModulePath) {
-      (tag.hub.file.metadata.watchFiles as string[]).push(
+      tag.hub.file.metadata.marko.watchFiles.push(
         tagDef.codeGeneratorModulePath
       );
 
@@ -92,12 +98,7 @@ export function enter(tag: NodePath<t.MarkoTag>) {
 }
 
 export function exit(tag: NodePath<t.MarkoTag>) {
-  if (
-    hooks.exit(
-      (getTagDef(tag) as CodeGeneratorTagDef | undefined)?.codeGenerator,
-      tag
-    )
-  ) {
+  if (hooks.exit(getTagDef(tag)?.codeGenerator, tag)) {
     return;
   }
 
