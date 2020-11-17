@@ -18,7 +18,7 @@ export const visitor: Visitor = {
     },
     exit(path) {
       if (isOutputHTML(path)) {
-        flushHTML(path);
+        flushHTML(path, it => path.pushContainer("body", it));
       }
     }
   },

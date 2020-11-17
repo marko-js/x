@@ -1,14 +1,11 @@
-import {
-  types as t,
-  MarkoTag,
-  Program,
-  NodePath,
-  Expression
-} from "@marko/babel-types";
+import { types as t, NodePath } from "@marko/babel-types";
 import { callRuntime } from "./runtime";
 
-export function flushHTML(path: NodePath<MarkoTag> | NodePath<Program>) {
-  const writes = path.state.writes as Array<string | Expression> | undefined;
+export function flushHTML(
+  path: NodePath<t.MarkoTag> | NodePath<t.Program>,
+  into: (flushed: t.Expression) => void
+) {
+  const writes = path.state.writes as Array<string | t.Expression> | undefined;
 
   if (!writes) {
     return;
@@ -16,7 +13,7 @@ export function flushHTML(path: NodePath<MarkoTag> | NodePath<Program>) {
 
   path.state.writes = undefined;
   const strs: string[] = [];
-  const exprs: Expression[] = [];
+  const exprs: t.Expression[] = [];
   let curStr: string = writes[0] as string;
 
   for (let i = 1; i < writes.length; i++) {
@@ -48,25 +45,21 @@ export function flushHTML(path: NodePath<MarkoTag> | NodePath<Program>) {
     curStr += content;
   }
 
-  let arg: Expression | undefined;
+  let result: t.Expression | undefined;
 
   if (exprs.length) {
     strs.push(curStr);
 
-    arg = t.templateLiteral(
+    result = t.templateLiteral(
       strs.map(raw => t.templateElement({ raw })),
       exprs
     );
   } else if (curStr) {
-    arg = t.stringLiteral(curStr);
+    result = t.stringLiteral(curStr);
   }
 
-  if (arg) {
-    if (path.isMarkoTag()) {
-      path.get("body").pushContainer("body", callRuntime(path, "write", arg));
-    } else {
-      path.pushContainer("body", callRuntime(path, "write", arg));
-    }
+  if (result) {
+    into(callRuntime(path as NodePath<any>, "write", result));
   }
 }
 

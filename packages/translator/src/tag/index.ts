@@ -1,10 +1,10 @@
-import { NodePath, MarkoTag } from "@marko/babel-types";
-import { getTagDef, isNativeTag } from "@marko/babel-utils";
+import { types as t, NodePath } from "@marko/babel-types";
+import { assertNoArgs, getTagDef, isNativeTag } from "@marko/babel-utils";
 import markoModules from "@marko/compiler/modules";
 import analyzeTagName, { TagNameTypes } from "../util/analyze-tag-name";
 import * as hooks from "../util/plugin-hooks";
 import * as NativeTag from "./native-tag";
-// import * as CustomTag from "./custom-tag";
+import * as CustomTag from "./custom-tag";
 // import * as DynamicTag from "./dynamic-tag";
 // import * as AttributeTag from "./attribute-tag";
 
@@ -13,12 +13,14 @@ type CodeGeneratorTagDef = {
   codeGenerator?: hooks.Plugin;
 };
 
-export function enter(path: NodePath<MarkoTag>) {
-  const tagDef = getTagDef(path) as CodeGeneratorTagDef | undefined;
+export function enter(tag: NodePath<t.MarkoTag>) {
+  const tagDef = getTagDef(tag) as CodeGeneratorTagDef | undefined;
+
+  assertNoArgs(tag);
 
   if (tagDef) {
     if (tagDef.codeGeneratorModulePath) {
-      (path.hub.file.metadata.watchFiles as string[]).push(
+      (tag.hub.file.metadata.watchFiles as string[]).push(
         tagDef.codeGeneratorModulePath
       );
 
@@ -27,7 +29,7 @@ export function enter(path: NodePath<MarkoTag>) {
           (tagDef.codeGenerator = markoModules.require(
             tagDef.codeGeneratorModulePath
           )),
-          path
+          tag
         )
       ) {
         return;
@@ -35,7 +37,7 @@ export function enter(path: NodePath<MarkoTag>) {
     }
   }
 
-  for (const attr of path.get("attributes")) {
+  for (const attr of tag.get("attributes")) {
     if (attr.isMarkoAttribute()) {
       if (attr.node.arguments) {
         throw attr.buildCodeFrameError(
@@ -44,7 +46,7 @@ export function enter(path: NodePath<MarkoTag>) {
       }
 
       if (attr.node.modifier) {
-        if (isNativeTag(attr.parentPath as NodePath<MarkoTag>)) {
+        if (isNativeTag(attr.parentPath as NodePath<t.MarkoTag>)) {
           attr.node.name += `:${attr.node.modifier}`;
         } else {
           throw attr.buildCodeFrameError(
@@ -55,44 +57,62 @@ export function enter(path: NodePath<MarkoTag>) {
     }
   }
 
-  switch (analyzeTagName(path).type) {
+  const analyzed = analyzeTagName(tag);
+
+  if (analyzed.dynamic && analyzed.nullable) {
+    if (!tag.get("name").isIdentifier()) {
+      const tagNameId = tag.scope.generateDeclaredUidIdentifier("tagName");
+
+      tag.scope.registerDeclaration(
+        tag.insertBefore(
+          t.variableDeclaration("const", [
+            t.variableDeclarator(tagNameId, tag.node.name)
+          ])
+        )[0] as NodePath<t.Node>
+      );
+
+      tag.set("name", tagNameId);
+    }
+  }
+
+  switch (analyzed.type) {
     case TagNameTypes.NativeTag:
-      NativeTag.enter(path);
+      NativeTag.enter(tag);
       break;
-    // case TagNameTypes.CustomTag:
-    //   CustomTag.enter(path);
-    //   break;
+    case TagNameTypes.CustomTag:
+      CustomTag.enter(tag);
+      break;
     // case TagNameTypes.DynamicTag:
-    //   DynamicTag.enter(path);
+    //   DynamicTag.enter(tag);
     //   break;
     // case TagNameTypes.AttributeTag:
-    //   AttributeTag.enter(path);
+    //   AttributeTag.enter(tag);
     //   break;
   }
 }
 
-export function exit(path: NodePath<MarkoTag>) {
+export function exit(tag: NodePath<t.MarkoTag>) {
   if (
     hooks.exit(
-      (getTagDef(path) as CodeGeneratorTagDef | undefined)?.codeGenerator,
-      path
+      (getTagDef(tag) as CodeGeneratorTagDef | undefined)?.codeGenerator,
+      tag
     )
   ) {
     return;
   }
 
-  switch (analyzeTagName(path).type) {
+  switch (analyzeTagName(tag).type) {
     case TagNameTypes.NativeTag:
-      NativeTag.exit(path);
+      NativeTag.exit(tag);
       break;
-    // case TagNameTypes.CustomTag:
-    //   CustomTag.exit(path);
-    //   break;
+    case TagNameTypes.CustomTag:
+      CustomTag.exit(tag);
+      break;
     // case TagNameTypes.DynamicTag:
-    //   DynamicTag.exit(path);
+    //   DynamicTag.exit(tag);
     //   break;
     // case TagNameTypes.AttributeTag:
-    //   AttributeTag.exit(path);
+    //   AttributeTag.exit(tag);
     //   break;
   }
 }

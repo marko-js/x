@@ -1,30 +1,32 @@
-import {
-  types as t,
-  NodePath,
-  MarkoTag,
-  MarkoAttribute
-} from "@marko/babel-types";
+import { types as t, NodePath } from "@marko/babel-types";
 import { getTagDef } from "@marko/babel-utils";
 import * as runtime from "@marko/runtime-fluurt/dist/html";
+import analyzeTagName from "../../util/analyze-tag-name";
 import attrsToObject from "../../util/attrs-to-object";
+import { flushHTML } from "../../util/html-flush";
 import { writeHTML } from "../../util/html-write";
 import { callRuntime } from "../../util/runtime";
 
-export function enter(path: NodePath<MarkoTag>) {
-  const write = writeHTML(path);
-  const name = path.get("name");
-  const attrs = path.get("attributes");
-  const tagDef = getTagDef(path) as
-    | { htmlType?: string; parseOptions?: { openTagOnly: boolean } }
-    | undefined;
+type TagDef = { htmlType?: string; parseOptions?: { openTagOnly: boolean } };
+
+export function enter(tag: NodePath<t.MarkoTag>) {
+  const write = writeHTML(tag);
+  const name = tag.get("name");
+  const attrs = tag.get("attributes");
+  const tagDef = getTagDef(tag) as TagDef | undefined;
   const hasSpread = attrs.some(attr => attr.isMarkoSpreadAttribute());
+  const { nullable } = analyzeTagName(tag);
+
+  if (nullable) {
+    flushHTML(tag, it => tag.get("body").pushContainer("body", it));
+  }
 
   write`<${name.node}`;
 
   if (hasSpread) {
-    write`${callRuntime(path, "attrs", attrsToObject(path))}`;
+    write`${callRuntime(tag, "attrs", attrsToObject(tag)!)}`;
   } else {
-    for (const attr of attrs as NodePath<MarkoAttribute>[]) {
+    for (const attr of attrs as NodePath<t.MarkoAttribute>[]) {
       const name = attr.node.name;
       const value = attr.get("value");
       const { confident, value: computed } = value.evaluate();
@@ -35,7 +37,7 @@ export function enter(path: NodePath<MarkoTag>) {
           if (confident) {
             write`${runtime[`${name}Attr`](computed)}`;
           } else {
-            write`${callRuntime(path, `${name}Attr`, value.node!)}`;
+            write`${callRuntime(tag, `${name}Attr`, value.node!)}`;
           }
           break;
         default:
@@ -43,7 +45,7 @@ export function enter(path: NodePath<MarkoTag>) {
             write`${runtime.attr(name, computed)}`;
           } else {
             write`${callRuntime(
-              path,
+              tag,
               "attr",
               t.stringLiteral(name),
               value.node!
@@ -56,8 +58,6 @@ export function enter(path: NodePath<MarkoTag>) {
   }
 
   if (tagDef && tagDef.parseOptions?.openTagOnly) {
-    path.remove();
-
     switch (tagDef.htmlType) {
       case "svg":
       case "math":
@@ -70,9 +70,26 @@ export function enter(path: NodePath<MarkoTag>) {
   } else {
     write`>`;
   }
+
+  if (nullable) {
+    flushHTML(tag, it => {
+      tag.insertBefore(t.ifStatement(name.node, t.expressionStatement(it)));
+    });
+  }
 }
 
-export function exit(path: NodePath<MarkoTag>) {
-  writeHTML(path)`</${path.node.name}>`;
-  path.remove();
+export function exit(tag: NodePath<t.MarkoTag>) {
+  if (!(getTagDef(tag) as TagDef | undefined)?.parseOptions?.openTagOnly) {
+    writeHTML(tag)`</${tag.node.name}>`;
+
+    if (analyzeTagName(tag).nullable) {
+      flushHTML(tag, it => {
+        tag.insertBefore(
+          t.ifStatement(tag.node.name, t.expressionStatement(it))
+        );
+      });
+    }
+  }
+
+  tag.remove();
 }

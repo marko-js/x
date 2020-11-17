@@ -7,7 +7,7 @@ export const enum TagNameTypes {
   DynamicTag,
   AttributeTag
 }
-type TagNameInfo = { type: TagNameTypes; nullable: boolean };
+type TagNameInfo = { type: TagNameTypes; nullable: boolean; dynamic: boolean };
 const HANDLE_BINDINGS = ["module", "var", "let", "const"];
 const MARKO_FILE_REG = /^<.*>$|\.marko$/;
 const CACHE = new WeakMap<t.NodePath<t.MarkoTag>, TagNameInfo>();
@@ -22,8 +22,14 @@ export default function analyzeTagName(tag: t.NodePath<t.MarkoTag>) {
 
   if (name.isStringLiteral()) {
     cached = {
-      type: isNativeTag(tag) ? TagNameTypes.NativeTag : TagNameTypes.CustomTag,
-      nullable: false
+      type:
+        name.node.value[0] === "@"
+          ? TagNameTypes.AttributeTag
+          : isNativeTag(tag)
+          ? TagNameTypes.NativeTag
+          : TagNameTypes.CustomTag,
+      nullable: false,
+      dynamic: false
     };
   } else {
     const pending = [name] as t.NodePath<any>[];
@@ -92,10 +98,10 @@ export default function analyzeTagName(tag: t.NodePath<t.MarkoTag>) {
             if (!binding || !HANDLE_BINDINGS.includes(binding.kind)) {
               type = TagNameTypes.DynamicTag;
             } else if (binding.kind === "module") {
+              const decl = binding.path.parent as t.ImportDeclaration;
               if (
-                MARKO_FILE_REG.test(
-                  (binding.path.parent as t.ImportDeclaration).source.value
-                )
+                MARKO_FILE_REG.test(decl.source.value) &&
+                decl.specifiers.some(it => t.isImportDefaultSpecifier(it))
               ) {
                 type =
                   type ?? type !== TagNameTypes.CustomTag
@@ -143,7 +149,7 @@ export default function analyzeTagName(tag: t.NodePath<t.MarkoTag>) {
       }
     }
 
-    cached = { type: type!, nullable };
+    cached = { type: type!, nullable, dynamic: true };
   }
 
   CACHE.set(tag, cached);

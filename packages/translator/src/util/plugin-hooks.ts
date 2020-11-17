@@ -1,4 +1,4 @@
-import { types as t, Node, NodePath } from "@marko/babel-types";
+import { types as t, NodePath } from "@marko/babel-types";
 
 type FunctionPlugin = (path: NodePath<any>, types: typeof t) => void;
 type EnterExitPlugin = {
@@ -12,7 +12,7 @@ type ModulePlugin = {
 
 export type Plugin = ModulePlugin | EnterExitPlugin | FunctionPlugin;
 
-export function enter<T extends Node>(
+export function enter<T extends t.Node>(
   modulePlugin: Plugin | void,
   path: NodePath<T>
 ) {
@@ -34,7 +34,7 @@ export function enter<T extends Node>(
   return node !== path.node;
 }
 
-export function exit<T extends Node>(
+export function exit<T extends t.Node>(
   modulePlugin: Plugin | void,
   path: NodePath<T>
 ) {

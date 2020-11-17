@@ -1,10 +1,23 @@
-<custom-tag style={
+_write(`<div${_styleAttr({
   color: input.color
-}/>
-<custom-tag style={
-  width: 100
-}/>
-<custom-tag style="color: green"/>
+})}></div><div style=width:100px></div><div style="color: green"></div>`)
+
+_customTag({
+  "style": {
+    color: input.color
+  }
+});
+
+_customTag({
+  "style": {
+    width: 100
+  }
+});
+
+_customTag({
+  "style": "color: green"
+});
+
 <${input.test} style={
   color: "green"
 }>
@@ -13,7 +26,6 @@
   }/>
 </>
 import { styleAttr as _styleAttr, write as _write } from "@marko/runtime-fluurt/debug/html";
+import _customTag from "./components/custom-tag.marko";
 
-_write(`<div${_styleAttr({
-  color: input.color
-})}></div><div style=width:100px></div><div style="color: green"></div>Hello`)
+_write("Hello")

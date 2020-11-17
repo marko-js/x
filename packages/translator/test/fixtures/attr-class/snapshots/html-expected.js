@@ -1,8 +1,19 @@
-<custom-tag class=["a", {
+_write(`<div${_classAttr(["a", {
   b: c,
   d
-}]/>
-<custom-tag class=["a", false, "b"]/>
+}])}></div><div class="a b"></div><div class="a b c"></div>`)
+
+_customTag({
+  "class": ["a", {
+    b: c,
+    d
+  }]
+});
+
+_customTag({
+  "class": ["a", false, "b"]
+});
+
 <${input.test} class=["a", {
   b: c,
   d
@@ -13,8 +24,6 @@
   }]/>
 </>
 import { classAttr as _classAttr, write as _write } from "@marko/runtime-fluurt/debug/html";
+import _customTag from "./components/custom-tag.marko";
 
-_write(`<div${_classAttr(["a", {
-  b: c,
-  d
-}])}></div><div class="a b"></div><div class="a b c"></div>Hello`)
+_write("Hello")
