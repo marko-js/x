@@ -41,7 +41,6 @@ export function loopOf<T>(
 ) {
   if (isSignal(array)) {
     const ctx = Context;
-    const EMPTY_KEY = "_MARKO_EMPTY_KEY_";
     const rootFragment = currentFragment!;
     const emptyNodes: Map<string, Fragment> = new Map();
     let oldNodes: Map<string, Fragment> = emptyNodes;
@@ -57,16 +56,14 @@ export function loopOf<T>(
     } else {
       emptyMarker = walk();
       emptyFragment = createFragment(emptyMarker, rootFragment);
-      trackFragmentFlags = trackFragmentChildren(rootFragment, emptyMarker!);
-      oldNodes.set(EMPTY_KEY, emptyFragment);
-      oldKeys.push(EMPTY_KEY);
+      trackFragmentFlags = trackFragmentChildren(rootFragment, emptyMarker);
+      oldNodes.set(emptyFragment as any, emptyFragment);
+      oldKeys.push(emptyFragment as any);
     }
 
     const newNodes = createComputation(
       _array => {
-        let _newNodes: Map<string, Fragment> & {
-          skipReconcile?: boolean;
-        };
+        let _newNodes: Map<string, Fragment>;
         let newItems = 0;
         let moved = false;
         const len = _array.length;
@@ -79,15 +76,14 @@ export function loopOf<T>(
           for (let index = 0; index < len; index++) {
             const item = _array[index];
             const key = getKey ? getKey(item, index) : "" + index;
-            const previousChildFragment = oldNodes.get(
-              key
-            ) as ForIterationFragment<typeof item>;
-            moved = moved || key !== oldKeys[index];
-            if (!previousChildFragment) {
+            let childFragment = oldNodes.get(key) as ForIterationFragment<
+              typeof item
+            >;
+            if (!childFragment) {
               newItems++;
               const itemSignal = createSource(item);
               const indexSignal = hasIndex && createSource(index);
-              const childFragment = createFragmentFromRenderer(
+              childFragment = createFragmentFromRenderer(
                 renderer,
                 rootFragment,
                 itemSignal,
@@ -96,25 +92,25 @@ export function loopOf<T>(
               ) as ForIterationFragment<T>;
               childFragment.___itemSignal = itemSignal;
               childFragment.___indexSignal = indexSignal;
-              _newNodes.set(key, childFragment);
             } else {
-              setSignalValue(previousChildFragment.___itemSignal, item);
-              previousChildFragment.___indexSignal &&
-                setSignalValue(previousChildFragment.___indexSignal, index);
-              _newNodes.set(key, previousChildFragment);
+              setSignalValue(childFragment.___itemSignal, item);
+              childFragment.___indexSignal &&
+                setSignalValue(childFragment.___indexSignal, index);
+              moved = moved || key !== oldKeys[index];
             }
-            setContext(null);
+            _newNodes.set(key, childFragment);
           }
+          setContext(null);
         }
 
         const removals = _newNodes.size - oldNodes.size - newItems < 0;
         if (removals) {
-          for (const k of oldNodes.keys()) {
+          for (const k of oldKeys) {
             if (!_newNodes.has(k)) markFragmentDestroyed(oldNodes.get(k)!);
           }
+        } else if (!newItems && !moved) {
+          return oldNodes;
         }
-        _newNodes.skipReconcile = !newItems && !removals && !moved;
-
         
         return _newNodes;
       },
@@ -124,7 +120,6 @@ export function loopOf<T>(
 
     createEffect(
       _newNodes => {
-        if (_newNodes.skipReconcile) return;
         const newKeys = Array.from(_newNodes.keys());
         const oldLastChild = oldNodes.get(oldKeys[oldKeys.length - 1]);
         const afterReference = oldLastChild
