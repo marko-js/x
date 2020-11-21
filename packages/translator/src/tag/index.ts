@@ -11,7 +11,7 @@ import * as hooks from "../util/plugin-hooks";
 import * as NativeTag from "./native-tag";
 import * as CustomTag from "./custom-tag";
 // import * as DynamicTag from "./dynamic-tag";
-// import * as AttributeTag from "./attribute-tag";
+import * as AttributeTag from "./attribute-tag";
 
 declare module "@marko/babel-utils" {
   export interface TagDefinition {
@@ -67,16 +67,14 @@ export function enter(tag: NodePath<t.MarkoTag>) {
 
   if (analyzed.dynamic && analyzed.nullable) {
     if (!tag.get("name").isIdentifier()) {
-      const tagNameId = tag.scope.generateDeclaredUidIdentifier("tagName");
-
-      tag.scope.registerDeclaration(
-        tag.insertBefore(
-          t.variableDeclaration("const", [
-            t.variableDeclarator(tagNameId, tag.node.name)
-          ])
-        )[0] as NodePath<t.Node>
+      const tagNameId = tag.scope.generateUidIdentifier("tagName");
+      const [tagNameVarPath] = tag.insertBefore(
+        t.variableDeclaration("const", [
+          t.variableDeclarator(tagNameId, tag.node.name)
+        ])
       );
 
+      tagNameVarPath.skip();
       tag.set("name", tagNameId);
     }
   }
@@ -91,9 +89,9 @@ export function enter(tag: NodePath<t.MarkoTag>) {
     // case TagNameTypes.DynamicTag:
     //   DynamicTag.enter(tag);
     //   break;
-    // case TagNameTypes.AttributeTag:
-    //   AttributeTag.enter(tag);
-    //   break;
+    case TagNameTypes.AttributeTag:
+      AttributeTag.enter(tag);
+      break;
   }
 }
 
@@ -112,8 +110,8 @@ export function exit(tag: NodePath<t.MarkoTag>) {
     // case TagNameTypes.DynamicTag:
     //   DynamicTag.exit(tag);
     //   break;
-    // case TagNameTypes.AttributeTag:
-    //   AttributeTag.exit(tag);
-    //   break;
+    case TagNameTypes.AttributeTag:
+      AttributeTag.exit(tag);
+      break;
   }
 }

@@ -4,20 +4,19 @@ import {
   importDefault,
   resolveRelativePath
 } from "@marko/babel-utils";
-import attrsToObject from "../util/attrs-to-object";
-import addRenderBodyAttr from "../util/add-render-body-attr";
-import { flushHTML } from "../util/html-flush";
+import attrsToObject, { getRenderBodyProp } from "../util/attrs-to-object";
+import { flushBefore, flushInto } from "../util/html-flush";
 import analyzeTagName from "../util/analyze-tag-name";
 
 export function enter(tag: NodePath<t.MarkoTag>) {
-  flushHTML(tag, it => tag.insertBefore(it));
+  flushBefore(tag);
 }
 
 export function exit(tag: NodePath<t.MarkoTag>) {
   const { node } = tag;
   let tagIdentifier: t.Expression;
 
-  flushHTML(tag, it => tag.get("body").pushContainer("body", it));
+  flushInto(tag);
 
   if (t.isStringLiteral(node.name)) {
     const { file } = tag.hub;
@@ -44,40 +43,48 @@ export function exit(tag: NodePath<t.MarkoTag>) {
     tagIdentifier = node.name;
   }
 
-  const renderBodyAttr = addRenderBodyAttr(tag);
+  const attrsObject = attrsToObject(tag, true);
 
   if (analyzeTagName(tag).nullable) {
+    const renderBodyProp = getRenderBodyProp(attrsObject);
     let renderBodyId: t.Identifier | undefined = undefined;
 
-    if (renderBodyAttr) {
-      renderBodyId = tag.scope.generateDeclaredUidIdentifier("renderBody");
-
-      tag.scope.registerDeclaration(
-        tag.insertBefore(
-          t.variableDeclaration("const", [
-            t.variableDeclarator(renderBodyId, renderBodyAttr.node.value)
-          ])
-        )[0] as NodePath<t.Node>
+    if (renderBodyProp) {
+      renderBodyId = tag.scope.generateUidIdentifier("renderBody");
+      const [renderBodyPath] = tag.insertBefore(
+        t.functionDeclaration(
+          renderBodyId,
+          renderBodyProp.params,
+          renderBodyProp.body
+        )
       );
 
-      renderBodyAttr.set("value", renderBodyId);
+      renderBodyPath.skip();
+
+      (attrsObject as t.ObjectExpression).properties[
+        (attrsObject as t.ObjectExpression).properties.length - 1
+      ] = t.objectProperty(t.identifier("renderBody"), renderBodyId);
     }
 
-    tag.replaceWith(
-      t.ifStatement(
-        tagIdentifier,
-        callStatement(tagIdentifier, attrsToObject(tag)),
-        renderBodyId && callStatement(renderBodyId)
-      )
-    );
+    tag
+      .replaceWith(
+        t.ifStatement(
+          tagIdentifier,
+          callStatement(tagIdentifier, attrsToObject(tag)),
+          renderBodyId && callStatement(renderBodyId)
+        )
+      )[0]
+      .skip();
   } else {
-    tag.replaceWith(callStatement(tagIdentifier, attrsToObject(tag)));
+    tag.replaceWith(callStatement(tagIdentifier, attrsObject))[0].skip();
   }
 }
 
 function callStatement(
-  id: Parameters<typeof t.callExpression>[0],
-  ...args: Parameters<typeof t.callExpression>[1]
+  id: t.Expression,
+  ...args: Array<t.Expression | undefined>
 ) {
-  return t.expressionStatement(t.callExpression(id, args.filter(Boolean)));
+  return t.expressionStatement(
+    t.callExpression(id, args.filter(Boolean) as t.Expression[])
+  );
 }

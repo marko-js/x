@@ -1,10 +1,7 @@
 import { types as t, NodePath } from "@marko/babel-types";
 import { callRuntime } from "./runtime";
 
-export function flushHTML(
-  path: NodePath<t.MarkoTag> | NodePath<t.Program>,
-  into: (flushed: t.Expression) => void
-) {
+export function consumeHTML(path: NodePath<any>) {
   const writes = path.state.writes as Array<string | t.Expression> | undefined;
 
   if (!writes) {
@@ -29,7 +26,7 @@ export function flushHTML(
 
         for (let j = 0; j < exprLen; j++) {
           writes[nextIndex++] = content.quasis[j].value.raw;
-          writes[nextIndex++] = content.expressions[j];
+          writes[nextIndex++] = content.expressions[j] as t.Expression;
         }
 
         writes[nextIndex] = content.quasis[exprLen].value.raw;
@@ -59,7 +56,31 @@ export function flushHTML(
   }
 
   if (result) {
-    into(callRuntime(path as NodePath<any>, "write", result));
+    return t.expressionStatement(callRuntime(path, "write", result));
+  }
+}
+
+export function hasPendingHTML(
+  path: NodePath<t.MarkoTag> | NodePath<t.Program>
+) {
+  return Boolean(path.state.writes as Array<string | t.Expression> | undefined);
+}
+
+export function flushBefore(path: NodePath<any>) {
+  const expr = consumeHTML(path);
+  if (expr) {
+    path.insertBefore(expr)[0].skip();
+  }
+}
+
+export function flushInto(path: NodePath<t.MarkoTag> | NodePath<t.Program>) {
+  const expr = consumeHTML(path);
+  if (expr) {
+    if (path.isMarkoTag()) {
+      path.get("body").pushContainer("body", expr)[0].skip();
+    } else {
+      path.pushContainer("body", expr)[0].skip();
+    }
   }
 }
 

@@ -1,0 +1,34 @@
+{
+  "<if>": {
+    "code-generator": "./condition/translate-if",
+    "attributes": {},
+    "autocomplete": [
+      {
+        "snippet": "if=${1:condition}",
+        "description": "Use to display content only if the condition is met.",
+        "descriptionMoreURL": "https://markojs.com/docs/core-tags/#if-else-if-else"
+      }
+    ]
+  },
+  "<else-if>": {
+    "code-generator": "./condition/translate-else-if",
+    "attributes": {},
+    "autocomplete": [
+      {
+        "snippet": "else-if=${1:condition}",
+        "description": "Use after an <if> or <else-if> tag to display content if those conditions do not match and this one does.",
+        "descriptionMoreURL": "https://markojs.com/docs/core-tags/#if-else-if-else"
+      }
+    ]
+  },
+  "<else>": {
+    "code-generator": "./condition/translate-else",
+    "attributes": {},
+    "autocomplete": [
+      {
+        "description": "Use after an <if> or <else-if> tag to display content if those conditions do not match.",
+        "descriptionMoreURL": "https://markojs.com/docs/core-tags/#if-else-if-else"
+      }
+    ]
+  }
+}

@@ -111,9 +111,9 @@ export default function analyzeTagName(tag: t.NodePath<t.MarkoTag>) {
                 type = TagNameTypes.DynamicTag;
               }
             } else {
-              const initialValue = (binding.path as t.NodePath<
-                t.VariableDeclarator
-              >).get("init");
+              const initialValue = (binding.path as t.NodePath<t.VariableDeclarator>).get(
+                "init"
+              );
               if (initialValue.node) {
                 pending.push(initialValue);
               } else {
@@ -122,9 +122,9 @@ export default function analyzeTagName(tag: t.NodePath<t.MarkoTag>) {
 
               const assignments = binding.constantViolations;
               for (let i = assignments.length; i--; ) {
-                const assignment = assignments[i] as t.NodePath<
-                  t.AssignmentExpression
-                >;
+                const assignment = assignments[
+                  i
+                ] as t.NodePath<t.AssignmentExpression>;
                 const { operator } = assignment.node;
                 if (operator === "=") {
                   pending.push(assignment.get("right"));

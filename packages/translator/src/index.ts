@@ -1,6 +1,6 @@
 import { Visitor } from "@marko/babel-types";
 import { isOutputHTML } from "./util/marko-config";
-import { flushHTML } from "./util/html-flush";
+import { flushInto } from "./util/html-flush";
 import MarkoDocumentType from "./document-type";
 import MarkoDeclaration from "./declaration";
 import MarkoCDATA from "./cdata";
@@ -9,7 +9,9 @@ import * as MarkoTag from "./tag";
 import MarkoPlaceholder from "./placeholder";
 import MarkoComment from "./comment";
 
-export const taglibs = [];
+export const taglibs = [
+  [require.resolve("./core/marko.json"), require("./core/marko.json")]
+];
 
 export const visitor: Visitor = {
   Program: {
@@ -18,7 +20,7 @@ export const visitor: Visitor = {
     },
     exit(path) {
       if (isOutputHTML(path)) {
-        flushHTML(path, it => path.pushContainer("body", it));
+        flushInto(path);
       }
     }
   },

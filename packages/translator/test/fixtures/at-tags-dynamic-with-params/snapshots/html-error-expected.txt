@@ -1,0 +1,7 @@
+packages/translator/test/fixtures/at-tags-dynamic-with-params/template.marko(2,9): Tag does not support arguments.
+  1 | <hello>
+> 2 |     <if(input.x)>
+    |         ^^^^^^^
+  3 |         <@item|y|>
+  4 |             ${y}
+  5 |         </@item>

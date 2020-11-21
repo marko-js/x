@@ -308,9 +308,10 @@ function dynamicElHydrate(
   walk();
   attrs(input);
   dynamicTag(
-    createPropertyComputation("renderBody", input) as UpstreamSignalOrValue<
-      Renderer
-    >,
+    createPropertyComputation(
+      "renderBody",
+      input
+    ) as UpstreamSignalOrValue<Renderer>,
     {}
   );
 }

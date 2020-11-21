@@ -3,7 +3,7 @@ import { getTagDef } from "@marko/babel-utils";
 import * as runtime from "@marko/runtime-fluurt/dist/html";
 import analyzeTagName from "../../util/analyze-tag-name";
 import attrsToObject from "../../util/attrs-to-object";
-import { flushHTML } from "../../util/html-flush";
+import { consumeHTML, flushBefore, flushInto } from "../../util/html-flush";
 import { writeHTML } from "../../util/html-write";
 import { callRuntime } from "../../util/runtime";
 
@@ -16,7 +16,7 @@ export function enter(tag: NodePath<t.MarkoTag>) {
   const { nullable } = analyzeTagName(tag);
 
   if (nullable) {
-    flushHTML(tag, it => tag.get("body").pushContainer("body", it));
+    flushBefore(tag);
   }
 
   write`<${name.node}`;
@@ -70,22 +70,25 @@ export function enter(tag: NodePath<t.MarkoTag>) {
   }
 
   if (nullable) {
-    flushHTML(tag, it => {
-      tag.insertBefore(t.ifStatement(name.node, t.expressionStatement(it)));
-    });
+    tag.insertBefore(t.ifStatement(name.node, consumeHTML(tag)!))[0].skip();
   }
 }
 
 export function exit(tag: NodePath<t.MarkoTag>) {
   if (!getTagDef(tag)?.parseOptions?.openTagOnly) {
+    const { nullable } = analyzeTagName(tag);
+
+    if (nullable) {
+      flushInto(tag);
+      tag.insertBefore(tag.node.body.body).forEach(child => child.skip());
+    }
+
     writeHTML(tag)`</${tag.node.name}>`;
 
-    if (analyzeTagName(tag).nullable) {
-      flushHTML(tag, it => {
-        tag.insertBefore(
-          t.ifStatement(tag.node.name, t.expressionStatement(it))
-        );
-      });
+    if (nullable) {
+      tag
+        .insertBefore(t.ifStatement(tag.node.name, consumeHTML(tag)!))[0]
+        .skip();
     }
   }
 

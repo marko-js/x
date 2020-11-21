@@ -1,0 +1,8 @@
+packages/translator/test/fixtures/at-tags-dynamic/template.marko(4,17): Tag does not support arguments.
+  2 |     <@list>
+  3 |         <for|color| of=input.colors>
+> 4 |             <if(x)>
+    |                 ^
+  5 |                 <@item style={ color }>foo</@item>
+  6 |             </if>
+  7 |             <else>
