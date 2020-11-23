@@ -88,8 +88,10 @@ export function insertFragmentBefore(
 }
 
 export function replaceFragment(current: Fragment, replacement: Fragment) {
-  insertFragmentBefore(null, replacement, referenceStart(current));
-  removeFragment(current);
+  if (current !== replacement) {
+    insertFragmentBefore(null, replacement, referenceStart(current));
+    removeFragment(current);
+  }
 }
 
 export function removeFragment(fragment: Fragment) {

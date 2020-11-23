@@ -19,9 +19,9 @@
     {
       "name": "*",
       "individual": {
-        "min": 11586,
-        "gzip": 5103,
-        "brotli": 4675
+        "min": 11603,
+        "gzip": 5114,
+        "brotli": 4709
       }
     },
     {
@@ -207,19 +207,19 @@
     {
       "name": "conditional",
       "individual": {
-        "min": 3022,
-        "gzip": 1440,
-        "brotli": 1309
+        "min": 3039,
+        "gzip": 1449,
+        "brotli": 1324
       },
       "cumulative": {
-        "min": 5940,
-        "gzip": 2725,
-        "brotli": 2500
+        "min": 5957,
+        "gzip": 2735,
+        "brotli": 2507
       },
       "increment": {
-        "min": 1217,
-        "gzip": 488,
-        "brotli": 471
+        "min": 1234,
+        "gzip": 498,
+        "brotli": 478
       }
     },
     {
@@ -230,14 +230,14 @@
         "brotli": 2314
       },
       "cumulative": {
-        "min": 8114,
-        "gzip": 3756,
-        "brotli": 3454
+        "min": 8131,
+        "gzip": 3765,
+        "brotli": 3466
       },
       "increment": {
         "min": 2174,
-        "gzip": 1031,
-        "brotli": 954
+        "gzip": 1030,
+        "brotli": 959
       }
     }
   ]
