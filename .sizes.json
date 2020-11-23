@@ -19,9 +19,9 @@
     {
       "name": "*",
       "individual": {
-        "min": 11603,
-        "gzip": 5114,
-        "brotli": 4709
+        "min": 11619,
+        "gzip": 5119,
+        "brotli": 4693
       }
     },
     {
@@ -225,19 +225,19 @@
     {
       "name": "loopOf",
       "individual": {
-        "min": 5342,
-        "gzip": 2512,
-        "brotli": 2314
+        "min": 5358,
+        "gzip": 2518,
+        "brotli": 2321
       },
       "cumulative": {
-        "min": 8131,
-        "gzip": 3765,
-        "brotli": 3466
+        "min": 8147,
+        "gzip": 3769,
+        "brotli": 3471
       },
       "increment": {
-        "min": 2174,
-        "gzip": 1030,
-        "brotli": 959
+        "min": 2190,
+        "gzip": 1034,
+        "brotli": 964
       }
     }
   ]

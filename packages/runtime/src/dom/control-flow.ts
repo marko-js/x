@@ -125,8 +125,9 @@ export function loopOf<T>(
         const afterReference = oldLastChild
           ? oldLastChild.___lastChild.nextSibling
           : null;
+        const parentNode = parent || oldLastChild!.___lastChild.parentNode;
         reconcile(
-          parent,
+          parentNode,
           oldKeys,
           oldNodes,
           newKeys,
