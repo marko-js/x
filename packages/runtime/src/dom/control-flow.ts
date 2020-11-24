@@ -111,7 +111,7 @@ export function loopOf<T>(
         } else if (!newItems && !moved) {
           return oldNodes;
         }
-        
+
         return _newNodes;
       },
       array,
