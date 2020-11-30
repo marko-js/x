@@ -1,7 +1,0 @@
-packages/translator/test/fixtures/at-tags-dynamic-and-static/template.marko(2,6): Unable to find entry point for custom tag <for>.
-  1 | <hello>
-> 2 |     <for|a| in=b>
-    |      ^^^
-  3 |       <@item/>
-  4 |     </for>
-  5 |     <@other/>

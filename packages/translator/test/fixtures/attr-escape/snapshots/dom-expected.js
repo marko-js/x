@@ -1,1 +1,0 @@
-<div class=input.className foo=('a' + input.foo + 'b') bar=`a ${input.foo} b`/>
