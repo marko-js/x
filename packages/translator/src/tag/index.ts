@@ -29,15 +29,11 @@ export function enter(tag: NodePath<t.MarkoTag>) {
       tag.hub.file.metadata.marko.watchFiles.push(
         tagDef.codeGeneratorModulePath
       );
-
-      if (
-        hooks.enter(
-          (tagDef.codeGenerator = markoRequire(tagDef.codeGeneratorModulePath)),
-          tag
-        )
-      ) {
-        return;
-      }
+      hooks.enter(
+        (tagDef.codeGenerator = markoRequire(tagDef.codeGeneratorModulePath)),
+        tag
+      );
+      return;
     }
   }
 
@@ -94,7 +90,10 @@ export function enter(tag: NodePath<t.MarkoTag>) {
 }
 
 export function exit(tag: NodePath<t.MarkoTag>) {
-  if (hooks.exit(getTagDef(tag)?.codeGenerator, tag)) {
+  const codeGenerator = getTagDef(tag)?.codeGenerator;
+
+  if (codeGenerator) {
+    hooks.exit(codeGenerator, tag);
     return;
   }
 

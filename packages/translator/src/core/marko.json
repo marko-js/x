@@ -88,5 +88,18 @@
         "descriptionMoreURL": "https://markojs.com/docs/core-tags/#iterating-between-a-range-of-numbers"
       }
     ]
+  },
+  "<html-comment>": {
+    "code-generator": "./translate-html-comment",
+    "parse-options": {
+      "state": "parsed-text"
+    },
+    "attributes": {},
+    "autocomplete": [
+      {
+        "description": "Use to create an html comment that is not stripped from the output.",
+        "descriptionMoreURL": "https://markojs.com/docs/core-tags/#html-comment"
+      }
+    ]
   }
 }
