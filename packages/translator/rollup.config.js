@@ -3,6 +3,7 @@ import mangleInternal from "../../utilities/rollup-plugin-mangle-internal";
 
 export default {
   input: "src/index.ts",
+  external: [/^[^./!]/], // excludes node_modules
   output: [
     {
       file: "dist/index.esm.js",
