@@ -25,6 +25,11 @@ export function enter(tag: NodePath<t.MarkoTag>) {
   } else {
     for (const attr of attrs as NodePath<t.MarkoAttribute>[]) {
       const name = attr.node.name;
+
+      if (name[0] === "o" && name[1] === "n") {
+        continue;
+      }
+
       const value = attr.get("value");
       const { confident, value: computed } = value.evaluate();
 

@@ -17,6 +17,10 @@ export function attrs(data: Record<string, unknown>) {
   let result = "";
 
   for (const name in data) {
+    if (name[0] === "o" && name[1] === "n") {
+      continue;
+    }
+
     const val = data[name];
 
     switch (name) {
