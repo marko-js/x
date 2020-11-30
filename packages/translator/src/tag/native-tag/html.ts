@@ -79,6 +79,9 @@ export function exit(tag: NodePath<t.MarkoTag>) {
 
     if (nullable) {
       flushInto(tag);
+    }
+
+    if (tag.node.body.body.length) {
       tag.insertBefore(tag.node.body.body).forEach(child => child.skip());
     }
 
