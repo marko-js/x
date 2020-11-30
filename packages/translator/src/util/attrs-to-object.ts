@@ -36,13 +36,30 @@ export default function attrsToObject(
 
   if (withRenderBody) {
     if (hasHoistedChildren(tag)) {
-      for (const child of tag.get("body").get("body")) {
-        const state: HoistedVisitorState = { isHoisted: false };
-        child.traverse(HOISTED_CHILDREN_VISITOR, state);
+      const state: HoistedVisitorState = { isHoisted: false };
+      const children = tag.get("body").get("body");
+      const len = children.length;
+
+      for (let i = len; i--; ) {
+        const child = children[i];
+
+        if (isHoistedNode(child.node)) {
+          state.isHoisted = true;
+        } else {
+          child.traverse(HOISTED_CHILDREN_VISITOR, state);
+        }
 
         if (state.isHoisted) {
-          tag.insertBefore(child.node);
-          child.remove();
+          const renderBodyStartIndex = i + 1;
+
+          if (renderBodyStartIndex === len) {
+            tag.insertBefore(tag.node.body.body);
+            tag.node.body.body = [];
+          } else {
+            tag.insertBefore(tag.node.body.body.slice(0, renderBodyStartIndex));
+            tag.node.body.body = tag.node.body.body.slice(renderBodyStartIndex);
+          }
+          break;
         }
       }
     }

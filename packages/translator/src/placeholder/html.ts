@@ -1,7 +1,6 @@
 import { types as t, NodePath } from "@marko/babel-types";
 import { isNativeTag } from "@marko/babel-utils";
-import * as runtime from "@marko/runtime-fluurt/dist/html";
-import { callRuntime } from "../util/runtime";
+import { callRuntime, getHTMLRuntime } from "../util/runtime";
 import { writeHTML } from "../util/html-write";
 
 const ESCAPE_TYPES = {
@@ -23,11 +22,11 @@ export default function (placeholder: NodePath<t.MarkoPlaceholder>) {
     const escapeType = ESCAPE_TYPES[parentTagName] || "escapeXML";
 
     value = confident
-      ? runtime[escapeType](computed)
+      ? getHTMLRuntime(placeholder)[escapeType](computed)
       : callRuntime(placeholder, escapeType, value);
   } else {
     value = confident
-      ? runtime.toString(computed)
+      ? getHTMLRuntime(placeholder).toString(computed)
       : callRuntime(placeholder, "toString", value);
   }
 

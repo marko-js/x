@@ -46,47 +46,43 @@ export function enter(tag: NodePath<t.MarkoTag>) {
   }
 
   if (hasPendingHTML(tag)) {
-    if (isTransparentTag(tag.parentPath.parentPath as NodePath<t.MarkoTag>)) {
-      throw tag
-        .get("name")
-        .buildCodeFrameError(
-          "Dynamic @tags cannot be mixed with body content."
-        );
-    } else {
-      flushBefore(tag);
-    }
+    throw tag
+      .get("name")
+      .buildCodeFrameError("Dynamic @tags cannot be mixed with body content.");
   }
 
   PARENT_TAGS.set(tag, parentTag);
+
   if (!LOOKUPS.has(parentTag)) {
-    const attrName = (tag.node.name as t.StringLiteral).value.slice(1);
     const lookup = analyzeRoot(parentTag);
-    const info = lookup![attrName];
     LOOKUPS.set(parentTag, lookup);
 
-    if (info.dynamic) {
-      info.identifier = parentTag.scope.generateUidIdentifier(attrName);
-      parentTag.insertBefore(
-        info.repeated
-          ? t.variableDeclaration("const", [
-              t.variableDeclarator(info.identifier, t.arrayExpression([]))
-            ])
-          : t.variableDeclaration("let", [
-              t.variableDeclarator(info.identifier)
-            ])
-      );
+    for (const attrName in lookup) {
+      const info = lookup[attrName];
+      if (info.dynamic) {
+        info.identifier = parentTag.scope.generateUidIdentifier(attrName);
+        parentTag.insertBefore(
+          info.repeated
+            ? t.variableDeclaration("const", [
+                t.variableDeclarator(info.identifier, t.arrayExpression([]))
+              ])
+            : t.variableDeclaration("let", [
+                t.variableDeclarator(info.identifier)
+              ])
+        );
 
-      parentTag.pushContainer(
-        "attributes",
-        t.markoAttribute(attrName, info.identifier)
-      );
+        parentTag.pushContainer(
+          "attributes",
+          t.markoAttribute(attrName, info.identifier)
+        );
 
-      HOISTED_CHILDREN.add(parentTag);
-    } else if (info.repeated) {
-      parentTag.pushContainer(
-        "attributes",
-        t.markoAttribute(attrName, t.arrayExpression([]))
-      );
+        HOISTED_CHILDREN.add(parentTag);
+      } else if (info.repeated) {
+        parentTag.pushContainer(
+          "attributes",
+          t.markoAttribute(attrName, t.arrayExpression([]))
+        );
+      }
     }
   }
 }

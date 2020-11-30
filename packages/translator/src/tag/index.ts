@@ -5,7 +5,7 @@ import {
   isNativeTag,
   Plugin
 } from "@marko/babel-utils";
-import markoModules from "@marko/compiler/modules";
+import { require as markoRequire } from "@marko/compiler/modules";
 import analyzeTagName, { TagNameTypes } from "../util/analyze-tag-name";
 import * as hooks from "../util/plugin-hooks";
 import * as NativeTag from "./native-tag";
@@ -32,9 +32,7 @@ export function enter(tag: NodePath<t.MarkoTag>) {
 
       if (
         hooks.enter(
-          (tagDef.codeGenerator = markoModules.require(
-            tagDef.codeGeneratorModulePath
-          )),
+          (tagDef.codeGenerator = markoRequire(tagDef.codeGeneratorModulePath)),
           tag
         )
       ) {

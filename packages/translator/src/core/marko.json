@@ -30,5 +30,63 @@
         "descriptionMoreURL": "https://markojs.com/docs/core-tags/#if-else-if-else"
       }
     ]
+  },
+  "<for>": {
+    "code-generator": "./translate-for",
+    "@of": {
+      "type": "expression",
+      "autocomplete": [
+        {
+          "description": "Iterates over a list of items."
+        }
+      ]
+    },
+    "@in": {
+      "type": "expression",
+      "autocomplete": [
+        {
+          "description": "Iterates over the keys and values of an object."
+        }
+      ]
+    },
+    "@to": {
+      "type": "number",
+      "autocomplete": [
+        {
+          "description": "Iterates up to the provided number (inclusive)"
+        }
+      ]
+    },
+    "@from": {
+      "type": "number",
+      "autocomplete": [
+        {
+          "description": "Iterates starting from the provided number (inclusive)"
+        }
+      ]
+    },
+    "@step": {
+      "type": "number",
+      "autocomplete": [
+        {
+          "description": "The amount to increment during each interation (with from/to)"
+        }
+      ]
+    },
+    "autocomplete": [
+      {
+        "snippet": "for|${1:value, index}| of=${3:array}",
+        "description": "Use to iterate over lists, object properties, or between ranges.",
+        "descriptionMoreURL": "https://markojs.com/docs/core-tags/#iterating-over-a-list"
+      },
+      {
+        "snippet": "for|${1:name, value}| in=${3:object}",
+        "descriptionMoreURL": "https://markojs.com/docs/core-tags/#iterating-over-an-objects-properties"
+      },
+      {
+        "snippet": "for|${1:index}| from=${2:number} to=${3:number} step=${4:number}",
+        "descriptionMoreURL": "https://markojs.com/docs/core-tags/#iterating-between-a-range-of-numbers"
+      }
+    ]
   }
 }

@@ -28,5 +28,5 @@ _customTag({
   }
 
 }/>
-import { classAttr as _classAttr, write as _write } from "@marko/runtime-fluurt/debug/html";
+import { classAttr as _classAttr, write as _write } from "@marko/runtime-fluurt/src/html";
 import _customTag from "./components/custom-tag.marko";

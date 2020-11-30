@@ -13,5 +13,5 @@ _customTag({
   thing: _thing
 });
 
-import { write as _write } from "@marko/runtime-fluurt/debug/html";
+import { write as _write } from "@marko/runtime-fluurt/src/html";
 import _customTag from "./components/custom-tag/index.marko";

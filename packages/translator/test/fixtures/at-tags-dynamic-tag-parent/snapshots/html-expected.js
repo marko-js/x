@@ -12,9 +12,7 @@
     _write("Footer content");
   }
 
-}>
+}/>
+import { write as _write } from "@marko/runtime-fluurt/src/html";
 
-  _write("Body content");
-
-</>
-import { write as _write } from "@marko/runtime-fluurt/debug/html";
+_write("Body content");

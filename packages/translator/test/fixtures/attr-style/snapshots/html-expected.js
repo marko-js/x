@@ -30,5 +30,5 @@ _customTag({
   }
 
 }/>
-import { styleAttr as _styleAttr, write as _write } from "@marko/runtime-fluurt/debug/html";
+import { styleAttr as _styleAttr, write as _write } from "@marko/runtime-fluurt/src/html";
 import _customTag from "./components/custom-tag.marko";

@@ -1,11 +1,10 @@
 import { types as t, NodePath } from "@marko/babel-types";
 import { getTagDef } from "@marko/babel-utils";
-import * as runtime from "@marko/runtime-fluurt/dist/html";
 import analyzeTagName from "../../util/analyze-tag-name";
 import attrsToObject from "../../util/attrs-to-object";
 import { consumeHTML, flushBefore, flushInto } from "../../util/html-flush";
 import { writeHTML } from "../../util/html-write";
-import { callRuntime } from "../../util/runtime";
+import { callRuntime, getHTMLRuntime } from "../../util/runtime";
 
 export function enter(tag: NodePath<t.MarkoTag>) {
   const write = writeHTML(tag);
@@ -33,14 +32,14 @@ export function enter(tag: NodePath<t.MarkoTag>) {
         case "class":
         case "style":
           if (confident) {
-            write`${runtime[`${name}Attr`](computed)}`;
+            write`${getHTMLRuntime(tag)[`${name}Attr`](computed)}`;
           } else {
             write`${callRuntime(tag, `${name}Attr`, value.node!)}`;
           }
           break;
         default:
           if (confident) {
-            write`${runtime.attr(name, computed)}`;
+            write`${getHTMLRuntime(tag).attr(name, computed)}`;
           } else {
             write`${callRuntime(
               tag,

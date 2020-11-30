@@ -276,7 +276,10 @@ export function dynamicTag(
           if (typeof _tag === "string") {
             nextRenderer = {
               ___clone: () => doc.createElement(_tag),
-              ___walks: dynamicElWalks,
+              ___walks:
+                String.fromCharCode(WalkCodes.Get) +
+                String.fromCharCode(WalkCodes.Inside) +
+                String.fromCharCode(WalkCodes.Over),
               ___hydrate: dynamicElHydrate
             };
           } else if (_tag) {
@@ -298,10 +301,6 @@ export function dynamicTag(
 
 // TODO: we don't want String.fromCharCode in the actual code.
 // Need to determine best way to keep this readable, but becomes a string literal on build
-const dynamicElWalks =
-  String.fromCharCode(WalkCodes.Get) +
-  String.fromCharCode(WalkCodes.Inside) +
-  String.fromCharCode(WalkCodes.Over);
 function dynamicElHydrate(
   input: UpstreamSignalOrValue<Record<string, unknown>>
 ) {

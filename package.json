@@ -54,7 +54,7 @@
     "size": "(cd ./packages/runtime && cross-env SIZE=1 rollup -c ./rollup.config.js) && node ./utilities/sizes.js",
     "size:check": "cross-env CHECK=1 npm run size",
     "size:write": "cross-env WRITE=1 npm run size && git add .sizes.json",
-    "test": "cross-env NODE_ENV=test mocha -r ts-node/register -r source-map-support/register packages/*/test/{*.test.ts,*/*.test.ts}",
+    "test": "cross-env NODE_ENV=test MARKO_SOURCE_RUNTIME=1 mocha -r ts-node/register -r source-map-support/register packages/*/test/{*.test.ts,*/*.test.ts}",
     "test:coverage": "nyc --reporter=text-summary npm run test",
     "test:watch": "npm run test -- --watch --watch-files '**/*.ts'"
   }
