@@ -7,7 +7,7 @@ import {
 } from "@marko/babel-utils";
 import analyzeTagName, { TagNameTypes } from "../util/analyze-tag-name";
 import attrsToObject from "../util/attrs-to-object";
-import { flushBefore, flushInto, hasPendingHTML } from "../util/html-flush";
+import { flushInto, hasPendingHTML } from "../util/html-flush";
 
 const HOISTED_NODES = new WeakSet<t.Node>();
 const HOISTED_CHILDREN = new WeakSet<NodePath<t.MarkoTag>>();

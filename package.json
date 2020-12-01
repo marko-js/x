@@ -45,7 +45,7 @@
     "ci:test": "nyc --reporter=text npm test",
     "clean": "lerna clean && rm -rf ./packages/*/{dist,debug}",
     "format": "npm run lint:eslint -- --fix && npm run lint:prettier -- --write && fixpack",
-    "lint": "tsc --noEmit && npm run lint:eslint && npm run lint:prettier -- -l",
+    "lint": "tsc -p tsconfig.lint.json && npm run lint:eslint && npm run lint:prettier -- -l",
     "lint:eslint": "eslint -f visualstudio packages",
     "lint:prettier": "prettier \"**/*.{json,md,ts,js}\"",
     "postinstall": "lerna bootstrap --hoist --no-ci",
