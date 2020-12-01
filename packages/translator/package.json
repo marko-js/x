@@ -30,9 +30,5 @@
     "type": "git",
     "url": "https://github.com/marko-js/x/tree/master/packages/translator-fluurt"
   },
-  "scripts": {
-    "build": "rollup -c ./rollup.config.js --sourcemap && tsc",
-    "prepublishOnly": "npm run build"
-  },
   "types": "types/index.d.ts"
 }
