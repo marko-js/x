@@ -234,7 +234,7 @@ let currentHydrateRoot: boolean | number = false;
 
 export function register(id: string, renderer: Renderer) {
   return (input: Record<string, unknown>) => {
-    if (!currentHydrateRoot) {
+    if (currentHydrateRoot === false) {
       const instanceId = nextId();
       currentHydrateRoot = instanceId;
       renderer(input);
