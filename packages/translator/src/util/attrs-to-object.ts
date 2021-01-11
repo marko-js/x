@@ -41,7 +41,7 @@ export default function attrsToObject(
         t.objectMethod(
           "method",
           t.identifier("renderBody"),
-          node.params || [],
+          tag.node.body.params,
           t.blockStatement(tag.node.body.body)
         )
       );

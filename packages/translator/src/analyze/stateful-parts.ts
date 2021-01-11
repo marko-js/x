@@ -28,8 +28,8 @@ export function analyzeStatefulTagParts(tag: NodePath<t.MarkoTag>) {
     extra.stateful = extra.statefulTagName = true;
   }
 
-  if (tag.has("params")) {
-    for (const param of tag.get("params") as NodePath<t.LVal>[]) {
+  if (tag.get("body").has("params")) {
+    for (const param of tag.get("body").get("params") as NodePath<t.LVal>[]) {
       if (isStatefulLVal(param)) {
         extra.stateful = extra.statefulParams = true;
       }
