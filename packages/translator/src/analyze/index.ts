@@ -1,12 +1,8 @@
 import { Visitor } from "@marko/babel-types";
-import analyzeInput from "./input";
+import analyzeReferences from "./references";
 import analyzeTagNameType, { TagNameTypes } from "./tag-name-type";
 import analyzeNestedAttributeTags from "./nested-attribute-tags";
 import analyzeEventHandlers from "./event-handlers";
-import {
-  analyzeStatefulTagParts,
-  analyzeStatefulPlaceholder
-} from "./stateful-parts";
 
 declare module "@marko/babel-types" {
   // This is extended by individual helpers.
@@ -44,8 +40,8 @@ declare module "@marko/babel-types" {
 
 export default {
   Program(program) {
-    const extra = (program.node.extra ??= {} as typeof program.node.extra);
-    program.traverse(analyzeInput, (extra.referencedInputs = {}));
+    program.node.extra ??= {} as typeof program.node.extra;
+    program.traverse(analyzeReferences);
   },
   MarkoTag(tag) {
     const extra = (tag.node.extra ??= {} as typeof tag.node.extra);
@@ -56,11 +52,8 @@ export default {
     } else {
       analyzeNestedAttributeTags(tag);
     }
-
-    analyzeStatefulTagParts(tag);
   },
   MarkoPlaceholder(placeholder) {
     placeholder.node.extra ??= {} as typeof placeholder.node.extra;
-    analyzeStatefulPlaceholder(placeholder);
   }
 } as Visitor;

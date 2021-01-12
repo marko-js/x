@@ -19,7 +19,7 @@ export function enter(tag: NodePath<t.MarkoTag>) {
 
   const write = writeHTML(tag);
 
-  if (extra.stateful || extra.eventHandlers || tag.has("var")) {
+  if (extra.references || extra.eventHandlers || tag.has("var")) {
     write`${callRuntime(tag, "hydrateMarker")}`;
   }
 

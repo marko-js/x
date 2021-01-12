@@ -34,7 +34,7 @@ export default function (placeholder: NodePath<t.MarkoPlaceholder>) {
       : callRuntime(placeholder, "toString", value);
   }
 
-  if (node.extra.stateful) {
+  if (node.extra.references) {
     write`${callRuntime(placeholder, "hydrateMarker")}`;
   }
 
