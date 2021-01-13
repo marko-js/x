@@ -33,4 +33,5 @@ export default function translateVar(
 
   // We pretend there are no identifiers for this tag since we've moved them into the variable declaration.
   tag.getBindingIdentifiers = getEmptyArr;
+  tag.get("body").getBindingIdentifiers = getEmptyArr;
 }

@@ -11,6 +11,8 @@ declare module "@marko/babel-types" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   export interface MarkoTagExtra {}
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface MarkoTagBodyExtra {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   export interface MarkoAttributeExtra {}
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   export interface MarkoSpreadAttributeExtra {}
@@ -23,6 +25,10 @@ declare module "@marko/babel-types" {
 
   export interface MarkoTag {
     extra: MarkoTagExtra & Record<string, unknown>;
+  }
+
+  export interface MarkoTagBody {
+    extra: MarkoTagBodyExtra & Record<string, unknown>;
   }
 
   export interface MarkoAttribute {

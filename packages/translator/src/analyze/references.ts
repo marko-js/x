@@ -1,7 +1,11 @@
 import { types as t, NodePath, Visitor } from "@marko/babel-types";
 
 type MarkoExprRootPath = NodePath<
-  t.MarkoTag | t.MarkoAttribute | t.MarkoSpreadAttribute | t.MarkoPlaceholder
+  | t.MarkoTag
+  | t.MarkoTagBody
+  | t.MarkoAttribute
+  | t.MarkoSpreadAttribute
+  | t.MarkoPlaceholder
 >;
 
 interface ReferenceMeta {
@@ -18,10 +22,15 @@ declare module "@marko/babel-types" {
     references?: {
       var?: ReferenceMeta;
       name?: ReferenceMeta;
-      params?: ReferenceMeta[];
       // ResourceMeta as tracked from a child
       state?: boolean;
       input?: { [x: string]: boolean };
+    };
+  }
+
+  export interface MarkoTagBodyExtra {
+    references?: {
+      params?: ReferenceMeta[];
     };
   }
 
@@ -163,6 +172,7 @@ function getExprRoot(path: NodePath<t.Node>) {
 function isMarkoPath(path: NodePath<any>): path is MarkoExprRootPath {
   switch (path.node.type) {
     case "MarkoTag":
+    case "MarkoTagBody":
     case "MarkoAttribute":
     case "MarkoSpreadAttribute":
     case "MarkoPlaceholder":
