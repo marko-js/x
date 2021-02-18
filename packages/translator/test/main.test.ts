@@ -142,7 +142,8 @@ function runTestWithConfig(fn) {
     }
 
     if (config.skip && config.skip.includes(opts.mode)) {
-      opts.test = opts.skip;
+      opts.skip("Not Implemented");
+      return;
     }
 
     return fn(opts, config);
