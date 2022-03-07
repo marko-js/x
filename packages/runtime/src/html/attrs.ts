@@ -10,7 +10,22 @@ export function styleAttr(val: unknown) {
 }
 
 export function attr(name: string, val: unknown) {
-  return isVoid(val) ? "" : nonVoidUntypedAttr(name, val);
+  switch (typeof val) {
+    case "string":
+      return val ? ` ${name}="${escapeAttrValue(val)}"` : ` ${name}`;
+    case "boolean":
+      return ` ${name}`;
+    case "number":
+      return ` ${name}=${val}`;
+    case "object":
+      if (val === null) return "";
+      if (val instanceof RegExp) {
+        return ` ${name}=${escapeAttrValue(val.source)}`;
+      }
+    // eslint-disable-next-line
+    default:
+      return attr(name, val + "");
+  }
 }
 
 export function attrs(data: Record<string, unknown>) {
@@ -34,7 +49,7 @@ export function attrs(data: Record<string, unknown>) {
         break;
       default:
         if (!(isVoid(val) || isInvalidAttrName(name))) {
-          result += nonVoidUntypedAttr(name, val);
+          result += attr(name, val);
         }
     }
   }
@@ -44,28 +59,6 @@ export function attrs(data: Record<string, unknown>) {
 
 function stringAttr(name: string, val: string) {
   return val && ` ${name}=${escapeAttrValue(val)}`;
-}
-
-function nonVoidUntypedAttr(name: string, val: unknown) {
-  switch (typeof val) {
-    case "string":
-      return ` ${name + attrAssignment(val)}`;
-    case "boolean":
-      return ` ${name}`;
-    case "number":
-      return ` ${name}=${val}`;
-    case "object":
-      if (val instanceof RegExp) {
-        return ` ${name}=${escapeAttrValue(val.source)}`;
-      }
-    // eslint-disable-next-line
-    default:
-      return ` ${name + attrAssignment(val + "")}`;
-  }
-}
-
-function attrAssignment(val: string) {
-  return val ? `=${escapeAttrValue(val)}` : "";
 }
 
 // https://html.spec.whatwg.org/multipage/syntax.html#attributes-2

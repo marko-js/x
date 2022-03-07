@@ -2,34 +2,78 @@ export function toString(val: unknown) {
   return val == null ? "" : val + "";
 }
 
-export const escapeXML = escapeIfNeeded((val: string) => {
-  let result = "";
-  let lastPos = 0;
+export const escapeXML = escapeIfNeeded((s) => {
+  const t = typeof s;
+  const delim = "<";
+  const escDelim = "&lt;";
+  let iDelim = s.indexOf(delim);
+  let iAmp = s.indexOf("&");
 
-  for (let i = 0, len = val.length; i < len; i++) {
-    let replacement: string;
+  if (iDelim < 0 && iAmp < 0) return s;
 
-    switch (val[i]) {
-      case "<":
-        replacement = "&lt;";
-        break;
-      case "&":
-        replacement = "&amp;";
-        break;
-      default:
-        continue;
+  let left = 0,
+    out = "";
+
+  while (iDelim >= 0 && iAmp >= 0) {
+    if (iDelim < iAmp) {
+      if (left < iDelim) out += s.substring(left, iDelim);
+      out += escDelim;
+      left = iDelim + 1;
+      iDelim = s.indexOf(delim, left);
+    } else {
+      if (left < iAmp) out += s.substring(left, iAmp);
+      out += "&amp;";
+      left = iAmp + 1;
+      iAmp = s.indexOf("&", left);
+    }
+  }
+
+  if (iDelim >= 0) {
+    do {
+      if (left < iDelim) out += s.substring(left, iDelim);
+      out += escDelim;
+      left = iDelim + 1;
+      iDelim = s.indexOf(delim, left);
+    } while (iDelim >= 0);
+  } else
+    while (iAmp >= 0) {
+      if (left < iAmp) out += s.substring(left, iAmp);
+      out += "&amp;";
+      left = iAmp + 1;
+      iAmp = s.indexOf("&", left);
     }
 
-    result += val.slice(lastPos, i) + replacement;
-    lastPos = i + 1;
-  }
+  return left < s.length ? out + s.substring(left) : out;
+})
 
-  if (lastPos) {
-    return result + val.slice(lastPos);
-  }
+// export const escapeXML = escapeIfNeeded((val: string) => {
+//   let result = "";
+//   let lastPos = 0;
 
-  return val;
-});
+//   for (let i = 0, len = val.length; i < len; i++) {
+//     let replacement: string;
+
+//     switch (val.charAt(i)) {
+//       case "<":
+//         replacement = "&lt;";
+//         break;
+//       case "&":
+//         replacement = "&amp;";
+//         break;
+//       default:
+//         continue;
+//     }
+
+//     result += val.slice(lastPos, i) + replacement;
+//     lastPos = i + 1;
+//   }
+
+//   if (lastPos) {
+//     return result + val.slice(lastPos);
+//   }
+
+//   return val;
+// });
 
 export const escapeScript = escapeIfNeeded(escapeTagEnding("script"));
 export const escapeStyle = escapeIfNeeded(escapeTagEnding("style"));
@@ -56,29 +100,75 @@ function escapeTagEnding(tagName: string) {
   };
 }
 
-export function escapeAttrValue(val: string) {
-  const len = val.length;
-  let i = 0;
-  do {
-    switch (val[i]) {
-      case '"':
-        return quoteValue(val, i + 1, "'", "&#39;");
-      case "'":
-      case ">":
-      case " ":
-      case "\t":
-      case "\n":
-      case "\r":
-      case "\f":
-        return quoteValue(val, i + 1, '"', "&#34;");
-      default:
-        i++;
-        break;
-    }
-  } while (i < len);
+export function escapeAttrValue(s) {
+  const t = typeof s;
+  if (t !== "string") {
+    if (t === "boolean") return String(s);
+    return s;
+  }
+  const delim = '"';
+  const escDelim = "&quot;";
+  let iDelim = s.indexOf(delim);
+  let iAmp = s.indexOf("&");
 
-  return val;
+  if (iDelim < 0 && iAmp < 0) return s;
+
+  let left = 0,
+    out = "";
+
+  while (iDelim >= 0 && iAmp >= 0) {
+    if (iDelim < iAmp) {
+      if (left < iDelim) out += s.substring(left, iDelim);
+      out += escDelim;
+      left = iDelim + 1;
+      iDelim = s.indexOf(delim, left);
+    } else {
+      if (left < iAmp) out += s.substring(left, iAmp);
+      out += "&amp;";
+      left = iAmp + 1;
+      iAmp = s.indexOf("&", left);
+    }
+  }
+
+  if (iDelim >= 0) {
+    do {
+      if (left < iDelim) out += s.substring(left, iDelim);
+      out += escDelim;
+      left = iDelim + 1;
+      iDelim = s.indexOf(delim, left);
+    } while (iDelim >= 0);
+  } else
+    while (iAmp >= 0) {
+      if (left < iAmp) out += s.substring(left, iAmp);
+      out += "&amp;";
+      left = iAmp + 1;
+      iAmp = s.indexOf("&", left);
+    }
+
+  return left < s.length ? out + s.substring(left) : out;
 }
+
+// export function escapeAttrValue(val: string) {
+//   for (let i = 0; i < val.length; i++) {
+//     switch (val.charAt(i)) {
+//       case '"':
+//         return quoteValue(val, i + 1, "'", "&#39;");
+//       case "'":
+//       case ">":
+//       case " ":
+//       case "\t":
+//       case "\n":
+//       case "\r":
+//       case "\f":
+//         return quoteValue(val, i + 1, '"', "&#34;");
+//       default:
+//         i++;
+//         break;
+//     }
+//   }
+
+//   return val;
+// }
 
 function escapeIfNeeded(escape: (val: string) => string) {
   return (val: unknown) => {
@@ -108,7 +198,7 @@ function quoteValue(
   let lastPos = 0;
 
   for (let i = startPos, len = val.length; i < len; i++) {
-    if (val[i] === quote) {
+    if (val.charAt(i) === quote) {
       result += val.slice(lastPos, i) + escaped;
       lastPos = i + 1;
     }

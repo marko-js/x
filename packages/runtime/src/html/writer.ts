@@ -273,8 +273,8 @@ export function addComponentToInit(
   inputData: Record<string, unknown>,
   componentType: string
 ) {
-  $_buffer!.components = $_buffer!.components || [];
-  $_buffer!.components.push([markerId, componentType, inputData]);
+  // $_buffer!.components = $_buffer!.components || [];
+  // $_buffer!.components.push([markerId, componentType, inputData]);
 }
 
 function flushToStream() {

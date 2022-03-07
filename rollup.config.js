@@ -41,13 +41,13 @@ export default envs
             delimiters: ["", ""]
           }),
         env === "dist" && mangleInternal(),
-        env === "dist" &&
-          terser({
-            compress: {},
-            mangle: {
-              module: true
-            }
-          }),
+        // env === "dist" &&
+        //   terser({
+        //     compress: {},
+        //     mangle: {
+        //       module: true
+        //     }
+        //   }),
         {
           name: "write-package",
           writeBundle() {
