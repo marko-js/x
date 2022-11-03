@@ -35,7 +35,9 @@ export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
   const fakeArray = { push: hydrate };
   const bind = (registryId: string, scope: Scope) => {
     const obj = registeredObjects.get(registryId);
-    if ((obj as Renderer).___template) {
+    if (!scope) {
+      return obj;
+    } else if ((obj as Renderer).___template) {
       return bindRenderer(scope, obj as Renderer);
     } else if ((obj as Signal).___mark) {
       return bindSignal(scope, obj as Signal);
@@ -118,15 +120,44 @@ export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
             scopeLookup[data] = currentScope = {} as Scope;
             currentScope.___id = data * SCOPE_ID_MULTIPLIER;
           }
-          currentScope.___startNode = currentNode as ChildNode;
+          currentScope.___startNode = (currentNode as ChildNode).nextSibling!;
         } else if (token === HydrateSymbols.SECTION_END) {
-          if (MARKO_DEBUG) {
-            if (data * SCOPE_ID_MULTIPLIER !== currentScope.___id) {
-              throw new Error("SCOPE_END_MISMATCH: " + nodeValue);
-            }
+          const scopeId = parseInt(
+            nodeValue.slice(nodeValue.lastIndexOf(" ") + 1)
+          );
+          if (scopeId * SCOPE_ID_MULTIPLIER < currentScope.___id) {
+            currentScope.___endNode = (
+              currentNode as ChildNode
+            ).previousSibling!;
+            currentScope = scopeLookup[stack.pop() as number]!;
           }
-          currentScope.___endNode = currentNode as ChildNode;
-          currentScope = scopeLookup[stack.pop() as number]!;
+          const scope = (scopeLookup[scopeId] = scopeLookup[scopeId] || {
+            ___id: scopeId * SCOPE_ID_MULTIPLIER,
+          });
+          scope[data] = currentNode;
+        } else if (token === HydrateSymbols.SECTION_SINGLE_NODES_END) {
+          const scopeId = parseInt(nodeValue.slice(nodeValue.indexOf(" ") + 1));
+          const scope = (scopeLookup[scopeId] = scopeLookup[scopeId] || {
+            ___id: scopeId * SCOPE_ID_MULTIPLIER,
+          });
+          scope[data] = currentNode;
+          // https://jsben.ch/dR7uk
+          const childScopeIds = JSON.parse(
+            "[" + nodeValue.slice(nodeValue.lastIndexOf(" ") + 1) + "]"
+          );
+          for (let i = childScopeIds.length - 1; i >= 0; i--) {
+            let childScope = scopeLookup[childScopeIds[i]]!;
+            if (!childScope) {
+              scopeLookup[data] = childScope = {} as Scope;
+              childScope.___id = data * SCOPE_ID_MULTIPLIER;
+            }
+            while (
+              (currentNode = currentNode.previousSibling!).nodeType ===
+              8 /* Node.COMMENT_NODE */
+            );
+            childScope.___startNode = childScope.___endNode =
+              currentNode as ChildNode;
+          }
         } else if (MARKO_DEBUG) {
           throw new Error("MALFORMED MARKER: " + nodeValue);
         }
