@@ -31,6 +31,11 @@ export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
   let currentScope: Scope;
   let currentNode: Node;
   const scopeLookup: Record<number, Scope> = {};
+  const getScope = (id: number) =>
+    scopeLookup[id] ??
+    (scopeLookup[id] = {
+      ___id: id * SCOPE_ID_MULTIPLIER,
+    } as Scope);
   const stack: number[] = [];
   const fakeArray = { push: hydrate };
   const bind = (registryId: string, scope: Scope) => {
@@ -107,19 +112,13 @@ export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
           const scopeId = parseInt(
             nodeValue.slice(nodeValue.lastIndexOf(" ") + 1)
           );
-          const scope = (scopeLookup[scopeId] = scopeLookup[scopeId] || {
-            ___id: scopeId * SCOPE_ID_MULTIPLIER,
-          });
+          const scope = getScope(scopeId);
           scope[data] = node;
         } else if (token === HydrateSymbols.SECTION_START) {
           if (currentScope) {
             stack.push(currentScope.___id);
           }
-          currentScope = scopeLookup[data]!;
-          if (!currentScope) {
-            scopeLookup[data] = currentScope = {} as Scope;
-            currentScope.___id = data * SCOPE_ID_MULTIPLIER;
-          }
+          currentScope = getScope(data);
           currentScope.___startNode = currentNode as ChildNode;
         } else if (token === HydrateSymbols.SECTION_END) {
           const scopeId = parseInt(
@@ -131,26 +130,18 @@ export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
             ).previousSibling!;
             currentScope = scopeLookup[stack.pop() as number]!;
           }
-          const scope = (scopeLookup[scopeId] = scopeLookup[scopeId] || {
-            ___id: scopeId * SCOPE_ID_MULTIPLIER,
-          });
+          const scope = getScope(scopeId);
           scope[data] = currentNode;
         } else if (token === HydrateSymbols.SECTION_SINGLE_NODES_END) {
           const scopeId = parseInt(nodeValue.slice(nodeValue.indexOf(" ") + 1));
-          const scope = (scopeLookup[scopeId] = scopeLookup[scopeId] || {
-            ___id: scopeId * SCOPE_ID_MULTIPLIER,
-          });
+          const scope = getScope(scopeId);
           scope[data] = currentNode;
           // https://jsben.ch/dR7uk
           const childScopeIds = JSON.parse(
             "[" + nodeValue.slice(nodeValue.lastIndexOf(" ") + 1) + "]"
           );
           for (let i = childScopeIds.length - 1; i >= 0; i--) {
-            let childScope = scopeLookup[childScopeIds[i]]!;
-            if (!childScope) {
-              scopeLookup[data] = childScope = {} as Scope;
-              childScope.___id = data * SCOPE_ID_MULTIPLIER;
-            }
+            const childScope = getScope(childScopeIds[i]);
             while (
               (currentNode = currentNode.previousSibling!).nodeType ===
               8 /* Node.COMMENT_NODE */
