@@ -11,14 +11,12 @@ import type { Signal } from "./signals";
 type HydrateFn<S extends Scope = Scope> = (scope: S) => void;
 
 const registeredObjects = new Map<string, HydrateFn | Signal | Renderer>();
-const SCOPE_ID_MULTIPLIER = 2 ** 16;
+const doc = document;
 
 export function register<T>(id: string, obj: T): T {
   registeredObjects.set(id, obj as any);
   return obj;
 }
-
-const doc = document;
 
 export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
   const runtimeLength = runtimeId.length;
@@ -34,7 +32,7 @@ export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
   const getScope = (id: number) =>
     scopeLookup[id] ??
     (scopeLookup[id] = {
-      ___id: id * SCOPE_ID_MULTIPLIER,
+      ___id: id,
     } as Scope);
   const stack: number[] = [];
   const fakeArray = { push: hydrate };
@@ -91,7 +89,7 @@ export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
         if (storedScope) {
           scopeLookup[scopeId] = Object.assign(scope, storedScope);
         } else {
-          scope.___id = scopeId * SCOPE_ID_MULTIPLIER;
+          scope.___id = scopeId;
           scopeLookup[scopeId] = scope;
         }
         if (currentScope === storedScope) {
@@ -124,7 +122,7 @@ export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
           const scopeId = parseInt(
             nodeValue.slice(nodeValue.lastIndexOf(" ") + 1)
           );
-          if (scopeId * SCOPE_ID_MULTIPLIER < currentScope.___id) {
+          if (scopeId < currentScope.___id) {
             currentScope.___endNode = (
               currentNode as ChildNode
             ).previousSibling!;
