@@ -120,7 +120,7 @@ export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
             scopeLookup[data] = currentScope = {} as Scope;
             currentScope.___id = data * SCOPE_ID_MULTIPLIER;
           }
-          currentScope.___startNode = (currentNode as ChildNode).nextSibling!;
+          currentScope.___startNode = currentNode as ChildNode;
         } else if (token === HydrateSymbols.SECTION_END) {
           const scopeId = parseInt(
             nodeValue.slice(nodeValue.lastIndexOf(" ") + 1)
