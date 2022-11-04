@@ -26,14 +26,11 @@ export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
   const initialHydration = (window as any)[hydrateVar];
   const walker = doc.createTreeWalker(doc, 128 /** NodeFilter.SHOW_COMMENT */);
 
-  let currentScope: Scope;
+  let currentScopeId: number;
   let currentNode: Node;
   const scopeLookup: Record<number, Scope> = {};
   const getScope = (id: number) =>
-    scopeLookup[id] ??
-    (scopeLookup[id] = {
-      ___id: id,
-    } as Scope);
+    scopeLookup[id] ?? (scopeLookup[id] = {} as Scope);
   const stack: number[] = [];
   const fakeArray = { push: hydrate };
   const bind = (registryId: string, scope: Scope) => {
@@ -86,15 +83,7 @@ export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
       const storedScope = scopeLookup[scopeId];
 
       if (storedScope !== scope) {
-        if (storedScope) {
-          scopeLookup[scopeId] = Object.assign(scope, storedScope);
-        } else {
-          scope.___id = scopeId;
-          scopeLookup[scopeId] = scope;
-        }
-        if (currentScope === storedScope) {
-          currentScope = scope;
-        }
+        scopeLookup[scopeId] = Object.assign(scope, storedScope);
       }
     }
 
@@ -113,20 +102,21 @@ export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
           const scope = getScope(scopeId);
           scope[data] = node;
         } else if (token === HydrateSymbols.SECTION_START) {
-          if (currentScope) {
-            stack.push(currentScope.___id);
+          // ASSERT: the 0th scope will never be the currentScopeId
+          if (currentScopeId) {
+            stack.push(currentScopeId);
           }
-          currentScope = getScope(data);
-          currentScope.___startNode = currentNode as ChildNode;
+          getScope((currentScopeId = data)).___startNode =
+            currentNode as ChildNode;
         } else if (token === HydrateSymbols.SECTION_END) {
           const scopeId = parseInt(
             nodeValue.slice(nodeValue.lastIndexOf(" ") + 1)
           );
-          if (scopeId < currentScope.___id) {
-            currentScope.___endNode = (
+          if (scopeId < currentScopeId) {
+            getScope(currentScopeId).___endNode = (
               currentNode as ChildNode
             ).previousSibling!;
-            currentScope = scopeLookup[stack.pop() as number]!;
+            currentScopeId = stack.pop()!;
           }
           const scope = getScope(scopeId);
           scope[data] = currentNode;
