@@ -102,10 +102,7 @@ export function init(runtimeId = "M" /* [a-zA-Z0-9]+ */) {
           const scope = getScope(scopeId);
           scope[data] = node;
         } else if (token === HydrateSymbols.SECTION_START) {
-          // ASSERT: the 0th scope will never be the currentScopeId
-          if (currentScopeId) {
-            stack.push(currentScopeId);
-          }
+          stack.push(currentScopeId);
           getScope((currentScopeId = data)).___startNode =
             currentNode as ChildNode;
         } else if (token === HydrateSymbols.SECTION_END) {
