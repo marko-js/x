@@ -224,6 +224,7 @@ export function initContextConsumer(templateId: string, reserve: Reserve) {
   signal.build = () => {
     return callRuntime(
       "contextClosure",
+      t.numericLiteral(reserve.id),
       t.stringLiteral(templateId),
       t.arrayExpression(signal.subscribers),
       t.arrowFunctionExpression(

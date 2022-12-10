@@ -278,6 +278,7 @@ export function dynamicSubscribers(valueAccessor: string | number) {
 }
 
 export function contextClosure<S extends Scope, V>(
+  valueAccessor: number | string,
   contextKey: string,
   subscribers: Signal[],
   action?: (scope: S, value: V) => void
@@ -286,7 +287,10 @@ export function contextClosure<S extends Scope, V>(
     (scope) => scope.___context![contextKey][0],
     (scope) => scope.___context![contextKey][1],
     subscribers,
-    action
+    (scope: Scope, value: V) => {
+      scope[valueAccessor] = value;
+      action?.(scope as S, value);
+    }
   );
 }
 

@@ -1,5 +1,5 @@
 import { dynamicSubscribers as _dynamicSubscribers, initContextProvider as _initContextProvider, data as _data, contextClosure as _contextClosure, createRenderer as _createRenderer, derivation as _derivation, notifySignal as _notifySignal, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
-const _x$putBody = _contextClosure("packages/translator/src/__tests__/fixtures/context-tag-from-self/template.marko", [], (_scope, x) => _data(_scope[0], x));
+const _x$putBody = _contextClosure(1, "packages/translator/src/__tests__/fixtures/context-tag-from-self/template.marko", [], (_scope, x) => _data(_scope[0], x));
 const _putBody = /* @__PURE__ */_createRenderer("<span> </span>", /* next(1), get */"D ", null, [_x$putBody]);
 const _put = /* @__PURE__ */_derivation(1, 1, [_dynamicSubscribers(1)], _scope => 1);
 const _setup = _scope => {

@@ -18,6 +18,7 @@ import { getOrCreateSectionId } from "../util/sections";
 declare module "@marko/compiler/dist/types" {
   export interface ProgramExtra {
     closures?: boolean;
+    contextProviders?: string[];
   }
 }
 
@@ -28,6 +29,9 @@ export default {
       if (sectionId === 0) {
         (currentProgramPath.node.extra ??= {}).closures = true;
       }
+
+      // TODO: resolve default parameter and push to (currentProgramPath.node.extra ??= {}).contextProviders
+
       customTag.analyze.enter(tag);
 
       // const {
