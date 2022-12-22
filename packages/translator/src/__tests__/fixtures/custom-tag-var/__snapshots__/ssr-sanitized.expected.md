@@ -1,8 +1,10 @@
 # Render "End"
 ```html
-<span>
-  child
-</span>
+<button
+  class="inc"
+>
+  1
+</button>
 <div>
   1
 </div>
