@@ -51,7 +51,7 @@ type Branch0Scope = Scope<{
 
 // <let/show = true/>
 // <let/message = "hi"/>
-// <button onclick() { message = "bye"; show = !show; }/>
+// <button onClick() { message = "bye"; show = !show; }/>
 // <if=show><span>${message}</span></if>
 
 export const template = `<button></button><!>`;

@@ -42,7 +42,7 @@ type ComponentScope = Scope<{
 
 // <let/a = 0/>
 // <let/b = 0/>
-// <button onclick() { a++; b++; }>${a + b}</button>
+// <button onClick() { a++; b++; }>${a + b}</button>
 
 export const template = `<button> </button>`;
 export const walks = get + next(1) + get + next(1);
