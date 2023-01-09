@@ -22,7 +22,7 @@ type ComponentScope = Scope<{
 }>;
 
 // <attrs/{ value }/>
-// <div a=0 b=input.value/>
+// <div a=0 b=value/>
 export const template = `<div a=0></div>`;
 export const walks = get + over(1);
 
