@@ -6,7 +6,10 @@ export default function replaceAssignments(
 ): void {
   for (const assignment of binding.constantViolations) {
     let value: t.Expression | undefined;
+    let isPostfixOperator = false;
     if (assignment.isUpdateExpression()) {
+      isPostfixOperator = !assignment.node.prefix;
+
       value = t.binaryExpression(
         assignment.node.operator === "++" ? "+" : "-",
         binding.identifier,
@@ -27,7 +30,11 @@ export default function replaceAssignments(
     }
 
     if (value) {
-      assignment.parentPath!.replaceWith(map(assignment, value));
+      assignment.replaceWith(
+        isPostfixOperator
+          ? t.sequenceExpression([map(assignment, value), binding.identifier])
+          : map(assignment, value)
+      );
     }
   }
 }
