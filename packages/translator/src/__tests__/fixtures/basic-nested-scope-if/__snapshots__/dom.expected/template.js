@@ -3,7 +3,7 @@ const _clickCount$elseBody = /* @__PURE__ */_closure(1, 6, [], (_scope, clickCou
 const _elseBody = /* @__PURE__ */_createRenderer("<span>The button was clicked <!> times.</span>", /* next(1), over(1), replace */"Db%", null, [_clickCount$elseBody]);
 const _onClick = function (_scope) {
   const clickCount = _scope._[6];
-  _queueSource(_scope._, _clickCount, clickCount + 1), clickCount;
+  _queueSource(_scope._, _clickCount, clickCount + 1);
 };
 const _hydrate_clickCount$ifBody = _register("packages/translator/src/__tests__/fixtures/basic-nested-scope-if/template.marko_1_clickCount", _scope => {
   const clickCount = _scope._[6];

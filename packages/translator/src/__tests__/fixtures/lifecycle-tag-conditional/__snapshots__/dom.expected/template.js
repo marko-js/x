@@ -32,7 +32,7 @@ const _hydrate_show = _register("packages/translator/src/__tests__/fixtures/life
 const _show = /* @__PURE__ */_source(9, [_if], (_scope, show) => _queueHydrate(_scope, _hydrate_show));
 const _onClick2 = function (_scope) {
   const x = _scope[8];
-  _queueSource(_scope, _x, x + 1), x;
+  _queueSource(_scope, _x, x + 1);
 };
 const _hydrate_x = _register("packages/translator/src/__tests__/fixtures/lifecycle-tag-conditional/template.marko_0_x", _scope => {
   const x = _scope[8];

@@ -7,7 +7,7 @@ const _putBody = /* @__PURE__ */_createRenderer(`${_child_template}`, /* beginCh
 const _put = /* @__PURE__ */_derivation(1, 1, [_dynamicSubscribers(1)], (_scope, x = _scope[4]) => x);
 const _onClick = function (_scope) {
   const x = _scope[4];
-  _queueSource(_scope, _x, x + 1), x;
+  _queueSource(_scope, _x, x + 1);
 };
 const _hydrate_x = _register("packages/translator/src/__tests__/fixtures/context-tag-reactive/template.marko_0_x", _scope => {
   const x = _scope[4];

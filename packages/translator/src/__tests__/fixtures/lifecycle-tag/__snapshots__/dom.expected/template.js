@@ -9,7 +9,7 @@ const _onUpdate = function (_scope) {
 };
 const _onClick = function (_scope) {
   const x = _scope[1];
-  _queueSource(_scope, _x, x + 1), x;
+  _queueSource(_scope, _x, x + 1);
 };
 const _hydrate_x = _register("packages/translator/src/__tests__/fixtures/lifecycle-tag/template.marko_0_x", _scope => {
   const x = _scope[1];

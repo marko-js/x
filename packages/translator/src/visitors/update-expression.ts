@@ -15,7 +15,8 @@ export default {
 
         if (replacement) {
           assignment.replaceWith(
-            assignment.node.prefix
+            assignment.node.prefix ||
+              assignment.parentPath.isExpressionStatement()
               ? replacement
               : t.sequenceExpression([replacement, assignment.node.argument])
           );

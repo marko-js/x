@@ -2,7 +2,7 @@ import { setSource as _setSource, on as _on, queueSource as _queueSource, data a
 const _onClick = function (_scope) {
   const count = _scope[2];
   {
-    _queueSource(_scope, _count, count + 1), count;
+    _queueSource(_scope, _count, count + 1);
   }
 };
 const _hydrate_count = _register("packages/translator/src/__tests__/fixtures/basic-fn-with-block/template.marko_0_count", _scope => {
