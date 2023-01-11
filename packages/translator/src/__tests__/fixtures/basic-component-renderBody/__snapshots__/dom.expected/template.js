@@ -4,7 +4,7 @@ const _clickCount$myButtonBody = _dynamicClosure(1, 0, [], (_scope, clickCount) 
 const _myButtonBody = /* @__PURE__ */_createRenderer(" ", /* get */" ", null, [_clickCount$myButtonBody]);
 const _onClick = function (_scope) {
   const clickCount = _scope[0];
-  _queueSource(_scope, _clickCount, clickCount + 1);
+  _queueSource(_scope, _clickCount, clickCount + 1), clickCount;
 };
 const _clickCount = /* @__PURE__ */_source(0, [_myButton_attrs, _dynamicSubscribers(0)], (_scope, clickCount) => _setSource(_scope[1], _myButton_attrs, {
   onClick: /* @__PURE__ */_bind(_scope, _onClick),

@@ -1,4 +1,4 @@
-import { setSource as _setSource, queueSource as _queueSource, lifecycle as _lifecycle, on as _on, inConditionalScope as _inConditionalScope, closure as _closure, register as _register, queueHydrate as _queueHydrate, bind as _bind, createRenderer as _createRenderer, conditional as _conditional, source as _source, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
+import { setSource as _setSource, lifecycle as _lifecycle, on as _on, queueSource as _queueSource, inConditionalScope as _inConditionalScope, closure as _closure, register as _register, queueHydrate as _queueHydrate, bind as _bind, createRenderer as _createRenderer, conditional as _conditional, source as _source, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _onMount = function (_scope) {
   const x = _scope._[8];
   document.getElementById("ref").textContent = "Mount " + x;
@@ -32,7 +32,7 @@ const _hydrate_show = _register("packages/translator/src/__tests__/fixtures/life
 const _show = /* @__PURE__ */_source(9, [_if], (_scope, show) => _queueHydrate(_scope, _hydrate_show));
 const _onClick2 = function (_scope) {
   const x = _scope[8];
-  _queueSource(_scope, _x, x + 1);
+  _queueSource(_scope, _x, x + 1), x;
 };
 const _hydrate_x = _register("packages/translator/src/__tests__/fixtures/lifecycle-tag-conditional/template.marko_0_x", _scope => {
   const x = _scope[8];

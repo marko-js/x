@@ -1,7 +1,7 @@
-import { setSource as _setSource, queueSource as _queueSource, on as _on, data as _data, source as _source, register as _register, queueHydrate as _queueHydrate, bind as _bind, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
+import { setSource as _setSource, on as _on, queueSource as _queueSource, data as _data, source as _source, register as _register, queueHydrate as _queueHydrate, bind as _bind, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _onClick = _scope => {
   const clickCount = _scope[2];
-  _queueSource(_scope, _clickCount, clickCount + 1);
+  _queueSource(_scope, _clickCount, clickCount + 1), clickCount;
 };
 const _hydrate_clickCount = _register("packages/translator/src/__tests__/fixtures/dynamic-event-handlers/template.marko_0_clickCount", _scope => {
   const clickCount = _scope[2];
