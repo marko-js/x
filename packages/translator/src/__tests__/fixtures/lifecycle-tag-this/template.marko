@@ -1,12 +1,11 @@
 <let/x=0/>
 <lifecycle
   onMount() {
-    document.getElementById("ref").textContent = `x=${x}, was=${this.cur}`;
-    this.cur = x;
+    this.onUpdate();
     }
   onUpdate() {
-    x;
-    this.onMount.call(this)
+    document.getElementById("ref").textContent = `x=${x}, was=${this.cur}`;
+    this.cur = x;
   }
 />
 <div#ref/>

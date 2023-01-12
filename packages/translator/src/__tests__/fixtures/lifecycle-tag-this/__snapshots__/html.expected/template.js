@@ -3,7 +3,7 @@ const _renderer = (input, _tagVar) => {
   const _scope = _nextScopeId();
   const x = 0;
   _write(`<div id=ref></div>${_markHydrateNode(_scope, 0)}<button id=increment>Increment</button>`);
-  _writeHydrateCall(_scope, "packages/translator/src/__tests__/fixtures/lifecycle-this/template.marko_0_x");
+  _writeHydrateCall(_scope, "packages/translator/src/__tests__/fixtures/lifecycle-tag-this/template.marko_0_x");
   _writeHydrateScope(_scope, {
     1: x
   });
