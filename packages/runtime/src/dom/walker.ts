@@ -1,4 +1,5 @@
 import type { Scope } from "../common/types";
+import { NodeType } from "./dom";
 import { createScope } from "./scope";
 
 export const walker = /* @__PURE__ */ document.createTreeWalker(document);
@@ -102,22 +103,29 @@ function walkInternal(
         walker.nextNode();
       }
     } else if (value >= WalkCodes.BeginChild) {
-      value =
-        WalkRangeSizes.BeginChild * currentMultiplier +
-        value -
-        WalkCodes.BeginChild;
       currentWalkIndex = walkInternal(
         walkCodes,
-        (scope[value] = createScope(scope.___context)),
+        (scope[
+          MARKO_DEBUG
+            ? getDebugKey(currentScopeIndex++, "#childScope")
+            : currentScopeIndex++
+        ] = createScope(scope.___context)),
         currentWalkIndex
       )!;
     } else if (value === WalkCodes.EndChild) {
       return currentWalkIndex;
     } else if (value === WalkCodes.Get) {
-      scope[currentScopeIndex++] = walker.currentNode;
+      scope[
+        MARKO_DEBUG
+          ? getDebugKey(currentScopeIndex++, walker.currentNode)
+          : currentScopeIndex++
+      ] = walker.currentNode;
     } else {
-      const newNode = (scope[currentScopeIndex++] =
-        document.createTextNode(""));
+      const newNode = (scope[
+        MARKO_DEBUG
+          ? getDebugKey(currentScopeIndex++, "#text")
+          : currentScopeIndex++
+      ] = document.createTextNode(""));
       const current = walker.currentNode;
       const parentNode = current.parentNode!;
 
@@ -145,4 +153,18 @@ function walkInternal(
   }
 
   return currentWalkIndex;
+}
+
+function getDebugKey(index: number, node: Node | string) {
+  if (typeof node === "string") {
+    return `${node}/${index}`;
+  } else if (node.nodeType === NodeType.Text) {
+    return `#text/${index}`;
+  } else if (node.nodeType === NodeType.Comment) {
+    return `#comment/${index}`;
+  } else if (node.nodeType === NodeType.Element) {
+    return `#${(node as Element).tagName.toLowerCase()}/${index}`;
+  }
+
+  return index;
 }

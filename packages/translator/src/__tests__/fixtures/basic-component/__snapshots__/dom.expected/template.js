@@ -1,6 +1,6 @@
 import { setup as _counter, template as _counter_template, walks as _counter_walks } from "./components/counter.marko";
 const _setup = _scope => {
-  _counter(_scope[0]);
+  _counter(_scope["#childScope/0"]);
 };
 export const template = `<div>${_counter_template}</div>`;
 export const walks = /* next(1), beginChild(0), _counter_walks, endChild, out(1) */`D/${_counter_walks}&l`;

@@ -41,6 +41,7 @@ export const after = String.fromCharCode(WalkCodes.After);
 export const replace = String.fromCharCode(WalkCodes.Replace);
 export const inside = String.fromCharCode(WalkCodes.Inside);
 export const endChild = String.fromCharCode(WalkCodes.EndChild);
+export const beginChild = String.fromCharCode(WalkCodes.BeginChild);
 
 export function next(value: number) {
   return toCharString(value, WalkCodes.Next, WalkRangeSizes.Next);
@@ -52,10 +53,6 @@ export function over(value: number) {
 
 export function out(value: number) {
   return toCharString(value, WalkCodes.Out, WalkRangeSizes.Out);
-}
-
-export function beginChild(value: number) {
-  return toCharString(value, WalkCodes.BeginChild, WalkRangeSizes.BeginChild);
 }
 
 function toCharString(value: number, startCode: number, rangeSize: number) {
