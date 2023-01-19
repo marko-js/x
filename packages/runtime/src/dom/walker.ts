@@ -100,7 +100,7 @@ function walkInternal(
       while (value--) {
         walker.nextNode();
       }
-    } else if (value >= WalkCodes.BeginChild) {
+    } else if (value === WalkCodes.BeginChild) {
       currentWalkIndex = walkInternal(
         walkCodes,
         (scope[
