@@ -9,7 +9,7 @@ const _comment$ifBody = /* @__PURE__ */_closure(1, "comment", [_expr_comment_id$
 const _setup$ifBody = _scope => {
   _comments2(_scope["#childScope/0"]);
 };
-const _ifBody = /* @__PURE__ */_createRenderer(`${_comments_template}`, /* beginChild(0), _comments_walks, endChild */`/${_comments_walks}&`, _setup$ifBody, [_comment$ifBody, _id$ifBody]);
+const _ifBody = /* @__PURE__ */_createRenderer(`${_comments_template}`, /* beginChild, _comments_walks, endChild */`/${_comments_walks}&`, _setup$ifBody, [_comment$ifBody, _id$ifBody]);
 const _if$forBody = /* @__PURE__ */_conditional("#text/4", 1, (_scope, comment = _scope["comment"]) => comment.comments ? _ifBody : null);
 const _hydrate_open$forBody = _register("packages/translator/src/__tests__/fixtures/basic-inert-collapsible-tree/components/comments.marko_1_open", _scope => _on(_scope["#button/2"], "click", function () {
   const open = _scope["open"];

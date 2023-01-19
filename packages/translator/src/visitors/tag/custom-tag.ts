@@ -211,7 +211,6 @@ function translateDOM(tag: t.NodePath<t.MarkoTag>) {
   write`${importNamed(file, relativePath, "template", `${tagName}_template`)}`;
   walks.injectWalks(
     tag,
-    binding.id,
     importNamed(file, relativePath, "walks", `${tagName}_walks`)
   );
 

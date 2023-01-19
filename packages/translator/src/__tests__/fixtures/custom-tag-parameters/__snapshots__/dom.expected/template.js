@@ -8,6 +8,6 @@ const _setup = _scope => {
   _customTag(_scope["#childScope/0"]);
 };
 export const template = `${_customTag_template}`;
-export const walks = /* beginChild(0), _customTag_walks, endChild */`/${_customTag_walks}&`;
+export const walks = /* beginChild, _customTag_walks, endChild */`/${_customTag_walks}&`;
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup);

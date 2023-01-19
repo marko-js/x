@@ -3,7 +3,7 @@ const _setup = _scope => {
   _child(_scope["#childScope/0"]);
 };
 export const template = `${_child_template}`;
-export const walks = /* beginChild(0), _child_walks, endChild */`/${_child_walks}&`;
+export const walks = /* beginChild, _child_walks, endChild */`/${_child_walks}&`;
 export const setup = _setup;
 import { createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 export default /* @__PURE__ */_createRenderFn(template, walks, setup);

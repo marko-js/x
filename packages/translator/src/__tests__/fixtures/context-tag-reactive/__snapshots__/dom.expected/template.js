@@ -3,7 +3,7 @@ import { setup as _child, template as _child_template, walks as _child_walks, cl
 const _setup$putBody = _scope => {
   _child(_scope["#childScope/0"]);
 };
-const _putBody = /* @__PURE__ */_createRenderer(`${_child_template}`, /* beginChild(0), _child_walks, endChild */`/${_child_walks}&`, _setup$putBody, [_inChildMany(_child_closures, "#childScope/0")]);
+const _putBody = /* @__PURE__ */_createRenderer(`${_child_template}`, /* beginChild, _child_walks, endChild */`/${_child_walks}&`, _setup$putBody, [_inChildMany(_child_closures, "#childScope/0")]);
 const _put = /* @__PURE__ */_derivation("0:", 1, [_dynamicSubscribers("0:")], (_scope, x = _scope["x"]) => x);
 const _hydrate_x = _register("packages/translator/src/__tests__/fixtures/context-tag-reactive/template.marko_0_x", _scope => _on(_scope["#button/1"], "click", function () {
   const x = _scope["x"];

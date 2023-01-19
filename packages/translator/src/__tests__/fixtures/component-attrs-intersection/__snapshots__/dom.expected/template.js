@@ -15,6 +15,6 @@ const _setup = _scope => {
   _displayIntersection(_scope["#childScope/0"]);
 };
 export const template = `${_displayIntersection_template}<button></button>`;
-export const walks = /* beginChild(0), _displayIntersection_walks, endChild, get, over(1) */`/${_displayIntersection_walks}& b`;
+export const walks = /* beginChild, _displayIntersection_walks, endChild, get, over(1) */`/${_displayIntersection_walks}& b`;
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup);

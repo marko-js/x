@@ -18,6 +18,6 @@ export const attrs = /* @__PURE__ */_destructureSources([_name], (_scope, {
 });
 export { _name as _apply_name };
 export const template = `${_layout_template}`;
-export const walks = /* beginChild(0), _layout_walks, endChild */`/${_layout_walks}&`;
+export const walks = /* beginChild, _layout_walks, endChild */`/${_layout_walks}&`;
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup, attrs);

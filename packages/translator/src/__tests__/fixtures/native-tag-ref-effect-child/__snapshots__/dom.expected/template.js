@@ -10,6 +10,6 @@ const _setup = _scope => {
   _notifySignal(_scope, _helloSetter_attrs_inChild);
 };
 export const template = `<div></div>${_helloSetter_template}`;
-export const walks = /* get, over(1), beginChild(1), _helloSetter_walks, endChild */` b0${_helloSetter_walks}&`;
+export const walks = /* get, over(1), beginChild, _helloSetter_walks, endChild */` b/${_helloSetter_walks}&`;
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup);

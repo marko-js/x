@@ -11,6 +11,6 @@ const _setup = _scope => {
   _notifySignal(_scope, _other_attrs_inChild);
 };
 export const template = `${_other_template}`;
-export const walks = /* beginChild(0), _other_walks, endChild */`/${_other_walks}&`;
+export const walks = /* beginChild, _other_walks, endChild */`/${_other_walks}&`;
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup);

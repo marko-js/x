@@ -14,6 +14,6 @@ const _setup = _scope => {
   _myButton(_scope["#childScope/0"]);
 };
 export const template = `${_myButton_template}`;
-export const walks = /* beginChild(0), _myButton_walks, endChild */`/${_myButton_walks}&`;
+export const walks = /* beginChild, _myButton_walks, endChild */`/${_myButton_walks}&`;
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup);

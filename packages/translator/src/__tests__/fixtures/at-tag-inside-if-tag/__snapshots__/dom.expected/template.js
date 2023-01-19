@@ -16,6 +16,6 @@ export const attrs = /* @__PURE__ */_destructureSources([_x], (_scope, {
 });
 export { _x as _apply_x };
 export const template = `${_customTag_template}`;
-export const walks = /* beginChild(0), _customTag_walks, endChild */`/${_customTag_walks}&`;
+export const walks = /* beginChild, _customTag_walks, endChild */`/${_customTag_walks}&`;
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup, attrs);

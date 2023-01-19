@@ -16,6 +16,6 @@ const _setup = _scope => {
   _queueHydrate(_scope, _hydrate_setup);
 };
 export const template = `${_child_template}<div class=hi></div>`;
-export const walks = /* beginChild(0), _child_walks, endChild, get, over(1) */`/${_child_walks}& b`;
+export const walks = /* beginChild, _child_walks, endChild, get, over(1) */`/${_child_walks}& b`;
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup);

@@ -33,7 +33,6 @@ export const enum WalkCodes {
   EndChild = 38,
 
   BeginChild = 47,
-  BeginChildEnd = 66,
 
   Next = 67,
   NextEnd = 91,
@@ -49,7 +48,6 @@ export const enum WalkCodes {
 }
 
 export const enum WalkRangeSizes {
-  BeginChild = 20, // 47 through 66
   Next = 20, // 67 through 91
   Over = 10, // 97 through 106
   Out = 10, // 107 through 116
@@ -58,7 +56,7 @@ export const enum WalkRangeSizes {
 
 export function trimWalkString(walkString: string): string {
   let end = walkString.length;
-  while (walkString.charCodeAt(--end) > WalkCodes.BeginChildEnd);
+  while (walkString.charCodeAt(--end) > WalkCodes.BeginChild);
   return walkString.slice(0, end + 1);
 }
 

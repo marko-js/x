@@ -11,7 +11,6 @@ enum WalkCodes {
   SkipEnd = 46,
 
   BeginChild = 47,
-  BeginChildEnd = 66,
 
   Next = 67,
   NextEnd = 91,
