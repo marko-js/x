@@ -305,7 +305,18 @@ export function writeHydrateCall(scopeId: number, fnId: string) {
   $_buffer!.calls += `${scopeId},"${fnId}",`;
 }
 
-export function writeHydrateScope(scopeId: number, scope: PartialScope) {
+export function writeHydrateScope(
+  scopeId: number,
+  scope: PartialScope,
+  assignTo?: PartialScope | PartialScope[]
+) {
+  if (assignTo !== undefined) {
+    if (Array.isArray(assignTo)) {
+      assignTo.push(scope);
+    } else {
+      scope = Object.assign(assignTo, scope);
+    }
+  }
   $_buffer!.scopes = $_buffer!.scopes || {};
   $_buffer!.scopes[scopeId] = scope;
   $_streamData!.scopeLookup.set(scopeId, scope);

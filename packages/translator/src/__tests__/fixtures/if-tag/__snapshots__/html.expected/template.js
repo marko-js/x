@@ -4,62 +4,63 @@ const _renderer = ({
   b,
   x,
   y
-}, _tagVar) => {
-  const _scope0_ = _nextScopeId();
+}, _tagVar, _scope0_) => {
+  const _scope0_id = _nextScopeId();
   let _ifScopeId;
-  const _ifScope = {},
+  const _scope1_ = {},
     _ifRenderer = () => {};
   if (a + b) {
-    const _scope1_ = _nextScopeId();
+    const _scope1_id = _nextScopeId();
     _write("Hello");
-    _writeHydrateScope(_scope1_, Object.assign(_ifScope, {
-      [_SYMBOL_OWNER]: _scope0_
-    }));
+    _writeHydrateScope(_scope1_id, {
+      [_SYMBOL_OWNER]: _scope0_id
+    }, _scope1_);
     _register(_ifRenderer, "packages/translator/src/__tests__/fixtures/if-tag/template.marko_1_renderer");
-    _ifScopeId = _scope1_;
+    _ifScopeId = _scope1_id;
   }
-  _write(`${_markHydrateControlSingleNodeEnd(_scope0_, "#text/0", _ifScopeId)}`);
+  _write(`${_markHydrateControlSingleNodeEnd(_scope0_id, "#text/0", _ifScopeId)}`);
   let _ifScopeId2;
-  const _ifScope2 = {},
+  const _scope2_ = {},
     _ifRenderer2 = () => {};
   if (a, b) {
-    const _scope2_ = _nextScopeId();
+    const _scope2_id = _nextScopeId();
     _write("World");
-    _writeHydrateScope(_scope2_, Object.assign(_ifScope2, {
-      [_SYMBOL_OWNER]: _scope0_
-    }));
+    _writeHydrateScope(_scope2_id, {
+      [_SYMBOL_OWNER]: _scope0_id
+    }, _scope2_);
     _register(_ifRenderer2, "packages/translator/src/__tests__/fixtures/if-tag/template.marko_2_renderer");
-    _ifScopeId2 = _scope2_;
+    _ifScopeId2 = _scope2_id;
   }
-  _write(`${_markHydrateControlSingleNodeEnd(_scope0_, "#text/1", _ifScopeId2)}<div>`);
+  _write(`${_markHydrateControlSingleNodeEnd(_scope0_id, "#text/1", _ifScopeId2)}<div>`);
   let _ifScopeId3;
-  const _ifScope3 = {},
+  const _scope3_ = {},
     _ifRenderer3 = () => {};
   if (x) {
-    const _scope3_ = _nextScopeId();
+    const _scope3_id = _nextScopeId();
     _write("A");
-    _writeHydrateScope(_scope3_, Object.assign(_ifScope3, {
-      [_SYMBOL_OWNER]: _scope0_
-    }));
+    _writeHydrateScope(_scope3_id, {
+      [_SYMBOL_OWNER]: _scope0_id
+    }, _scope3_);
     _register(_ifRenderer3, "packages/translator/src/__tests__/fixtures/if-tag/template.marko_3_renderer");
-    _ifScopeId3 = _scope3_;
+    _ifScopeId3 = _scope3_id;
   } else if (y) {
-    const _scope4_ = _nextScopeId();
+    const _scope4_id = _nextScopeId();
     _write("B");
-    _writeHydrateScope(_scope4_, Object.assign(_ifScope3, {
-      [_SYMBOL_OWNER]: _scope0_
-    }));
+    _writeHydrateScope(_scope4_id, {
+      [_SYMBOL_OWNER]: _scope0_id
+    }, undefined);
     _register(_ifRenderer3, "packages/translator/src/__tests__/fixtures/if-tag/template.marko_4_renderer");
-    _ifScopeId3 = _scope4_;
+    _ifScopeId3 = _scope4_id;
   } else {
-    const _scope5_ = _nextScopeId();
+    const _scope5_id = _nextScopeId();
     _write("C");
-    _writeHydrateScope(_scope5_, Object.assign(_ifScope3, {
-      [_SYMBOL_OWNER]: _scope0_
-    }));
+    _writeHydrateScope(_scope5_id, {
+      [_SYMBOL_OWNER]: _scope0_id
+    }, undefined);
     _register(_ifRenderer3, "packages/translator/src/__tests__/fixtures/if-tag/template.marko_5_renderer");
-    _ifScopeId3 = _scope5_;
+    _ifScopeId3 = _scope5_id;
   }
+<<<<<<< HEAD
   _write(`${_markHydrateControlSingleNodeEnd(_scope0_, "#text/2", _ifScopeId3)}</div>`);
   _writeHydrateScope(_scope0_, {
     "a": a,
@@ -67,12 +68,17 @@ const _renderer = ({
     "x": x,
     "y": y,
     "#text/0!": _ifScope,
+=======
+  _write(`${_markHydrateControlSingleNodeEnd(_scope0_id, "#text/2", _ifScopeId3)}</div>`);
+  _writeHydrateScope(_scope0_id, {
+    "#text/0!": _scope1_,
+>>>>>>> e11caa87 (fix(if-tag): undid Michael's changes from the last PR)
     "#text/0(": _ifRenderer,
-    "#text/1!": _ifScope2,
+    "#text/1!": _scope2_,
     "#text/1(": _ifRenderer2,
-    "#text/2!": _ifScope3,
+    "#text/2!": _scope3_,
     "#text/2(": _ifRenderer3
-  });
+  }, _scope0_);
 };
 export default _renderer;
 export const render = /* @__PURE__ */_createRenderer(_renderer);

@@ -4,6 +4,7 @@ import { callRuntime } from "../../util/runtime";
 import { flushInto } from "../../util/writer";
 import isStatic from "../../util/is-static";
 import { returnId } from "../../core/return";
+import { getScopeIdentifier } from "../../util/sections";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default {
@@ -40,6 +41,7 @@ export default {
               [
                 attrs ? (attrs.var as any) : t.identifier("input"),
                 tagVarIdentifier,
+                getScopeIdentifier(0),
               ],
               t.blockStatement(renderContent)
             )

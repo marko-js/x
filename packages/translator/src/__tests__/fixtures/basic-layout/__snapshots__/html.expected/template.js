@@ -2,12 +2,12 @@ import { escapeXML as _escapeXML, markHydrateNode as _markHydrateNode, write as 
 import _layout from "./components/layout.marko";
 const _renderer = ({
   name
-}, _tagVar) => {
-  const _scope0_ = _nextScopeId();
+}, _tagVar, _scope0_) => {
+  const _scope0_id = _nextScopeId();
   _layout({
     renderBody() {
-      const _scope1_ = _nextScopeId();
-      _write(`<h1>Hello <!>${_escapeXML(name)}${_markHydrateNode(_scope1_, "#text/0")}</h1>`);
+      const _scope1_id = _nextScopeId();
+      _write(`<h1>Hello <!>${_escapeXML(name)}${_markHydrateNode(_scope1_id, "#text/0")}</h1>`);
     }
   });
 };

@@ -2,31 +2,31 @@ import { escapeXML as _escapeXML, markHydrateNode as _markHydrateNode, write as 
 import _hello from "./components/hello/index.marko";
 const _renderer = ({
   x
-}, _tagVar) => {
-  const _scope0_ = _nextScopeId();
+}, _tagVar, _scope0_) => {
+  const _scope0_id = _nextScopeId();
   let _item;
-  const _scope1_ = _nextScopeId();
+  const _scope1_id = _nextScopeId();
   let _ifScopeId;
-  const _ifScope = {},
+  const _scope2_ = {},
     _ifRenderer = () => {};
   if (x) {
-    const _scope2_ = _nextScopeId();
+    const _scope2_id = _nextScopeId();
     _item = {
       renderBody(y) {
-        _write(`${_escapeXML(y)}${_markHydrateNode(_scope3_, "#text/0")}`);
+        _write(`${_escapeXML(y)}${_markHydrateNode(_scope3_id, "#text/0")}`);
       }
     };
-    _writeHydrateScope(_scope2_, Object.assign(_ifScope, {
-      [_SYMBOL_OWNER]: _scope1_
-    }));
+    _writeHydrateScope(_scope2_id, {
+      [_SYMBOL_OWNER]: _scope1_id
+    }, _scope2_);
     _register(_ifRenderer, "packages/translator/src/__tests__/fixtures/at-tags-dynamic-with-params/template.marko_2_renderer");
-    _ifScopeId = _scope2_;
+    _ifScopeId = _scope2_id;
   }
-  _write(`${_markHydrateControlSingleNodeEnd(_scope1_, "#text/0", _ifScopeId)}`);
-  _writeHydrateScope(_scope1_, {
-    "#text/0!": _ifScope,
+  _write(`${_markHydrateControlSingleNodeEnd(_scope1_id, "#text/0", _ifScopeId)}`);
+  _writeHydrateScope(_scope1_id, {
+    "#text/0!": _scope2_,
     "#text/0(": _ifRenderer
-  });
+  }, undefined);
   _hello({
     item: _item
   });

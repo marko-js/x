@@ -2,9 +2,9 @@ import { escapeXML as _escapeXML, markHydrateNode as _markHydrateNode, toString 
 const _renderer = ({
   name,
   missing
-}, _tagVar) => {
-  const _scope0_ = _nextScopeId();
-  _write(`Hello <!>${_escapeXML(name)}${_markHydrateNode(_scope0_, "#text/0")}! Hello <!>${_toString(name)}${_markHydrateNode(_scope0_, "#text/1")}! Hello <!>${_toString(missing)}${_markHydrateNode(_scope0_, "#text/2")}!`);
+}, _tagVar, _scope0_) => {
+  const _scope0_id = _nextScopeId();
+  _write(`Hello <!>${_escapeXML(name)}${_markHydrateNode(_scope0_id, "#text/0")}! Hello <!>${_toString(name)}${_markHydrateNode(_scope0_id, "#text/1")}! Hello <!>${_toString(missing)}${_markHydrateNode(_scope0_id, "#text/2")}!`);
 };
 export default _renderer;
 export const render = /* @__PURE__ */_createRenderer(_renderer);
