@@ -1,5 +1,5 @@
 import { write as _write, escapeXML as _escapeXML, markHydrateNode as _markHydrateNode, SYMBOL_OWNER as _SYMBOL_OWNER, nextScopeId as _nextScopeId, writeHydrateScope as _writeHydrateScope, register as _register, markHydrateControlSingleNodeEnd as _markHydrateControlSingleNodeEnd, createRenderer as _createRenderer } from "@marko/runtime-fluurt/src/html";
-const _renderer = ({
+const _renderer = _register(({
   value
 }, _tagVar, _scope0_) => {
   const _scope0_id = _nextScopeId();
@@ -21,6 +21,6 @@ const _renderer = ({
     "#text/0!": _scope1_,
     "#text/0(": _ifRenderer
   }, _scope0_);
-};
+}, "packages/translator/src/__tests__/fixtures/toggle-first-child/template.marko");
 export default _renderer;
 export const render = /* @__PURE__ */_createRenderer(_renderer);

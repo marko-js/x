@@ -1,5 +1,5 @@
-import { escapeXML as _escapeXML, markHydrateNode as _markHydrateNode, write as _write, nextScopeId as _nextScopeId, maybeFlush as _maybeFlush, attr as _attr, createRenderer as _createRenderer } from "@marko/runtime-fluurt/src/html";
-const _renderer = (input, _tagVar, _scope0_) => {
+import { escapeXML as _escapeXML, markHydrateNode as _markHydrateNode, write as _write, nextScopeId as _nextScopeId, maybeFlush as _maybeFlush, attr as _attr, register as _register, createRenderer as _createRenderer } from "@marko/runtime-fluurt/src/html";
+const _renderer = _register((input, _tagVar, _scope0_) => {
   const _scope0_id = _nextScopeId();
   const arr = [1, 2, 3];
   const obj = {
@@ -75,6 +75,6 @@ const _renderer = (input, _tagVar, _scope0_) => {
     _write("Hello");
     _maybeFlush();
   }
-};
+}, "packages/translator/src/__tests__/fixtures/for-tag/template.marko");
 export default _renderer;
 export const render = /* @__PURE__ */_createRenderer(_renderer);

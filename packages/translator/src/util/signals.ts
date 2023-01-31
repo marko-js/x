@@ -8,7 +8,7 @@ import {
   getScopeIdIdentifier,
   getScopeIdentifier,
 } from "./sections";
-import { Reserve, insertReserve, getNodeLiteral } from "./reserve";
+import { Reserve, insertReserve, getNodeLiteral, ReserveType } from "./reserve";
 import { currentProgramPath, scopeIdentifier } from "../visitors/program";
 import { callRuntime, callRead } from "./runtime";
 import { getTemplateId } from "@marko/babel-utils";
@@ -610,7 +610,9 @@ export function writeHTMLHydrateStatements(
     if (Array.isArray(references)) {
       // TODO: only need to include refs that intersect with stateful refs
       for (const reference of references) {
-        insertReserve(refs, reference);
+        if (reference.type !== ReserveType.Visit) {
+          insertReserve(refs, reference);
+        }
       }
     }
   }

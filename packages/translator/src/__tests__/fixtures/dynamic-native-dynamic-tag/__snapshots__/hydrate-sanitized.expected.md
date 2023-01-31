@@ -13,7 +13,9 @@
 container.querySelector("button").click();
 
 ```html
-<div>
+<div
+  class="A"
+>
   body content
 </div>
 <button />
@@ -24,7 +26,9 @@ container.querySelector("button").click();
 container.querySelector("button").click();
 
 ```html
-<span>
+<span
+  class="A"
+>
   body content
 </span>
 <button />

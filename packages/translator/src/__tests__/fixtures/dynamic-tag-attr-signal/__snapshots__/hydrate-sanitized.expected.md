@@ -14,7 +14,7 @@ container.querySelector("button").click();
 
 ```html
 <p
-  class="A"
+  class="B"
 >
   paragraph
 </p>

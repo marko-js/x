@@ -1,6 +1,6 @@
-import { styleAttr as _styleAttr, markHydrateNode as _markHydrateNode, write as _write, nextScopeId as _nextScopeId, dynamicTag as _dynamicTag, createRenderer as _createRenderer } from "@marko/runtime-fluurt/src/html";
+import { styleAttr as _styleAttr, markHydrateNode as _markHydrateNode, write as _write, nextScopeId as _nextScopeId, dynamicTag as _dynamicTag, markHydrateControlEnd as _markHydrateControlEnd, writeHydrateScope as _writeHydrateScope, register as _register, createRenderer as _createRenderer } from "@marko/runtime-fluurt/src/html";
 import _customTag from "./components/custom-tag.marko";
-const _renderer = ({
+const _renderer = _register(({
   color,
   test
 }, _tagVar, _scope0_) => {
@@ -30,7 +30,7 @@ const _renderer = ({
       const _scope4_id = _nextScopeId();
     }
   });
-  _dynamicTag(test, {
+  const _dynamicScope = _dynamicTag(test, {
     style: {
       color: "green"
     },
@@ -43,6 +43,11 @@ const _renderer = ({
       }
     }
   });
-};
+  _write(`${_markHydrateControlEnd(_scope0_id, "#text/4")}`);
+  _writeHydrateScope(_scope0_id, {
+    "#text/4!": _dynamicScope,
+    "#text/4(": test
+  }, _scope0_);
+}, "packages/translator/src/__tests__/fixtures/attr-style/template.marko");
 export default _renderer;
 export const render = /* @__PURE__ */_createRenderer(_renderer);

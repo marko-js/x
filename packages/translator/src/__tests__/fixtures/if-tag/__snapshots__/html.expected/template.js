@@ -1,5 +1,5 @@
 import { SYMBOL_OWNER as _SYMBOL_OWNER, write as _write, nextScopeId as _nextScopeId, writeHydrateScope as _writeHydrateScope, register as _register, markHydrateControlSingleNodeEnd as _markHydrateControlSingleNodeEnd, createRenderer as _createRenderer } from "@marko/runtime-fluurt/src/html";
-const _renderer = ({
+const _renderer = _register(({
   a,
   b,
   x,
@@ -60,25 +60,19 @@ const _renderer = ({
     _register(_ifRenderer3, "packages/translator/src/__tests__/fixtures/if-tag/template.marko_5_renderer");
     _ifScopeId3 = _scope5_id;
   }
-<<<<<<< HEAD
-  _write(`${_markHydrateControlSingleNodeEnd(_scope0_, "#text/2", _ifScopeId3)}</div>`);
-  _writeHydrateScope(_scope0_, {
+  _write(`${_markHydrateControlSingleNodeEnd(_scope0_id, "#text/2", _ifScopeId3)}</div>`);
+  _writeHydrateScope(_scope0_id, {
     "a": a,
     "b": b,
     "x": x,
     "y": y,
-    "#text/0!": _ifScope,
-=======
-  _write(`${_markHydrateControlSingleNodeEnd(_scope0_id, "#text/2", _ifScopeId3)}</div>`);
-  _writeHydrateScope(_scope0_id, {
     "#text/0!": _scope1_,
->>>>>>> e11caa87 (fix(if-tag): undid Michael's changes from the last PR)
     "#text/0(": _ifRenderer,
     "#text/1!": _scope2_,
     "#text/1(": _ifRenderer2,
     "#text/2!": _scope3_,
     "#text/2(": _ifRenderer3
   }, _scope0_);
-};
+}, "packages/translator/src/__tests__/fixtures/if-tag/template.marko");
 export default _renderer;
 export const render = /* @__PURE__ */_createRenderer(_renderer);

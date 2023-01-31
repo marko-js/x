@@ -1,6 +1,6 @@
 import { write as _write, SYMBOL_OWNER as _SYMBOL_OWNER, nextScopeId as _nextScopeId, writeHydrateScope as _writeHydrateScope, register as _register, markHydrateControlSingleNodeEnd as _markHydrateControlSingleNodeEnd, createRenderer as _createRenderer } from "@marko/runtime-fluurt/src/html";
 import _customTag from "./components/custom-tag/index.marko";
-const _renderer = ({
+const _renderer = _register(({
   x
 }, _tagVar, _scope0_) => {
   const _scope0_id = _nextScopeId();
@@ -31,6 +31,6 @@ const _renderer = ({
   _customTag({
     thing: _thing
   });
-};
+}, "packages/translator/src/__tests__/fixtures/at-tag-inside-if-tag/template.marko");
 export default _renderer;
 export const render = /* @__PURE__ */_createRenderer(_renderer);

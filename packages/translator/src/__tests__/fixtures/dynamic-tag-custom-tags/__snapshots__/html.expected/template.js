@@ -12,6 +12,7 @@ const _renderer = _register((input, _tagVar, _scope0_) => {
   _writeHydrateCall(_scope0_id, "packages/translator/src/__tests__/fixtures/dynamic-tag-custom-tags/template.marko_0_tagName");
   _writeHydrateScope(_scope0_id, {
     "tagName": tagName,
+    "val": val,
     "#text/0!": _dynamicScope,
     "#text/0(": tagName
   }, _scope0_);
