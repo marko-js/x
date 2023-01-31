@@ -301,6 +301,10 @@ export function nextScopeId() {
   return $_streamData!.scopeId++;
 }
 
+export function peekNextScopeId() {
+  return $_streamData!.scopeId;
+}
+
 export function writeHydrateCall(scopeId: number, fnId: string) {
   $_buffer!.calls += `${scopeId},"${fnId}",`;
 }
