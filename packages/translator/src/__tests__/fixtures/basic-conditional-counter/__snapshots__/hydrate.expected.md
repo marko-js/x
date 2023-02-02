@@ -151,7 +151,7 @@ container.querySelector("button.toggle").click();
 ```
 inserted #document/html0/body1/span4
 removed #comment after #document/html0/body1/span4
-#document/html0/body1/span4/#text0: " " => "2"
+#document/html0/body1/span4/#text0: "‍" => "2"
 ```
 
 

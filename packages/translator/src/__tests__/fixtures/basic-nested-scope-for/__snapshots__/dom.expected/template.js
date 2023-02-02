@@ -12,7 +12,7 @@ const _num$forBody = /* @__PURE__ */_source("num", [_expr_selected_num$forBody],
   _queueHydrate(_scope, _hydrate_num$forBody);
 });
 const _selected$forBody = /* @__PURE__ */_closure(1, "selected", [_expr_selected_num$forBody]);
-const _forBody = /* @__PURE__ */_createRenderer("<button> </button>", /* get, next(1), get */" D ", null, [_selected$forBody]);
+const _forBody = /* @__PURE__ */_createRenderer("<button>&zwj;</button>", /* get, next(1), get */" D ", null, [_selected$forBody]);
 const _for = /* @__PURE__ */_loop("#text/0", 1, _forBody, [_num$forBody], (_scope, [num]) => _setSource(_scope, _num$forBody, num), _scope => [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], null]);
 const _selected = /* @__PURE__ */_source("selected", [/* @__PURE__ */_inLoopScope(_selected$forBody, "#text/0")]);
 const _setup = _scope => {

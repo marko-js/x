@@ -13,7 +13,7 @@ const _setup = _scope => {
   _setSource(_scope, _x, 1);
   _setSource(_scope, _y, 0);
 };
-export const template = "<span> </span><span> </span>";
+export const template = "<span>&zwj;</span><span>&zwj;</span>";
 export const walks = /* next(1), get, out(1), next(1), get, out(1) */"D lD l";
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup, null, null, "packages/translator/src/__tests__/fixtures/let-tag-set-in-effect/template.marko");

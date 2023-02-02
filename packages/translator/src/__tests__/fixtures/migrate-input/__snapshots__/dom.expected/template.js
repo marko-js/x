@@ -4,7 +4,7 @@ export const attrs = /* @__PURE__ */_destructureSources([_input], (_scope, input
   _setSource(_scope, _input, input);
 });
 export { _input as _apply_input };
-export const template = "<div><span> </span></div>";
+export const template = "<div><span>&zwj;</span></div>";
 export const walks = /* next(2), get, out(2) */"E m";
 export const setup = function () {};
 export default /* @__PURE__ */_createRenderFn(template, walks, setup, attrs, null, "packages/translator/src/__tests__/fixtures/migrate-input/template.marko");

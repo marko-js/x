@@ -14,7 +14,7 @@ const _setup = _scope => {
   _setSource(_scope, _clickCount, 0);
   _notifySignal(_scope, _unused_2);
 };
-export const template = "<div><button> </button></div>";
+export const template = "<div><button>&zwj;</button></div>";
 export const walks = /* next(1), get, next(1), get, out(2) */"D D m";
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup, null, null, "packages/translator/src/__tests__/fixtures/basic-unused-ref/template.marko");

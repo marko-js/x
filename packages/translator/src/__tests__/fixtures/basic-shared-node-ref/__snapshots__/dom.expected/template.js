@@ -1,6 +1,6 @@
 import { setSource as _setSource, attr as _attr, data as _data, on as _on, queueSource as _queueSource, source as _source, createRenderer as _createRenderer, loop as _loop, register as _register, queueHydrate as _queueHydrate, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _x$forBody = /* @__PURE__ */_source("x", [], (_scope, x) => _data(_scope["#text/0"], x));
-const _forBody = /* @__PURE__ */_createRenderer("<li> </li>", /* next(1), get */"D ");
+const _forBody = /* @__PURE__ */_createRenderer("<li>&zwj;</li>", /* next(1), get */"D ");
 const _ul_for = /* @__PURE__ */_loop("#ul/0", 1, _forBody, [_x$forBody], (_scope, [x]) => _setSource(_scope, _x$forBody, x), (_scope, list = _scope["list"]) => [list, function (x) {
   return x;
 }]);

@@ -2,7 +2,7 @@ import { setSource as _setSource, data as _data, subscriber as _subscriber, inCo
 const _expr_a_b$ifBody = /* @__PURE__ */_subscriber([], 2, (_scope, a = _scope._["a"], b = _scope._["b"]) => _data(_scope["#text/0"], a + b));
 const _b$ifBody = /* @__PURE__ */_closure(1, "b", [_expr_a_b$ifBody]);
 const _a$ifBody = /* @__PURE__ */_closure(1, "a", [_expr_a_b$ifBody]);
-const _ifBody = /* @__PURE__ */_createRenderer(" ", /* get */" ", null, [_a$ifBody, _b$ifBody]);
+const _ifBody = /* @__PURE__ */_createRenderer("&zwj;", /* get */" ", null, [_a$ifBody, _b$ifBody]);
 const _if = /* @__PURE__ */_conditional("#text/0", 1, _scope => true ? _ifBody : null);
 const _b = /* @__PURE__ */_source("b", [/* @__PURE__ */_inConditionalScope(_b$ifBody, "#text/0")]);
 const _a = /* @__PURE__ */_source("a", [/* @__PURE__ */_inConditionalScope(_a$ifBody, "#text/0")]);

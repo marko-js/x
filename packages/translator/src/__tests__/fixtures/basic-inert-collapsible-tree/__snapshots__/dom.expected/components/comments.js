@@ -27,7 +27,7 @@ const _path$forBody = /* @__PURE__ */_closure(1, "path", [_id$forBody]);
 const _setup$forBody = _scope => {
   _setSource(_scope, _open$forBody, true);
 };
-const _forBody = /* @__PURE__ */_createRenderer("<li><span> </span><button> </button><!></li>", /* get, next(2), get, out(1), get, next(1), get, out(1), replace */" E l D l%", _setup$forBody, [_path$forBody]);
+const _forBody = /* @__PURE__ */_createRenderer("<li><span>&zwj;</span><button>&zwj;</button><!></li>", /* get, next(2), get, out(1), get, next(1), get, out(1), replace */" E l D l%", _setup$forBody, [_path$forBody]);
 const _for = /* @__PURE__ */_loop("#ul/0", 1, _forBody, [_comment$forBody, _i$forBody], (_scope, [comment, i]) => {
   _setSource(_scope, _comment$forBody, comment);
   _setSource(_scope, _i$forBody, i);

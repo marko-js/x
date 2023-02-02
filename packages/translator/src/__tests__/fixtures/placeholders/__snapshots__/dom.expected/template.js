@@ -14,7 +14,7 @@ export const attrs = /* @__PURE__ */_destructureSources([_x], (_scope, {
   _setSource(_scope, _x, x);
 });
 export { _x as _apply_x };
-export const template = "<!><span> <div></div></span><div><div>a</div><!>Hello Text &lt;a/><!><!><script>\n    Hello &lt;b> &lt;/script>\n  </script></div>";
+export const template = "<!><span>&zwj;<div></div></span><div><div>a</div><!>Hello Text &lt;a/><!><!><script>\n    Hello &lt;b> &lt;/script>\n  </script></div>";
 export const walks = /* replace, over(1), next(1), get, out(1), next(1), over(1), replace, over(2), replace, over(2), replace, out(1) */"%bD lDb%c%c%l";
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup, attrs, null, "packages/translator/src/__tests__/fixtures/placeholders/template.marko");

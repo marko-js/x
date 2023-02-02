@@ -9,7 +9,7 @@ const _clickCount$ifBody = /* @__PURE__ */_closure(1, "clickCount", [], (_scope,
   _data(_scope["#text/1"], clickCount);
   _queueHydrate(_scope, _hydrate_clickCount$ifBody);
 });
-const _ifBody = _register("packages/translator/src/__tests__/fixtures/basic-nested-scope-if/template.marko_1_renderer", /* @__PURE__ */_createRenderer("<button> </button>", /* get, next(1), get */" D ", null, [_clickCount$ifBody]));
+const _ifBody = _register("packages/translator/src/__tests__/fixtures/basic-nested-scope-if/template.marko_1_renderer", /* @__PURE__ */_createRenderer("<button>&zwj;</button>", /* get, next(1), get */" D ", null, [_clickCount$ifBody]));
 const _if = /* @__PURE__ */_conditional("#text/0", 1, (_scope, clickCount = _scope["clickCount"]) => clickCount < 3 ? _ifBody : _elseBody);
 const _clickCount = /* @__PURE__ */_source("clickCount", [_if, /* @__PURE__ */_inConditionalScope(_clickCount$elseBody, "#text/0"), /* @__PURE__ */_inConditionalScope(_clickCount$ifBody, "#text/0")]);
 const _setup = _scope => {

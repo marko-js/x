@@ -58,5 +58,5 @@ container.querySelector("#toggle")?.click();
 ```
 inserted div0/span1
 removed #text after div0/span1
-div0/span1/#text0: " " => "123"
+div0/span1/#text0: "‍" => "123"
 ```

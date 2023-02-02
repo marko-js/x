@@ -17,7 +17,7 @@ const _setup = _scope => {
   _setSource(_scope, _x, 123);
   _initContextProvider(_scope, "#text/0", "0:", "packages/translator/src/__tests__/fixtures/context-tag-reactive/template.marko", _putBody);
 };
-export const template = "<!><button id=increment> </button>";
+export const template = "<!><button id=increment>&zwj;</button>";
 export const walks = /* replace, over(1), get, next(1), get, out(1) */"%b D l";
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup, null, null, "packages/translator/src/__tests__/fixtures/context-tag-reactive/template.marko");
