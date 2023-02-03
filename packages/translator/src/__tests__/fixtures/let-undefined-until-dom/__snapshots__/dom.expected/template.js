@@ -5,7 +5,7 @@ const _setup = _scope => {
   _setSource(_scope, _x, undefined);
   _queueHydrate(_scope, _hydrate_setup);
 };
-export const template = "<div>&zwj;</div>";
+export const template = "<div> </div>";
 export const walks = /* next(1), get, out(1) */"D l";
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup, null, null, "packages/translator/src/__tests__/fixtures/let-undefined-until-dom/template.marko");

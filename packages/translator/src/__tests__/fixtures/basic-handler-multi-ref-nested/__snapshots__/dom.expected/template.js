@@ -13,7 +13,7 @@ const _setup = _scope => {
   _setSource(_scope, _a, [0]);
   _setSource(_scope, _b, 1);
 };
-export const template = "<button>&zwj;</button>";
+export const template = "<button> </button>";
 export const walks = /* get, next(1), get, out(1) */" D l";
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup, null, null, "packages/translator/src/__tests__/fixtures/basic-handler-multi-ref-nested/template.marko");

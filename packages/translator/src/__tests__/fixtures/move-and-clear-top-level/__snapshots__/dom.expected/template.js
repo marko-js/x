@@ -1,6 +1,6 @@
 import { data as _data, source as _source, createRenderer as _createRenderer, setSource as _setSource, loop as _loop, destructureSources as _destructureSources, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _child$forBody = /* @__PURE__ */_source("child", [], (_scope, child) => _data(_scope["#text/0"], child.text));
-const _forBody = /* @__PURE__ */_createRenderer("&zwj;", /* get */" ");
+const _forBody = /* @__PURE__ */_createRenderer(" ", /* get */" ");
 const _for = /* @__PURE__ */_loop("#text/0", 1, _forBody, [_child$forBody], (_scope, [child]) => _setSource(_scope, _child$forBody, child), (_scope, input = _scope["input"]) => [input.children, function (c) {
   return c.id;
 }]);

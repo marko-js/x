@@ -1,6 +1,6 @@
 import { setSource as _setSource, data as _data, on as _on, queueSource as _queueSource, source as _source, createRenderer as _createRenderer, subscriber as _subscriber, register as _register, queueHydrate as _queueHydrate, loop as _loop, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _item$forBody = /* @__PURE__ */_source("item", [], (_scope, item) => _data(_scope["#text/0"], item));
-const _forBody = /* @__PURE__ */_createRenderer("&zwj;", /* get */" ");
+const _forBody = /* @__PURE__ */_createRenderer(" ", /* get */" ");
 const _hydrate_expr_id_items = _register("packages/translator/src/__tests__/fixtures/basic-push-pop-list/template.marko_0_id_items", _scope => _on(_scope["#button/1"], "click", function () {
   const id = _scope["id"],
     items = _scope["items"];

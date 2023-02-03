@@ -1,6 +1,6 @@
 import { setSource as _setSource, on as _on, queueSource as _queueSource, data as _data, inConditionalScope as _inConditionalScope, closure as _closure, createRenderer as _createRenderer, register as _register, conditional as _conditional, source as _source, queueHydrate as _queueHydrate, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _count$ifBody = /* @__PURE__ */_closure(1, "count", [], (_scope, count) => _data(_scope["#text/0"], count));
-const _ifBody = _register("packages/translator/src/__tests__/fixtures/basic-conditional-counter/template.marko_1_renderer", /* @__PURE__ */_createRenderer("<span>&zwj;</span>", /* next(1), get */"D ", null, [_count$ifBody]));
+const _ifBody = _register("packages/translator/src/__tests__/fixtures/basic-conditional-counter/template.marko_1_renderer", /* @__PURE__ */_createRenderer("<span> </span>", /* next(1), get */"D ", null, [_count$ifBody]));
 const _if = /* @__PURE__ */_conditional("#text/2", 1, (_scope, show = _scope["show"]) => show ? _ifBody : null);
 const _hydrate_count = _register("packages/translator/src/__tests__/fixtures/basic-conditional-counter/template.marko_0_count", _scope => _on(_scope["#button/0"], "click", function () {
   const count = _scope["count"];

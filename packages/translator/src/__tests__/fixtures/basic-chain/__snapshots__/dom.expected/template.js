@@ -5,7 +5,7 @@ const _x = /* @__PURE__ */_source("x", [_y]);
 const _setup = _scope => {
   _setSource(_scope, _x, 1);
 };
-export const template = "<div>&zwj;</div>";
+export const template = "<div> </div>";
 export const walks = /* next(1), get, out(1) */"D l";
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup, null, null, "packages/translator/src/__tests__/fixtures/basic-chain/template.marko");

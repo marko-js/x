@@ -10,7 +10,7 @@ const _count = /* @__PURE__ */_source("count", [], (_scope, count) => {
 const _setup = _scope => {
   _setSource(_scope, _count, 0);
 };
-export const template = "<button id=count>&zwj;</button>";
+export const template = "<button id=count> </button>";
 export const walks = /* get, next(1), get, out(1) */" D l";
 export const setup = _setup;
 export default /* @__PURE__ */_createRenderFn(template, walks, setup, null, null, "packages/translator/src/__tests__/fixtures/dynamic-tag-with-updating-body/components/counter.marko");

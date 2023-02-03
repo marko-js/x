@@ -45,7 +45,7 @@ removed span after div0/#text0
 ```
 inserted div0/span0
 removed #text after div0/span0
-div0/span0/#text0: "‍" => "World"
+div0/span0/#text0: " " => "World"
 ```
 
 

@@ -94,7 +94,7 @@ container.querySelector("button.toggle").click();
 ```
 inserted span2
 removed #text after span2
-span2/#text0: "‍" => "2"
+span2/#text0: " " => "2"
 ```
 
 
