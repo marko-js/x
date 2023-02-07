@@ -4,8 +4,3 @@
   foo="Hello Marko"
 />
 ```
-
-# Mutations
-```
-inserted div0
-```
