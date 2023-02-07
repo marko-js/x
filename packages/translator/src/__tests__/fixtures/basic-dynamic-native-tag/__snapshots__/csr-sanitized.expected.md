@@ -6,8 +6,3 @@
   Hello World
 </h1>
 ```
-
-# Mutations
-```
-inserted h10
-```
