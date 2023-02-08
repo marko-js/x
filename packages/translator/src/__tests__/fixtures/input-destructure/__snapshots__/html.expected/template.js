@@ -6,6 +6,6 @@ const _renderer = _register((input, _tagVar, _scope0_) => {
     b
   } = input;
   _write(`${_escapeXML(a)}${_markHydrateNode(_scope0_id, "#text/0")} <!>${_escapeXML(b)}${_markHydrateNode(_scope0_id, "#text/1")}`);
-}, "packages/translator/src/__tests__/fixtures/input-tracking/template.marko");
+}, "packages/translator/src/__tests__/fixtures/input-destructure/template.marko");
 export default _renderer;
 export const render = /* @__PURE__ */_createRenderer(_renderer);
