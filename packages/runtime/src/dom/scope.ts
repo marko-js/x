@@ -1,5 +1,5 @@
 import { queueHydrate } from "./queue";
-import type { Scope, ScopeContext } from "../common/types";
+import type { Accessor, Scope, ScopeContext } from "../common/types";
 import type { Renderer } from "./renderer";
 import { Signal, wrapSignal } from "./signals";
 
@@ -16,11 +16,7 @@ export function getEmptyScope(marker?: Comment) {
   return emptyScope;
 }
 
-export function write<S extends Scope>(
-  scope: S,
-  localIndex: number,
-  value: unknown
-) {
+export function write(scope: Scope, localIndex: Accessor, value: unknown) {
   if (scope[localIndex] !== value) {
     scope[localIndex] = value;
     return 1;
