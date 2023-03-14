@@ -33,7 +33,7 @@ import {
 import { callRuntime, importRuntime } from "../util/runtime";
 import analyzeAttributeTags from "../util/nested-attribute-tags";
 import customTag from "../visitors/tag/custom-tag";
-import type { ReferenceGroup } from "../util/references";
+import { mergeReferenceGroups, ReferenceGroup } from "../util/references";
 import { scopeIdentifier } from "../visitors/program";
 
 export default {
@@ -173,15 +173,17 @@ const translateDOM = {
       extra: { reserve },
     } = isOnlyChild ? (tag.parentPath.parent as t.MarkoTag) : tag.node;
     const ofAttr = findName(attributes, "of");
-    const byAttr = findName(attributes, "by");
+    const toAttr = findName(attributes, "to");
 
     setSubscriberBuilder(tag, (signal: t.Expression) => {
       return callRuntime("inLoopScope", signal, getNodeLiteral(reserve!));
     });
 
     if (ofAttr) {
-      const ofAttrValue = ofAttr.value!;
+      const ofAttrValue = ofAttr.value;
       const [valParam] = params;
+
+      const byAttr = findName(attributes, "by");
 
       // TODO: support patterns/rest
       if (!t.isIdentifier(valParam)) {
@@ -275,6 +277,86 @@ const translateDOM = {
       //     )
       //   )
       // );
+    } else if (toAttr) {
+      const fromAttr = findName(attributes, "from");
+      const stepAttr = findName(attributes, "step");
+
+      const toAttrValue = toAttr.value;
+      const fromAttrValue = fromAttr ? fromAttr.value : t.numericLiteral(0);
+      const stepAttrValue = stepAttr ? stepAttr.value : t.numericLiteral(1);
+
+      const [valParam] = params;
+
+      if (!t.isIdentifier(valParam)) {
+        throw tag.buildCodeFrameError(
+          `Invalid 'for of' tag, |value| parameter must be an identifier.`
+        );
+      }
+
+      const rendererId = writer.getRenderer(bodySectionId);
+
+      tag.remove();
+
+      const references = mergeReferenceGroups(
+        sectionId,
+        [fromAttr, toAttr, stepAttr]
+          .filter(
+            (attr): attr is Exclude<typeof attr, undefined> =>
+              attr?.extra?.valueReferences !== undefined
+          )
+          .map((attr) => [attr.extra, "valueReferences"])
+      ).references;
+
+      const signal = getSignal(sectionId, reserve);
+      signal.build = () => {
+        const bindings: Record<string, t.Identifier> = paramsPath.reduce(
+          (paramsLookup, param) =>
+            Object.assign(paramsLookup, param.getBindingIdentifiers()),
+          {}
+        );
+        return callRuntime(
+          "loop",
+          getNodeLiteral(reserve!),
+          t.numericLiteral(countReserves(references) || 1),
+          rendererId,
+          t.arrayExpression(
+            Object.values(bindings).map(
+              (binding) =>
+                getSignal(bodySectionId, binding.extra.reserve).identifier
+            )
+          ),
+          t.arrowFunctionExpression(
+            [scopeIdentifier, t.arrayPattern(params)],
+            t.blockStatement(
+              Object.values(bindings).map((binding) =>
+                t.expressionStatement(
+                  callRuntime(
+                    "setSource",
+                    scopeIdentifier,
+                    getSignal(bodySectionId, binding.extra.reserve).identifier,
+                    binding
+                  )
+                )
+              )
+            )
+          ),
+          getComputeFn(
+            sectionId,
+            callRuntime(
+              "computeLoopFromTo",
+              fromAttrValue,
+              toAttrValue,
+              stepAttrValue
+            ),
+            references
+          )
+        );
+      };
+      subscribe(references, signal);
+
+      for (const param of params) {
+        initSource(param.extra?.reserve as Reserve);
+      }
     }
   },
 };
