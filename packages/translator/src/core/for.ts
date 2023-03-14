@@ -33,7 +33,7 @@ import {
 import { callRuntime, importRuntime } from "../util/runtime";
 import analyzeAttributeTags from "../util/nested-attribute-tags";
 import customTag from "../visitors/tag/custom-tag";
-import { mergeReferenceGroups, ReferenceGroup } from "../util/references";
+import { mergeReferenceGroups } from "../util/references";
 import { scopeIdentifier } from "../visitors/program";
 
 export default {
@@ -179,184 +179,87 @@ const translateDOM = {
       return callRuntime("inLoopScope", signal, getNodeLiteral(reserve!));
     });
 
+    const [valParam] = params;
+    if (valParam && !t.isIdentifier(valParam)) {
+      throw tag.buildCodeFrameError(
+        "Invalid 'for' tag, |value| parameter must be an identifier."
+      );
+    }
+
+    const rendererId = writer.getRenderer(bodySectionId);
+
+    tag.remove();
+
+    const references = mergeReferenceGroups(
+      sectionId,
+      attributes
+        .filter(
+          (attr) =>
+            t.isMarkoAttribute(attr) &&
+            attr.extra?.valueReferences !== undefined
+        )
+        .map((attr) => [attr.extra, "valueReferences"])
+    )?.references;
+
+    let loopFunctionBody: t.Expression | t.BlockStatement = t.nullLiteral();
     if (ofAttr) {
-      const ofAttrValue = ofAttr.value;
-      const [valParam] = params;
-
       const byAttr = findName(attributes, "by");
-
-      // TODO: support patterns/rest
-      if (!t.isIdentifier(valParam)) {
-        throw tag.buildCodeFrameError(
-          `Invalid 'for of' tag, |value| parameter must be an identifier.`
-        );
-      }
-
-      const rendererId = writer.getRenderer(bodySectionId);
-
-      tag.remove();
-
-      const references = (ofAttr.extra?.valueReferences as ReferenceGroup)
-        ?.references;
-      const signal = getSignal(sectionId, reserve);
-      signal.build = () => {
-        const bindings: Record<string, t.Identifier> = paramsPath.reduce(
-          (paramsLookup, param) => {
-            return Object.assign(paramsLookup, param.getBindingIdentifiers());
-          },
-          {}
-        );
-        return callRuntime(
-          "loop",
-          getNodeLiteral(reserve!),
-          t.numericLiteral(countReserves(references) || 1),
-          rendererId,
-          t.arrayExpression(
-            Object.values(bindings).map(
-              (binding) =>
-                getSignal(bodySectionId, binding.extra.reserve).identifier
-            )
-          ),
-          t.arrowFunctionExpression(
-            [scopeIdentifier, t.arrayPattern(params)],
-            t.blockStatement(
-              Object.values(bindings).map((binding) => {
-                return t.expressionStatement(
-                  callRuntime(
-                    "setSource",
-                    scopeIdentifier,
-                    getSignal(bodySectionId, binding.extra.reserve).identifier,
-                    binding
-                  )
-                );
-              })
-            )
-          ),
-          getComputeFn(
-            sectionId,
-            t.arrayExpression([
-              ofAttrValue,
-              byAttr ? byAttr.value! : t.nullLiteral(),
-            ]),
-            references
-          )
-        );
-      };
-      subscribe(references, signal);
-
-      for (const param of params) {
-        initSource(param.extra?.reserve as Reserve);
-      }
-
-      // valParam.extra.reserve
-
-      // export function loop<S extends Scope, C extends Scope, T>(
-      //   nodeAccessor: number,
-      //   defaultMark: number,
-      //   renderer: Renderer,
-      //   paramSubscribers: Signal[],
-      //   setParams: (scope: C, params: [T, number, T[]]) => void,
-      //   compute: (scope: S) => [T[], (x: T) => unknown],
-      //   fragment?: DOMFragment,
-      // ) {
-
-      // addStatement(
-      //   "apply",
-      //   sectionId,
-      //   // TODO: should merge byAttr refereces with ofAttr references
-      //   ofAttr.extra?.valueReferences,
-      //   t.expressionStatement(
-      //     callRuntime(
-      //       "setLoopOf",
-      //       scopeIdentifier,
-      //       getNodeLiteral(reserve!),
-      //       ofAttrValue,
-      //       rendererId,
-      //       byAttr ? byAttr.value! : t.nullLiteral(),
-      //       getReferenceGroup(bodySectionId, valParam.extra.reserve).apply
-      //     )
-      //   )
-      // );
+      loopFunctionBody = t.arrayExpression([
+        ofAttr.value,
+        byAttr ? byAttr.value : t.nullLiteral(),
+      ]);
     } else if (toAttr) {
       const fromAttr = findName(attributes, "from");
       const stepAttr = findName(attributes, "step");
 
-      const toAttrValue = toAttr.value;
-      const fromAttrValue = fromAttr ? fromAttr.value : t.numericLiteral(0);
-      const stepAttrValue = stepAttr ? stepAttr.value : t.numericLiteral(1);
+      loopFunctionBody = callRuntime(
+        "computeLoopFromTo",
+        fromAttr ? fromAttr.value : t.numericLiteral(0),
+        toAttr.value,
+        stepAttr ? stepAttr.value : t.numericLiteral(1)
+      );
+    }
 
-      const [valParam] = params;
-
-      if (!t.isIdentifier(valParam)) {
-        throw tag.buildCodeFrameError(
-          `Invalid 'for of' tag, |value| parameter must be an identifier.`
-        );
-      }
-
-      const rendererId = writer.getRenderer(bodySectionId);
-
-      tag.remove();
-
-      const references = mergeReferenceGroups(
-        sectionId,
-        [fromAttr, toAttr, stepAttr]
-          .filter(
-            (attr): attr is Exclude<typeof attr, undefined> =>
-              attr?.extra?.valueReferences !== undefined
+    const signal = getSignal(sectionId, reserve);
+    signal.build = () => {
+      const bindings: Record<string, t.Identifier> = paramsPath.reduce(
+        (paramsLookup, param) => {
+          return Object.assign(paramsLookup, param.getBindingIdentifiers());
+        },
+        {}
+      );
+      return callRuntime(
+        "loop",
+        getNodeLiteral(reserve!),
+        t.numericLiteral(countReserves(references) || 1),
+        rendererId,
+        t.arrayExpression(
+          Object.values(bindings).map(
+            (binding) =>
+              getSignal(bodySectionId, binding.extra.reserve).identifier
           )
-          .map((attr) => [attr.extra, "valueReferences"])
-      ).references;
-
-      const signal = getSignal(sectionId, reserve);
-      signal.build = () => {
-        const bindings: Record<string, t.Identifier> = paramsPath.reduce(
-          (paramsLookup, param) =>
-            Object.assign(paramsLookup, param.getBindingIdentifiers()),
-          {}
-        );
-        return callRuntime(
-          "loop",
-          getNodeLiteral(reserve!),
-          t.numericLiteral(countReserves(references) || 1),
-          rendererId,
-          t.arrayExpression(
-            Object.values(bindings).map(
-              (binding) =>
-                getSignal(bodySectionId, binding.extra.reserve).identifier
-            )
-          ),
-          t.arrowFunctionExpression(
-            [scopeIdentifier, t.arrayPattern(params)],
-            t.blockStatement(
-              Object.values(bindings).map((binding) =>
-                t.expressionStatement(
-                  callRuntime(
-                    "setSource",
-                    scopeIdentifier,
-                    getSignal(bodySectionId, binding.extra.reserve).identifier,
-                    binding
-                  )
+        ),
+        t.arrowFunctionExpression(
+          [scopeIdentifier, t.arrayPattern(params)],
+          t.blockStatement(
+            Object.values(bindings).map((binding) =>
+              t.expressionStatement(
+                callRuntime(
+                  "setSource",
+                  scopeIdentifier,
+                  getSignal(bodySectionId, binding.extra.reserve).identifier,
+                  binding
                 )
               )
             )
-          ),
-          getComputeFn(
-            sectionId,
-            callRuntime(
-              "computeLoopFromTo",
-              fromAttrValue,
-              toAttrValue,
-              stepAttrValue
-            ),
-            references
           )
-        );
-      };
-      subscribe(references, signal);
-
-      for (const param of params) {
-        initSource(param.extra?.reserve as Reserve);
-      }
+        ),
+        getComputeFn(sectionId, loopFunctionBody, references)
+      );
+    };
+    subscribe(references, signal);
+    for (const param of params) {
+      initSource(param.extra?.reserve as Reserve);
     }
   },
 };
