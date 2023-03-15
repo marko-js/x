@@ -1,4 +1,4 @@
-import { data as _data, computeLoopIn as _computeLoopIn, computeLoopFromTo as _computeLoopFromTo, attr as _attr, createRenderer as _createRenderer, source as _source, setSource as _setSource, loop as _loop, notifySignal as _notifySignal, derivation as _derivation, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
+import { data as _data, computeLoopIn as _computeLoopIn, computeLoopToFrom as _computeLoopToFrom, attr as _attr, createRenderer as _createRenderer, source as _source, setSource as _setSource, loop as _loop, notifySignal as _notifySignal, derivation as _derivation, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _forBody11 = /* @__PURE__ */_createRenderer("Hello", "");
 const _forBody10 = /* @__PURE__ */_createRenderer("Hello", "");
 const _i$forBody7 = /* @__PURE__ */_source("i", [], (_scope, i) => {
@@ -13,7 +13,7 @@ const _i$forBody6 = /* @__PURE__ */_source("i", [], (_scope, i) => {
   _attr(_scope["#div/2"], "key", `other-${i}`);
 });
 const _forBody8 = /* @__PURE__ */_createRenderer("<div> </div><div></div><div></div>", /* get, next(1), get, out(1), over(1), get */" D lb ");
-const _for$forBody = /* @__PURE__ */_loop("#text/3", 1, _forBody8, [_i$forBody6], (_scope, [i]) => _setSource(_scope, _i$forBody6, i), _scope => _computeLoopFromTo(0, 10, 2));
+const _for$forBody = /* @__PURE__ */_loop("#text/3", 1, _forBody8, [_i$forBody6], (_scope, [i]) => _setSource(_scope, _i$forBody6, i), _scope => _computeLoopToFrom(10, 0, 2));
 const _i$forBody5 = /* @__PURE__ */_source("i", [], (_scope, i) => {
   _attr(_scope["#div/0"], "key", i);
   _data(_scope["#text/1"], i);
@@ -49,10 +49,10 @@ const _forBody2 = /* @__PURE__ */_createRenderer("<div><!>: <!></div><div></div>
 const _i$forBody = /* @__PURE__ */_source("i", [], (_scope, i) => _data(_scope["#text/0"], i));
 const _val$forBody = /* @__PURE__ */_source("val", [], (_scope, val) => _data(_scope["#text/1"], val));
 const _forBody = /* @__PURE__ */_createRenderer("<div><!>: <!></div><div></div><div></div>", /* next(1), replace, over(2), replace */"D%c%");
-const _for10 = /* @__PURE__ */_loop("#text/9", 1, _forBody11, [], null, _scope => _computeLoopFromTo(0, 10, 1));
-const _for9 = /* @__PURE__ */_loop("#text/8", 1, _forBody10, [], null, _scope => _computeLoopFromTo(0, 10, 1));
-const _for8 = /* @__PURE__ */_loop("#text/7", 1, _forBody9, [_i$forBody7], (_scope, [i]) => _setSource(_scope, _i$forBody7, i), _scope => _computeLoopFromTo(10, 0, -2));
-const _for7 = /* @__PURE__ */_loop("#text/6", 1, _forBody7, [_i$forBody5], (_scope, [i]) => _setSource(_scope, _i$forBody5, i), _scope => _computeLoopFromTo(0, 10, 2));
+const _for10 = /* @__PURE__ */_loop("#text/9", 1, _forBody11, [], null, _scope => _computeLoopToFrom(10, 0, 1));
+const _for9 = /* @__PURE__ */_loop("#text/8", 1, _forBody10, [], null, _scope => _computeLoopToFrom(10, 0, 1));
+const _for8 = /* @__PURE__ */_loop("#text/7", 1, _forBody9, [_i$forBody7], (_scope, [i]) => _setSource(_scope, _i$forBody7, i), _scope => _computeLoopToFrom(0, 10, -2));
+const _for7 = /* @__PURE__ */_loop("#text/6", 1, _forBody7, [_i$forBody5], (_scope, [i]) => _setSource(_scope, _i$forBody5, i), _scope => _computeLoopToFrom(10, 0, 2));
 const _for6 = /* @__PURE__ */_loop("#text/5", 1, _forBody6, [_key$forBody2, _val$forBody5], (_scope, [[key, val]]) => {
   _setSource(_scope, _key$forBody2, key);
   _setSource(_scope, _val$forBody5, val);
@@ -66,7 +66,7 @@ const _for4 = /* @__PURE__ */_loop("#text/3", 1, _forBody4, [_val$forBody3, _i$f
   _setSource(_scope, _val$forBody3, val);
   _setSource(_scope, _i$forBody3, i);
 }, (_scope, arr = _scope["arr"]) => [arr, null]);
-const _for3 = /* @__PURE__ */_loop("#text/2", 1, _forBody3, [_i$forBody2], (_scope, [i]) => _setSource(_scope, _i$forBody2, i), _scope => _computeLoopFromTo(0, 10, 2));
+const _for3 = /* @__PURE__ */_loop("#text/2", 1, _forBody3, [_i$forBody2], (_scope, [i]) => _setSource(_scope, _i$forBody2, i), _scope => _computeLoopToFrom(10, 0, 2));
 const _for2 = /* @__PURE__ */_loop("#text/1", 1, _forBody2, [_key$forBody, _val$forBody2], (_scope, [[key, val]]) => {
   _setSource(_scope, _key$forBody, key);
   _setSource(_scope, _val$forBody2, val);

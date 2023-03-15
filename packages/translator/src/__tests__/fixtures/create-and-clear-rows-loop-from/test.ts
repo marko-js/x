@@ -14,7 +14,7 @@ export const steps = [
   {
     from: 0,
     to: -1,
-    step: 0.3,
+    step: -0.3,
   },
   {
     from: 0,

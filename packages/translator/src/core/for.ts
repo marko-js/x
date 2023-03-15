@@ -216,9 +216,9 @@ const translateDOM = {
       const stepAttr = findName(attributes, "step");
 
       loopFunctionBody = callRuntime(
-        "computeLoopFromTo",
-        fromAttr ? fromAttr.value : t.numericLiteral(0),
+        "computeLoopToFrom",
         toAttr.value,
+        fromAttr ? fromAttr.value : t.numericLiteral(0),
         stepAttr ? stepAttr.value : t.numericLiteral(1)
       );
     } else if (inAttr) {
@@ -288,7 +288,6 @@ const translateHTML = {
     const namePath = tag.get("name");
     const ofAttr = findName(attributes, "of");
     const inAttr = findName(attributes, "in");
-    const fromAttr = findName(attributes, "from");
     const toAttr = findName(attributes, "to");
     const block = t.blockStatement(body);
     const write = writer.writeTo(tag);
@@ -379,14 +378,16 @@ const translateHTML = {
           block
         )
       );
-    } else if (fromAttr && toAttr) {
-      const stepAttr = findName(attributes, "step") || {
-        value: t.numericLiteral(1),
-      };
-      const stepValue = stepAttr ? stepAttr.value : t.numericLiteral(1);
+    } else if (toAttr) {
+      const stepValue =
+        findName(attributes, "step")?.value ?? t.numericLiteral(1);
+      const fromValue =
+        findName(attributes, "from")?.value ?? t.numericLiteral(0);
       const [indexParam] = params;
       const stepsName = tag.scope.generateUidIdentifier("steps");
+      const indexName = tag.scope.generateUidIdentifier("i");
       const stepName = tag.scope.generateUidIdentifier("step");
+      const fromName = tag.scope.generateUidIdentifier("from");
 
       if (indexParam) {
         block.body.unshift(
@@ -395,8 +396,8 @@ const translateHTML = {
               indexParam,
               t.binaryExpression(
                 "+",
-                fromAttr.value!,
-                t.binaryExpression("*", stepName, stepValue!)
+                fromName,
+                t.binaryExpression("*", indexName, stepName)
               )
             ),
           ])
@@ -406,17 +407,25 @@ const translateHTML = {
       forNode = t.forStatement(
         t.variableDeclaration("let", [
           t.variableDeclarator(
+            fromName,
+            t.logicalExpression("??", fromValue, t.numericLiteral(0))
+          ),
+          t.variableDeclarator(
+            stepName,
+            t.logicalExpression("??", stepValue, t.numericLiteral(1))
+          ),
+          t.variableDeclarator(
             stepsName,
             t.binaryExpression(
               "/",
-              t.binaryExpression("-", toAttr.value!, fromAttr.value!),
-              stepValue!
+              t.binaryExpression("-", toAttr.value, fromName),
+              stepName
             )
           ),
-          t.variableDeclarator(stepName, t.numericLiteral(0)),
+          t.variableDeclarator(indexName, t.numericLiteral(0)),
         ]),
-        t.binaryExpression("<=", stepName, stepsName),
-        t.updateExpression("++", stepName),
+        t.binaryExpression("<=", indexName, stepsName),
+        t.updateExpression("++", indexName),
         block
       );
     }

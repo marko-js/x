@@ -1,7 +1,7 @@
-import { data as _data, computeLoopFromTo as _computeLoopFromTo, source as _source, createRenderer as _createRenderer, setSource as _setSource, loop as _loop, destructureSources as _destructureSources, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
+import { data as _data, computeLoopToFrom as _computeLoopToFrom, source as _source, createRenderer as _createRenderer, setSource as _setSource, loop as _loop, destructureSources as _destructureSources, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _n$forBody = /* @__PURE__ */_source("n", [], (_scope, n) => _data(_scope["#text/0"], n));
 const _forBody = /* @__PURE__ */_createRenderer("<!>, ", /* replace */"%");
-const _for = /* @__PURE__ */_loop("#div/0", 1, _forBody, [_n$forBody], (_scope, [n]) => _setSource(_scope, _n$forBody, n), (_scope, input = _scope["input"]) => _computeLoopFromTo(input.from, input.to, input.step));
+const _for = /* @__PURE__ */_loop("#div/0", 1, _forBody, [_n$forBody], (_scope, [n]) => _setSource(_scope, _n$forBody, n), (_scope, input = _scope["input"]) => _computeLoopToFrom(input.to, input.from, input.step));
 const _input = /* @__PURE__ */_source("input", [_for]);
 export const attrs = /* @__PURE__ */_destructureSources([_input], (_scope, input) => {
   _setSource(_scope, _input, input);

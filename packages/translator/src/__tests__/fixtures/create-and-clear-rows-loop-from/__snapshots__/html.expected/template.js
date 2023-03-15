@@ -3,8 +3,8 @@ const _renderer = _register((input, _tagVar, _scope0_) => {
   const _scope0_id = _nextScopeId();
   _write("<div>");
   const _scope1_ = [];
-  for (let _steps = (input.to - input.from) / input.step, _step = 0; _step <= _steps; _step++) {
-    const n = input.from + _step * input.step;
+  for (let _from = input.from ?? 0, _step = input.step ?? 1, _steps = (input.to - _from) / _step, _i = 0; _i <= _steps; _i++) {
+    const n = _from + _i * _step;
     const _scope1_id = _nextScopeId();
     _write(`${_markHydrateScopeStart(_scope1_id)}${_escapeXML(n)}${_markHydrateNode(_scope1_id, "#text/0")}, `);
     _writeHydrateScope(_scope1_id, {

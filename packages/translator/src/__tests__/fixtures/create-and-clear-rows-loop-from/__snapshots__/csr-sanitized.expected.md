@@ -1,13 +1,15 @@
 # Render {"to":3}
 ```html
-<div />
+<div>
+  0, 1, 2, 3, 
+</div>
 ```
 
 
 # Render {"from":4,"to":6}
 ```html
 <div>
-  4, 
+  4, 5, 6, 
 </div>
 ```
 
@@ -20,9 +22,11 @@
 ```
 
 
-# Render {"from":0,"to":-1,"step":0.3}
+# Render {"from":0,"to":-1,"step":-0.3}
 ```html
-<div />
+<div>
+  0, -0.3, -0.6, -0.8999999999999999, 
+</div>
 ```
 
 
