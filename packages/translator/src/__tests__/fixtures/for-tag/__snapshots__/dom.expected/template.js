@@ -1,4 +1,4 @@
-import { data as _data, computeLoopFromTo as _computeLoopFromTo, attr as _attr, createRenderer as _createRenderer, source as _source, setSource as _setSource, loop as _loop, notifySignal as _notifySignal, derivation as _derivation, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
+import { data as _data, computeLoopIn as _computeLoopIn, computeLoopFromTo as _computeLoopFromTo, attr as _attr, createRenderer as _createRenderer, source as _source, setSource as _setSource, loop as _loop, notifySignal as _notifySignal, derivation as _derivation, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _forBody11 = /* @__PURE__ */_createRenderer("Hello", "");
 const _forBody10 = /* @__PURE__ */_createRenderer("Hello", "");
 const _i$forBody7 = /* @__PURE__ */_source("i", [], (_scope, i) => {
@@ -53,10 +53,10 @@ const _for10 = /* @__PURE__ */_loop("#text/9", 1, _forBody11, [], null, _scope =
 const _for9 = /* @__PURE__ */_loop("#text/8", 1, _forBody10, [], null, _scope => _computeLoopFromTo(0, 10, 1));
 const _for8 = /* @__PURE__ */_loop("#text/7", 1, _forBody9, [_i$forBody7], (_scope, [i]) => _setSource(_scope, _i$forBody7, i), _scope => _computeLoopFromTo(10, 0, -2));
 const _for7 = /* @__PURE__ */_loop("#text/6", 1, _forBody7, [_i$forBody5], (_scope, [i]) => _setSource(_scope, _i$forBody5, i), _scope => _computeLoopFromTo(0, 10, 2));
-const _for6 = /* @__PURE__ */_loop("#text/5", 1, _forBody6, [_key$forBody2, _val$forBody5], (_scope, [key, val]) => {
+const _for6 = /* @__PURE__ */_loop("#text/5", 1, _forBody6, [_key$forBody2, _val$forBody5], (_scope, [[key, val]]) => {
   _setSource(_scope, _key$forBody2, key);
   _setSource(_scope, _val$forBody5, val);
-}, (_scope, obj = _scope["obj"]) => null);
+}, (_scope, obj = _scope["obj"]) => _computeLoopIn(obj));
 const _for5 = /* @__PURE__ */_loop("#text/4", 1, _forBody5, [_val$forBody4, _i$forBody4, _list$forBody], (_scope, [val, i, list]) => {
   _setSource(_scope, _val$forBody4, val);
   _setSource(_scope, _i$forBody4, i);
@@ -67,10 +67,10 @@ const _for4 = /* @__PURE__ */_loop("#text/3", 1, _forBody4, [_val$forBody3, _i$f
   _setSource(_scope, _i$forBody3, i);
 }, (_scope, arr = _scope["arr"]) => [arr, null]);
 const _for3 = /* @__PURE__ */_loop("#text/2", 1, _forBody3, [_i$forBody2], (_scope, [i]) => _setSource(_scope, _i$forBody2, i), _scope => _computeLoopFromTo(0, 10, 2));
-const _for2 = /* @__PURE__ */_loop("#text/1", 1, _forBody2, [_key$forBody, _val$forBody2], (_scope, [key, val]) => {
+const _for2 = /* @__PURE__ */_loop("#text/1", 1, _forBody2, [_key$forBody, _val$forBody2], (_scope, [[key, val]]) => {
   _setSource(_scope, _key$forBody, key);
   _setSource(_scope, _val$forBody2, val);
-}, (_scope, obj = _scope["obj"]) => null);
+}, (_scope, obj = _scope["obj"]) => _computeLoopIn(obj));
 const _for = /* @__PURE__ */_loop("#text/0", 1, _forBody, [_val$forBody, _i$forBody], (_scope, [val, i]) => {
   _setSource(_scope, _val$forBody, val);
   _setSource(_scope, _i$forBody, i);

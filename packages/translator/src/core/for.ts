@@ -172,8 +172,6 @@ const translateDOM = {
     const {
       extra: { reserve },
     } = isOnlyChild ? (tag.parentPath.parent as t.MarkoTag) : tag.node;
-    const ofAttr = findName(attributes, "of");
-    const toAttr = findName(attributes, "to");
 
     setSubscriberBuilder(tag, (signal: t.Expression) => {
       return callRuntime("inLoopScope", signal, getNodeLiteral(reserve!));
@@ -201,7 +199,12 @@ const translateDOM = {
         .map((attr) => [attr.extra, "valueReferences"])
     )?.references;
 
+    const ofAttr = findName(attributes, "of");
+    const toAttr = findName(attributes, "to");
+    const inAttr = findName(attributes, "in");
+
     let loopFunctionBody: t.Expression | t.BlockStatement = t.nullLiteral();
+    let tagParams = params;
     if (ofAttr) {
       const byAttr = findName(attributes, "by");
       loopFunctionBody = t.arrayExpression([
@@ -218,6 +221,10 @@ const translateDOM = {
         toAttr.value,
         stepAttr ? stepAttr.value : t.numericLiteral(1)
       );
+    } else if (inAttr) {
+      loopFunctionBody = callRuntime("computeLoopIn", inAttr.value);
+      const [key, value, ...rest] = params;
+      tagParams = [t.arrayPattern([key, value]), ...rest];
     }
 
     const signal = getSignal(sectionId, reserve);
@@ -240,7 +247,7 @@ const translateDOM = {
           )
         ),
         t.arrowFunctionExpression(
-          [scopeIdentifier, t.arrayPattern(params)],
+          [scopeIdentifier, t.arrayPattern(tagParams)],
           t.blockStatement(
             Object.values(bindings).map((binding) =>
               t.expressionStatement(
