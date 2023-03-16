@@ -223,8 +223,7 @@ const translateDOM = {
       );
     } else if (inAttr) {
       loopFunctionBody = callRuntime("computeLoopIn", inAttr.value);
-      const [key, value, ...rest] = params;
-      tagParams = [t.arrayPattern([key, value]), ...rest];
+      tagParams = [t.arrayPattern(params)];
     }
 
     const signal = getSignal(sectionId, reserve);
@@ -505,7 +504,7 @@ function validateFor(tag: t.NodePath<t.MarkoTag>) {
         `Invalid 'for in' tag, missing |key, value| params.`
       );
     }
-  } else if (findName(attrs, "from") && findName(attrs, "to")) {
+  } else if (findName(attrs, "to")) {
     assertAllowedAttributes(tag, ["from", "to", "step", "by"]);
   } else {
     throw tag.buildCodeFrameError(

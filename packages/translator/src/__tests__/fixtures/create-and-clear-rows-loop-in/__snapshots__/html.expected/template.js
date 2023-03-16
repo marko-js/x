@@ -14,7 +14,19 @@ const _renderer = _register((input, _tagVar, _scope0_) => {
     _maybeFlush();
     _forScopeIds.push(_scope1_id);
   }
-  _write(`${_markHydrateControlSingleNodeEnd(_scope0_id, "#div/0", _forScopeIds)}</div>${_markHydrateNode(_scope0_id, "#div/0")}`);
+  _write(`${_markHydrateControlSingleNodeEnd(_scope0_id, "#text/0", _forScopeIds)}`);
+  let _forScopeIds2 = [];
+  const _scope2_ = [];
+  for (const key in input.children) {
+    const _scope2_id = _nextScopeId();
+    _write(`<p>${_escapeXML(key)}${_markHydrateNode(_scope2_id, "#text/0")}</p>`);
+    _writeHydrateScope(_scope2_id, {
+      [_SYMBOL_OWNER]: _scope0_id
+    }, _scope2_);
+    _maybeFlush();
+    _forScopeIds2.push(_scope2_id);
+  }
+  _write(`${_markHydrateControlSingleNodeEnd(_scope0_id, "#text/1", _forScopeIds2)}</div>`);
 }, "packages/translator/src/__tests__/fixtures/create-and-clear-rows-loop-in/template.marko");
 export default _renderer;
 export const render = /* @__PURE__ */_createRenderer(_renderer);

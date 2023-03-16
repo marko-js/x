@@ -10,6 +10,15 @@
   <p>
     3: c
   </p>
+  <p>
+    1
+  </p>
+  <p>
+    2
+  </p>
+  <p>
+    3
+  </p>
 </div>
 ```
 
@@ -26,7 +35,14 @@ inserted div0
 
 # Mutations
 ```
-removed p, p, p in div0
+inserted div0/#text0
+removed p before p
+removed p before p
+removed p before div0/#text0
+inserted div0/#text1
+removed p after div0/#text0
+removed p after div0/#text0
+removed p after div0/#text0
 ```
 
 
@@ -42,6 +58,15 @@ removed p, p, p in div0
   <p>
     3: c
   </p>
+  <p>
+    1
+  </p>
+  <p>
+    2
+  </p>
+  <p>
+    3
+  </p>
 </div>
 ```
 
@@ -50,4 +75,9 @@ removed p, p, p in div0
 inserted div0/p0
 inserted div0/p1
 inserted div0/p2
+removed #text before div0/p0
+inserted div0/p3
+inserted div0/p4
+inserted div0/p5
+removed #text after div0/p2
 ```
