@@ -223,50 +223,6 @@ export function destructureValue2<T>(
   };
 }
 
-/*
-<const/{ a, b: { c } } = input/>
-
-<const/a = input.a/>
-<const/c = input.b.c/>
-
-
-const destructureAttrs = (scope, { a, b: { c } } = EmptyProxy, dirty) => {
-  _a(scope, a, dirty);
-  _c(scope, c, dirty);
-}
-
-const destructureAttrs = (scope, value, dirty) => {
-  _a(scope, dirty && value.a, dirty);
-  _c(scope, dirty && value.b.c, dirty);
-}
-
-const destructureAttrs = (scope, value, dirty) => {
-  let a, c;
-  if (dirty) {
-    ({ a, b: { c } } = value);
-  }
-  _a(scope, a, dirty);
-  _c(scope, c, dirty);
-}
-
-
-const destructureAttrs = destructureValue2(({ a, b: { c } }) => [a,c], [_a, _c]);
-
-// const destructureAttrs = (scope, { a, b: { c } }) => {
-//   _a(scope, a);
-//   _c(scope, c);
-// }
-
-*/
-
-// TODO:
-// export function derivedSource?() {
-// }
-
-// TODO:
-// export function controllableSource() {
-// }
-
 export function dynamicSubscribers(
   subscribers: BoundIntersectionSignal[],
   dirty = true

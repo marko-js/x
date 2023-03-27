@@ -314,32 +314,6 @@ export function getSignalFn(
   return t.arrowFunctionExpression(params, t.blockStatement(statements));
 }
 
-// const destructureAttrs = (scope, value, dirty) => {
-//   let a, c;
-//   if (dirty) {
-//     ({ a, b: { c } } = value);
-//   }
-//   _a(scope, a, dirty);
-//   _c(scope, c, dirty);
-// }
-export function getDestructureSignalFromPaths(
-  path: t.NodePath<t.Identifier | t.Pattern | t.RestElement>[]
-) {
-  const bindings = path.reduce((bindingsLookup, path) => {
-    return Object.assign(bindingsLookup, path.getBindingIdentifiers());
-  }, {});
-  const destructurePattern = t.arrayPattern(path.map((p) => p.node));
-
-  return getDestructureSignal(bindings, destructurePattern);
-}
-
-export function getDestructureSignalFromPath(path: t.NodePath<t.Pattern>) {
-  return getDestructureSignal(
-    path.getBindingIdentifiers() as any as Record<string, t.Identifier>,
-    path.node
-  );
-}
-
 export function getDestructureSignal(
   bindingsByName: Record<string, t.Identifier>,
   destructurePattern: t.LVal
@@ -575,11 +549,6 @@ export function writeAllStatementGroups() {
     writeSignals(sectionId);
   });
 }
-
-// const [getClosurePriorities] = createSectionState<Array<t.NumericLiteral>>(
-//   "closurePriorities",
-//   () => []
-// );
 
 export function writeSignals(sectionId: number) {
   const signals = getSignals(sectionId);
