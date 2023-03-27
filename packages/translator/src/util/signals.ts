@@ -9,25 +9,39 @@ import {
   getScopeIdentifier,
 } from "./sections";
 import { Reserve, insertReserve, getNodeLiteral, ReserveType } from "./reserve";
-import { currentProgramPath, scopeIdentifier } from "../visitors/program";
+import {
+  currentProgramPath,
+  dirtyIdentifier,
+  scopeIdentifier,
+} from "../visitors/program";
 import { callRuntime, callRead } from "./runtime";
 import { getTemplateId } from "@marko/babel-utils";
 import type { NodePath } from "@marko/compiler/babel-types";
 import { returnId } from "../core/return";
+import { isOutputHTML } from "./marko-config";
 
-export type subscribeBuilder = (subscriber: t.Expression) => t.Expression;
+export type subscribeBuilder = (subscriber: t.Expression) => t.Statement;
 
-type Signal = {
+export type Signal = {
   identifier: t.Identifier;
   reserve: undefined | Reserve | Reserve[];
   sectionId: number;
   build: () => t.Expression;
   register?: boolean;
+  values: Array<{
+    signal: {
+      identifier: t.Identifier;
+      hasDownstreamIntersections: () => boolean;
+    };
+    value: t.Expression;
+    scope: t.Expression;
+  }>;
+  intersection: t.Statement[];
   render: t.Statement[];
   hydrate: t.Statement[];
   hydrateInlineReferences: undefined | Reserve | Reserve[];
-  subscribers: t.Expression[];
   closures: Map<number /* sectionId */, Signal>;
+  hasDownstreamIntersections: () => boolean;
   hasDynamicSubscribers?: true;
 };
 
@@ -96,22 +110,20 @@ export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
         identifier: t.identifier(generateSignalName(sectionId, reserve)),
         reserve,
         sectionId,
+        values: [],
+        intersection: [],
         render: [],
         hydrate: [],
         hydrateInlineReferences: undefined,
         subscribers: [],
+        hasDownstreamIntersections: () => signal.intersection.length > 0,
       } as any as Signal)
     );
 
-    if (!reserve) {
+    if (isOutputHTML()) {
+      return signal;
+    } else if (!reserve) {
       signal.build = () => {
-        for (const subscriber of signal.subscribers) {
-          signal.render.push(
-            t.expressionStatement(
-              callRuntime("notifySignal", scopeIdentifier, subscriber)
-            )
-          );
-        }
         return t.arrowFunctionExpression(
           [scopeIdentifier],
           t.blockStatement(signal.render)
@@ -121,10 +133,9 @@ export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
       subscribe(reserve, signal);
       signal.build = () => {
         return callRuntime(
-          "subscriber",
-          t.arrayExpression(signal.subscribers),
+          "intersection",
           t.numericLiteral(reserve.length),
-          getComputeFn(sectionId, t.blockStatement(signal.render), reserve)
+          getSignalFn(signal, [scopeIdentifier], reserve)
         );
       };
     } else if (reserve.sectionId !== sectionId) {
@@ -134,11 +145,23 @@ export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
         const builder = getSubscribeBuilder(sectionId);
         const provider = getSignal(reserve.sectionId, reserve);
         if (builder) {
-          provider.subscribers.push(builder(signal.identifier));
+          provider.intersection.push(builder(signal.identifier));
         } else if (!provider.hasDynamicSubscribers) {
+          const dynamicSubscribersKey = getNodeLiteral(reserve);
+          dynamicSubscribersKey.value += AccessorChars.SUBSCRIBERS;
           provider.hasDynamicSubscribers = true;
-          provider.subscribers.push(
-            callRuntime("dynamicSubscribers", getNodeLiteral(reserve))
+          provider.intersection.push(
+            t.expressionStatement(
+              callRuntime(
+                "dynamicSubscribers",
+                t.memberExpression(
+                  scopeIdentifier,
+                  dynamicSubscribersKey,
+                  true
+                ),
+                dirtyIdentifier
+              )
+            )
           );
         }
 
@@ -146,13 +169,8 @@ export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
           // TODO: this should use `closure` for <if> and <for>
           builder ? "closure" : "dynamicClosure",
           // TODO: read from an owner multiple levels up
-          t.numericLiteral(1),
           getNodeLiteral(reserve),
-          t.arrayExpression(signal.subscribers),
-          t.arrowFunctionExpression(
-            [scopeIdentifier, t.identifier(reserve.name)],
-            t.blockStatement(signal.render)
-          )
+          getSignalFn(signal, [scopeIdentifier, t.identifier(reserve.name)])
         );
       };
     } else {
@@ -164,51 +182,30 @@ export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
   return signal;
 }
 
-export function initSource(reserve: Reserve) {
-  const sectionId = reserve.sectionId;
-  const signal = getSignal(sectionId, reserve);
-  signal.build = () => {
-    return callRuntime(
-      "source",
-      getNodeLiteral(reserve),
-      t.arrayExpression(signal.subscribers),
-      t.arrowFunctionExpression(
-        [scopeIdentifier, t.identifier(reserve.name)],
-        t.blockStatement(signal.render)
-      )
-    );
-  };
-  return signal;
-}
-
-export function initDerivation(
+export function initValue(
   reserve: Reserve,
-  providers: undefined | Reserve | Reserve[],
-  compute: t.Expression
+  valueAccessor = getNodeLiteral(reserve)
 ) {
   const sectionId = reserve.sectionId;
   const signal = getSignal(sectionId, reserve);
   signal.build = () => {
-    return callRuntime(
-      "derivation",
-      getNodeLiteral(reserve),
-      t.numericLiteral(Array.isArray(providers) ? providers.length : 1),
-      t.arrayExpression(signal.subscribers),
-      getComputeFn(sectionId, compute, providers),
-      t.arrowFunctionExpression(
-        [scopeIdentifier, t.identifier(reserve.name)],
-        t.blockStatement(signal.render)
-      )
-    );
+    const fn = getSignalFn(signal, [
+      scopeIdentifier,
+      t.identifier(reserve.name),
+    ]);
+    if ((fn.body as t.BlockStatement).body.length > 0) {
+      return callRuntime("value", valueAccessor, fn);
+    } else {
+      return fn;
+    }
   };
-  subscribe(providers, signal);
   return signal;
 }
 
 export function initContextProvider(
   templateId: string,
   reserve: Reserve,
-  providers: undefined | Reserve | Reserve[],
+  providers: ReferenceGroup | undefined,
   compute: t.Expression,
   renderer: t.Identifier
 ) {
@@ -217,23 +214,21 @@ export function initContextProvider(
   const valueAccessor = t.stringLiteral(
     `${reserve.id}${AccessorChars.CONTEXT_VALUE}`
   );
+  const subscribersAccessor = t.stringLiteral(
+    `${reserve.id}${AccessorChars.CONTEXT_VALUE}${AccessorChars.SUBSCRIBERS}`
+  );
 
-  const signal = getSignal(sectionId, reserve);
-  signal.build = () => {
-    return callRuntime(
-      "derivation",
-      valueAccessor,
-      t.numericLiteral(Array.isArray(providers) ? providers.length : 1),
-      t.arrayExpression(signal.subscribers),
-      getComputeFn(sectionId, compute, providers),
-      t.arrowFunctionExpression(
-        [scopeIdentifier, t.identifier(reserve.name)],
-        t.blockStatement(signal.render)
+  const signal = initValue(reserve, valueAccessor);
+  addValue(sectionId, providers, signal, compute);
+  signal.intersection.push(
+    t.expressionStatement(
+      callRuntime(
+        "dynamicSubscribers",
+        t.memberExpression(scopeIdentifier, subscribersAccessor, true),
+        dirtyIdentifier
       )
-    );
-  };
-  subscribe(providers, signal);
-  signal.subscribers.push(callRuntime("dynamicSubscribers", valueAccessor));
+    )
+  );
 
   addStatement(
     "apply",
@@ -263,41 +258,131 @@ export function initContextConsumer(templateId: string, reserve: Reserve) {
       "contextClosure",
       getNodeLiteral(reserve),
       t.stringLiteral(templateId),
-      t.arrayExpression(signal.subscribers),
-      t.arrowFunctionExpression(
-        [scopeIdentifier, t.identifier(reserve.name)],
-        t.blockStatement(signal.render)
-      )
+      getSignalFn(signal, [scopeIdentifier, t.identifier(reserve.name)])
     );
   };
 
   return signal;
 }
 
-export function getComputeFn(
-  sectionId: number,
-  body: t.Expression | t.BlockStatement,
-  references: undefined | Reserve | Reserve[]
+export function getSignalFn(
+  signal: Signal,
+  params: Array<t.Identifier | t.Pattern>,
+  references?: undefined | Reserve | Reserve[]
 ) {
-  const params: Array<t.Identifier | t.Pattern> = [scopeIdentifier];
+  const sectionId = signal.sectionId;
+  const needsDirty = signal.intersection.length > 0;
+  let statements;
+
   if (Array.isArray(references)) {
-    references.forEach((binding) =>
-      params.push(
-        t.assignmentPattern(
-          t.identifier(binding.name),
-          callRead(binding, sectionId)
+    signal.render.unshift(
+      t.variableDeclaration(
+        "const",
+        references.map((binding) =>
+          t.variableDeclarator(
+            t.identifier(binding.name),
+            callRead(binding, sectionId)
+          )
         )
       )
     );
   } else if (references) {
-    params.push(
-      t.assignmentPattern(
-        t.identifier(references.name),
-        callRead(references, sectionId)
-      )
+    signal.render.unshift(
+      t.variableDeclaration("const", [
+        t.variableDeclarator(
+          t.identifier(references.name),
+          callRead(references, sectionId)
+        ),
+      ])
     );
   }
-  return t.arrowFunctionExpression(params, body);
+
+  if (needsDirty) {
+    params.push(dirtyIdentifier);
+    if (signal.render.length) {
+      statements = [
+        t.ifStatement(dirtyIdentifier, t.blockStatement(signal.render)),
+        ...signal.intersection,
+      ];
+    } else {
+      statements = signal.intersection;
+    }
+  } else {
+    statements = signal.render;
+  }
+
+  return t.arrowFunctionExpression(params, t.blockStatement(statements));
+}
+
+// const destructureAttrs = (scope, value, dirty) => {
+//   let a, c;
+//   if (dirty) {
+//     ({ a, b: { c } } = value);
+//   }
+//   _a(scope, a, dirty);
+//   _c(scope, c, dirty);
+// }
+export function getDestructureSignalFromPaths(
+  path: t.NodePath<t.Identifier | t.Pattern | t.RestElement>[]
+) {
+  const bindings = path.reduce((bindingsLookup, path) => {
+    return Object.assign(bindingsLookup, path.getBindingIdentifiers());
+  }, {});
+  const destructurePattern = t.arrayPattern(path.map((p) => p.node));
+
+  return getDestructureSignal(bindings, destructurePattern);
+}
+
+export function getDestructureSignalFromPath(path: t.NodePath<t.Pattern>) {
+  return getDestructureSignal(
+    path.getBindingIdentifiers() as any as Record<string, t.Identifier>,
+    path.node
+  );
+}
+
+export function getDestructureSignal(
+  bindingsByName: Record<string, t.Identifier>,
+  destructurePattern: t.LVal
+) {
+  const bindings = Object.values(bindingsByName);
+  if (bindings.length) {
+    const valueIdentifier =
+      currentProgramPath.scope.generateUidIdentifier("destructure");
+    const bindingSignals = bindings.map((binding) =>
+      initValue(binding.extra?.reserve as Reserve)
+    );
+
+    const declarations = t.variableDeclaration(
+      "let",
+      bindings.map((binding) => t.variableDeclarator(binding))
+    );
+
+    return t.arrowFunctionExpression(
+      [
+        scopeIdentifier,
+        valueIdentifier,
+        t.assignmentPattern(dirtyIdentifier, t.booleanLiteral(true)),
+      ],
+      t.blockStatement([
+        declarations,
+        t.ifStatement(
+          dirtyIdentifier,
+          t.expressionStatement(
+            t.assignmentExpression("=", destructurePattern, valueIdentifier)
+          )
+        ),
+        ...bindingSignals.map((signal, i) =>
+          t.expressionStatement(
+            t.callExpression(signal.identifier, [
+              scopeIdentifier,
+              bindings[i],
+              dirtyIdentifier,
+            ])
+          )
+        ),
+      ])
+    );
+  }
 }
 
 export function subscribe(
@@ -309,7 +394,14 @@ export function subscribe(
     return;
   }
   const providerSignal = getSignal(subscriber.sectionId, provider);
-  providerSignal.subscribers.push(subscriber.identifier);
+  providerSignal.intersection.push(
+    t.expressionStatement(
+      t.callExpression(subscriber.identifier, [
+        scopeIdentifier,
+        dirtyIdentifier,
+      ])
+    )
+  );
 }
 
 function generateSignalName(
@@ -388,14 +480,14 @@ export function addStatement(
   isInlined?: boolean
 ): void;
 export function addStatement(
-  type: "apply",
+  type: "apply" | "intersection",
   targetSectionId: number,
   references: ReferenceGroup | undefined,
   statement: t.Statement | t.Statement[]
 ): void;
 export function addStatement(
   // TODO: rename "apply" to "render"
-  type: "apply" | "hydrate",
+  type: "apply" | "hydrate" | "intersection",
   targetSectionId: number,
   references: ReferenceGroup | undefined,
   statement: t.Statement | t.Statement[],
@@ -404,7 +496,7 @@ export function addStatement(
 ): void {
   const reserve = references?.references;
   const signal = getSignal(targetSectionId, reserve);
-  const statements = (signal[type === "apply" ? "render" : "hydrate"] ??= []);
+  const statements = (signal[type === "apply" ? "render" : type] ??= []);
 
   if (Array.isArray(statement)) {
     statements.push(...statement);
@@ -425,6 +517,18 @@ export function addStatement(
       }
     }
   }
+}
+
+export function addValue(
+  targetSectionId: number,
+  references: ReferenceGroup | undefined,
+  signal: Signal["values"][number]["signal"],
+  value: t.Expression,
+  scope: t.Expression = scopeIdentifier
+) {
+  const reserve = references?.references;
+  const targetSignal = getSignal(targetSectionId, reserve);
+  targetSignal.values.push({ signal, value, scope });
 }
 
 export function addHydrateReferences(signal: Signal, expression: t.Expression) {
@@ -482,15 +586,46 @@ export function writeSignals(sectionId: number) {
   const declarations = Array.from(signals.values())
     .sort(sortSignals)
     .flatMap((signal) => {
-      let value = signal.build();
-      if (signal.register) {
-        value = callRuntime(
-          "register",
-          t.stringLiteral(getHydrateRegisterId(sectionId, signal.reserve)),
-          value
-        );
+      const isSetup = !signal.reserve;
+      for (const value of signal.values) {
+        const callee = value.signal.identifier;
+        const needsDirty =
+          !isSetup && value.signal.hasDownstreamIntersections();
+        if (needsDirty) {
+          const valueIdentifier =
+            currentProgramPath.scope.generateUidIdentifier(
+              callee.name + "_value"
+            );
+          signal.render.push(
+            t.expressionStatement(
+              t.assignmentExpression("=", valueIdentifier, value.value)
+            )
+          );
+          // TODO: we unshift here because we if closures are called before other intersections
+          // that also intersect with the closure, the marking system breaks down (closures don't execute)
+          // however this is insufficient, because this isn't the only place where we add intersections
+          // we should fix this by making sure that closures are always called last
+          signal.intersection.unshift(
+            t.variableDeclaration("var", [
+              t.variableDeclarator(valueIdentifier),
+            ]),
+            t.expressionStatement(
+              t.callExpression(callee, [
+                value.scope,
+                valueIdentifier,
+                dirtyIdentifier,
+              ])
+            )
+          );
+        } else {
+          signal.render.push(
+            t.expressionStatement(
+              t.callExpression(callee, [value.scope, value.value])
+            )
+          );
+        }
       }
-      const signalDeclarator = t.variableDeclarator(signal.identifier, value);
+
       let hydrateDeclarator;
       if (signal.hydrate.length) {
         const hydrateIdentifier = t.identifier(
@@ -535,9 +670,18 @@ export function writeSignals(sectionId: number) {
         );
       }
 
+      let value = signal.build();
+      if (signal.register) {
+        value = callRuntime(
+          "register",
+          t.stringLiteral(getHydrateRegisterId(sectionId, signal.reserve)),
+          value
+        );
+      }
       if (t.isCallExpression(value)) {
         finalizeSignalArgs(value.arguments as any as t.Expression[]);
       }
+      const signalDeclarator = t.variableDeclarator(signal.identifier, value);
       return hydrateDeclarator
         ? [
             t.variableDeclaration("const", [hydrateDeclarator]),
@@ -726,7 +870,9 @@ function bindFunction(
   );
 
   node.params.unshift(scopeIdentifier);
-  fn.replaceWith(callRuntime("bind", scopeIdentifier, functionIdentifier));
+  fn.replaceWith(
+    callRuntime("bindFunction", scopeIdentifier, functionIdentifier)
+  );
 }
 
 export function getSetup(sectionId: number) {
