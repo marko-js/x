@@ -12,11 +12,7 @@ const _hydrate_x$ifBody = _register("packages/translator/src/__tests__/fixtures/
     document.getElementById("ref").textContent = "Destroy";
   }
 }));
-const _x$ifBody = /* @__PURE__ */_closure("x", (_scope, x, _dirty) => {
-  if (_dirty) {
-    _queueHydrate(_scope, _hydrate_x$ifBody);
-  }
-});
+const _x$ifBody = /* @__PURE__ */_closure("x", (_scope, x) => _queueHydrate(_scope, _hydrate_x$ifBody));
 const _ifBody = _register("packages/translator/src/__tests__/fixtures/lifecycle-tag-conditional/template.marko_1_renderer", /* @__PURE__ */_createRenderer("", "", null, [_x$ifBody]));
 const _if = /* @__PURE__ */_conditional("#text/0");
 const _hydrate_show = _register("packages/translator/src/__tests__/fixtures/lifecycle-tag-conditional/template.marko_0_show", _scope => _on(_scope["#button/2"], "click", function () {

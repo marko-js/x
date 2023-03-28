@@ -151,7 +151,6 @@ export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
       const provider = getSignal(reserve.sectionId, reserve);
       getClosures(sectionId).push(signal.identifier);
       provider.closures.set(sectionId, signal);
-      signal.hasDownstreamIntersections = () => true;
       signal.build = () => {
         // TODO: subscribe to an owner multiple levels up
         const builder = getSubscribeBuilder(sectionId);

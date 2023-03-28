@@ -1,10 +1,6 @@
 import { dynamicSubscribers as _dynamicSubscribers, initContextProvider as _initContextProvider, conditional as _conditional, dynamicClosure as _dynamicClosure, createRenderer as _createRenderer, value as _value, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _dynamicTagName$putBody = /* @__PURE__ */_conditional("#text/0");
-const _input$putBody = /* @__PURE__ */_dynamicClosure("input", (_scope, input, _dirty) => {
-  if (_dirty) {
-    _dynamicTagName$putBody(_scope, input.renderBody);
-  }
-});
+const _input$putBody = /* @__PURE__ */_dynamicClosure("input", (_scope, input) => _dynamicTagName$putBody(_scope, input.renderBody));
 const _putBody = /* @__PURE__ */_createRenderer("<!>", /* replace */"%", null, [_input$putBody]);
 const _put = /* @__PURE__ */_value("0:", (_scope, put, _dirty) => _dynamicSubscribers(_scope["0:*"], _dirty));
 const _input = /* @__PURE__ */_value("input", (_scope, input, _dirty) => _dynamicSubscribers(_scope["input*"], _dirty));

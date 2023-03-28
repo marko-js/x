@@ -7,11 +7,7 @@ const _setup$itemBody = _scope => {
 const _itemBody = /* @__PURE__ */_createRenderer("", /* get */" ", _setup$itemBody);
 const _ifBody = _register("packages/translator/src/__tests__/fixtures/at-tags-dynamic-with-params/template.marko_2_renderer", /* @__PURE__ */_createRenderer("", ""));
 const _if$helloBody = /* @__PURE__ */_conditional("#text/0");
-const _x$helloBody = /* @__PURE__ */_dynamicClosure("x", (_scope, x, _dirty) => {
-  if (_dirty) {
-    _if$helloBody(_scope, x ? _ifBody : null);
-  }
-});
+const _x$helloBody = /* @__PURE__ */_dynamicClosure("x", (_scope, x) => _if$helloBody(_scope, x ? _ifBody : null));
 const _helloBody = /* @__PURE__ */_createRenderer("<!>", /* replace */"%", null, [_x$helloBody]);
 const _x = /* @__PURE__ */_value("x", (_scope, x, _dirty) => _dynamicSubscribers(_scope["x*"], _dirty));
 const _setup = _scope => {
