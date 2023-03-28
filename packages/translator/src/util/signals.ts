@@ -3,7 +3,6 @@ import type { ReferenceGroup } from "./references";
 import {
   getSectionId,
   createSectionState,
-  forEachSectionIdReverse,
   getOrCreateSectionId,
   getScopeIdIdentifier,
   getScopeIdentifier,
@@ -608,12 +607,6 @@ export function getHydrateRegisterId(
     }
   }
   return getTemplateId(optimize, `${filename}_${sectionId}${name}`);
-}
-
-export function writeAllStatementGroups() {
-  forEachSectionIdReverse((sectionId) => {
-    writeSignals(sectionId);
-  });
 }
 
 export function writeSignals(sectionId: number) {
