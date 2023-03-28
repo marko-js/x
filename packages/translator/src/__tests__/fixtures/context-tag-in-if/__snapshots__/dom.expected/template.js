@@ -3,10 +3,10 @@ const _x$ifBody = /* @__PURE__ */_contextClosure("x", "packages/translator/src/_
 const _ifBody = _register("packages/translator/src/__tests__/fixtures/context-tag-in-if/template.marko_2_renderer", /* @__PURE__ */_createRenderer("<span> </span>", /* next(1), get */"D ", null, [_x$ifBody]));
 const _if$putBody = /* @__PURE__ */_conditional("#text/0");
 const _show$putBody = /* @__PURE__ */_dynamicClosure("show", (_scope, show, _dirty) => {
+  let _if$putBody_value;
   if (_dirty) {
     _if$putBody_value = show ? _ifBody : null;
   }
-  var _if$putBody_value;
   _if$putBody(_scope, _if$putBody_value, _dirty);
 });
 const _putBody = /* @__PURE__ */_createRenderer("<!>", /* replace */"%", null, [_show$putBody]);

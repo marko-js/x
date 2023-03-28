@@ -10,12 +10,12 @@ const _hydrate_x = _register("packages/translator/src/__tests__/fixtures/context
   _queueSource(_scope, _x, x + 1);
 }));
 const _x = /* @__PURE__ */_value("x", (_scope, x, _dirty) => {
+  let _put_value;
   if (_dirty) {
     _data(_scope["#text/2"], x);
-    _put_value = x;
     _queueHydrate(_scope, _hydrate_x);
+    _put_value = x;
   }
-  var _put_value;
   _put(_scope, _put_value, _dirty);
 });
 const _setup = _scope => {

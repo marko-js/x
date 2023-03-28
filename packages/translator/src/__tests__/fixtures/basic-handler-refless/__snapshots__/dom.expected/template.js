@@ -4,8 +4,8 @@ const _hydrate_setup = _register("packages/translator/src/__tests__/fixtures/bas
   _queueSource(_scope, _data, 1);
 }));
 const _setup = _scope => {
-  _data(_scope, 0);
   _queueHydrate(_scope, _hydrate_setup);
+  _data(_scope, 0);
 };
 export const template = "<button> </button>";
 export const walks = /* get, next(1), get, out(1) */" D l";

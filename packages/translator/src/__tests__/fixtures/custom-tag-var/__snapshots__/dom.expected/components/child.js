@@ -4,12 +4,12 @@ const _hydrate_x = _register("packages/translator/src/__tests__/fixtures/custom-
   _queueSource(_scope, _x, x + 1);
 }));
 const _x = /* @__PURE__ */_value("x", (_scope, x, _dirty) => {
+  let _tagVarSignal_value;
   if (_dirty) {
     _data(_scope["#text/1"], x);
-    _tagVarSignal_value = x;
     _queueHydrate(_scope, _hydrate_x);
+    _tagVarSignal_value = x;
   }
-  var _tagVarSignal_value;
   _tagVarSignal(_scope, _tagVarSignal_value, _dirty);
 });
 const _setup = _scope => {

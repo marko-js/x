@@ -3,8 +3,8 @@ const _ifBody = /* @__PURE__ */_createRenderer("<div></div>", /* get */" ");
 const _if = /* @__PURE__ */_conditional("#text/0");
 const _hydrate_setup = _register("packages/translator/src/__tests__/fixtures/native-tag-ref-hoisting/template.marko_0", _scope => _scope._["#div/0"].textContent = "hello");
 const _setup = _scope => {
-  _if(_scope, true ? _ifBody : null);
   _queueHydrate(_scope, _hydrate_setup);
+  _if(_scope, true ? _ifBody : null);
 };
 export const template = "<!>";
 export const walks = /* replace, over(1) */"%b";

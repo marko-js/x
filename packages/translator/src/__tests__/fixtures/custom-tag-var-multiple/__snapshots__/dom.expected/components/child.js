@@ -1,11 +1,11 @@
 import { tagVarSignal as _tagVarSignal, intersection as _intersection, value as _value, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _expr_x_y = /* @__PURE__ */_intersection(2, (_scope, _dirty) => {
+  let _tagVarSignal_value;
   if (_dirty) {
     const x = _scope["x"],
       y = _scope["y"];
     _tagVarSignal_value = x + y;
   }
-  var _tagVarSignal_value;
   _tagVarSignal(_scope, _tagVarSignal_value, _dirty);
 });
 const _y = /* @__PURE__ */_value("y", (_scope, y, _dirty) => _expr_x_y(_scope, _dirty));

@@ -11,10 +11,10 @@ const _hydrate_list = _register("packages/translator/src/__tests__/fixtures/basi
   _queueSource(_scope, _list, [].concat(list).reverse());
 }));
 const _list = /* @__PURE__ */_value("list", (_scope, list) => {
+  _queueHydrate(_scope, _hydrate_list);
   _ul_for(_scope, [list, function (x) {
     return x;
   }]);
-  _queueHydrate(_scope, _hydrate_list);
 });
 const _hydrate_open = _register("packages/translator/src/__tests__/fixtures/basic-shared-node-ref/template.marko_0_open", _scope => _on(_scope["#button/1"], "click", function () {
   const open = _scope["open"];

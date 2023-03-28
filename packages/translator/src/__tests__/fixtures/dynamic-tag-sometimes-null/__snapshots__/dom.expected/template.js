@@ -1,10 +1,10 @@
 import { dynamicTagAttrs as _dynamicTagAttrs, on as _on, queueSource as _queueSource, createRenderer as _createRenderer, conditional as _conditional, register as _register, queueHydrate as _queueHydrate, value as _value, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _xBody = /* @__PURE__ */_createRenderer("Body Content", "");
 const _dynamicTagName = /* @__PURE__ */_conditional("#text/0", (_scope, _dirty) => {
+  let _dynamicBody_attrs;
   if (_dirty) {
     _dynamicBody_attrs = () => ({});
   }
-  var _dynamicBody_attrs;
   _dynamicTagAttrs(_scope, "#text/0", _dynamicBody_attrs, _xBody, _dirty);
 });
 const _hydrate_x = _register("packages/translator/src/__tests__/fixtures/dynamic-tag-sometimes-null/template.marko_0_x", _scope => _on(_scope["#button/1"], "click", function () {
@@ -12,11 +12,11 @@ const _hydrate_x = _register("packages/translator/src/__tests__/fixtures/dynamic
   _queueSource(_scope, _x, x ? null : "div");
 }));
 const _x = /* @__PURE__ */_value("x", (_scope, x, _dirty) => {
+  let _dynamicTagName_value;
   if (_dirty) {
-    _dynamicTagName_value = x || _xBody;
     _queueHydrate(_scope, _hydrate_x);
+    _dynamicTagName_value = x || _xBody;
   }
-  var _dynamicTagName_value;
   _dynamicTagName(_scope, _dynamicTagName_value, _dirty);
 });
 const _setup = _scope => {

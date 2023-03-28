@@ -1,4 +1,4 @@
-import { lifecycle as _lifecycle, on as _on, queueSource as _queueSource, register as _register, queueHydrate as _queueHydrate, inConditionalScope as _inConditionalScope, closure as _closure, createRenderer as _createRenderer, conditional as _conditional, value as _value, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
+import { lifecycle as _lifecycle, on as _on, queueSource as _queueSource, register as _register, queueHydrate as _queueHydrate, closure as _closure, createRenderer as _createRenderer, conditional as _conditional, value as _value, inConditionalScope as _inConditionalScope, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _hydrate_x$ifBody = _register("packages/translator/src/__tests__/fixtures/lifecycle-tag-conditional/template.marko_1_x", _scope => _lifecycle(_scope, "cleanup", {
   onMount: function () {
     const x = _scope._["x"];
@@ -12,7 +12,11 @@ const _hydrate_x$ifBody = _register("packages/translator/src/__tests__/fixtures/
     document.getElementById("ref").textContent = "Destroy";
   }
 }));
-const _x$ifBody = /* @__PURE__ */_closure("x", (_scope, x) => _queueHydrate(_scope, _hydrate_x$ifBody));
+const _x$ifBody = /* @__PURE__ */_closure("x", (_scope, x, _dirty) => {
+  if (_dirty) {
+    _queueHydrate(_scope, _hydrate_x$ifBody);
+  }
+});
 const _ifBody = _register("packages/translator/src/__tests__/fixtures/lifecycle-tag-conditional/template.marko_1_renderer", /* @__PURE__ */_createRenderer("", "", null, [_x$ifBody]));
 const _if = /* @__PURE__ */_conditional("#text/0");
 const _hydrate_show = _register("packages/translator/src/__tests__/fixtures/lifecycle-tag-conditional/template.marko_0_show", _scope => _on(_scope["#button/2"], "click", function () {
@@ -20,11 +24,11 @@ const _hydrate_show = _register("packages/translator/src/__tests__/fixtures/life
   _queueSource(_scope, _show, !show);
 }));
 const _show = /* @__PURE__ */_value("show", (_scope, show, _dirty) => {
+  let _if_value;
   if (_dirty) {
-    _if_value = show ? _ifBody : null;
     _queueHydrate(_scope, _hydrate_show);
+    _if_value = show ? _ifBody : null;
   }
-  var _if_value;
   _if(_scope, _if_value, _dirty);
 });
 const _hydrate_x = _register("packages/translator/src/__tests__/fixtures/lifecycle-tag-conditional/template.marko_0_x", _scope => _on(_scope["#button/1"], "click", function () {

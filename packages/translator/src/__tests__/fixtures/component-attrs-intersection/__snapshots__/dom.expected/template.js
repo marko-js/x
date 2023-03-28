@@ -5,13 +5,13 @@ const _hydrate_count = _register("packages/translator/src/__tests__/fixtures/com
   _queueSource(_scope, _count, count + 1);
 }));
 const _count = /* @__PURE__ */_value("count", (_scope, count, _dirty) => {
+  let _displayIntersection_attrs_value;
   if (_dirty) {
+    _queueHydrate(_scope, _hydrate_count);
     _displayIntersection_attrs_value = {
       value: count
     };
-    _queueHydrate(_scope, _hydrate_count);
   }
-  var _displayIntersection_attrs_value;
   _displayIntersection_attrs(_scope["#childScope/0"], _displayIntersection_attrs_value, _dirty);
 });
 const _setup = _scope => {

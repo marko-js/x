@@ -1,5 +1,9 @@
-import { on as _on, queueSource as _queueSource, data as _data, inConditionalScope as _inConditionalScope, closure as _closure, createRenderer as _createRenderer, register as _register, conditional as _conditional, value as _value, queueHydrate as _queueHydrate, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
-const _message$ifBody = /* @__PURE__ */_closure("message", (_scope, message) => _data(_scope["#text/0"], message));
+import { on as _on, queueSource as _queueSource, data as _data, closure as _closure, createRenderer as _createRenderer, register as _register, conditional as _conditional, inConditionalScope as _inConditionalScope, value as _value, queueHydrate as _queueHydrate, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
+const _message$ifBody = /* @__PURE__ */_closure("message", (_scope, message, _dirty) => {
+  if (_dirty) {
+    _data(_scope["#text/0"], message);
+  }
+});
 const _ifBody = _register("packages/translator/src/__tests__/fixtures/batched-updates-cleanup/template.marko_1_renderer", /* @__PURE__ */_createRenderer("<span> </span>", /* next(1), get */"D ", null, [_message$ifBody]));
 const _if = /* @__PURE__ */_conditional("#text/1");
 const _message = /* @__PURE__ */_value("message", (_scope, message, _dirty) => _inConditionalScope(_scope, _dirty, _message$ifBody, "#text/1"));
@@ -9,11 +13,11 @@ const _hydrate_show = _register("packages/translator/src/__tests__/fixtures/batc
   _queueSource(_scope, _show, !show);
 }));
 const _show = /* @__PURE__ */_value("show", (_scope, show, _dirty) => {
+  let _if_value;
   if (_dirty) {
-    _if_value = show ? _ifBody : null;
     _queueHydrate(_scope, _hydrate_show);
+    _if_value = show ? _ifBody : null;
   }
-  var _if_value;
   _if(_scope, _if_value, _dirty);
 });
 const _setup = _scope => {

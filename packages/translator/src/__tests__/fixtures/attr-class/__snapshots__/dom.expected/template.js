@@ -2,6 +2,7 @@ import { classAttr as _classAttr, write as _write, dynamicTagAttrs as _dynamicTa
 import { setup as _customTag, template as _customTag_template, walks as _customTag_walks } from "./components/custom-tag.marko";
 const _dynamicBody2 = /* @__PURE__ */_createRenderer("", "");
 const _expr_dynamicTagName_c_d = /* @__PURE__ */_intersection(3, (_scope, _dirty) => {
+  let _dynamicBody_attrs;
   if (_dirty) {
     const dynamicTagName = _scope["#text/3"],
       c = _scope["c"],
@@ -22,7 +23,6 @@ const _expr_dynamicTagName_c_d = /* @__PURE__ */_intersection(3, (_scope, _dirty
       }
     });
   }
-  var _dynamicBody_attrs;
   _dynamicTagAttrs(_scope, "#text/3", _dynamicBody_attrs, _dynamicBody2, _dirty);
 });
 const _expr_c_d = /* @__PURE__ */_intersection(2, _scope => {
@@ -37,10 +37,10 @@ const _dynamicTagName = /* @__PURE__ */_conditional("#text/3", (_scope, _dirty) 
 const _d = "SIGNAL NOT INITIALIZED";
 const _c = "SIGNAL NOT INITIALIZED";
 const _input = /* @__PURE__ */_value("input", (_scope, input, _dirty) => {
+  let _dynamicTagName_value;
   if (_dirty) {
     _dynamicTagName_value = input.test || _dynamicBody2;
   }
-  var _dynamicTagName_value;
   _dynamicTagName(_scope, _dynamicTagName_value, _dirty);
 });
 const _setup = _scope => {

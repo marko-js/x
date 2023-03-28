@@ -2,6 +2,7 @@ import { styleAttr as _styleAttr, write as _write, dynamicTagAttrs as _dynamicTa
 import { setup as _customTag, template as _customTag_template, walks as _customTag_walks } from "./components/custom-tag.marko";
 const _testBody = /* @__PURE__ */_createRenderer("", "");
 const _dynamicTagName = /* @__PURE__ */_conditional("#text/4", (_scope, _dirty) => {
+  let _dynamicBody_attrs;
   if (_dirty) {
     _dynamicBody_attrs = () => ({
       style: {
@@ -17,14 +18,13 @@ const _dynamicTagName = /* @__PURE__ */_conditional("#text/4", (_scope, _dirty) 
       }
     });
   }
-  var _dynamicBody_attrs;
   _dynamicTagAttrs(_scope, "#text/4", _dynamicBody_attrs, _testBody, _dirty);
 });
 const _test = /* @__PURE__ */_value("test", (_scope, test, _dirty) => {
+  let _dynamicTagName_value;
   if (_dirty) {
     _dynamicTagName_value = test || _testBody;
   }
-  var _dynamicTagName_value;
   _dynamicTagName(_scope, _dynamicTagName_value, _dirty);
 });
 const _color = /* @__PURE__ */_value("color", (_scope, color) => _styleAttr(_scope["#div/0"], {

@@ -1,12 +1,16 @@
-import { data as _data, inConditionalScope as _inConditionalScope, closure as _closure, createRenderer as _createRenderer, register as _register, conditional as _conditional, value as _value2, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
-const _value$ifBody = /* @__PURE__ */_closure("value", (_scope, value) => _data(_scope["#text/0"], value));
+import { data as _data, closure as _closure, createRenderer as _createRenderer, register as _register, conditional as _conditional, inConditionalScope as _inConditionalScope, value as _value2, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
+const _value$ifBody = /* @__PURE__ */_closure("value", (_scope, value, _dirty) => {
+  if (_dirty) {
+    _data(_scope["#text/0"], value);
+  }
+});
 const _ifBody = _register("packages/translator/src/__tests__/fixtures/toggle-first-child/template.marko_1_renderer", /* @__PURE__ */_createRenderer("<span> </span>", /* next(1), get */"D ", null, [_value$ifBody]));
 const _if = /* @__PURE__ */_conditional("#text/0");
 const _value = /* @__PURE__ */_value2("value", (_scope, value, _dirty) => {
+  let _if_value;
   if (_dirty) {
     _if_value = value ? _ifBody : null;
   }
-  var _if_value;
   _if(_scope, _if_value, _dirty);
   _inConditionalScope(_scope, _dirty, _value$ifBody, "#text/0");
 });

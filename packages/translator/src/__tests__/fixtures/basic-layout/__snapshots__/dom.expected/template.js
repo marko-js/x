@@ -1,6 +1,10 @@
-import { data as _data, bindRenderer as _bindRenderer, dynamicSubscribers as _dynamicSubscribers, dynamicClosure as _dynamicClosure, createRenderer as _createRenderer, value as _value, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
+import { data as _data, bindRenderer as _bindRenderer, dynamicClosure as _dynamicClosure, createRenderer as _createRenderer, dynamicSubscribers as _dynamicSubscribers, value as _value, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 import { setup as _layout, attrs as _layout_attrs, template as _layout_template, walks as _layout_walks } from "./components/layout.marko";
-const _name$layoutBody = /* @__PURE__ */_dynamicClosure("name", (_scope, name) => _data(_scope["#text/0"], name));
+const _name$layoutBody = /* @__PURE__ */_dynamicClosure("name", (_scope, name, _dirty) => {
+  if (_dirty) {
+    _data(_scope["#text/0"], name);
+  }
+});
 const _layoutBody = /* @__PURE__ */_createRenderer("<h1>Hello <!></h1>", /* next(1), over(1), replace */"Db%", null, [_name$layoutBody]);
 const _name = /* @__PURE__ */_value("name", (_scope, name, _dirty) => _dynamicSubscribers(_scope["name*"], _dirty));
 const _setup = _scope => {

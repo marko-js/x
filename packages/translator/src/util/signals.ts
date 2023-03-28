@@ -36,6 +36,7 @@ export type Signal = {
     value: t.Expression;
     scope: t.Expression;
   }>;
+  intersectionDeclarations: t.VariableDeclarator[];
   intersection: t.Statement[];
   render: t.Statement[];
   hydrate: t.Statement[];
@@ -111,24 +112,33 @@ export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
         reserve,
         sectionId,
         values: [],
+        intersectionDeclarations: [],
         intersection: [],
         render: [],
         hydrate: [],
         hydrateInlineReferences: undefined,
         subscribers: [],
-        hasDownstreamIntersections: () => signal.intersection.length > 0,
+        closures: new Map(),
+        hasDownstreamIntersections: () => {
+          if (
+            signal.intersection.length > 0 ||
+            signal.closures.size ||
+            signal.values.some((v) => v.signal.hasDownstreamIntersections())
+          ) {
+            signal.hasDownstreamIntersections = () => true;
+            return true;
+          } else {
+            signal.hasDownstreamIntersections = () => false;
+            return false;
+          }
+        },
       } as any as Signal)
     );
 
     if (isOutputHTML()) {
       return signal;
     } else if (!reserve) {
-      signal.build = () => {
-        return t.arrowFunctionExpression(
-          [scopeIdentifier],
-          t.blockStatement(signal.render)
-        );
-      };
+      signal.build = () => getSignalFn(signal, [scopeIdentifier]);
     } else if (Array.isArray(reserve)) {
       subscribe(reserve, signal);
       signal.build = () => {
@@ -139,31 +149,13 @@ export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
         );
       };
     } else if (reserve.sectionId !== sectionId) {
+      const provider = getSignal(reserve.sectionId, reserve);
       getClosures(sectionId).push(signal.identifier);
+      provider.closures.set(sectionId, signal);
+      signal.hasDownstreamIntersections = () => true;
       signal.build = () => {
         // TODO: subscribe to an owner multiple levels up
         const builder = getSubscribeBuilder(sectionId);
-        const provider = getSignal(reserve.sectionId, reserve);
-        if (builder) {
-          provider.intersection.push(builder(signal.identifier));
-        } else if (!provider.hasDynamicSubscribers) {
-          const dynamicSubscribersKey = getNodeLiteral(reserve);
-          dynamicSubscribersKey.value += AccessorChars.SUBSCRIBERS;
-          provider.hasDynamicSubscribers = true;
-          provider.intersection.push(
-            t.expressionStatement(
-              callRuntime(
-                "dynamicSubscribers",
-                t.memberExpression(
-                  scopeIdentifier,
-                  dynamicSubscribersKey,
-                  true
-                ),
-                dirtyIdentifier
-              )
-            )
-          );
-        }
 
         return callRuntime(
           // TODO: this should use `closure` for <if> and <for>
@@ -265,14 +257,83 @@ export function initContextConsumer(templateId: string, reserve: Reserve) {
   return signal;
 }
 
+export function addIntersectionWithGuardedValue(
+  signal: Signal,
+  name: string,
+  value: t.Expression,
+  getStatement: (i: t.Identifier) => t.Statement
+) {
+  const valueIdentifier = currentProgramPath.scope.generateUidIdentifier(name);
+  signal.render.push(
+    t.expressionStatement(t.assignmentExpression("=", valueIdentifier, value))
+  );
+  signal.intersection.push(getStatement(valueIdentifier));
+  signal.intersectionDeclarations.push(t.variableDeclarator(valueIdentifier));
+}
+
 export function getSignalFn(
   signal: Signal,
   params: Array<t.Identifier | t.Pattern>,
   references?: undefined | Reserve | Reserve[]
 ) {
+  const isSetup = !signal.reserve;
   const sectionId = signal.sectionId;
-  const needsDirty = signal.intersection.length > 0;
+  const needsDirty = !isSetup && signal.hasDownstreamIntersections();
   let statements;
+
+  for (const value of signal.values) {
+    const callee = value.signal.identifier;
+    const needsDirty = !isSetup && value.signal.hasDownstreamIntersections();
+    if (needsDirty) {
+      addIntersectionWithGuardedValue(
+        signal,
+        callee.name + "_value",
+        value.value,
+        (valueIdentifier) => {
+          return t.expressionStatement(
+            t.callExpression(callee, [
+              value.scope,
+              valueIdentifier,
+              dirtyIdentifier,
+            ])
+          );
+        }
+      );
+    } else {
+      signal.render.push(
+        t.expressionStatement(
+          t.callExpression(callee, [value.scope, value.value])
+        )
+      );
+    }
+  }
+
+  // In order to ensure correct topological ordering, closures must be called last
+  // with closures higher in the tree called before calling closures lower in the tree
+  const closureEntries = Array.from(signal.closures.entries()).sort(
+    ([a], [b]) => a - b
+  );
+  for (const [closureSectionId, closureSignal] of closureEntries) {
+    const builder = getSubscribeBuilder(closureSectionId);
+    if (builder) {
+      signal.intersection.push(builder(closureSignal.identifier));
+    } else if (!signal.hasDynamicSubscribers) {
+      const dynamicSubscribersKey = getNodeLiteral(
+        closureSignal.reserve as Reserve
+      );
+      dynamicSubscribersKey.value += AccessorChars.SUBSCRIBERS;
+      signal.hasDynamicSubscribers = true;
+      signal.intersection.push(
+        t.expressionStatement(
+          callRuntime(
+            "dynamicSubscribers",
+            t.memberExpression(scopeIdentifier, dynamicSubscribersKey, true),
+            dirtyIdentifier
+          )
+        )
+      );
+    }
+  }
 
   if (Array.isArray(references)) {
     signal.render.unshift(
@@ -304,6 +365,11 @@ export function getSignalFn(
         t.ifStatement(dirtyIdentifier, t.blockStatement(signal.render)),
         ...signal.intersection,
       ];
+      if (signal.intersectionDeclarations.length) {
+        statements.unshift(
+          t.variableDeclaration("let", signal.intersectionDeclarations)
+        );
+      }
     } else {
       statements = signal.intersection;
     }
@@ -555,46 +621,6 @@ export function writeSignals(sectionId: number) {
   const declarations = Array.from(signals.values())
     .sort(sortSignals)
     .flatMap((signal) => {
-      const isSetup = !signal.reserve;
-      for (const value of signal.values) {
-        const callee = value.signal.identifier;
-        const needsDirty =
-          !isSetup && value.signal.hasDownstreamIntersections();
-        if (needsDirty) {
-          const valueIdentifier =
-            currentProgramPath.scope.generateUidIdentifier(
-              callee.name + "_value"
-            );
-          signal.render.push(
-            t.expressionStatement(
-              t.assignmentExpression("=", valueIdentifier, value.value)
-            )
-          );
-          // TODO: we unshift here because we if closures are called before other intersections
-          // that also intersect with the closure, the marking system breaks down (closures don't execute)
-          // however this is insufficient, because this isn't the only place where we add intersections
-          // we should fix this by making sure that closures are always called last
-          signal.intersection.unshift(
-            t.variableDeclaration("var", [
-              t.variableDeclarator(valueIdentifier),
-            ]),
-            t.expressionStatement(
-              t.callExpression(callee, [
-                value.scope,
-                valueIdentifier,
-                dirtyIdentifier,
-              ])
-            )
-          );
-        } else {
-          signal.render.push(
-            t.expressionStatement(
-              t.callExpression(callee, [value.scope, value.value])
-            )
-          );
-        }
-      }
-
       let hydrateDeclarator;
       if (signal.hydrate.length) {
         const hydrateIdentifier = t.identifier(

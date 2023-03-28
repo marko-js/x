@@ -1,9 +1,9 @@
 import { tagVarSignal as _tagVarSignal, value as _value, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _x = /* @__PURE__ */_value("x", (_scope, x, _dirty) => {
+  let _tagVarSignal_value;
   if (_dirty) {
     _tagVarSignal_value = x;
   }
-  var _tagVarSignal_value;
   _tagVarSignal(_scope, _tagVarSignal_value, _dirty);
 });
 const _setup = _scope => {

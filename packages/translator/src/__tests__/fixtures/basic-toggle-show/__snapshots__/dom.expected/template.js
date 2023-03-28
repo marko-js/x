@@ -6,8 +6,8 @@ const _hydrate_show = _register("packages/translator/src/__tests__/fixtures/basi
   _queueSource(_scope, _show, !show);
 }));
 const _show = /* @__PURE__ */_value("show", (_scope, show) => {
-  _if(_scope, show ? _ifBody : null);
   _queueHydrate(_scope, _hydrate_show);
+  _if(_scope, show ? _ifBody : null);
 });
 const _setup = _scope => {
   _show(_scope, true);

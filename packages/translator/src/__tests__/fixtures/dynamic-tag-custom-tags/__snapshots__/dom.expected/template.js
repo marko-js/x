@@ -2,6 +2,7 @@ import child1 from "./components/child1.marko";
 import child2 from "./components/child2.marko";
 import { dynamicTagAttrs as _dynamicTagAttrs, on as _on, queueSource as _queueSource, intersection as _intersection, conditional as _conditional, value as _value, register as _register, queueHydrate as _queueHydrate, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _expr_dynamicTagName_val = /* @__PURE__ */_intersection(2, (_scope, _dirty) => {
+  let _dynamicBody_attrs;
   if (_dirty) {
     const dynamicTagName = _scope["#text/0"],
       val = _scope["val"];
@@ -9,7 +10,6 @@ const _expr_dynamicTagName_val = /* @__PURE__ */_intersection(2, (_scope, _dirty
       value: val
     });
   }
-  var _dynamicBody_attrs;
   _dynamicTagAttrs(_scope, "#text/0", _dynamicBody_attrs, null, _dirty);
 });
 const _dynamicTagName = /* @__PURE__ */_conditional("#text/0", (_scope, _dirty) => _expr_dynamicTagName_val(_scope, _dirty));
@@ -19,11 +19,11 @@ const _hydrate_tagName = _register("packages/translator/src/__tests__/fixtures/d
   _queueSource(_scope, _tagName, tagName === child1 ? child2 : child1);
 }));
 const _tagName = /* @__PURE__ */_value("tagName", (_scope, tagName, _dirty) => {
+  let _dynamicTagName_value;
   if (_dirty) {
-    _dynamicTagName_value = tagName;
     _queueHydrate(_scope, _hydrate_tagName);
+    _dynamicTagName_value = tagName;
   }
-  var _dynamicTagName_value;
   _dynamicTagName(_scope, _dynamicTagName_value, _dirty);
 });
 const _setup = _scope => {

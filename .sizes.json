@@ -1,6 +1,7 @@
 {
   "examples": {
-    "counter": "./packages/translator/src/__tests__/fixtures/basic-counter/template.marko"
+    "counter": "./packages/translator/src/__tests__/fixtures/basic-counter/template.marko",
+    "comments": "./packages/translator/src/__tests__/fixtures/basic-inert-collapsible-tree/template.marko"
   },
   "results": [
     {
@@ -45,6 +46,42 @@
         "min": 2655,
         "gzip": 1456,
         "brotli": 1287
+      }
+    },
+    {
+      "name": "comments",
+      "user": {
+        "min": 1280,
+        "gzip": 704,
+        "brotli": 642
+      },
+      "runtime": {
+        "min": 6791,
+        "gzip": 3127,
+        "brotli": 2831
+      },
+      "total": {
+        "min": 8071,
+        "gzip": 3831,
+        "brotli": 3473
+      }
+    },
+    {
+      "name": "comments 💧",
+      "user": {
+        "min": 1079,
+        "gzip": 598,
+        "brotli": 563
+      },
+      "runtime": {
+        "min": 7778,
+        "gzip": 3566,
+        "brotli": 3226
+      },
+      "total": {
+        "min": 8857,
+        "gzip": 4164,
+        "brotli": 3789
       }
     }
   ]

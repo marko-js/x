@@ -1,6 +1,7 @@
 import { queueSource as _queueSource, value as _value, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 import { setup as _myButton, attrs as _myButton_attrs, template as _myButton_template, walks as _myButton_walks } from "./components/my-button.marko";
 const _clickCount = /* @__PURE__ */_value("clickCount", (_scope, clickCount, _dirty) => {
+  let _myButton_attrs_value;
   if (_dirty) {
     _myButton_attrs_value = {
       text: clickCount,
@@ -10,7 +11,6 @@ const _clickCount = /* @__PURE__ */_value("clickCount", (_scope, clickCount, _di
       }
     };
   }
-  var _myButton_attrs_value;
   _myButton_attrs(_scope["#childScope/0"], _myButton_attrs_value, _dirty);
 });
 const _setup = _scope => {

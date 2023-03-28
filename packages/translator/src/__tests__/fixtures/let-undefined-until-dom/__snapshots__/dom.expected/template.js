@@ -2,8 +2,8 @@ import { queueSource as _queueSource, data as _data, value as _value, register a
 const _x = /* @__PURE__ */_value("x", (_scope, x) => _data(_scope["#text/0"], x));
 const _hydrate_setup = _register("packages/translator/src/__tests__/fixtures/let-undefined-until-dom/template.marko_0", _scope => _queueSource(_scope, _x, "Client Only"));
 const _setup = _scope => {
-  _x(_scope, undefined);
   _queueHydrate(_scope, _hydrate_setup);
+  _x(_scope, undefined);
 };
 export const template = "<div> </div>";
 export const walks = /* next(1), get, out(1) */"D l";

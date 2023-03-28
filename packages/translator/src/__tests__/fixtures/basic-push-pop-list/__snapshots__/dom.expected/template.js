@@ -25,8 +25,8 @@ const _hydrate_items = _register("packages/translator/src/__tests__/fixtures/bas
 }));
 const _items = /* @__PURE__ */_value("items", (_scope, items, _dirty) => {
   if (_dirty) {
-    _for(_scope, [items, null]);
     _queueHydrate(_scope, _hydrate_items);
+    _for(_scope, [items, null]);
   }
   _expr_id_items(_scope, _dirty);
 });

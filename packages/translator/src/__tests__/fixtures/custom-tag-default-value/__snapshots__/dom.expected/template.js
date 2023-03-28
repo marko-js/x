@@ -1,12 +1,12 @@
 import { setup as _child, attrs as _child_attrs, template as _child_template, walks as _child_walks } from "./components/child.marko";
 import { value as _value, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _x = /* @__PURE__ */_value("x", (_scope, x, _dirty) => {
+  let _child_attrs_value;
   if (_dirty) {
     _child_attrs_value = {
       value: x
     };
   }
-  var _child_attrs_value;
   _child_attrs(_scope["#childScope/1"], _child_attrs_value, _dirty);
 });
 const _setup = _scope => {

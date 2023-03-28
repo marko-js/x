@@ -5,10 +5,10 @@ const _setup$tagNameBody = _scope => {
 };
 const _tagNameBody = /* @__PURE__ */_createRenderer(`${_counter_template}`, /* beginChild, _counter_walks, endChild */`/${_counter_walks}&`, _setup$tagNameBody);
 const _dynamicTagName = /* @__PURE__ */_conditional("#text/0", (_scope, _dirty) => {
+  let _dynamicBody_attrs;
   if (_dirty) {
     _dynamicBody_attrs = () => ({});
   }
-  var _dynamicBody_attrs;
   _dynamicTagAttrs(_scope, "#text/0", _dynamicBody_attrs, _tagNameBody, _dirty);
 });
 const _hydrate_tagName = _register("packages/translator/src/__tests__/fixtures/dynamic-tag-with-updating-body/template.marko_0_tagName", _scope => _on(_scope["#button/1"], "click", function () {
@@ -16,11 +16,11 @@ const _hydrate_tagName = _register("packages/translator/src/__tests__/fixtures/d
   _queueSource(_scope, _tagName, tagName === "span" ? "div" : "span");
 }));
 const _tagName = /* @__PURE__ */_value("tagName", (_scope, tagName, _dirty) => {
+  let _dynamicTagName_value;
   if (_dirty) {
-    _dynamicTagName_value = tagName || _tagNameBody;
     _queueHydrate(_scope, _hydrate_tagName);
+    _dynamicTagName_value = tagName || _tagNameBody;
   }
-  var _dynamicTagName_value;
   _dynamicTagName(_scope, _dynamicTagName_value, _dirty);
 });
 const _setup = _scope => {

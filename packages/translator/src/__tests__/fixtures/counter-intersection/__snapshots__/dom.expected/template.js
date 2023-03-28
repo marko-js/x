@@ -25,9 +25,9 @@ const _hydrate_setup = _register("packages/translator/src/__tests__/fixtures/cou
   });
 });
 const _setup = _scope => {
+  _queueHydrate(_scope, _hydrate_setup);
   _a(_scope, 0);
   _b(_scope, 0);
-  _queueHydrate(_scope, _hydrate_setup);
 };
 export const template = "<div><button class=a> </button> + <button class=b> </button> = <!></div>";
 export const walks = /* next(1), get, next(1), get, out(1), over(1), get, next(1), get, out(1), over(1), replace, out(1) */"D D lb D lb%l";

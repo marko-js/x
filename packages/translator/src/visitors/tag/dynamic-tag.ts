@@ -12,11 +12,11 @@ import {
   getSectionId,
 } from "../../util/sections";
 import {
-  addStatement,
   getSignalFn,
   getSerializedScopeProperties,
   getSignal,
   addValue,
+  addIntersectionWithGuardedValue,
 } from "../../util/signals";
 import {
   getNodeLiteral,
@@ -149,45 +149,30 @@ export default {
         const attrsObject = attrsToObject(tag, true);
         if (attrsObject || renderBodyIdentifier) {
           const name = currentProgramPath.node.extra.sectionNames![sectionId];
-          const attrsIdentifier =
-            currentProgramPath.scope.generateUidIdentifier(name + "_attrs");
-          addStatement(
-            "apply",
+          const signal = getSignal(
             sectionId,
-            node.extra?.attrsReferences,
-            t.expressionStatement(
-              t.assignmentExpression(
-                "=",
-                attrsIdentifier,
-                t.arrowFunctionExpression(
-                  [],
-                  attrsObject ?? t.objectExpression([])
+            node.extra?.attrsReferences?.references
+          );
+          const attrsGetter = t.arrowFunctionExpression(
+            [],
+            attrsObject ?? t.objectExpression([])
+          );
+          addIntersectionWithGuardedValue(
+            signal,
+            name + "_attrs",
+            attrsGetter,
+            (attrsIdentifier) => {
+              return t.expressionStatement(
+                callRuntime(
+                  "dynamicTagAttrs",
+                  scopeIdentifier,
+                  getNodeLiteral(tagNameReserve),
+                  attrsIdentifier,
+                  renderBodyIdentifier,
+                  dirtyIdentifier
                 )
-              )
-            )
-          );
-          addStatement(
-            "intersection",
-            sectionId,
-            node.extra?.attrsReferences,
-            t.variableDeclaration("var", [
-              t.variableDeclarator(attrsIdentifier),
-            ])
-          );
-          addStatement(
-            "intersection",
-            sectionId,
-            node.extra?.attrsReferences,
-            t.expressionStatement(
-              callRuntime(
-                "dynamicTagAttrs",
-                scopeIdentifier,
-                getNodeLiteral(tagNameReserve),
-                attrsIdentifier,
-                renderBodyIdentifier,
-                dirtyIdentifier
-              )
-            )
+              );
+            }
           );
         }
 
