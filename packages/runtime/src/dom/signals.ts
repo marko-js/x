@@ -203,26 +203,6 @@ export function childClosures(
   });
 }
 
-// TODO: remove this
-export function destructureValue<T>(fn: ValueSignal<T>): ValueSignal<T> {
-  return fn;
-}
-
-export function destructureValue2<T>(
-  fn: (input: T) => unknown[],
-  subscribers: ValueSignal[]
-): ValueSignal<T> {
-  return (scope: Scope, input: T, dirty = true) => {
-    let values;
-    if (dirty) {
-      values = fn(input);
-    }
-    for (let i = 0; i < subscribers.length; i++) {
-      subscribers[i](scope, values?.[i], dirty);
-    }
-  };
-}
-
 export function dynamicSubscribers(
   subscribers: BoundIntersectionSignal[],
   dirty = true
