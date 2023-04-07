@@ -179,13 +179,6 @@ const translateDOM = {
       );
     });
 
-    const [valParam] = params;
-    if (valParam && !t.isIdentifier(valParam)) {
-      throw tag.buildCodeFrameError(
-        "Invalid 'for' tag, |value| parameter must be an identifier."
-      );
-    }
-
     tag.remove();
 
     const rendererId = writer.getRenderer(bodySectionId);
