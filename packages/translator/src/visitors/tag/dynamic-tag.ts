@@ -9,6 +9,7 @@ import { isOutputHTML } from "../../util/marko-config";
 import {
   getOrCreateSectionId,
   getScopeIdIdentifier,
+  getSection,
   getSectionId,
 } from "../../util/sections";
 import {
@@ -144,7 +145,7 @@ export default {
 
         const attrsObject = attrsToObject(tag, true);
         if (attrsObject || renderBodyIdentifier) {
-          const name = currentProgramPath.node.extra.sectionNames![sectionId];
+          const name = getSection(sectionId).name;
           const signal = getSignal(sectionId, node.extra?.attrsReferences);
           const attrsGetter = t.arrowFunctionExpression(
             [],

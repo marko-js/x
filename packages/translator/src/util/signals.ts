@@ -6,6 +6,7 @@ import {
   getOrCreateSectionId,
   getScopeIdIdentifier,
   getScopeIdentifier,
+  getSection,
 } from "./sections";
 import {
   Reserve,
@@ -530,9 +531,7 @@ function generateSignalName(
     name = "setup";
   }
 
-  name += sectionId
-    ? currentProgramPath.node.extra.sectionNames![sectionId].replace("_", "$")
-    : "";
+  name += sectionId ? getSection(sectionId).name.replace("_", "$") : "";
 
   return currentProgramPath.scope.generateUid(name);
 }

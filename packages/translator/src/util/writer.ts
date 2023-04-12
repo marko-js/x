@@ -3,6 +3,7 @@ import {
   getSectionId,
   createSectionState,
   getScopeIdIdentifier,
+  getSection,
 } from "../util/sections";
 import { callRuntime } from "./runtime";
 import toTemplateOrStringLiteral, {
@@ -10,16 +11,12 @@ import toTemplateOrStringLiteral, {
 } from "./to-template-string-or-literal";
 import { getWalkString } from "./walks";
 import { getSetup } from "./signals";
-import { currentProgramPath } from "../visitors/program";
 import { isOutputHTML } from "./marko-config";
 import { getNodeLiteral, ReserveType } from "./reserve";
 
 const [getRenderer] = createSectionState<t.Identifier>(
   "renderer",
-  (sectionId: number) => {
-    const name = currentProgramPath.node.extra.sectionNames![sectionId];
-    return t.identifier(name);
-  }
+  (sectionId: number) => t.identifier(getSection(sectionId).name)
 );
 
 export { getRenderer };

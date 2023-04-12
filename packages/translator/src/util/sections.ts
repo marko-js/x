@@ -2,11 +2,16 @@ import { types as t } from "@marko/compiler";
 import { currentProgramPath } from "../visitors/program";
 import analyzeTagNameType, { TagNameTypes } from "./tag-name-type";
 
+export type Section = {
+  id: number;
+  name: string;
+};
+
 declare module "@marko/compiler/dist/types" {
   export interface ProgramExtra {
     nextSectionId?: number;
     sectionId?: number;
-    sectionNames?: string[];
+    sections?: Section[];
   }
 
   export interface MarkoTagBodyExtra {
@@ -27,10 +32,11 @@ export function startSection(path: t.NodePath<t.MarkoTagBody | t.Program>) {
       "dynamic";
     sectionId = extra.sectionId = programExtra.nextSectionId || 0;
     programExtra.nextSectionId = sectionId + 1; // currentProgramPath.scope.generateUid(path.node.name);
-    programExtra.sectionNames = programExtra.sectionNames ?? [];
-    programExtra.sectionNames[sectionId] = currentProgramPath.scope.generateUid(
-      sectionName + "Body"
-    );
+    programExtra.sections = programExtra.sections ?? [];
+    programExtra.sections[sectionId] = {
+      id: sectionId,
+      name: currentProgramPath.scope.generateUid(sectionName + "Body"),
+    };
   }
 
   return sectionId;
@@ -52,6 +58,12 @@ export function getOrCreateSectionId(path: t.NodePath<any>) {
 
     cur = cur.parentPath!;
   }
+}
+
+export function getSection(idOrPath: t.NodePath | number): Section {
+  const sectionId =
+    typeof idOrPath === "number" ? idOrPath : getSectionId(idOrPath);
+  return currentProgramPath.node.extra.sections![sectionId];
 }
 
 export function getSectionId(path: t.NodePath) {
