@@ -7,7 +7,12 @@ import {
   getScopeIdIdentifier,
   getScopeIdentifier,
 } from "./sections";
-import { Reserve, insertReserve, getNodeLiteral, ReserveType } from "./reserve";
+import {
+  Reserve,
+  repeatableReserves,
+  getNodeLiteral,
+  ReserveType,
+} from "./reserve";
 import {
   currentProgramPath,
   dirtyIdentifier,
@@ -104,17 +109,11 @@ export function setRegisterScopeBuilder(
 }
 
 export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
-  const key = !Array.isArray(reserve)
-    ? reserve
-    : reserve
-        .map((r) => `${r.sectionId}/${r.id}`)
-        .sort()
-        .join("-");
   const signals = getSignals(sectionId);
-  let signal = signals.get(key)!;
+  let signal = signals.get(reserve)!;
   if (!signal) {
     signals.set(
-      key,
+      reserve,
       (signal = {
         identifier: t.identifier(generateSignalName(sectionId, reserve)),
         reserve,
@@ -641,19 +640,10 @@ export function addValue(
 }
 
 export function addHydrateReferences(signal: Signal, expression: t.Expression) {
-  const references = (expression as t.FunctionExpression).extra?.references
-    ?.references;
-  let refs = signal.hydrateInlineReferences;
-  if (references) {
-    if (Array.isArray(references)) {
-      for (const ref of references) {
-        refs = insertReserve(refs, ref);
-      }
-    } else {
-      refs = insertReserve(refs, references as Reserve);
-    }
-  }
-  signal.hydrateInlineReferences = refs;
+  signal.hydrateInlineReferences = repeatableReserves.addAll(
+    signal.hydrateInlineReferences,
+    (expression as t.FunctionExpression).extra?.references?.references
+  );
 }
 
 export function getHydrateRegisterId(
@@ -694,14 +684,13 @@ export function writeSignals(sectionId: number) {
           signal.hydrate.unshift(
             t.variableDeclaration(
               "const",
-              (Array.isArray(signal.hydrateInlineReferences)
-                ? signal.hydrateInlineReferences
-                : [signal.hydrateInlineReferences]
-              ).map((binding) =>
-                t.variableDeclarator(
-                  t.identifier(binding.name),
-                  callRead(binding, sectionId)
-                )
+              repeatableReserves.toArray(
+                signal.hydrateInlineReferences,
+                (binding) =>
+                  t.variableDeclarator(
+                    t.identifier(binding.name),
+                    callRead(binding, sectionId)
+                  )
               )
             )
           );
@@ -806,14 +795,14 @@ export function writeHTMLHydrateStatements(
     ])
   );
 
-  const refs: Reserve[] = [];
+  const serializedReferences: Reserve[] = [];
 
   for (const { references } of referenceGroups) {
     if (Array.isArray(references)) {
       // TODO: only need to include refs that intersect with stateful refs
       for (const reference of references) {
         if (reference.type !== ReserveType.Visit) {
-          insertReserve(refs, reference);
+          repeatableReserves.add(serializedReferences, reference);
         }
       }
     }
@@ -821,30 +810,22 @@ export function writeHTMLHydrateStatements(
 
   for (let i = allSignals.length; i--; ) {
     if (allSignals[i].hydrate.length) {
-      const references = allSignals[i].reserve;
-      if (references) {
-        if (Array.isArray(references)) {
-          for (const ref of references) {
-            insertReserve(refs, ref);
-          }
-        } else {
-          insertReserve(refs, references);
-        }
-      }
+      const signalRefs = allSignals[i].reserve;
+      repeatableReserves.addAll(serializedReferences, signalRefs);
       path.pushContainer(
         "body",
         t.expressionStatement(
           callRuntime(
             "writeHydrateCall",
             scopeIdIdentifier,
-            t.stringLiteral(getHydrateRegisterId(sectionId, references))
+            t.stringLiteral(getHydrateRegisterId(sectionId, signalRefs))
           )
         )
       );
     }
   }
 
-  const serializedProperties = refs.reduce((acc, ref) => {
+  const serializedProperties = serializedReferences.reduce((acc, ref) => {
     acc.push(t.objectProperty(getNodeLiteral(ref), t.identifier(ref.name)));
     return acc;
   }, [] as Array<t.ObjectProperty>);

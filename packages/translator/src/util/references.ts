@@ -1,5 +1,5 @@
 import { types as t } from "@marko/compiler";
-import { createSortedCollection } from "./sorted-arr";
+import { SortedRepeatable } from "./sorted-repeatable";
 import {
   getOrCreateSectionId,
   createSectionState,
@@ -9,8 +9,7 @@ import {
   Reserve,
   ReserveType,
   reserveScope,
-  compareReserves,
-  insertReserve,
+  repeatableReserves,
 } from "./reserve";
 import { currentProgramPath } from "../visitors/program";
 
@@ -22,6 +21,7 @@ type MarkoExprRootPath = t.NodePath<
   | t.MarkoPlaceholder
 >;
 
+const repeatableReferenceGroups = new SortedRepeatable(compareReferenceGroups);
 const [getReferenceGroups] = createSectionState<ReferenceGroup[]>(
   "apply",
   () => [
@@ -117,7 +117,7 @@ export function trackReferencesForBindings(
     const identifier = bindings[name];
     const binding = reserveScope(reserveType, sectionId, identifier, name);
 
-    insertReferenceGroup(getReferenceGroups(sectionId), {
+    repeatableReferenceGroups.add(getReferenceGroups(sectionId), {
       sectionId,
       index: 0,
       count: 0,
@@ -159,25 +159,21 @@ export function updateReferenceGroup(
   newBinding: Reserve
 ) {
   const sectionId = getOrCreateSectionId(path);
-  const currentGroup = (path.node.extra ??= {})[extraKey] as
-    | ReferenceGroup
-    | undefined;
-  const newReferences = insertReserve(
-    currentGroup?.references,
-    newBinding,
-    true
-  );
+  const extra = (path.node.extra ??= {});
+  const currentGroup = extra[extraKey] as ReferenceGroup | undefined;
 
   if (currentGroup) {
     currentGroup.count--;
+    extra[extraKey] = getOrCreateReferenceGroup(
+      sectionId,
+      repeatableReserves.add(
+        repeatableReserves.clone(currentGroup.references),
+        newBinding
+      )
+    );
+  } else {
+    extra[extraKey] = getOrCreateReferenceGroup(sectionId, newBinding);
   }
-
-  getOrCreateReferenceGroup(sectionId, newBinding);
-
-  path.node.extra![extraKey] = getOrCreateReferenceGroup(
-    sectionId,
-    newReferences
-  );
 }
 
 export function mergeReferenceGroups(
@@ -187,20 +183,10 @@ export function mergeReferenceGroups(
   let newReferences: ReferenceGroup["references"];
   for (const [extra, key] of groupEntries) {
     const group = extra[key] as ReferenceGroup;
-    const references = group.references;
     delete extra[key];
     group.count--;
     sectionId = group.sectionId;
-
-    if (references) {
-      if (Array.isArray(references)) {
-        for (const binding of references) {
-          newReferences = insertReserve(newReferences, binding);
-        }
-      } else {
-        newReferences = insertReserve(newReferences, references);
-      }
-    }
+    newReferences = repeatableReserves.addAll(newReferences, group.references);
   }
 
   return getOrCreateReferenceGroup(sectionId, newReferences);
@@ -220,12 +206,15 @@ function getOrCreateReferenceGroup(
   };
 
   const referenceGroups = getReferenceGroups(sectionId);
-  const existingGroup = findReferenceGroup(referenceGroups, newGroup);
+  const existingGroup = repeatableReferenceGroups.find(
+    referenceGroups,
+    newGroup
+  );
 
   if (existingGroup) {
     existingGroup.count++;
   } else {
-    insertReferenceGroup(referenceGroups, newGroup);
+    repeatableReferenceGroups.add(referenceGroups, newGroup);
   }
 
   return existingGroup ?? newGroup;
@@ -286,44 +275,43 @@ function isFunctionExpression(
  * reference group priority is sorted by number of references,
  * then if needed by reference order.
  */
-const { insert: insertReferenceGroup, find: findReferenceGroup } =
-  createSortedCollection(function compareReferenceGroups(
-    { references: a }: ReferenceGroup,
-    { references: b }: ReferenceGroup
-  ) {
-    if (a) {
-      if (b) {
-        if (Array.isArray(a)) {
-          if (Array.isArray(b)) {
-            const len = a.length;
-            const lenDelta = len - b.length;
-            if (lenDelta !== 0) {
-              return lenDelta;
-            }
-
-            for (let i = 0; i < len; i++) {
-              const compareResult = compareReserves(a[i], b[i]);
-              if (compareResult !== 0) {
-                return compareResult;
-              }
-            }
-
-            return 0;
-          } else {
-            return 1;
+function compareReferenceGroups(
+  { references: a }: ReferenceGroup,
+  { references: b }: ReferenceGroup
+) {
+  if (a) {
+    if (b) {
+      if (Array.isArray(a)) {
+        if (Array.isArray(b)) {
+          const len = a.length;
+          const lenDelta = len - b.length;
+          if (lenDelta !== 0) {
+            return lenDelta;
           }
-        } else if (Array.isArray(b)) {
-          return -1;
+
+          for (let i = 0; i < len; i++) {
+            const compareResult = repeatableReserves.compare(a[i], b[i]);
+            if (compareResult !== 0) {
+              return compareResult;
+            }
+          }
+
+          return 0;
         } else {
-          return compareReserves(a, b);
+          return 1;
         }
+      } else if (Array.isArray(b)) {
+        return -1;
       } else {
-        return 1;
+        return repeatableReserves.compare(a, b);
       }
     } else {
-      return b ? -1 : 0;
+      return 1;
     }
-  });
+  } else {
+    return b ? -1 : 0;
+  }
+}
 
 export function finalizeReferences() {
   const allReferenceGroups: ReferenceGroup[][] = [];
@@ -361,7 +349,7 @@ export function getReferenceGroup(
   if (typeof lookup === "number") {
     found = referenceGroups[lookup];
   } else {
-    found = findReferenceGroup(referenceGroups, {
+    found = repeatableReferenceGroups.find(referenceGroups, {
       references: lookup,
     } as ReferenceGroup);
   }

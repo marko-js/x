@@ -1,7 +1,7 @@
 import { types as t } from "@marko/compiler";
 import { isOptimize } from "./marko-config";
 import { createSectionState, forEachSectionId } from "./sections";
-import { createSortedCollection } from "./sorted-arr";
+import { SortedRepeatable } from "./sorted-repeatable";
 
 const [getReservesByType] = createSectionState<Array<Reserve[] | undefined>>(
   "reservesByType",
@@ -110,9 +110,9 @@ export function getNodeLiteral(reserve: Reserve) {
   return t.numericLiteral(reserve.id);
 }
 
-export function compareReserves(a: Reserve, b: Reserve) {
+export const repeatableReserves = new SortedRepeatable(function compareReserves(
+  a: Reserve,
+  b: Reserve
+) {
   return a.sectionId - b.sectionId || a.type - b.type || a.id - b.id;
-}
-
-export const { insert: insertReserve, count: countReserves } =
-  createSortedCollection(compareReserves);
+});
