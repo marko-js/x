@@ -1,7 +1,7 @@
 {
   "name": "fluurt",
   "devDependencies": {
-    "@commitlint/cli": "^16.0.2",
+    "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^16.0.0",
     "@marko/compiler": "^5.23.0",
     "@rollup/plugin-replace": "3.0.1",
@@ -22,8 +22,8 @@
     "husky": "^7.0.4",
     "jsdom": "^19.0.0",
     "jsdom-context-require": "^4.0.4",
-    "lerna": "^6.0.3",
-    "lint-staged": "^12.1.7",
+    "lerna": "^6.6.1",
+    "lint-staged": "^13.2.1",
     "magic-string": "^0.25.7",
     "mocha": "^10.2.0",
     "mocha-snap": "^5.0.0",
