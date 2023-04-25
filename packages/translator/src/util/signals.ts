@@ -387,14 +387,13 @@ export function getSignalFn(
 }
 
 export function getTagVarSignal(varPath: NodePath<t.LVal | null>) {
-  const identifiers = Object.values(
-    varPath.getBindingIdentifiers()
-  ) as t.Identifier[];
-
-  if (identifiers.length === 1) {
-    return initValue(identifiers[0].extra.reserve!);
-  } else if (identifiers.length > 1) {
-    return getDestructureSignal(identifiers, varPath.node!)!;
+  if (varPath.isIdentifier()) {
+    return initValue(varPath.node.extra.reserve!);
+  } else {
+    return getDestructureSignal(
+      Object.values(varPath.getBindingIdentifiers()) as t.Identifier[],
+      varPath.node!
+    )!;
   }
 }
 
