@@ -1,10 +1,6 @@
 import type { types as t } from "@marko/compiler";
 import type { Tag } from "@marko/babel-utils";
-import {
-  getReferenceGroup,
-  trackReferencesForBindings,
-} from "../util/references";
-import { ReserveType } from "../util/reserve";
+import { trackReferencesForBindings } from "../util/references";
 import { getOrCreateSectionId } from "../util/sections";
 import { currentProgramPath } from "../visitors/program";
 import { initValue } from "../util/signals";
@@ -26,15 +22,13 @@ export default {
         string,
         t.Identifier
       >;
-      const sectionId = getOrCreateSectionId(tag);
-      trackReferencesForBindings(sectionId, varPath, ReserveType.Store);
+      trackReferencesForBindings(getOrCreateSectionId(tag), varPath);
       for (const key in bindings) {
         const binding = bindings[key].extra!.reserve!;
-        binding!.exportIdentifier = getReferenceGroup(
-          sectionId,
-          binding,
-          true
-        ).apply;
+        binding!.exportIdentifier =
+          currentProgramPath.scope.generateUidIdentifier(
+            `apply_${binding.name}`
+          );
       }
       (currentProgramPath.node.extra ??= {}).attrs = {
         bindings,

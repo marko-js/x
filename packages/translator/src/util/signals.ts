@@ -1,5 +1,5 @@
 import { types as t } from "@marko/compiler";
-import type { ReferenceGroup } from "./references";
+import type { References } from "./references";
 import {
   getSectionId,
   createSectionState,
@@ -203,7 +203,7 @@ export function initValue(
 export function initContextProvider(
   templateId: string,
   reserve: Reserve,
-  providers: ReferenceGroup | undefined,
+  providers: References,
   compute: t.Expression,
   renderer: t.Identifier
 ) {
@@ -280,7 +280,7 @@ export function addIntersectionWithGuardedValue(
 export function getSignalFn(
   signal: Signal,
   params: Array<t.Identifier | t.Pattern>,
-  references?: undefined | Reserve | Reserve[]
+  references?: References
 ) {
   const isSetup = !signal.reserve;
   const sectionId = signal.sectionId;
@@ -581,7 +581,7 @@ export function finalizeSignalArgs(args: t.Expression[]) {
 export function addStatement(
   type: "hydrate",
   targetSectionId: number,
-  references: ReferenceGroup | undefined,
+  references: References,
   statement: t.Statement | t.Statement[],
   originalNodes: t.Expression | t.Expression[],
   isInlined?: boolean
@@ -589,20 +589,19 @@ export function addStatement(
 export function addStatement(
   type: "apply" | "intersection",
   targetSectionId: number,
-  references: ReferenceGroup | undefined,
+  references: References,
   statement: t.Statement | t.Statement[]
 ): void;
 export function addStatement(
   // TODO: rename "apply" to "render"
   type: "apply" | "hydrate" | "intersection",
   targetSectionId: number,
-  references: ReferenceGroup | undefined,
+  references: References,
   statement: t.Statement | t.Statement[],
   originalNodes?: t.Expression | t.Expression[],
   isInlined?: boolean
 ): void {
-  const reserve = references?.references;
-  const signal = getSignal(targetSectionId, reserve);
+  const signal = getSignal(targetSectionId, references);
   const statements = (signal[type === "apply" ? "render" : type] ??= []);
 
   if (Array.isArray(statement)) {
@@ -628,26 +627,24 @@ export function addStatement(
 
 export function addValue(
   targetSectionId: number,
-  references: ReferenceGroup | undefined,
+  references: References,
   signal: Signal["values"][number]["signal"],
   value: t.Expression,
   scope: t.Expression = scopeIdentifier
 ) {
-  const reserve = references?.references;
-  const targetSignal = getSignal(targetSectionId, reserve);
-  targetSignal.values.push({ signal, value, scope });
+  getSignal(targetSectionId, references).values.push({ signal, value, scope });
 }
 
 export function addHydrateReferences(signal: Signal, expression: t.Expression) {
   signal.hydrateInlineReferences = repeatableReserves.addAll(
     signal.hydrateInlineReferences,
-    (expression as t.FunctionExpression).extra?.references?.references
+    (expression as t.FunctionExpression).extra?.references
   );
 }
 
 export function getHydrateRegisterId(
   sectionId: number,
-  references: string | ReferenceGroup["references"]
+  references: string | References
 ) {
   const {
     markoOpts: { optimize },
@@ -769,10 +766,7 @@ function getMappedId(reserve: Reserve) {
   return (reserve.type === 0 ? 1 : 0) * 10000 + reserve.id;
 }
 
-export function addHTMLHydrateCall(
-  sectionId: number,
-  references?: ReferenceGroup
-) {
+export function addHTMLHydrateCall(sectionId: number, references?: References) {
   addStatement("hydrate", sectionId, references, undefined as any, []);
 }
 
@@ -781,8 +775,8 @@ export function writeHTMLHydrateStatements(
   tagVarIdentifier?: t.Identifier
 ) {
   const sectionId = getOrCreateSectionId(path);
-  const referenceGroups =
-    currentProgramPath.node.extra.referenceGroups?.[sectionId] ?? [];
+  const intersections =
+    currentProgramPath.node.extra.intersectionsBySection?.[sectionId] ?? [];
   const allSignals = Array.from(getSignals(sectionId).values());
   const scopeIdIdentifier = getScopeIdIdentifier(sectionId);
   const scopeIdentifier = getScopeIdentifier(sectionId, true);
@@ -796,13 +790,11 @@ export function writeHTMLHydrateStatements(
 
   const serializedReferences: Reserve[] = [];
 
-  for (const { references } of referenceGroups) {
-    if (Array.isArray(references)) {
-      // TODO: only need to include refs that intersect with stateful refs
-      for (const reference of references) {
-        if (reference.type !== ReserveType.Visit) {
-          repeatableReserves.add(serializedReferences, reference);
-        }
+  for (const intersection of intersections) {
+    for (const reference of intersection) {
+      if (reference.type !== ReserveType.Visit) {
+        // TODO: this should not be needed
+        repeatableReserves.add(serializedReferences, reference);
       }
     }
   }
@@ -876,7 +868,7 @@ function bindFunction(
 ) {
   const { node } = fn;
   const { extra } = node;
-  const references = extra?.references?.references;
+  const references = extra?.references;
   const program = fn.hub.file.path;
   const functionIdentifier = program.scope.generateUidIdentifier(extra?.name);
 
@@ -888,7 +880,7 @@ function bindFunction(
     node.body.body.unshift(
       t.variableDeclaration(
         "const",
-        (Array.isArray(references) ? references : [references]).map((binding) =>
+        repeatableReserves.toArray(references, (binding) =>
           t.variableDeclarator(
             t.identifier(binding.name),
             callRead(binding, sectionId)

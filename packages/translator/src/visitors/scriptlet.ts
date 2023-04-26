@@ -1,7 +1,7 @@
 import type { types as t } from "@marko/compiler";
 import { addStatement } from "../util/signals";
 import { isOutputHTML } from "../util/marko-config";
-import type { ReferenceGroup } from "../util/references";
+import type { References } from "../util/references";
 import { getSectionId } from "../util/sections";
 
 export default {
@@ -16,7 +16,7 @@ export default {
         addStatement(
           "apply",
           getSectionId(scriptlet),
-          scriptlet.node.extra?.bodyReferences as ReferenceGroup,
+          scriptlet.node.extra?.bodyReferences as References,
           scriptlet.node.body
         );
         scriptlet.remove();

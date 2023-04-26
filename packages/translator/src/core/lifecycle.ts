@@ -7,7 +7,7 @@ import { callRuntime } from "../util/runtime";
 import { getOrCreateSectionId, getSectionId } from "../util/sections";
 import attrsToObject from "../util/attrs-to-object";
 import customTag from "../visitors/tag/custom-tag";
-import { mergeReferenceGroups, ReferenceGroup } from "../util/references";
+import { mergeReferences, References } from "../util/references";
 import { currentProgramPath, scopeIdentifier } from "../visitors/program";
 import { getNodeLiteral, reserveScope, ReserveType } from "../util/reserve";
 
@@ -16,7 +16,7 @@ declare module "@marko/compiler/dist/types" {
     isInteractive?: boolean;
   }
   export interface MarkoTagExtra {
-    attrsReferences: ReferenceGroup;
+    attrsReferences: References;
   }
 }
 
@@ -31,7 +31,7 @@ export default {
     exit(tag) {
       customTag.analyze.exit(tag);
       const sectionId = getOrCreateSectionId(tag);
-      tag.node.extra.attrsReferences = mergeReferenceGroups(
+      tag.node.extra.attrsReferences = mergeReferences(
         sectionId,
         tag.node.attributes
           .filter((attr) => attr.extra?.valueReferences)

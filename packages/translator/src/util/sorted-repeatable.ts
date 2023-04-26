@@ -1,7 +1,9 @@
-type Repeatable<T> = undefined | T | T[];
+export type Repeatable<T> = undefined | T | T[];
 export type Compare<T> = (a: T, b: T) => number;
 export class SortedRepeatable<T> {
   constructor(public compare: Compare<T>) {}
+  add(data: undefined, item: T): T;
+  add(data: T | T[], item: T): T[];
   add(data: Repeatable<T>, item: T): T | T[] {
     return data
       ? Array.isArray(data)
@@ -61,8 +63,8 @@ export class SortedRepeatable<T> {
       }
     }
   }
-  clone(item: Repeatable<T>): Repeatable<T> {
-    return Array.isArray(item) ? [...item] : item;
+  clone<Item extends Repeatable<T>>(item: Item): Item {
+    return (Array.isArray(item) ? [...item] : item) as Item;
   }
   size(data: Repeatable<T>) {
     return data ? (Array.isArray(data) ? data.length : 1) : 0;

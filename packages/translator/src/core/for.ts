@@ -28,7 +28,7 @@ import { ReserveType, reserveScope, getNodeLiteral } from "../util/reserve";
 import { callRuntime, importRuntime } from "../util/runtime";
 import analyzeAttributeTags from "../util/nested-attribute-tags";
 import customTag from "../visitors/tag/custom-tag";
-import { mergeReferenceGroups } from "../util/references";
+import { mergeReferences } from "../util/references";
 import {
   currentProgramPath,
   dirtyIdentifier,
@@ -56,7 +56,7 @@ export default {
       analyzeAttributeTags(tag);
 
       const sectionId = getOrCreateSectionId(tag);
-      tag.node.extra.attrsReferences = mergeReferenceGroups(
+      tag.node.extra.attrsReferences = mergeReferences(
         sectionId,
         tag.node.attributes
           .filter(

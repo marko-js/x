@@ -18,7 +18,7 @@ import {
   getOrCreateSectionId,
   getScopeIdIdentifier,
 } from "../../util/sections";
-import trackReferences, { mergeReferenceGroups } from "../../util/references";
+import trackReferences, { mergeReferences } from "../../util/references";
 import {
   addStatement,
   addValue,
@@ -72,7 +72,7 @@ export default {
       const template = tagDef?.template;
       const sectionId = getOrCreateSectionId(tag);
       if (template) {
-        tag.node.extra.attrsReferences = mergeReferenceGroups(
+        tag.node.extra.attrsReferences = mergeReferences(
           sectionId,
           tag.node.attributes
             .filter((attr) => attr.extra?.valueReferences)
