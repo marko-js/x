@@ -23,13 +23,6 @@ export default {
         t.Identifier
       >;
       trackReferencesForBindings(getOrCreateSectionId(tag), varPath);
-      for (const key in bindings) {
-        const binding = bindings[key].extra!.reserve!;
-        binding!.exportIdentifier =
-          currentProgramPath.scope.generateUidIdentifier(
-            `apply_${binding.name}`
-          );
-      }
       (currentProgramPath.node.extra ??= {}).attrs = {
         bindings,
         var: varPath.node!,
@@ -56,47 +49,3 @@ export default {
     },
   ],
 } as Tag;
-
-/*
-function getPathsToId(varNode:t.Identifier | t.ObjectPattern) {
-  if (t.isIdentifier(varNode)) {
-    return varNode.extra!.reserve!.fnId;
-  } else {
-    const paths = {};
-    for (const property of varNode.properties) {
-      if (t.isRestElement(property)) {
-
-      } else {
-        paths[property.key.name] = getPathsToId(property.value);
-      }
-    }
-    return paths;
-  }
-}
-
-type AttributeMeta = {
-  children: Record<string, AttributeMeta>;
-  rest?: AttributeMeta;
-  pattern: t.ObjectPattern | t.Identifier;
-  fnId?: string;
-}
-
-
-// <div a=x/>
-// child: <attrs/{ a }/>
-const _apply_x(x) {
-  _applyChild_a(x);
-}
-
-// <div a=x/>
-// child: <attrs/{ b, ...rest }/>
-const _apply_x(x) {
-  _applyChild_rest({ a: x });
-}
-
-// <div a={ b: x }/>
-// child: <attrs/{ a: { b: c } }/>
-const _apply_x(x) {
-  _applyChild_c(x);
-}
-*/

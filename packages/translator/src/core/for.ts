@@ -12,7 +12,7 @@ import {
   getSignal,
   setSubscriberBuilder,
   setRegisterScopeBuilder,
-  writeHTMLHydrateStatements,
+  writeHTMLResumeStatements,
   getSerializedScopeProperties,
   addValue,
   getTagParamsSignal,
@@ -277,7 +277,7 @@ const translateHTML = {
     if (isStateful) {
       if (!singleNodeOptimization) {
         writer.writePrependTo(tagBody)`${callRuntime(
-          "markHydrateScopeStart",
+          "markResumeScopeStart",
           getScopeIdIdentifier(bodySectionId)
         )}`;
       }
@@ -499,14 +499,14 @@ const translateHTML = {
           )
         );
         write`${callRuntime(
-          "markHydrateControlSingleNodeEnd",
+          "markResumeControlSingleNodeEnd",
           getScopeIdIdentifier(sectionId),
           getNodeLiteral(reserve!),
           forScopeIdsIdentifier
         )}`;
       } else {
         write`${callRuntime(
-          "markHydrateControlEnd",
+          "markResumeControlEnd",
           getScopeIdIdentifier(sectionId),
           getNodeLiteral(reserve!)
         )}`;
@@ -522,7 +522,7 @@ const translateHTML = {
     }
 
     writer.flushInto(tag);
-    writeHTMLHydrateStatements(tagBody);
+    writeHTMLResumeStatements(tagBody);
 
     block.body.push(t.expressionStatement(callRuntime("maybeFlush")));
 

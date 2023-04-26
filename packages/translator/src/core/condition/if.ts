@@ -6,9 +6,9 @@ import {
   getSignalFn,
   getSignal,
   setSubscriberBuilder,
-  writeHTMLHydrateStatements,
+  writeHTMLResumeStatements,
   getSerializedScopeProperties,
-  getHydrateRegisterId,
+  getResumeRegisterId,
   addValue,
   getClosures,
   setRegisterScopeBuilder,
@@ -159,7 +159,7 @@ export function exitBranchTranslate(tag: t.NodePath<t.MarkoTag>) {
     if (isStateful) {
       if (!singleNodeOptimization) {
         writer.writePrependTo(tagBody)`${callRuntime(
-          "markHydrateScopeStart",
+          "markResumeScopeStart",
           getScopeIdIdentifier(bodySectionId)
         )}`;
       }
@@ -176,7 +176,7 @@ export function exitBranchTranslate(tag: t.NodePath<t.MarkoTag>) {
       );
     }
     writer.flushInto(tag);
-    writeHTMLHydrateStatements(tagBody);
+    writeHTMLResumeStatements(tagBody);
   }
 
   if (isLast) {
@@ -255,7 +255,7 @@ export function exitBranchTranslate(tag: t.NodePath<t.MarkoTag>) {
                   ifRendererIdentifier,
                   t.arrowFunctionExpression([], t.blockStatement([]))
                 ),
-                t.stringLiteral(getHydrateRegisterId(sectionId, "renderer"))
+                t.stringLiteral(getResumeRegisterId(sectionId, "renderer"))
               )
             ) as any
           );
@@ -302,14 +302,14 @@ export function exitBranchTranslate(tag: t.NodePath<t.MarkoTag>) {
         ]);
         if (singleNodeOptimization) {
           write`${callRuntime(
-            "markHydrateControlSingleNodeEnd",
+            "markResumeControlSingleNodeEnd",
             getScopeIdIdentifier(sectionId),
             getNodeLiteral(extra.reserve!),
             ifScopeIdIdentifier
           )}`;
         } else {
           write`${callRuntime(
-            "markHydrateControlEnd",
+            "markResumeControlEnd",
             getScopeIdIdentifier(sectionId),
             getNodeLiteral(extra.reserve!)
           )}`;

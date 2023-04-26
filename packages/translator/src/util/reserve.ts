@@ -19,7 +19,6 @@ export interface Reserve {
   debugKey: string;
   name: string;
   id: number;
-  exportIdentifier?: t.Identifier;
 }
 
 declare module "@marko/compiler/dist/types" {

@@ -105,7 +105,7 @@ export default {
         }
         const sectionId = getSectionId(tag);
         writer.writeTo(tag)`${callRuntime(
-          "markHydrateControlEnd",
+          "markResumeControlEnd",
           getScopeIdIdentifier(sectionId),
           getNodeLiteral(node.extra.reserve!)
         )}`;

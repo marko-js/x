@@ -14,7 +14,7 @@ export default {
         scriptlet.replaceWithMultiple(scriptlet.node.body);
       } else {
         addStatement(
-          "apply",
+          "render",
           getSectionId(scriptlet),
           scriptlet.node.extra?.bodyReferences as References,
           scriptlet.node.body

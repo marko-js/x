@@ -2,7 +2,7 @@ import { types as t } from "@marko/compiler";
 import { Tag, assertNoParams } from "@marko/babel-utils";
 import { assertNoBodyContent } from "../util/assert";
 import { isOutputDOM } from "../util/marko-config";
-import { addStatement, addHTMLHydrateCall } from "../util/signals";
+import { addStatement, addHTMLEffectCall } from "../util/signals";
 import { callRuntime } from "../util/runtime";
 import { getOrCreateSectionId, getSectionId } from "../util/sections";
 import attrsToObject from "../util/attrs-to-object";
@@ -64,7 +64,7 @@ export default {
       if (isOutputDOM()) {
         const attrsObject = attrsToObject(tag);
         addStatement(
-          "hydrate",
+          "effect",
           sectionId,
           node.extra.attrsReferences,
           t.expressionStatement(
@@ -78,7 +78,7 @@ export default {
           node.attributes.map((a) => a.value)
         );
       } else {
-        addHTMLHydrateCall(sectionId, node.extra.attrsReferences);
+        addHTMLEffectCall(sectionId, node.extra.attrsReferences);
       }
 
       tag.remove();
