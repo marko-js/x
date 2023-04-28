@@ -19,7 +19,7 @@ import {
   dirtyIdentifier,
   scopeIdentifier,
 } from "../visitors/program";
-import { callRuntime, callRead, getScopeExpression } from "./runtime";
+import { callRuntime, getScopeExpression } from "./runtime";
 import { getTemplateId } from "@marko/babel-utils";
 import type { NodePath } from "@marko/compiler/babel-types";
 import { returnId } from "../core/return";
@@ -670,17 +670,12 @@ export function writeSignals(section: Section) {
 
         if (signal.effectInlineReferences) {
           signal.effect.unshift(
-            t.variableDeclaration(
-              "const",
-              repeatableReserves.toArray(
-                signal.effectInlineReferences,
-                (binding) =>
-                  t.variableDeclarator(
-                    t.identifier(binding.name),
-                    callRead(binding, section)
-                  )
-              )
-            )
+            t.variableDeclaration("const", [
+              t.variableDeclarator(
+                createScopeReadPattern(section, signal.effectInlineReferences),
+                scopeIdentifier
+              ),
+            ])
           );
         }
 
