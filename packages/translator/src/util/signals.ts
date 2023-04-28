@@ -1,12 +1,12 @@
 import { types as t } from "@marko/compiler";
 import type { References } from "./references";
 import {
-  getSectionId,
+  getSection,
   createSectionState,
-  getOrCreateSectionId,
+  getOrCreateSection,
   getScopeIdIdentifier,
   getScopeIdentifier,
-  getSection,
+  Section,
 } from "./sections";
 import {
   Reserve,
@@ -31,7 +31,7 @@ export type registerScopeBuilder = (scope: t.Expression) => t.Expression;
 export type Signal = {
   identifier: t.Identifier;
   reserve: undefined | Reserve | Reserve[];
-  sectionId: number;
+  section: Section;
   build: () => t.Expression;
   register?: boolean;
   values: Array<{
@@ -47,7 +47,7 @@ export type Signal = {
   render: t.Statement[];
   effect: t.Statement[];
   effectInlineReferences: undefined | Reserve | Reserve[];
-  closures: Map<number /* sectionId */, Signal>;
+  closures: Map<Section, Signal>;
   hasDownstreamIntersections: () => boolean;
   hasDynamicSubscribers?: true;
 };
@@ -81,7 +81,7 @@ export function setSubscriberBuilder(
   tag: t.NodePath<t.MarkoTag>,
   builder: subscribeBuilder
 ) {
-  _setSubscribeBuilder(getSectionId(tag.get("body")), builder);
+  _setSubscribeBuilder(getSection(tag.get("body")), builder);
 }
 
 export const [getClosures] = createSectionState<t.ArrayExpression["elements"]>(
@@ -89,22 +89,22 @@ export const [getClosures] = createSectionState<t.ArrayExpression["elements"]>(
   () => []
 );
 export const addClosure = (
-  fromSectionId: number,
-  toSectionId: number,
+  fromSection: Section,
+  toSection: Section,
   closure: t.Expression
 ) => {
-  let currentSectionId: number | undefined = fromSectionId;
-  while (currentSectionId !== undefined && currentSectionId !== toSectionId) {
-    getClosures(currentSectionId).push(closure);
-    currentSectionId = getSection(currentSectionId).parentId;
+  let currentSection: Section | undefined = fromSection;
+  while (currentSection !== undefined && currentSection !== toSection) {
+    getClosures(currentSection).push(closure);
+    currentSection = currentSection.parent;
   }
 };
 
 const [forceResumeScope, _setForceResumeScope] = createSectionState<
   undefined | true
 >("forceResumeScope");
-export function setForceResumeScope(sectionId: number) {
-  _setForceResumeScope(sectionId, true);
+export function setForceResumeScope(section: Section) {
+  _setForceResumeScope(section, true);
 }
 export const [getSerializedScopeProperties] = createSectionState<
   Map<t.Expression, t.Expression>
@@ -117,19 +117,23 @@ export function setRegisterScopeBuilder(
   tag: t.NodePath<t.MarkoTag>,
   builder: registerScopeBuilder
 ) {
-  _setRegisterScopeBuilder(getSectionId(tag.get("body")), builder);
+  _setRegisterScopeBuilder(getSection(tag.get("body")), builder);
 }
 
-export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
-  const signals = getSignals(sectionId);
+const unimplementedBuild = () => {
+  return t.stringLiteral("SIGNAL NOT INITIALIZED");
+};
+
+export function getSignal(section: Section, reserve?: Reserve | Reserve[]) {
+  const signals = getSignals(section);
   let signal = signals.get(reserve)!;
   if (!signal) {
     signals.set(
       reserve,
       (signal = {
-        identifier: t.identifier(generateSignalName(sectionId, reserve)),
+        identifier: t.identifier(generateSignalName(section, reserve)),
         reserve,
-        sectionId,
+        section,
         values: [],
         intersectionDeclarations: [],
         intersection: [],
@@ -151,7 +155,8 @@ export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
             return false;
           }
         },
-      } as any as Signal)
+        build: unimplementedBuild,
+      } as Signal)
     );
 
     if (isOutputHTML()) {
@@ -167,13 +172,13 @@ export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
           getSignalFn(signal, [scopeIdentifier], reserve)
         );
       };
-    } else if (reserve.sectionId !== sectionId) {
-      const provider = getSignal(reserve.sectionId, reserve);
-      addClosure(sectionId, reserve.sectionId, signal.identifier);
-      provider.closures.set(sectionId, signal);
+    } else if (reserve.section !== section) {
+      const provider = getSignal(reserve.section, reserve);
+      addClosure(section, reserve.section, signal.identifier);
+      provider.closures.set(section, signal);
       signal.build = () => {
-        const builder = getSubscribeBuilder(sectionId);
-        const ownerScope = getScopeExpression(reserve.sectionId, sectionId);
+        const builder = getSubscribeBuilder(section);
+        const ownerScope = getScopeExpression(reserve.section, section);
         const isImmediateOwner =
           (ownerScope as t.MemberExpression).object === scopeIdentifier;
         return callRuntime(
@@ -185,10 +190,6 @@ export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
             : t.arrowFunctionExpression([scopeIdentifier], ownerScope)
         );
       };
-    } else {
-      signal.build = () => {
-        return t.stringLiteral("SIGNAL NOT INITIALIZED");
-      };
     }
   }
   return signal;
@@ -198,8 +199,8 @@ export function initValue(
   reserve: Reserve,
   valueAccessor = getNodeLiteral(reserve)
 ) {
-  const sectionId = reserve.sectionId;
-  const signal = getSignal(sectionId, reserve);
+  const section = reserve.section;
+  const signal = getSignal(section, reserve);
   signal.build = () => {
     const fn = getSignalFn(signal, [
       scopeIdentifier,
@@ -221,7 +222,7 @@ export function initContextProvider(
   compute: t.Expression,
   renderer: t.Identifier
 ) {
-  const sectionId = reserve.sectionId;
+  const section = reserve.section;
   const scopeAccessor = getNodeLiteral(reserve);
   const valueAccessor = t.stringLiteral(
     `${reserve.id}${AccessorChars.CONTEXT_VALUE}`
@@ -231,7 +232,7 @@ export function initContextProvider(
   );
 
   const signal = initValue(reserve, valueAccessor);
-  addValue(sectionId, providers, signal, compute);
+  addValue(section, providers, signal, compute);
   signal.intersection.push(
     t.expressionStatement(
       callRuntime(
@@ -244,7 +245,7 @@ export function initContextProvider(
 
   addStatement(
     "render",
-    reserve.sectionId,
+    reserve.section,
     undefined,
     t.expressionStatement(
       callRuntime(
@@ -262,9 +263,9 @@ export function initContextProvider(
 }
 
 export function initContextConsumer(templateId: string, reserve: Reserve) {
-  const sectionId = reserve.sectionId;
-  const signal = getSignal(sectionId, reserve);
-  getClosures(sectionId).push(signal.identifier);
+  const section = reserve.section;
+  const signal = getSignal(section, reserve);
+  getClosures(section).push(signal.identifier);
   signal.build = () => {
     return callRuntime(
       "contextClosure",
@@ -297,7 +298,7 @@ export function getSignalFn(
   references?: References
 ) {
   const isSetup = !signal.reserve;
-  const sectionId = signal.sectionId;
+  const section = signal.section;
   const needsDirty = !isSetup && signal.hasDownstreamIntersections();
   let statements;
 
@@ -331,12 +332,11 @@ export function getSignalFn(
   // In order to ensure correct topological ordering, closures must be called last
   // with closures higher in the tree called before calling closures lower in the tree
   const closureEntries = Array.from(signal.closures.entries()).sort(
-    ([a], [b]) => a - b
+    ([a], [b]) => a.id - b.id
   );
-  for (const [closureSectionId, closureSignal] of closureEntries) {
-    const builder = getSubscribeBuilder(closureSectionId);
-    const isImmediateOwner =
-      getSection(closureSectionId).parentId === sectionId;
+  for (const [closureSection, closureSignal] of closureEntries) {
+    const builder = getSubscribeBuilder(closureSection);
+    const isImmediateOwner = closureSection.parent === section;
     if (builder && isImmediateOwner) {
       signal.intersection.push(builder(closureSignal.identifier));
     } else if (!signal.hasDynamicSubscribers) {
@@ -364,7 +364,7 @@ export function getSignalFn(
         references.map((binding) =>
           t.variableDeclarator(
             t.identifier(binding.name),
-            callRead(binding, sectionId)
+            callRead(binding, section)
           )
         )
       )
@@ -374,7 +374,7 @@ export function getSignalFn(
       t.variableDeclaration("const", [
         t.variableDeclarator(
           t.identifier(references.name),
-          callRead(references, sectionId)
+          callRead(references, section)
         ),
       ])
     );
@@ -500,7 +500,7 @@ export function getDestructureSignal(
       hasDownstreamIntersections() {
         return bindings.some((binding) => {
           const reserve = binding.extra?.reserve as Reserve;
-          const signal = getSignal(reserve.sectionId, reserve);
+          const signal = getSignal(reserve.section, reserve);
           return signal.hasDownstreamIntersections();
         });
       },
@@ -516,7 +516,7 @@ export function subscribe(
     provider.forEach((p) => subscribe(p, subscriber));
     return;
   }
-  const providerSignal = getSignal(subscriber.sectionId, provider);
+  const providerSignal = getSignal(subscriber.section, provider);
   providerSignal.intersection.push(
     t.expressionStatement(
       t.callExpression(subscriber.identifier, [
@@ -528,7 +528,7 @@ export function subscribe(
 }
 
 function generateSignalName(
-  sectionId: number,
+  section: Section,
   references?: undefined | Reserve | Reserve[]
 ) {
   let name;
@@ -546,19 +546,18 @@ function generateSignalName(
     name = "setup";
   }
 
-  name += sectionId ? getSection(sectionId).name.replace("_", "$") : "";
-  // name = sectionId ? getSection(sectionId).name + "$" + name : name;
+  name += section.name.replace("_", "$");
   return currentProgramPath.scope.generateUid(name);
 }
 
 export function queueSource(
   source: Signal,
   value: t.Expression,
-  targetSectionId: number
+  targetSection: Section
 ) {
   return callRuntime(
     "queueSource",
-    getScopeExpression(source.sectionId, targetSectionId),
+    getScopeExpression(source.section, targetSection),
     source.identifier,
     value
   );
@@ -585,7 +584,7 @@ export function finalizeSignalArgs(args: t.Expression[]) {
 }
 export function addStatement(
   type: "effect",
-  targetSectionId: number,
+  targetSection: Section,
   references: References,
   statement: t.Statement | t.Statement[],
   originalNodes: t.Expression | t.Expression[],
@@ -593,19 +592,19 @@ export function addStatement(
 ): void;
 export function addStatement(
   type: "render",
-  targetSectionId: number,
+  targetSection: Section,
   references: References,
   statement: t.Statement | t.Statement[]
 ): void;
 export function addStatement(
   type: "render" | "effect",
-  targetSectionId: number,
+  targetSection: Section,
   references: References,
   statement: t.Statement | t.Statement[],
   originalNodes?: t.Expression | t.Expression[],
   isInlined?: boolean
 ): void {
-  const signal = getSignal(targetSectionId, references);
+  const signal = getSignal(targetSection, references);
   const statements = (signal[type] ??= []);
 
   if (Array.isArray(statement)) {
@@ -630,13 +629,13 @@ export function addStatement(
 }
 
 export function addValue(
-  targetSectionId: number,
+  targetSection: Section,
   references: References,
   signal: Signal["values"][number]["signal"],
   value: t.Expression,
   scope: t.Expression = scopeIdentifier
 ) {
-  getSignal(targetSectionId, references).values.push({ signal, value, scope });
+  getSignal(targetSection, references).values.push({ signal, value, scope });
 }
 
 export function addEffectReferences(signal: Signal, expression: t.Expression) {
@@ -647,7 +646,7 @@ export function addEffectReferences(signal: Signal, expression: t.Expression) {
 }
 
 export function getResumeRegisterId(
-  sectionId: number,
+  section: Section,
   references: string | References
 ) {
   const {
@@ -666,11 +665,11 @@ export function getResumeRegisterId(
       name += `_${references.name}`;
     }
   }
-  return getTemplateId(optimize, `${filename}_${sectionId}${name}`);
+  return getTemplateId(optimize, `${filename}_${section.id}${name}`);
 }
 
-export function writeSignals(sectionId: number) {
-  const signals = getSignals(sectionId);
+export function writeSignals(section: Section) {
+  const signals = getSignals(section);
   const declarations = Array.from(signals.values())
     .sort(sortSignals)
     .flatMap((signal) => {
@@ -689,7 +688,7 @@ export function writeSignals(sectionId: number) {
                 (binding) =>
                   t.variableDeclarator(
                     t.identifier(binding.name),
-                    callRead(binding, sectionId)
+                    callRead(binding, section)
                   )
               )
             )
@@ -700,7 +699,7 @@ export function writeSignals(sectionId: number) {
           effectIdentifier,
           callRuntime(
             "register",
-            t.stringLiteral(getResumeRegisterId(sectionId, signal.reserve)),
+            t.stringLiteral(getResumeRegisterId(section, signal.reserve)),
             t.arrowFunctionExpression(
               [scopeIdentifier],
               signal.effect.length === 1 &&
@@ -721,7 +720,7 @@ export function writeSignals(sectionId: number) {
       if (signal.register) {
         value = callRuntime(
           "register",
-          t.stringLiteral(getResumeRegisterId(sectionId, signal.reserve)),
+          t.stringLiteral(getResumeRegisterId(section, signal.reserve)),
           value
         );
       }
@@ -740,7 +739,7 @@ export function writeSignals(sectionId: number) {
   const newPaths = currentProgramPath.pushContainer("body", declarations);
 
   newPaths.forEach((newPath) =>
-    newPath.traverse(bindFunctionsVisitor, { root: newPath, sectionId })
+    newPath.traverse(bindFunctionsVisitor, { root: newPath, section })
   );
 }
 
@@ -770,21 +769,21 @@ function getMappedId(reserve: Reserve) {
   return (reserve.type === 0 ? 1 : 0) * 10000 + reserve.id;
 }
 
-export function addHTMLEffectCall(sectionId: number, references?: References) {
+export function addHTMLEffectCall(section: Section, references?: References) {
   // TODO: this should not add an undefined statement.
-  addStatement("effect", sectionId, references, undefined as any, []);
+  addStatement("effect", section, references, undefined as any, []);
 }
 
 export function writeHTMLResumeStatements(
   path: t.NodePath<t.MarkoTagBody | t.Program>,
   tagVarIdentifier?: t.Identifier
 ) {
-  const sectionId = getOrCreateSectionId(path);
+  const section = getOrCreateSection(path);
   const intersections =
-    currentProgramPath.node.extra.intersectionsBySection?.[sectionId] ?? [];
-  const allSignals = Array.from(getSignals(sectionId).values());
-  const scopeIdIdentifier = getScopeIdIdentifier(sectionId);
-  const scopeIdentifier = getScopeIdentifier(sectionId, true);
+    currentProgramPath.node.extra.intersectionsBySection?.[section.id] ?? [];
+  const allSignals = Array.from(getSignals(section).values());
+  const scopeIdIdentifier = getScopeIdIdentifier(section);
+  const scopeIdentifier = getScopeIdentifier(section, true);
 
   path.unshiftContainer(
     "body",
@@ -814,7 +813,7 @@ export function writeHTMLResumeStatements(
           callRuntime(
             "writeEffect",
             scopeIdIdentifier,
-            t.stringLiteral(getResumeRegisterId(sectionId, signalRefs))
+            t.stringLiteral(getResumeRegisterId(section, signalRefs))
           )
         )
       );
@@ -826,7 +825,7 @@ export function writeHTMLResumeStatements(
     return acc;
   }, [] as Array<t.ObjectProperty>);
 
-  if (tagVarIdentifier && returnId(sectionId) !== undefined) {
+  if (tagVarIdentifier && returnId(section) !== undefined) {
     serializedProperties.push(
       t.objectProperty(
         t.stringLiteral(AccessorChars.TAG_VARIABLE),
@@ -835,14 +834,14 @@ export function writeHTMLResumeStatements(
     );
   }
 
-  const additionalProperties = getSerializedScopeProperties(sectionId);
+  const additionalProperties = getSerializedScopeProperties(section);
   for (const [key, value] of additionalProperties) {
     serializedProperties.push(t.objectProperty(key, value, !t.isLiteral(key)));
   }
 
-  if (serializedProperties.length || forceResumeScope(sectionId)) {
+  if (serializedProperties.length || forceResumeScope(section)) {
     const isRoot = path.isProgram();
-    const builder = getRegisterScopeBuilder(sectionId);
+    const builder = getRegisterScopeBuilder(section);
     path.pushContainer(
       "body",
       t.expressionStatement(
@@ -861,7 +860,7 @@ export function writeHTMLResumeStatements(
 
 const bindFunctionsVisitor: t.Visitor<{
   root: t.NodePath<any>;
-  sectionId: number;
+  section: Section;
 }> = {
   FunctionExpression: { exit: bindFunction },
   ArrowFunctionExpression: { exit: bindFunction },
@@ -869,7 +868,7 @@ const bindFunctionsVisitor: t.Visitor<{
 
 function bindFunction(
   fn: t.NodePath<t.FunctionExpression | t.ArrowFunctionExpression>,
-  { root, sectionId }: { root: t.NodePath<any>; sectionId: number }
+  { root, section }: { root: t.NodePath<any>; section: Section }
 ) {
   const { node } = fn;
   const { extra } = node;
@@ -888,7 +887,7 @@ function bindFunction(
         repeatableReserves.toArray(references, (binding) =>
           t.variableDeclarator(
             t.identifier(binding.name),
-            callRead(binding, sectionId)
+            callRead(binding, section)
           )
         )
       )
@@ -914,6 +913,6 @@ function bindFunction(
   );
 }
 
-export function getSetup(sectionId: number) {
-  return getSignals(sectionId).get(undefined)?.identifier;
+export function getSetup(section: Section) {
+  return getSignals(section).get(undefined)?.identifier;
 }
