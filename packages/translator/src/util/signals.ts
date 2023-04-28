@@ -19,12 +19,12 @@ import {
   dirtyIdentifier,
   scopeIdentifier,
 } from "../visitors/program";
-import { callRuntime, getScopeExpression } from "./runtime";
+import { callRuntime } from "./runtime";
 import { getTemplateId } from "@marko/babel-utils";
 import type { NodePath } from "@marko/compiler/babel-types";
 import { returnId } from "../core/return";
 import { isOutputHTML } from "./marko-config";
-import { createScopeReadPattern } from "./create-scope-read-pattern";
+import { createScopeReadPattern, getScopeExpression } from "./scope-read";
 
 export type subscribeBuilder = (subscriber: t.Expression) => t.Statement;
 export type registerScopeBuilder = (scope: t.Expression) => t.Expression;
@@ -179,7 +179,7 @@ export function getSignal(section: Section, reserve?: Reserve | Reserve[]) {
       provider.closures.set(section, signal);
       signal.build = () => {
         const builder = getSubscribeBuilder(section);
-        const ownerScope = getScopeExpression(reserve.section, section);
+        const ownerScope = getScopeExpression(section, reserve.section);
         const isImmediateOwner =
           (ownerScope as t.MemberExpression).object === scopeIdentifier;
         return callRuntime(
@@ -546,7 +546,7 @@ export function queueSource(
 ) {
   return callRuntime(
     "queueSource",
-    getScopeExpression(source.section, targetSection),
+    getScopeExpression(targetSection, source.section),
     source.identifier,
     value
   );

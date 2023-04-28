@@ -1,7 +1,12 @@
 import { types as t } from "@marko/compiler";
 import type { References } from "./references";
 import type { Section } from "./sections";
-import { getScopeAccessorLiteral, repeatableReserves } from "./reserve";
+import {
+  Reserve,
+  getScopeAccessorLiteral,
+  repeatableReserves,
+} from "./reserve";
+import { scopeIdentifier } from "../visitors/program";
 
 export function createScopeReadPattern(
   section: Section,
@@ -44,4 +49,28 @@ export function createScopeReadPattern(
   }
 
   return rootPattern;
+}
+
+export function getScopeExpression(section: Section, targetSection: Section) {
+  let scope: t.Expression = scopeIdentifier;
+  const diff = section.depth - targetSection.depth;
+  for (let i = 0; i < diff; i++) {
+    scope = t.memberExpression(scope, t.identifier("_"));
+  }
+  if (diff < 0) {
+    // TODO: handle hoisted references
+    throw new Error("Unable to find scope for reference.");
+  }
+  return scope;
+}
+
+export function createScopeReadExpression(
+  section: Section,
+  reference: Reserve
+) {
+  return t.memberExpression(
+    getScopeExpression(section, reference.section),
+    getScopeAccessorLiteral(reference),
+    true
+  );
 }

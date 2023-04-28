@@ -11,7 +11,7 @@ import translateVar from "../../util/translate-var";
 import * as writer from "../../util/writer";
 import * as walks from "../../util/walks";
 import { isOutputHTML } from "../../util/marko-config";
-import { callRuntime, callRead } from "../../util/runtime";
+import { callRuntime } from "../../util/runtime";
 import {
   startSection,
   getSection,
@@ -34,6 +34,7 @@ import {
   ReserveType,
 } from "../../util/reserve";
 import { currentProgramPath, scopeIdentifier } from "../program";
+import { createScopeReadExpression } from "../../util/scope-read";
 
 declare module "@marko/compiler/dist/types" {
   export interface ProgramExtra {
@@ -268,7 +269,9 @@ function translateDOM(tag: t.NodePath<t.MarkoTag>) {
     tagSection,
     undefined,
     t.expressionStatement(
-      t.callExpression(tagIdentifier, [callRead(binding, tagSection)])
+      t.callExpression(tagIdentifier, [
+        createScopeReadExpression(tagSection, binding),
+      ])
     )
   );
   if (attrsObject && tagAttrsIdentifier) {
@@ -280,7 +283,7 @@ function translateDOM(tag: t.NodePath<t.MarkoTag>) {
         hasDownstreamIntersections: () => true,
       },
       attrsObject,
-      callRead(binding, tagSection)
+      createScopeReadExpression(tagSection, binding)
     );
   }
   tag.remove();
