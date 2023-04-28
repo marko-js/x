@@ -358,24 +358,12 @@ export function getSignalFn(
     }
   }
 
-  if (Array.isArray(references)) {
-    signal.render.unshift(
-      t.variableDeclaration(
-        "const",
-        references.map((binding) =>
-          t.variableDeclarator(
-            t.identifier(binding.name),
-            callRead(binding, section)
-          )
-        )
-      )
-    );
-  } else if (references) {
+  if (references) {
     signal.render.unshift(
       t.variableDeclaration("const", [
         t.variableDeclarator(
-          t.identifier(references.name),
-          callRead(references, section)
+          createScopeReadPattern(section, references),
+          scopeIdentifier
         ),
       ])
     );

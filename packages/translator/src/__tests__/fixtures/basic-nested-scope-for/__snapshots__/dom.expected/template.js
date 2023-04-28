@@ -1,7 +1,11 @@
 import { on as _on, attr as _attr, queueSource as _queueSource, data as _data, intersection as _intersection, register as _register, queueEffect as _queueEffect, value as _value, closure as _closure, createRenderer as _createRenderer, loop as _loop, inLoopScope as _inLoopScope, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _expr_selected_num$forBody = /* @__PURE__ */_intersection(2, _scope => {
-  const selected = _scope._["selected"],
-    num = _scope["num"];
+  const {
+    _: {
+      selected
+    },
+    num
+  } = _scope;
   _attr(_scope["#button/0"], "data-selected", selected === num);
   _attr(_scope["#button/0"], "data-multiple", num % selected === 0);
 });

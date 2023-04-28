@@ -1,7 +1,9 @@
 import { on as _on, queueSource as _queueSource, data as _data, intersection as _intersection, value as _value, register as _register, queueEffect as _queueEffect, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _expr_count_multiplier = /* @__PURE__ */_intersection(2, _scope => {
-  const count = _scope["count"],
-    multiplier = _scope["multiplier"];
+  const {
+    count,
+    multiplier
+  } = _scope;
   _multipliedCount(_scope, count * multiplier);
 });
 const _multipliedCount = /* @__PURE__ */_value("multipliedCount", (_scope, multipliedCount) => _data(_scope["#text/3"], multipliedCount));

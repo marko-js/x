@@ -8,8 +8,10 @@ const _expr_a_b_effect = _register("packages/translator/src/__tests__/fixtures/b
   _queueSource(_scope, _b, b + 1);
 }));
 const _expr_a_b = /* @__PURE__ */_intersection(2, _scope => {
-  const a = _scope["a"],
-    b = _scope["b"];
+  const {
+    a,
+    b
+  } = _scope;
   _data(_scope["#text/1"], a + b);
   _queueEffect(_scope, _expr_a_b_effect);
 });

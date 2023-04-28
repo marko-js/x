@@ -3,8 +3,12 @@ import { setup as _comments2, attrs as _comments_attrs, template as _comments_te
 const _expr_comment_id$ifBody = /* @__PURE__ */_intersection(2, (_scope, _dirty) => {
   let _comments_attrs_value;
   if (_dirty) {
-    const comment = _scope._["comment"],
-      id = _scope._["id"];
+    const {
+      _: {
+        comment,
+        id
+      }
+    } = _scope;
     _comments_attrs_value = {
       comments: comment.comments,
       path: id
@@ -21,8 +25,12 @@ const _ifBody = _register("packages/translator/src/__tests__/fixtures/basic-iner
 const _expr_path_i$forBody = /* @__PURE__ */_intersection(2, (_scope, _dirty) => {
   let _id$forBody_value;
   if (_dirty) {
-    const path = _scope._["path"],
-      i = _scope["i"];
+    const {
+      _: {
+        path
+      },
+      i
+    } = _scope;
     _id$forBody_value = `${path}-${i}`;
   }
   _id$forBody(_scope, _id$forBody_value, _dirty);

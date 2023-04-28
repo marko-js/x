@@ -12,8 +12,10 @@ const _expr_id_items_effect = _register("packages/translator/src/__tests__/fixtu
   _queueSource(_scope, _items, [...items, nextId]);
 }));
 const _expr_id_items = /* @__PURE__ */_intersection(2, _scope => {
-  const id = _scope["id"],
-    items = _scope["items"];
+  const {
+    id,
+    items
+  } = _scope;
   _queueEffect(_scope, _expr_id_items_effect);
 });
 const _for = /* @__PURE__ */_loop("#text/0", _forBody, (_scope, _destructure, _dirty = true) => {

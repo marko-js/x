@@ -11,8 +11,10 @@ const _expr_a_b_effect = _register("packages/translator/src/__tests__/fixtures/b
   }));
 }));
 const _expr_a_b = /* @__PURE__ */_intersection(2, _scope => {
-  const a = _scope["a"],
-    b = _scope["b"];
+  const {
+    a,
+    b
+  } = _scope;
   _queueEffect(_scope, _expr_a_b_effect);
 });
 const _b = /* @__PURE__ */_value("b", (_scope, b, _dirty) => _expr_a_b(_scope, _dirty));

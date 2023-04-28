@@ -1,7 +1,9 @@
 import { data as _data, queueSource as _queueSource, userEffect as _userEffect, intersection as _intersection, value as _value, register as _register, queueEffect as _queueEffect, createRenderFn as _createRenderFn } from "@marko/runtime-fluurt/src/dom";
 const _expr_a_b = /* @__PURE__ */_intersection(2, _scope => {
-  const a = _scope["a"],
-    b = _scope["b"];
+  const {
+    a,
+    b
+  } = _scope;
   _data(_scope["#text/0"], "" + a + b);
 });
 const _b = /* @__PURE__ */_value("b", (_scope, b, _dirty) => _expr_a_b(_scope, _dirty));

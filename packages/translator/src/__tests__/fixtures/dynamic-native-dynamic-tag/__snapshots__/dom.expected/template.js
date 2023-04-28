@@ -3,8 +3,10 @@ const _tagNameBody = /* @__PURE__ */_createRenderer("body content", "");
 const _expr_dynamicTagName_className = /* @__PURE__ */_intersection(2, (_scope, _dirty) => {
   let _tagName_input;
   if (_dirty) {
-    const dynamicTagName = _scope["#text/0"],
-      className = _scope["className"];
+    const {
+      "#text/0": dynamicTagName,
+      className
+    } = _scope;
     _tagName_input = () => ({
       class: className
     });

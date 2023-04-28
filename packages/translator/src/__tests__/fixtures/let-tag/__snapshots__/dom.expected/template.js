@@ -7,8 +7,10 @@ const _expr_x_y_effect = _register("packages/translator/src/__tests__/fixtures/l
   return _queueSource(_scope, _x, _queueSource(_scope, _y, x + y));
 }));
 const _expr_x_y = /* @__PURE__ */_intersection(2, _scope => {
-  const x = _scope["x"],
-    y = _scope["y"];
+  const {
+    x,
+    y
+  } = _scope;
   _queueEffect(_scope, _expr_x_y_effect);
 });
 const _y = /* @__PURE__ */_value("y", (_scope, y, _dirty) => {

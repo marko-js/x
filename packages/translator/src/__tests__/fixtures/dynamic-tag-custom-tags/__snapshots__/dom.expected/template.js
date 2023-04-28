@@ -4,8 +4,10 @@ import { dynamicTagAttrs as _dynamicTagAttrs, on as _on, queueSource as _queueSo
 const _expr_dynamicTagName_val = /* @__PURE__ */_intersection(2, (_scope, _dirty) => {
   let _tagName_input;
   if (_dirty) {
-    const dynamicTagName = _scope["#text/0"],
-      val = _scope["val"];
+    const {
+      "#text/0": dynamicTagName,
+      val
+    } = _scope;
     _tagName_input = () => ({
       value: val
     });
