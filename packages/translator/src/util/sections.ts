@@ -27,9 +27,9 @@ export function startSection(
   let section = extra.section;
 
   if (!section) {
-    const programExtra = (path.hub.file.path.node.extra ??= {});
-    programExtra.sections = programExtra.sections ?? [];
-    const sectionId = programExtra.sections.length;
+    const parentSection = path.parentPath
+      ? getOrCreateSection(path.parentPath)
+      : undefined;
     const sectionNamePath = (path.parentPath as t.NodePath<t.MarkoTag>)?.get(
       "name"
     );
@@ -38,19 +38,16 @@ export function startSection(
       : currentProgramPath.scope.generateUid(
           sectionNamePath.toString() + "Body"
         );
-    const parentSection = path.parentPath
-      ? getOrCreateSection(path.parentPath)
-      : undefined;
 
-    section =
-      extra.section =
-      programExtra.sections[sectionId] =
-        {
-          id: sectionId,
-          name: sectionName,
-          depth: parentSection ? parentSection.depth + 1 : 0,
-          parent: parentSection,
-        };
+    const programExtra = (path.hub.file.path.node.extra ??= {});
+    programExtra.sections = programExtra.sections ?? [];
+    section = extra.section = {
+      id: programExtra.sections.length,
+      name: sectionName,
+      depth: parentSection ? parentSection.depth + 1 : 0,
+      parent: parentSection,
+    };
+    programExtra.sections.push(section);
   }
 
   return section;
