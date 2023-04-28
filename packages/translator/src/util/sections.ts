@@ -40,14 +40,14 @@ export function startSection(
         );
 
     const programExtra = (path.hub.file.path.node.extra ??= {});
-    programExtra.sections = programExtra.sections ?? [];
+    const sections = (programExtra.sections ??= []);
     section = extra.section = {
-      id: programExtra.sections.length,
+      id: sections.length,
       name: sectionName,
       depth: parentSection ? parentSection.depth + 1 : 0,
       parent: parentSection,
     };
-    programExtra.sections.push(section);
+    sections.push(section);
   }
 
   return section;
