@@ -111,7 +111,10 @@ export default {
               reference.replaceWith(
                 callRuntime(
                   "bindFunction",
-                  getScopeExpression(extra.reserve!, referenceSectionId),
+                  getScopeExpression(
+                    extra.reserve!.sectionId,
+                    referenceSectionId
+                  ),
                   createElFunction
                 )
               );

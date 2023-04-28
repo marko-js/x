@@ -19,7 +19,7 @@ import {
   dirtyIdentifier,
   scopeIdentifier,
 } from "../visitors/program";
-import { callRuntime, callRead } from "./runtime";
+import { callRuntime, callRead, getScopeExpression } from "./runtime";
 import { getTemplateId } from "@marko/babel-utils";
 import type { NodePath } from "@marko/compiler/babel-types";
 import { returnId } from "../core/return";
@@ -88,6 +88,17 @@ export const [getClosures] = createSectionState<t.ArrayExpression["elements"]>(
   "closures",
   () => []
 );
+export const addClosure = (
+  fromSectionId: number,
+  toSectionId: number,
+  closure: t.Expression
+) => {
+  let currentSectionId: number | undefined = fromSectionId;
+  while (currentSectionId !== undefined && currentSectionId !== toSectionId) {
+    getClosures(currentSectionId).push(closure);
+    currentSectionId = getSection(currentSectionId).parentId;
+  }
+};
 
 const [forceResumeScope, _setForceResumeScope] = createSectionState<
   undefined | true
@@ -158,18 +169,20 @@ export function getSignal(sectionId: number, reserve?: Reserve | Reserve[]) {
       };
     } else if (reserve.sectionId !== sectionId) {
       const provider = getSignal(reserve.sectionId, reserve);
-      getClosures(sectionId).push(signal.identifier);
+      addClosure(sectionId, reserve.sectionId, signal.identifier);
       provider.closures.set(sectionId, signal);
       signal.build = () => {
-        // TODO: subscribe to an owner multiple levels up
         const builder = getSubscribeBuilder(sectionId);
-
+        const ownerScope = getScopeExpression(reserve.sectionId, sectionId);
+        const isImmediateOwner =
+          (ownerScope as t.MemberExpression).object === scopeIdentifier;
         return callRuntime(
-          // TODO: this should use `closure` for <if> and <for>
-          builder ? "closure" : "dynamicClosure",
-          // TODO: read from an owner multiple levels up
+          builder && isImmediateOwner ? "closure" : "dynamicClosure",
           getNodeLiteral(reserve),
-          getSignalFn(signal, [scopeIdentifier, t.identifier(reserve.name)])
+          getSignalFn(signal, [scopeIdentifier, t.identifier(reserve.name)]),
+          isImmediateOwner
+            ? null
+            : t.arrowFunctionExpression([scopeIdentifier], ownerScope)
         );
       };
     } else {
@@ -322,7 +335,9 @@ export function getSignalFn(
   );
   for (const [closureSectionId, closureSignal] of closureEntries) {
     const builder = getSubscribeBuilder(closureSectionId);
-    if (builder) {
+    const isImmediateOwner =
+      getSection(closureSectionId).parentId === sectionId;
+    if (builder && isImmediateOwner) {
       signal.intersection.push(builder(closureSignal.identifier));
     } else if (!signal.hasDynamicSubscribers) {
       const dynamicSubscribersKey = getNodeLiteral(
@@ -532,7 +547,7 @@ function generateSignalName(
   }
 
   name += sectionId ? getSection(sectionId).name.replace("_", "$") : "";
-
+  // name = sectionId ? getSection(sectionId).name + "$" + name : name;
   return currentProgramPath.scope.generateUid(name);
 }
 
@@ -547,15 +562,6 @@ export function queueSource(
     source.identifier,
     value
   );
-}
-
-function getScopeExpression(ownerSectionId: number, sectionId: number) {
-  const diff = ownerSectionId !== sectionId ? 1 : 0;
-  let scope: t.Expression = scopeIdentifier;
-  for (let i = 0; i < diff; i++) {
-    scope = t.memberExpression(scope, t.identifier("_"));
-  }
-  return scope;
 }
 
 export function finalizeSignalArgs(args: t.Expression[]) {

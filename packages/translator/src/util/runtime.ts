@@ -12,6 +12,7 @@ import {
   escapeScript,
   escapeStyle,
 } from "@marko/runtime-fluurt/src/html";
+import { getSection } from "./sections";
 
 declare const MARKO_SRC: boolean;
 
@@ -88,7 +89,7 @@ function getRuntimePath(output: string) {
 
 export function callRead(reference: Reserve, targetSectionId: number) {
   return t.memberExpression(
-    getScopeExpression(reference, targetSectionId),
+    getScopeExpression(reference.sectionId, targetSectionId),
     getNodeLiteral(reference),
     true
   );
@@ -102,17 +103,25 @@ export function callQueue(
 ) {
   return callRuntime(
     "queueSource",
-    getScopeExpression(reference, targetSectionId),
+    getScopeExpression(reference.sectionId, targetSectionId),
     identifier,
     value
   );
 }
 
-export function getScopeExpression(reference: Reserve, sectionId: number) {
-  const diff = reference.sectionId !== sectionId ? 1 : 0;
+export function getScopeExpression(
+  referenceSectionId: number,
+  sectionId: number
+) {
   let scope: t.Expression = scopeIdentifier;
+  const diff =
+    getSection(sectionId).depth - getSection(referenceSectionId).depth;
   for (let i = 0; i < diff; i++) {
     scope = t.memberExpression(scope, t.identifier("_"));
+  }
+  if (diff < 0) {
+    // TODO: handle hoisted references
+    throw new Error("Unable to find scope for reference.");
   }
   return scope;
 }

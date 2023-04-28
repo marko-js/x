@@ -5,6 +5,8 @@ import analyzeTagNameType, { TagNameTypes } from "./tag-name-type";
 export type Section = {
   id: number;
   name: string;
+  depth: number;
+  parentId?: number;
 };
 
 declare module "@marko/compiler/dist/types" {
@@ -30,12 +32,18 @@ export function startSection(path: t.NodePath<t.MarkoTagBody | t.Program>) {
       (sectionNameNode as t.StringLiteral)?.value ??
       (sectionNameNode as t.Identifier)?.name ??
       "dynamic";
+    const parentSectionId = path.parentPath
+      ? getOrCreateSectionId(path.parentPath)
+      : undefined;
+    const parentSection = programExtra.sections?.[parentSectionId as number];
     sectionId = extra.sectionId = programExtra.nextSectionId || 0;
     programExtra.nextSectionId = sectionId + 1; // currentProgramPath.scope.generateUid(path.node.name);
     programExtra.sections = programExtra.sections ?? [];
     programExtra.sections[sectionId] = {
       id: sectionId,
       name: currentProgramPath.scope.generateUid(sectionName + "Body"),
+      depth: parentSection ? parentSection.depth + 1 : 0,
+      parentId: parentSectionId,
     };
   }
 
