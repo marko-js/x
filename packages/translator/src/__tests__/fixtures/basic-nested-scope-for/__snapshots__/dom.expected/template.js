@@ -6,7 +6,9 @@ const _expr_selected_num$forBody = /* @__PURE__ */_intersection(2, _scope => {
   _attr(_scope["#button/0"], "data-multiple", num % selected === 0);
 });
 const _num$forBody_effect = _register("packages/translator/src/__tests__/fixtures/basic-nested-scope-for/template.marko_1_num", _scope => _on(_scope["#button/0"], "click", function () {
-  const num = _scope["num"];
+  const {
+    num
+  } = _scope;
   _queueSource(_scope._, _selected, num);
 }));
 const _num$forBody = /* @__PURE__ */_value("num", (_scope, num, _dirty) => {

@@ -1,7 +1,7 @@
 import { types as t } from "@marko/compiler";
 import { importNamed } from "@marko/babel-utils";
 import { getMarkoOpts } from "./marko-config";
-import { getNodeLiteral, Reserve } from "./reserve";
+import { getScopeAccessorLiteral, Reserve } from "./reserve";
 import { currentProgramPath, scopeIdentifier } from "../visitors/program";
 import {
   escapeXML,
@@ -90,7 +90,7 @@ function getRuntimePath(output: string) {
 export function callRead(reference: Reserve, targetSection: Section) {
   return t.memberExpression(
     getScopeExpression(reference.section, targetSection),
-    getNodeLiteral(reference),
+    getScopeAccessorLiteral(reference),
     true
   );
 }

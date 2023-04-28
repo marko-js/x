@@ -7,7 +7,9 @@ const _expr_a_b = /* @__PURE__ */_intersection(2, _scope => {
 const _b = /* @__PURE__ */_value("b", (_scope, b, _dirty) => _expr_a_b(_scope, _dirty));
 const _a = /* @__PURE__ */_value("a", (_scope, a, _dirty) => _expr_a_b(_scope, _dirty));
 const _input_effect = _register("packages/translator/src/__tests__/fixtures/user-effect-cleanup/template.marko_0_input", _scope => _userEffect(_scope, "cleanup", function () {
-  const input = _scope["input"];
+  const {
+    input
+  } = _scope;
   const previousValue = _queueSource(_scope, _a, input.value + 1);
   return () => _queueSource(_scope, _b, previousValue);
 }));

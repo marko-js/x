@@ -11,7 +11,11 @@ import {
 import translateVar from "../../util/translate-var";
 import evaluate from "../../util/evaluate";
 import { getOrCreateSection, getSection } from "../../util/sections";
-import { ReserveType, reserveScope, getNodeLiteral } from "../../util/reserve";
+import {
+  ReserveType,
+  reserveScope,
+  getScopeAccessorLiteral,
+} from "../../util/reserve";
 import { addStatement, addHTMLEffectCall } from "../../util/signals";
 import * as writer from "../../util/writer";
 import * as walks from "../../util/walks";
@@ -127,7 +131,7 @@ export default {
                     [scopeIdentifier],
                     t.memberExpression(
                       scopeIdentifier,
-                      getNodeLiteral(extra.reserve!),
+                      getScopeAccessorLiteral(extra.reserve!),
                       true
                     )
                   )
@@ -140,7 +144,7 @@ export default {
 
       let visitAccessor: t.StringLiteral | t.NumericLiteral | undefined;
       if (extra.reserve) {
-        visitAccessor = getNodeLiteral(extra.reserve);
+        visitAccessor = getScopeAccessorLiteral(extra.reserve);
         walks.visit(tag, walks.WalkCodes.Get);
       }
 

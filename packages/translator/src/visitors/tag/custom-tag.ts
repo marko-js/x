@@ -28,7 +28,11 @@ import {
   setForceResumeScope,
   writeHTMLResumeStatements,
 } from "../../util/signals";
-import { getNodeLiteral, reserveScope, ReserveType } from "../../util/reserve";
+import {
+  getScopeAccessorLiteral,
+  reserveScope,
+  ReserveType,
+} from "../../util/reserve";
 import { currentProgramPath, scopeIdentifier } from "../program";
 
 declare module "@marko/compiler/dist/types" {
@@ -218,7 +222,7 @@ function translateDOM(tag: t.NodePath<t.MarkoTag>) {
       callRuntime(
         "childClosures",
         importNamed(file, relativePath, "closures", `${tagName}_closures`),
-        getNodeLiteral(binding)
+        getScopeAccessorLiteral(binding)
       )
     );
   }
@@ -253,7 +257,7 @@ function translateDOM(tag: t.NodePath<t.MarkoTag>) {
         callRuntime(
           "setTagVar",
           scopeIdentifier,
-          getNodeLiteral(binding),
+          getScopeAccessorLiteral(binding),
           source.identifier
         )
       )

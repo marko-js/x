@@ -3,7 +3,9 @@ const _clickCount_effect = _register("packages/translator/src/__tests__/fixtures
   const clickCount = _scope["clickCount"];
   document.getElementById("button").textContent = clickCount;
   _on(_scope["#button/0"], "click", function () {
-    const clickCount = _scope["clickCount"];
+    const {
+      clickCount
+    } = _scope;
     _queueSource(_scope, _clickCount, clickCount + 1);
   });
 });

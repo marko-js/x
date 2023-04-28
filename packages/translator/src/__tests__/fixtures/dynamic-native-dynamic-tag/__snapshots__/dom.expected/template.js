@@ -14,7 +14,9 @@ const _expr_dynamicTagName_className = /* @__PURE__ */_intersection(2, (_scope, 
 const _dynamicTagName = /* @__PURE__ */_conditional("#text/0", (_scope, _dirty) => _expr_dynamicTagName_className(_scope, _dirty));
 const _className = /* @__PURE__ */_value("className", (_scope, className, _dirty) => _expr_dynamicTagName_className(_scope, _dirty));
 const _tagName_effect = _register("packages/translator/src/__tests__/fixtures/dynamic-native-dynamic-tag/template.marko_0_tagName", _scope => _on(_scope["#button/1"], "click", function () {
-  const tagName = _scope["tagName"];
+  const {
+    tagName
+  } = _scope;
   _queueSource(_scope, _tagName, tagName === "span" ? "div" : "span");
 }));
 const _tagName = /* @__PURE__ */_value("tagName", (_scope, tagName, _dirty) => {

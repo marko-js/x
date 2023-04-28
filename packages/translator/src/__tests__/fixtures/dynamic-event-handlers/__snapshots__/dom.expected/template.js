@@ -2,7 +2,9 @@ import { on as _on, queueSource as _queueSource, data as _data, register as _reg
 const _clickCount_effect = _register("packages/translator/src/__tests__/fixtures/dynamic-event-handlers/template.marko_0_clickCount", _scope => {
   const clickCount = _scope["clickCount"];
   _on(_scope["#button/0"], "click", clickCount <= 1 ? () => {
-    const clickCount = _scope["clickCount"];
+    const {
+      clickCount
+    } = _scope;
     _queueSource(_scope, _clickCount, clickCount + 1);
   } : false);
 });

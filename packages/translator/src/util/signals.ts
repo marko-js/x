@@ -11,7 +11,7 @@ import {
 import {
   Reserve,
   repeatableReserves,
-  getNodeLiteral,
+  getScopeAccessorLiteral,
   ReserveType,
 } from "./reserve";
 import {
@@ -24,6 +24,7 @@ import { getTemplateId } from "@marko/babel-utils";
 import type { NodePath } from "@marko/compiler/babel-types";
 import { returnId } from "../core/return";
 import { isOutputHTML } from "./marko-config";
+import { createScopeReadPattern } from "./create-scope-read-pattern";
 
 export type subscribeBuilder = (subscriber: t.Expression) => t.Statement;
 export type registerScopeBuilder = (scope: t.Expression) => t.Expression;
@@ -183,7 +184,7 @@ export function getSignal(section: Section, reserve?: Reserve | Reserve[]) {
           (ownerScope as t.MemberExpression).object === scopeIdentifier;
         return callRuntime(
           builder && isImmediateOwner ? "closure" : "dynamicClosure",
-          getNodeLiteral(reserve),
+          getScopeAccessorLiteral(reserve),
           getSignalFn(signal, [scopeIdentifier, t.identifier(reserve.name)]),
           isImmediateOwner
             ? null
@@ -197,7 +198,7 @@ export function getSignal(section: Section, reserve?: Reserve | Reserve[]) {
 
 export function initValue(
   reserve: Reserve,
-  valueAccessor = getNodeLiteral(reserve)
+  valueAccessor = getScopeAccessorLiteral(reserve)
 ) {
   const section = reserve.section;
   const signal = getSignal(section, reserve);
@@ -223,7 +224,7 @@ export function initContextProvider(
   renderer: t.Identifier
 ) {
   const section = reserve.section;
-  const scopeAccessor = getNodeLiteral(reserve);
+  const scopeAccessor = getScopeAccessorLiteral(reserve);
   const valueAccessor = t.stringLiteral(
     `${reserve.id}${AccessorChars.CONTEXT_VALUE}`
   );
@@ -269,7 +270,7 @@ export function initContextConsumer(templateId: string, reserve: Reserve) {
   signal.build = () => {
     return callRuntime(
       "contextClosure",
-      getNodeLiteral(reserve),
+      getScopeAccessorLiteral(reserve),
       t.stringLiteral(templateId),
       getSignalFn(signal, [scopeIdentifier, t.identifier(reserve.name)])
     );
@@ -340,7 +341,7 @@ export function getSignalFn(
     if (builder && isImmediateOwner) {
       signal.intersection.push(builder(closureSignal.identifier));
     } else if (!signal.hasDynamicSubscribers) {
-      const dynamicSubscribersKey = getNodeLiteral(
+      const dynamicSubscribersKey = getScopeAccessorLiteral(
         closureSignal.reserve as Reserve
       );
       dynamicSubscribersKey.value += AccessorChars.SUBSCRIBERS;
@@ -821,7 +822,9 @@ export function writeHTMLResumeStatements(
   }
 
   const serializedProperties = serializedReferences.reduce((acc, ref) => {
-    acc.push(t.objectProperty(getNodeLiteral(ref), t.identifier(ref.name)));
+    acc.push(
+      t.objectProperty(getScopeAccessorLiteral(ref), t.identifier(ref.name))
+    );
     return acc;
   }, [] as Array<t.ObjectProperty>);
 
@@ -882,15 +885,12 @@ function bindFunction(
     }
 
     node.body.body.unshift(
-      t.variableDeclaration(
-        "const",
-        repeatableReserves.toArray(references, (binding) =>
-          t.variableDeclarator(
-            t.identifier(binding.name),
-            callRead(binding, section)
-          )
-        )
-      )
+      t.variableDeclaration("const", [
+        t.variableDeclarator(
+          createScopeReadPattern(section, references),
+          scopeIdentifier
+        ),
+      ])
     );
   }
 

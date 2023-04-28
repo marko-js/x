@@ -6,7 +6,9 @@ const _expr_count_multiplier = /* @__PURE__ */_intersection(2, _scope => {
 });
 const _multipliedCount = /* @__PURE__ */_value("multipliedCount", (_scope, multipliedCount) => _data(_scope["#text/3"], multipliedCount));
 const _multiplier_effect = _register("packages/translator/src/__tests__/fixtures/basic-counter-multiplier/template.marko_0_multiplier", _scope => _on(_scope["#button/0"], "click", function () {
-  const multiplier = _scope["multiplier"];
+  const {
+    multiplier
+  } = _scope;
   _queueSource(_scope, _multiplier, multiplier + 1);
 }));
 const _multiplier = /* @__PURE__ */_value("multiplier", (_scope, multiplier, _dirty) => {
@@ -17,7 +19,9 @@ const _multiplier = /* @__PURE__ */_value("multiplier", (_scope, multiplier, _di
   _expr_count_multiplier(_scope, _dirty);
 });
 const _count_effect = _register("packages/translator/src/__tests__/fixtures/basic-counter-multiplier/template.marko_0_count", _scope => _on(_scope["#button/2"], "click", function () {
-  const count = _scope["count"];
+  const {
+    count
+  } = _scope;
   _queueSource(_scope, _count, count + 1);
 }));
 const _count = /* @__PURE__ */_value("count", (_scope, count, _dirty) => {
